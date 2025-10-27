@@ -37,6 +37,9 @@
       "no-results": "No content found matching your filters.",
       "no-results-hint": "Try adjusting your filter criteria or create new content."
    },
+   "filtering": {
+      "no-agents": "You have no agents yet. Create one to start filtering content."
+   },
    "status": {
       "unknown": "Unknown",
       "pending": "Pending",

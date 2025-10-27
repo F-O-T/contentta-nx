@@ -5,12 +5,15 @@ import {
    DialogTitle,
 } from "@packages/ui/components/dialog";
 import { Button } from "@packages/ui/components/button";
-import { Checkbox } from "@packages/ui/components/checkbox";
-import { Label } from "@packages/ui/components/label";
 import { Separator } from "@packages/ui/components/separator";
 import type { RouterInput, RouterOutput } from "@packages/api/client";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@packages/ui/components/select";
+import { AgentWriterCard } from "@/widgets/agent-display-card/ui/agent-writter-card";
+import { Check } from "lucide-react";
 
 type Statuses = RouterInput["content"]["listAllContent"]["status"];
+type StatusValue = Statuses[number];
+
 interface FilteringCredenzaProps {
    open: boolean;
    onOpenChange: (open: boolean) => void;
@@ -21,17 +24,17 @@ interface FilteringCredenzaProps {
    agents?: RouterOutput["agent"]["list"]["items"];
 }
 
-const allStatuses = [
-   { value: "draft", label: "Draft" },
-   { value: "approved", label: "Approved" },
-   { value: "pending", label: "Pending" },
-   { value: "planning", label: "Planning" },
-   { value: "researching", label: "Researching" },
-   { value: "writing", label: "Writing" },
-   { value: "editing", label: "Editing" },
-   { value: "analyzing", label: "Analyzing" },
-   { value: "grammar_checking", label: "Grammar Checking" },
-];
+const statusLabels: Record<NonNullable<StatusValue>, string> = {
+   pending: "Pending",
+   draft: "Draft",
+   approved: "Approved",
+   failed: "Failed",
+};
+
+const allStatuses = Object.entries(statusLabels).map(([value, label]) => ({
+   value: value as NonNullable<StatusValue>,
+   label,
+}));
 
 export function FilteringCredenza({
    open,
@@ -50,11 +53,12 @@ export function FilteringCredenza({
       }
    };
 
-   const handleAgentChange = (agentId: string, checked: boolean) => {
-      if (checked) {
-         onAgentsChange([...selectedAgents, agentId]);
-      } else {
+   const handleAgentChange = (agentId: string) => {
+      const isAlreadySelected = selectedAgents.includes(agentId);
+      if (isAlreadySelected) {
          onAgentsChange(selectedAgents.filter((id) => id !== agentId));
+      } else {
+         onAgentsChange([agentId]);
       }
    };
 
@@ -62,6 +66,8 @@ export function FilteringCredenza({
       onStatusesChange([]);
       onAgentsChange([]);
    };
+
+   const selectedAgentId = selectedAgents[0];
 
    return (
       <Dialog open={open} onOpenChange={onOpenChange}>
@@ -73,31 +79,18 @@ export function FilteringCredenza({
                <div>
                   <h3 className="text-sm font-medium mb-3">Status</h3>
                   <div className="space-y-2 max-h-40 overflow-y-auto">
-                     {allStatuses.map((status) => (
-                        <div
-                           key={status.value}
-                           className="flex items-center space-x-2"
-                        >
-                           <Checkbox
-                              id={`status-${status.value}`}
-                              checked={selectedStatuses.includes(
-                                 status.value as Statuses[number],
-                              )}
-                              onCheckedChange={(checked) =>
-                                 handleStatusChange(
-                                    status.value as Statuses[number],
-                                    checked as boolean,
-                                 )
-                              }
-                           />
-                           <Label
-                              htmlFor={`status-${status.value}`}
-                              className="text-sm font-normal"
-                           >
-                              {status.label}
-                           </Label>
-                        </div>
-                     ))}
+                     <Select>
+                        <SelectTrigger className="w-full">
+                           <SelectValue placeholder="Select a status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                           {allStatuses.map((status) => (
+                              <SelectItem key={status.value} value={status.value} onSelect={() => handleStatusChange(status.value as Statuses[number], true)}>
+                                 {status.label}
+                              </SelectItem>
+                           ))}
+                        </SelectContent>
+                     </Select>
                   </div>
                </div>
 
@@ -105,27 +98,29 @@ export function FilteringCredenza({
 
                <div>
                   <h3 className="text-sm font-medium mb-3">Agent</h3>
-                  <div className="space-y-2 max-h-40 overflow-y-auto">
-                     {agents?.map((agent) => (
-                        <div
-                           key={agent.id}
-                           className="flex items-center space-x-2"
-                        >
-                           <Checkbox
-                              id={`agent-${agent.id}`}
-                              checked={selectedAgents.includes(agent.id)}
-                              onCheckedChange={(checked) =>
-                                 handleAgentChange(agent.id, checked as boolean)
-                              }
-                           />
-                           <Label
-                              htmlFor={`agent-${agent.id}`}
-                              className="text-sm font-normal"
+                  <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
+                     {agents?.map((agent) => {
+                        const isSelected = agent.id === selectedAgentId;
+                        return (
+                           <button
+                              key={agent.id}
+                              type="button"
+                              onClick={() => handleAgentChange(agent.id)}
+                              className="w-full text-left relative transition-all"
                            >
-                              {agent.personaConfig.metadata.name}
-                           </Label>
-                        </div>
-                     ))}
+                              <AgentWriterCard
+                                 name={agent.personaConfig.metadata.name}
+                                 description={agent.personaConfig.metadata.description}
+                                 photo={agent.profilePhotoUrl ?? ""}
+                              />
+                              {isSelected && (
+                                 <div className="absolute top-1/2 right-4 -translate-y-1/2">
+                                    <Check className="w-5 h-5 text-primary" />
+                                 </div>
+                              )}
+                           </button>
+                        );
+                     })}
                   </div>
                </div>
 

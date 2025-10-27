@@ -37,6 +37,9 @@
       "no-results": "Nenhum conteúdo encontrado que corresponda aos seus filtros.",
       "no-results-hint": "Tente ajustar seus critérios de filtro ou criar novo conteúdo."
    },
+   "filtering": {
+      "no-agents": "Você ainda não tem agentes. Crie um para começar a filtrar conteúdo."
+   },
    "status": {
       "unknown": "Desconhecido",
       "pending": "Pendente",

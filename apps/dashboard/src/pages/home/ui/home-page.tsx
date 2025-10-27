@@ -13,14 +13,14 @@ import { StatsCard } from "@packages/ui/components/stats-card";
 import { SquaredIconButton } from "@packages/ui/components/squared-icon-button";
 import { Link } from "@tanstack/react-router";
 import { useTRPC } from "@/integrations/clients";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 
 export function DashboardHomePage() {
    const trpc = useTRPC();
    const { data } = useSuspenseQuery(
       trpc.authHelpers.getHomeStats.queryOptions(),
    );
-   const { data: summaryData } = useSuspenseQuery(
+   const { data: summaryData } = useQuery(
       trpc.competitor.getSummary.queryOptions(),
    );
 
