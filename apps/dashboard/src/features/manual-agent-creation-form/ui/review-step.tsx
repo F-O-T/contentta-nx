@@ -3,7 +3,7 @@ import { InfoItem } from "@packages/ui/components/info-item";
 import { translate } from "@packages/localization";
 import type { AgentForm } from "../lib/use-agent-form";
 import { UserIcon, FileTextIcon, LayoutGridIcon } from "lucide-react";
-import { formatValueForDisplay } from "@packages/utils/text";
+import { formatStringForDisplay } from "@packages/utils/text";
 
 export function ReviewStep({ form }: { form: AgentForm }) {
    // Collect all items with their values
@@ -16,7 +16,7 @@ export function ReviewStep({ form }: { form: AgentForm }) {
       {
          icon: <LayoutGridIcon className="w-4 h-4" />,
          label: translate("pages.agent-creation-form.review.fields.purpose"),
-         value: formatValueForDisplay(
+         value: formatStringForDisplay(
             String(form.getFieldValue("purpose") ?? ""),
          ),
       },

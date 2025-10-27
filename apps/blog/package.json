@@ -7,7 +7,7 @@
     "@astrojs/rss": "catalog:astro",
     "@astrojs/sitemap": "catalog:astro",
     "@astrojs/ts-plugin": "catalog:astro",
-    "@contentagen/sdk": "0.11.0",
+    "@contentagen/sdk": "^0.16.0",
     "@lucide/astro": "catalog:astro",
     "@packages/posthog": "workspace:*",
     "@packages/ui": "workspace:*",
@@ -35,5 +35,5 @@
     "typecheck": "bunx --bun astro check"
   },
   "type": "module",
-  "version": "0.4.0"
+  "version": "0.8.0"
 }

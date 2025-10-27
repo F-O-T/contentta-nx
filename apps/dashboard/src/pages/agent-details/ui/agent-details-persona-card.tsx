@@ -14,7 +14,7 @@ import { Separator } from "@packages/ui/components/separator";
 import { AgentWriterCard } from "@/widgets/agent-display-card/ui/agent-writter-card";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useTRPC } from "@/integrations/clients";
-import { formatValueForDisplay } from "@packages/utils/text";
+import { formatStringForDisplay } from "@packages/utils/text";
 import type { RouterOutput } from "@packages/api/client";
 type Agent = RouterOutput["agent"]["get"];
 export const AgentPersonaCard = ({ agent }: { agent: Agent }) => {
@@ -28,7 +28,7 @@ export const AgentPersonaCard = ({ agent }: { agent: Agent }) => {
       () => [
          {
             label: translate("pages.agent-details.persona.content-type"),
-            value: formatValueForDisplay(agent?.personaConfig?.purpose ?? ""),
+            value: formatStringForDisplay(agent?.personaConfig?.purpose ?? ""),
             icon: FileText,
          },
       ],

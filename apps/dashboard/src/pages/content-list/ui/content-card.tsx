@@ -33,7 +33,7 @@ import {
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { SquaredIconButton } from "@packages/ui/components/squared-icon-button";
-import { formatValueForDisplay } from "@packages/utils/text";
+import { formatStringForDisplay } from "@packages/utils/text";
 import { useContentList } from "../lib/content-list-context";
 import { useSearch } from "@tanstack/react-router";
 import { translate } from "@packages/localization";
@@ -194,7 +194,7 @@ export function ContentRequestCard({
                            </Badge>
                            <div className="flex items-center gap-2">
                               <Badge className="text-xs">
-                                 {formatValueForDisplay(request.status ?? "")}
+                                 {formatStringForDisplay(request.status ?? "")}
                               </Badge>
                               {request.shareStatus === "shared" ? (
                                  <Globe className="w-4 h-4 text-muted-foreground" />

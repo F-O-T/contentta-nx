@@ -132,7 +132,9 @@ function expandGlobPatterns(patterns: string[]): string[] {
             expandedPaths.push(...paths);
          }
       } catch (error) {
-         // Silently ignore patterns that don't match anything
+         console.error(
+            colors.red(`❌ Error expanding pattern ${pattern}: ${error}`),
+         );
       }
    });
 
@@ -140,7 +142,11 @@ function expandGlobPatterns(patterns: string[]): string[] {
    return [...new Set(expandedPaths)].sort();
 }
 
-async function clean(options: any) {
+async function clean(options: {
+   dryRun?: boolean;
+   noInstall?: boolean;
+   deep?: boolean;
+}) {
    console.log(colors.blue.bold("🧹 Starting monorepo cleanup..."));
    console.log(colors.cyan("─".repeat(50)));
 
@@ -224,14 +230,16 @@ async function clean(options: any) {
                   colors.green("✅ Dependencies reinstalled successfully"),
                );
             } catch (error) {
-               console.log(colors.red("❌ Failed to reinstall dependencies"));
+               console.error(
+                  colors.red("❌ Failed to reinstall dependencies", error),
+               );
             }
          }
       }
    }
 }
 
-async function reset(options: any) {
+async function reset(options: { force?: boolean; noInstall?: boolean }) {
    console.log(colors.blue.bold("🔄 Starting monorepo reset..."));
    console.log(
       colors.yellow(

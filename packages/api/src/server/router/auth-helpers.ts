@@ -85,7 +85,7 @@ export const authHelpersRouter = router({
             headers: resolvedCtx.headers,
          });
 
-         return Boolean(activeSubscriptions[0]);
+         return !activeSubscriptions[0];
       }
 
       // User is in an organization, check if org owner has active subscription

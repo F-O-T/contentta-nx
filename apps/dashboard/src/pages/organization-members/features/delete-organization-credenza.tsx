@@ -48,6 +48,7 @@ export function DeleteOrganizationCredenza({
       organizationId,
       queryClient,
       trpc.authHelpers.getDefaultOrganization.queryKey,
+      trpc.authHelpers.getDefaultOrganization,
    ]);
 
    return (

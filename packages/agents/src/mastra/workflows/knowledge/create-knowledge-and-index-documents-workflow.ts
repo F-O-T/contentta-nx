@@ -239,9 +239,9 @@ const saveBrandDocumentsKnowledge = createStep({
          for (const [index, document] of generatedDocuments.entries()) {
             const doc = MDocument.fromMarkdown(document.content);
             const chunks = await doc.chunk({
-               strategy: "semantic-markdown",
-               maxSize: 256,
-               overlap: 50,
+               strategy: "markdown",
+               maxSize: 128,
+               overlap: 25,
             });
 
             for (const chunk of chunks) {
@@ -305,8 +305,8 @@ const saveCompetitorDocumentsKnowledge = createStep({
             const doc = MDocument.fromMarkdown(document.content);
             const chunks = await doc.chunk({
                strategy: "semantic-markdown",
-               maxSize: 256,
-               overlap: 50,
+               maxSize: 128,
+               overlap: 25,
             });
 
             for (const chunk of chunks) {

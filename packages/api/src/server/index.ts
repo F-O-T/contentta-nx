@@ -9,7 +9,6 @@ import { agentRouter } from "./router/agent";
 import { contentRouter } from "./router/content";
 import { statisticsRouter } from "./router/statistics";
 import { authHelpersRouter } from "./router/auth-helpers";
-import { sdkRouter } from "./router/sdk";
 import { ideasRouter } from "./router/ideas";
 import { preferencesRouter } from "./router/preferences";
 import { competitorRouter } from "./router/competitor";
@@ -19,15 +18,16 @@ import { organizationRouter } from "./router/organization";
 import { organizationFileRouter } from "./router/organization-file";
 import { brandRouter } from "./router/brand";
 import { brandFileRouter } from "./router/brand-file";
+import { assistantRouter } from "./router/assistant";
 
 export const appRouter = router({
+   assistant: assistantRouter,
    agent: agentRouter,
    agentFile: agentFileRouter,
    content: contentRouter,
    authHelpers: authHelpersRouter,
    statistics: statisticsRouter,
    ideas: ideasRouter,
-   sdk: sdkRouter,
    preferences: preferencesRouter,
    competitor: competitorRouter,
    competitorFile: competitorFileRouter,

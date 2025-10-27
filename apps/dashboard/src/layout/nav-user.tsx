@@ -127,6 +127,7 @@ function NavUserContent({ session }: { session: Session | null }) {
       setOpenMobile,
       queryClient,
       trpc.authHelpers.getSession.queryKey,
+      trpc.authHelpers.getSession,
    ]);
    if (!session) return <NavUserSkeleton />;
 

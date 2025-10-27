@@ -52,7 +52,7 @@ export async function getStaticPaths() {
 
    // First get the list of approved posts (without full content)
    const response = await sdk.listContentByAgent({
-      agentId: [agentId],
+      agentId: agentId,
       status: ["approved"],
    });
    const author = await sdk.getAuthorByAgentId({ agentId });

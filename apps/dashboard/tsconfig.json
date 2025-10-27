@@ -11,8 +11,8 @@
     "useDefineForClassFields": true,
     "lib": [
       "ES2022",
-      "dom",
-      "dom.iterable"
+      "DOM",
+      "DOM.Iterable"
     ],
     "module": "ESNext",
     "jsx": "react-jsx",
@@ -34,6 +34,9 @@
       "path": "../../packages/database"
     },
     {
+      "path": "../../packages/utils"
+    },
+    {
       "path": "../../packages/transactional"
     },
     {
@@ -47,6 +50,12 @@
     },
     {
       "path": "../../packages/api"
+    },
+    {
+      "path": "../../packages/authentication"
+    },
+    {
+      "path": "../../packages/localization"
     }
   ]
 }

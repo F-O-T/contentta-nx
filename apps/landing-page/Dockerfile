@@ -1,6 +1,9 @@
 # apps/landing-page/Dockerfile
 FROM oven/bun:1.2.23 AS builder
 
+
+
+
 WORKDIR /app
 
 # Copy all package manifests and the lockfile first.
@@ -13,6 +16,7 @@ COPY packages/brand/package.json ./packages/brand/
 COPY packages/posthog/package.json ./packages/posthog/
 COPY packages/utils/package.json ./packages/utils/
 COPY packages/environment/package.json ./packages/environment/
+COPY packages/localization/package.json ./packages/localization/
 COPY tooling/typescript/package.json ./tooling/typescript/
 
 # Install all dependencies (including devDependencies needed for the build step)

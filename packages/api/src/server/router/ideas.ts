@@ -18,7 +18,7 @@ import {
 } from "../trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { eq } from "drizzle-orm";
+import { eq } from "@packages/database";
 import { ideas } from "@packages/database/schemas/ideas";
 import { eventEmitter, EVENTS } from "@packages/server-events";
 import { on } from "node:events";

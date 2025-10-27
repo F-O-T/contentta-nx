@@ -82,6 +82,7 @@ export const createFeaturesKnowledgeWorker =
             );
          }
       },
+
       { connection: redis, removeOnComplete: { count: 10 } },
    );
 registerGracefulShutdown(createFeaturesKnowledgeWorker);

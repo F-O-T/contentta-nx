@@ -27,5 +27,5 @@
     "typecheck": "bunx --bun astro check"
   },
   "type": "module",
-  "version": "0.4.0"
+  "version": "0.8.0"
 }

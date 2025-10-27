@@ -7,6 +7,7 @@ import { createApi } from "@packages/api/server";
 import { auth, polarClient } from "./integrations/auth";
 import { db, ragClient } from "./integrations/database";
 import { minioClient } from "./integrations/minio";
+import { sdkRoutes } from "./routes/sdk";
 import { bullAuth } from "./integrations/bull-auth-guard";
 import { BullMQAdapter } from "@bull-board/api/bullMQAdapter";
 import { ElysiaAdapter } from "@bull-board/elysia";
@@ -16,7 +17,7 @@ import { createOverviewQueue } from "@packages/workers/queues/create-overview-qu
 import { createFeaturesKnowledgeQueue } from "@packages/workers/queues/create-features-knowledge-queue";
 import { createCompleteKnowledgeWorkflowQueue } from "@packages/workers/queues/create-complete-knowledge-workflow-queue";
 import { createKnowledgeAndIndexDocumentsQueue } from "@packages/workers/queues/create-knowledge-and-index-documents-queue";
-import { createCompetitorSummaryQueue } from "@packages/workers/queues/create-competitor-summary-queue";
+import { createCompetitorInsightsQueue } from "@packages/workers/queues/create-competitor-insights-queue";
 
 import { isProduction } from "@packages/environment/helpers";
 const serverAdapter = new ElysiaAdapter("/ui");
@@ -28,7 +29,7 @@ createBullBoard({
       new BullMQAdapter(createFeaturesKnowledgeQueue),
       new BullMQAdapter(createCompleteKnowledgeWorkflowQueue),
       new BullMQAdapter(createKnowledgeAndIndexDocumentsQueue),
-      new BullMQAdapter(createCompetitorSummaryQueue),
+      new BullMQAdapter(createCompetitorInsightsQueue),
    ],
    serverAdapter,
    options: {
@@ -43,7 +44,19 @@ const trpcApi = createApi({
    db,
    ragClient,
 });
-const app = new Elysia()
+const app = new Elysia({
+   serve: {
+      idleTimeout: 0,
+   },
+})
+   .derive(() => ({
+      db,
+      ragClient,
+      minioClient,
+      minioBucket: env.MINIO_BUCKET,
+      auth,
+      polarClient,
+   }))
    .use(
       cors({
          allowedHeaders: [
@@ -59,7 +72,7 @@ const app = new Elysia()
             const url = new URL(request.url);
 
             // Allow all origins for SDK endpoints
-            if (url.pathname.startsWith("/trpc/sdk")) {
+            if (url.pathname.startsWith("/sdk")) {
                return true;
             }
 
@@ -71,6 +84,7 @@ const app = new Elysia()
       }),
    )
    .use(posthogPlugin)
+   .use(sdkRoutes)
    .mount(auth.handler)
    .all(
       "/trpc/*",

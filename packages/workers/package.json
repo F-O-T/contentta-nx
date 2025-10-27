@@ -4,6 +4,8 @@
     "@packages/utils": "workspace:*",
     "@packages/payment": "workspace:*",
     "@packages/files": "workspace:*",
+    "@packages/environment": "workspace:*",
+    "@packages/database": "workspace:*",
     "bullmq": "catalog:workers",
     "ioredis": "catalog:workers",
     "@packages/server-events": "workspace:*"
@@ -15,13 +17,17 @@
   "license": "Apache-2.0",
   "name": "@packages/workers",
   "scripts": {
+    "build": "tsc --build",
     "check": "biome check --write ./src",
     "typecheck": "bunx --bun tsc  "
   },
   "private": true,
   "type": "module",
   "exports": {
-    "./queues/*": "./src/queues/*.ts"
+    "./queues/*": {
+      "types": "./dist/src/queues/*.d.ts",
+      "default": "./src/queues/*.ts"
+    }
   },
-  "version": "0.4.0"
+  "version": "0.10.0"
 }

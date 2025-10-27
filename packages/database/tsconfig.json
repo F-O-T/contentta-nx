@@ -1,5 +1,9 @@
 {
    "extends": "@tooling/typescript/internal-package.json",
    "include": ["src", "src/schemas/**/*.ts"],
-   "references": []
+   "references": [
+      {
+         "path": "../utils"
+      }
+   ]
 }

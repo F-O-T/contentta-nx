@@ -43,6 +43,8 @@ const passwordSchema = z.object({
       ),
 });
 
+type PasswordFormValues = z.infer<typeof passwordSchema>;
+
 export function UpdatePasswordForm({
    open,
    onOpenChange,
@@ -52,10 +54,7 @@ export function UpdatePasswordForm({
 }) {
    const [confirmOpen, setConfirmOpen] = useState(false);
    const handleChangePassword = useCallback(
-      async (
-         value: { currentPassword: string; newPassword: string },
-         formApi: any,
-      ) => {
+      async (value: PasswordFormValues, formApi: { reset: () => void }) => {
          await betterAuthClient.changePassword(
             {
                currentPassword: value.currentPassword,
@@ -63,7 +62,7 @@ export function UpdatePasswordForm({
                revokeOtherSessions: true,
             },
             {
-               onError: ({ error }: any) => {
+               onError: ({ error }: { error: Error }) => {
                   toast.error(
                      error?.message ||
                         translate(

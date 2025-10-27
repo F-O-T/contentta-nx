@@ -65,6 +65,7 @@ export function SendInvitationCredenza({
          organizationId,
          queryClient,
          trpc.authHelpers.getDefaultOrganization.queryKey,
+         trpc.authHelpers.getDefaultOrganization,
       ],
    );
 

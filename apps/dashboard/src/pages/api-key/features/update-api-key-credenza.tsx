@@ -60,7 +60,13 @@ export function UpdateApiKeyCredenza({
             },
          );
       },
-      [keyId, queryClient, trpc.authHelpers.getApiKeys.queryKey, onOpenChange],
+      [
+         keyId,
+         queryClient,
+         trpc.authHelpers.getApiKeys.queryKey,
+         onOpenChange,
+         trpc.authHelpers.getApiKeys,
+      ],
    );
 
    const form = useAppForm({

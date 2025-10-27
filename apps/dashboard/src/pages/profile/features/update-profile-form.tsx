@@ -34,8 +34,10 @@ const profileSchema = z.object({
             "pages.profile.forms.update-profile.validation.name-required",
          ),
       ),
-   image: z.any().nullable(),
+   image: z.literal(null),
 });
+
+type ProfileFormValues = z.infer<typeof profileSchema>;
 
 export function UpdateProfileForm({
    open,
@@ -51,7 +53,7 @@ export function UpdateProfileForm({
    const [confirmOpen, setConfirmOpen] = useState(false);
    const [imageFile, setImageFile] = useState<File | null>(null);
    const handleUpdateProfile = useCallback(
-      async (value: { name: string; image: any }, formApi: any) => {
+      async (value: ProfileFormValues, formApi: { reset: () => void }) => {
          const imageUrl = currentImage;
          if (imageFile) {
             // TODO: implement image upload and return URL
@@ -64,7 +66,7 @@ export function UpdateProfileForm({
                image: imageUrl,
             },
             {
-               onError: ({ error }: any) => {
+               onError: ({ error }: { error: Error }) => {
                   toast.error(
                      error?.message ||
                         translate(

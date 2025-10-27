@@ -74,28 +74,19 @@ export function countWords(text: string) {
       .filter((word) => word.length > 0).length;
 }
 
-export function extractTitleFromMarkdown(markdown: string): string {
-   const match = markdown.match(/^#\s+(.*)/m);
-   return match?.[1]?.trim() ?? "";
-}
-
-export function readTimeMinutes(wordCount: number): number {
+export function calculateReadTimeMinutes(wordCount: number): number {
    const wordsPerMinute = 200; // Average reading speed
    return Math.ceil(wordCount / wordsPerMinute);
 }
 
-export function removeTitleFromMarkdown(markdown: string): string {
-   return markdown.replace(/^#\s+.*\n?/, "");
-}
-
-export function formatValueForDisplay(value: string) {
+export function formatStringForDisplay(value: string) {
    if (!value) return "Not specified";
    return value.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
-export function calculateContentStats(content: string) {
+export function calculateTextStats(content: string) {
    const wordCount = countWords(content);
-   const readTime = readTimeMinutes(wordCount);
+   const readTime = calculateReadTimeMinutes(wordCount);
 
    return {
       wordsCount: wordCount.toString(),
@@ -139,20 +130,4 @@ export function calculateReadabilityScore({ text }: { text: string }) {
    const level = getReadabilityLevel(score);
 
    return { score, level };
-}
-
-export function analyzeContentStructure({ text }: { text: string }) {
-   const structure = {
-      headings: (text.match(/^#{1,6}\s/gm) || []).length,
-      paragraphs: text
-         .split(/\n\s*\n/)
-         .filter((p) => !p.match(/^#{1,6}\s|^[*\-+\d]/)).length,
-      lists: (text.match(/^[*\-+]\s/gm) || []).length,
-      codeBlocks: (text.match(/```[\s\S]*?```/g) || []).length,
-      links: (text.match(/\[([^\]]+)\]\([^)]+\)/g) || []).length,
-      images: (text.match(/!\[([^\]]*)\]\([^)]+\)/g) || []).length,
-      words: text.split(/\s+/).filter((w) => w.length > 0).length,
-   };
-
-   return { structure };
 }

@@ -20,6 +20,9 @@
       },
       {
          "path": "../../packages/posthog"
+      },
+      {
+         "path": "../../packages/localization"
       }
    ]
 }

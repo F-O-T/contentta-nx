@@ -276,3 +276,72 @@ export async function searchCompetitors(
       );
    }
 }
+
+export async function getRandomFindingsFromCompetitors(
+   dbClient: DatabaseInstance,
+   organizationId: string,
+   limit: number = 3,
+): Promise<{ insights: string[]; priorities: string[] }> {
+   try {
+      const competitorsWithFindings = await dbClient.query.competitor.findMany({
+         where: and(
+            eq(competitor.organizationId, organizationId),
+            sql`${competitor.findings} IS NOT NULL AND ${competitor.findings} != '{}'`,
+         ),
+         columns: {
+            findings: true,
+         },
+      });
+
+      if (competitorsWithFindings.length === 0) {
+         return { insights: [], priorities: [] };
+      }
+
+      const allInsights: string[] = [];
+      const allPriorities: string[] = [];
+
+      for (const comp of competitorsWithFindings) {
+         if (comp.findings?.insights) {
+            allInsights.push(
+               ...comp.findings.insights.filter(
+                  (insight): insight is string =>
+                     insight != null && insight !== undefined,
+               ),
+            );
+         }
+         if (comp.findings?.priorities) {
+            allPriorities.push(
+               ...comp.findings.priorities.filter(
+                  (priority): priority is string =>
+                     priority != null && priority !== undefined,
+               ),
+            );
+         }
+      }
+
+      const shuffle = <T>(array: T[]): T[] => {
+         const shuffled = [...array];
+
+         for (let i = shuffled.length - 1; i > 0; i--) {
+            const randomIndex = Math.floor(Math.random() * (i + 1));
+            const temp = shuffled[i];
+            const randomValue = shuffled[randomIndex];
+            if (temp !== undefined && randomValue !== undefined) {
+               shuffled[i] = randomValue;
+               shuffled[randomIndex] = temp;
+            }
+         }
+
+         return shuffled;
+      };
+
+      return {
+         insights: shuffle(allInsights).slice(0, limit),
+         priorities: shuffle(allPriorities).slice(0, limit),
+      };
+   } catch (err) {
+      throw AppError.database(
+         `Failed to get random findings: ${(err as Error).message}`,
+      );
+   }
+}

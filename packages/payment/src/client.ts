@@ -11,3 +11,5 @@ export function getPaymentClient(POLAR_ACCESS_TOKEN: string) {
    });
    return internalClient;
 }
+
+export type PaymentClient = ReturnType<typeof getPaymentClient>;

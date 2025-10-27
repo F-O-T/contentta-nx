@@ -38,6 +38,7 @@ COPY packages/utils/package.json ./packages/utils/
 COPY packages/rag/package.json ./packages/rag/
 COPY packages/database/package.json ./packages/database/
 COPY packages/environment/package.json ./packages/environment/
+COPY packages/contenta-sdk/package.json ./packages/contenta-sdk/
 COPY packages/files/package.json ./packages/files/
 COPY packages/payment/package.json ./packages/payment/
 COPY packages/posthog/package.json ./packages/posthog/
@@ -70,6 +71,8 @@ COPY package.json ./
 COPY apps/server/package.json ./apps/server/
 COPY tooling/typescript/package.json ./tooling/typescript/
 COPY packages/api/package.json ./packages/api/
+COPY packages/contenta-sdk/package.json ./packages/contenta-sdk/
+
 COPY packages/authentication/package.json ./packages/authentication/
 COPY packages/server-events/package.json ./packages/server-events/
 COPY packages/localization/package.json ./packages/localization/

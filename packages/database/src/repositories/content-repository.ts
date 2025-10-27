@@ -7,7 +7,7 @@ import type {
 } from "../schemas/content";
 import type { DatabaseInstance } from "../client";
 import { AppError, propagateError } from "@packages/utils/errors";
-import { eq } from "drizzle-orm";
+import { eq, and, or, sql } from "drizzle-orm";
 
 // Get content by slug
 export async function getContentBySlug(
@@ -303,6 +303,111 @@ export async function getMostUsedKeywordsByAgent(
    } catch (err) {
       throw AppError.database(
          `Failed to get most used keywords: ${(err as Error).message}`,
+      );
+   }
+}
+
+export async function searchContent(
+   dbClient: DatabaseInstance,
+   agentIds: string[],
+   query: string,
+   options: {
+      status?: Array<Exclude<Content["status"], null>>;
+      layout?: ("tutorial" | "article" | "changelog")[];
+      includeBody?: boolean;
+      limit?: number;
+      offset?: number;
+   } = {},
+) {
+   try {
+      const {
+         status = ["approved", "draft"],
+         layout,
+         includeBody = false,
+         limit = 20,
+         offset = 0,
+      } = options;
+
+      if (!query || query.trim().length === 0) {
+         return { results: [], totalCount: 0 };
+      }
+
+      const searchTerm = `%${query.trim()}%`;
+
+      // Build the search conditions array
+      const searchConditionArray = [
+         // Search in title
+         sql`${content.meta}->>'title' ILIKE ${searchTerm}`,
+         // Search in description
+         sql`${content.meta}->>'description' ILIKE ${searchTerm}`,
+      ];
+
+      // Optionally search in body
+      if (includeBody) {
+         searchConditionArray.push(sql`${content.body} ILIKE ${searchTerm}`);
+      }
+
+      const searchConditions = or(...searchConditionArray);
+
+      // Build the where clause conditions array
+      const whereConditionsArray = [
+         inArray(content.agentId, agentIds),
+         inArray(content.status, status),
+         searchConditions,
+      ];
+
+      // Add layout filter if specified
+      if (layout && layout.length > 0) {
+         whereConditionsArray.push(
+            sql`${content.request}->>'layout' = ANY(${layout})`,
+         );
+      }
+
+      // Build the final where clause
+      const whereConditions = and(...whereConditionsArray);
+
+      // Get total count
+      const countResult = await dbClient
+         .select({ count: sql<number>`count(*)::int` })
+         .from(content)
+         .where(whereConditions);
+
+      const totalCount = countResult[0]?.count ?? 0;
+
+      // Build columns object based on includeBody option
+      const columns: Record<string, boolean> = {
+         id: true,
+         meta: true,
+         imageUrl: true,
+         status: true,
+         createdAt: true,
+         updatedAt: true,
+         stats: true,
+         shareStatus: true,
+         request: true,
+      };
+
+      if (includeBody) {
+         columns.body = true;
+      }
+
+      // Get search results with pagination
+      const results = await dbClient.query.content.findMany({
+         where: whereConditions,
+         columns,
+         with: {
+            agent: true,
+         },
+         orderBy: (content, { desc }) => [desc(content.updatedAt)],
+         limit,
+         offset,
+      });
+
+      return { results, totalCount };
+   } catch (err) {
+      propagateError(err);
+      throw AppError.database(
+         `Failed to search content: ${(err as Error).message}`,
       );
    }
 }

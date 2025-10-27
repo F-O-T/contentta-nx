@@ -1,11 +1,13 @@
 import { createWorkflow, createStep } from "@mastra/core";
 import {
    countWords,
-   readTimeMinutes,
    createSlug,
+   calculateReadTimeMinutes,
+} from "@packages/utils/text";
+import {
    extractTitleFromMarkdown,
    removeTitleFromMarkdown,
-} from "@packages/utils/text";
+} from "@packages/utils/markdown";
 import { updateContent } from "@packages/database/repositories/content-repository";
 import { z } from "zod";
 import {
@@ -93,7 +95,9 @@ const saveContentStep = createStep({
       try {
          const stats: ContentStats = {
             wordsCount: countWords(editor).toString(),
-            readTimeMinutes: readTimeMinutes(countWords(editor)).toString(),
+            readTimeMinutes: calculateReadTimeMinutes(
+               countWords(editor),
+            ).toString(),
             qualityScore: rating.toString(),
             reasonOfTheRating,
          };

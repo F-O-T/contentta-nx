@@ -40,7 +40,12 @@ function RouteComponent() {
             },
          },
       );
-   }, [router, queryClient, trpc.authHelpers.getSession.queryKey]);
+   }, [
+      router,
+      queryClient,
+      trpc.authHelpers.getSession.queryKey,
+      trpc.authHelpers.getSession,
+   ]);
    const acceptInvitation = useCallback(async () => {
       await betterAuthClient.organization.acceptInvitation(
          {

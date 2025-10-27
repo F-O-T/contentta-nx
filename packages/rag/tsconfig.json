@@ -3,10 +3,10 @@
    "include": ["src", "src/schemas/**/*.ts"],
    "references": [
       {
-         "path": "../utils"
+         "path": "../environment"
       },
       {
-         "path": "../environment"
+         "path": "../utils"
       }
    ]
 }

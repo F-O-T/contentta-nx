@@ -1,6 +1,6 @@
 {
   "name": "@packages/authentication",
-  "version": "0.4.0",
+  "version": "0.8.0",
   "license": "Apache-2.0",
   "private": true,
   "type": "module",
@@ -17,13 +17,14 @@
   "scripts": {
     "auth-schema-generate": "npx @better-auth/cli@latest generate --config ./src/cli-config.ts --output ../database/src/schemas/auth.ts",
     "check": "biome check --write ./src",
-    "typecheck": "tsc --build ",
-    "build": "tsc "
+    "typecheck": "tsc ",
+    "build": "tsc --build"
   },
   "dependencies": {
     "@packages/transactional": "workspace:*",
     "@packages/database": "workspace:*",
     "@packages/payment": "workspace:*",
+    "@packages/environment": "workspace:*",
     "@polar-sh/better-auth": "catalog:auth",
     "better-auth": "catalog:auth"
   },

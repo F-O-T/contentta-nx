@@ -1,23 +1,17 @@
 import { Mastra } from "@mastra/core/mastra";
 import { appAssistantAgent } from "./agents/app-assistant-agent";
 import { createCompleteKnowledgeWorkflow } from "./workflows/create-complete-knowledge-workflow";
-import { researcherAgent } from "./agents/researcher-agent";
 import { PinoLogger } from "@mastra/loggers";
-import { documentSynthesizerAgent } from "./agents/document-syntethizer-agent";
-import { documentGenerationAgent } from "./agents/document-generation-agent";
-import { featureExtractionAgent } from "./agents/feature-extractor-agent";
-import { companyInfoExtractorAgent } from "./agents/company-info-extractor-agent";
 import { RuntimeContext } from "@mastra/core/runtime-context";
 import { createNewContentWorkflow } from "./workflows/create-new-content-workflow";
-import { contentStrategistAgent } from "./agents/strategist-agent";
 import { createFeaturesKnowledgeWorkflow } from "./workflows/knowledge/create-features-knowledge-workflow";
 import { createKnowledgeAndIndexDocumentsWorkflow } from "./workflows/knowledge/create-knowledge-and-index-documents-workflow";
 import { createOverviewWorkflow } from "./workflows/knowledge/create-overview-workflow";
-import { competitorIntelligenceAgent } from "./agents/competitor-intelligence-agent";
-import { createCompetitorSummaryWorkflow } from "./workflows/create-competitor-summary-workflow";
+import { createCompetitorInsightsWorkflow } from "./workflows/competitor/create-competitor-insights-workflow";
 
 import type { SupportedLng } from "@packages/localization";
 export type CustomRuntimeContext = {
+   brandId?: string;
    language: SupportedLng;
    userId: string;
    agentId?: string;
@@ -31,6 +25,7 @@ export const mastra = new Mastra({
          "@packages/environment/helpers",
          "@packages/environment/server",
          "@packages/database/client",
+         "@packages/database/schema",
          "@packages/rag/client",
          "@packages/utils/errors",
          "@packages/utils/text",
@@ -42,17 +37,10 @@ export const mastra = new Mastra({
       createFeaturesKnowledgeWorkflow,
       createKnowledgeAndIndexDocumentsWorkflow,
       createOverviewWorkflow,
-      createCompetitorSummaryWorkflow,
+      createCompetitorInsightsWorkflow,
    },
    agents: {
       appAssistantAgent,
-      contentStrategistAgent,
-      documentSynthesizerAgent,
-      documentGenerationAgent,
-      featureExtractionAgent,
-      companyInfoExtractorAgent,
-      researcherAgent,
-      competitorIntelligenceAgent,
    },
    logger: new PinoLogger({
       name: "Mastra",
@@ -64,6 +52,10 @@ export function setRuntimeContext(context: CustomRuntimeContext) {
    const runtimeContext = new RuntimeContext<CustomRuntimeContext>();
    runtimeContext.set("language", context.language);
    runtimeContext.set("userId", context.userId);
+
+   if (context.brandId) {
+      runtimeContext.set("brandId", context.brandId);
+   }
    if (context.agentId) {
       runtimeContext.set("agentId", context.agentId);
    }

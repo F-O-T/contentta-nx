@@ -28,7 +28,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Eye } from "lucide-react";
 import { useIdeasList } from "../lib/ideas-list-context";
-import { formatValueForDisplay } from "@packages/utils/text";
+import { formatStringForDisplay } from "@packages/utils/text";
 export function IdeaCard({
    idea,
 }: {
@@ -108,7 +108,7 @@ export function IdeaCard({
                   >
                      {isGenerating
                         ? translate("pages.ideas-list.card.generating")
-                        : formatValueForDisplay(idea.status ?? "")}
+                        : formatStringForDisplay(idea.status ?? "")}
                   </Badge>
                </CardFooter>
             </Card>

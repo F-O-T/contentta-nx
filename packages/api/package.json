@@ -1,6 +1,6 @@
 {
   "name": "@packages/api",
-  "version": "0.4.0",
+  "version": "0.9.1",
   "license": "Apache-2.0",
   "private": true,
   "type": "module",
@@ -15,18 +15,24 @@
     }
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --build",
     "check": "biome check --write ./src",
     "typecheck": "tsc "
   },
   "dependencies": {
+    "@polar-sh/sdk": "catalog:payment",
     "@packages/localization": "workspace:*",
+    "@packages/contenta-sdk": "workspace:*",
     "@packages/server-events": "workspace:*",
     "@packages/workers": "workspace:*",
     "@packages/authentication": "workspace:*",
     "@packages/database": "workspace:*",
     "@packages/files": "workspace:*",
     "@packages/rag": "workspace:*",
+    "@packages/posthog": "workspace:*",
+    "@packages/payment": "workspace:*",
+    "@packages/utils": "workspace:*",
+    "@packages/agents": "workspace:*",
     "@trpc/client": "catalog:trpc",
     "@trpc/server": "catalog:trpc",
     "superjson": "catalog:trpc",

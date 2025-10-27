@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { protectedProcedure, router } from "../trpc";
 import { getElysiaPosthogConfig } from "@packages/posthog/server";
-import { eq } from "drizzle-orm";
+import { eq } from "@packages/database";
 import { user, organization, member } from "@packages/database/schema";
 import { APIError } from "@packages/utils/errors";
 import i18n from "@packages/localization";

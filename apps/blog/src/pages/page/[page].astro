@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 
    // Get total count first to calculate pages
    const response = await sdk.listContentByAgent({
-      agentId: [agentId],
+      agentId: agentId,
       status: ["approved"],
       limit: 1, // Just get count
    });
@@ -24,7 +24,7 @@ export async function getStaticPaths() {
    const paths = [];
    for (let page = 1; page <= totalPages; page++) {
       const pageResponse = await sdk.listContentByAgent({
-         agentId: [agentId],
+         agentId: agentId,
          status: ["approved"],
          limit: postsPerPage,
          page: page,

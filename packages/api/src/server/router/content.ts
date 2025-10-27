@@ -44,6 +44,7 @@ import {
    deleteRelatedSlugsByExternalId,
 } from "@packages/rag/repositories/related-slugs-repository";
 import { listCompetitors } from "@packages/database/repositories/competitor-repository";
+import { getBrandByOrgId } from "@packages/database/repositories/brand-repository";
 
 export const contentRouter = router({
    versions: contentVersionRouter,
@@ -64,23 +65,25 @@ export const contentRouter = router({
                throw APIError.notFound("Content not found.");
             }
             const agent = await getAgentById(db, content.agentId);
+            const organizationId =
+               resolvedCtx.session?.session?.activeOrganizationId ?? "";
             const competitors = await listCompetitors(db, {
                userId: agent.userId,
-               organizationId:
-                  resolvedCtx.session?.session?.activeOrganizationId ?? "",
+               organizationId,
             });
+            const brand = await getBrandByOrgId(db, organizationId);
             await updateContent(db, input.id, { status: "pending" });
             await enqueueCreateNewContentWorkflowJob({
                agentId: content.agentId,
                contentId: content.id,
                request: content.request,
                userId: agent.userId,
-               organizationId:
-                  resolvedCtx.session?.session?.activeOrganizationId ?? "",
+               organizationId,
                competitorIds: competitors.map((competitor) => competitor.id),
                runtimeContext: {
                   language: resolvedCtx.language,
                   userId: agent.userId,
+                  brandId: brand?.id ?? "",
                },
             });
             return { success: true };
@@ -202,22 +205,26 @@ export const contentRouter = router({
             });
 
             const agent = await getAgentById(db, input.agentId);
+            const organizationId =
+               resolvedCtx.session?.session?.activeOrganizationId ?? "";
             const competitors = await listCompetitors(db, {
                userId: agent.userId,
-               organizationId:
-                  resolvedCtx.session?.session?.activeOrganizationId ?? "",
+               organizationId,
             });
+            const brand = await getBrandByOrgId(db, organizationId).catch(
+               () => null,
+            );
             await enqueueCreateNewContentWorkflowJob({
                agentId: created.agentId,
                contentId: created.id,
                request: created.request,
                userId: agent.userId,
-               organizationId:
-                  resolvedCtx.session?.session?.activeOrganizationId ?? "",
+               organizationId,
                competitorIds: competitors.map((competitor) => competitor.id),
                runtimeContext: {
                   language: resolvedCtx.language,
                   userId: agent.userId,
+                  brandId: brand?.id ?? "",
                },
             });
             return created;

@@ -21,17 +21,17 @@ export const queryForBrandKnowledgeTool = createTool({
    id: "query-for-brand-knowledge",
    description: "Query the pg vector database for brand knowledge",
    inputSchema: z.object({
-      externalId: z
-         .string()
-         .describe("The external id for identifying the brand"),
       searchTerm: z.string().describe("The search term to query the database"),
       type: z
          .enum(["document", "feature"])
          .describe("The type of knowledge to search for"),
    }),
-   execute: async ({ context }) => {
-      const { externalId, searchTerm, type } = context;
-
+   execute: async ({ context, runtimeContext }) => {
+      const { searchTerm, type } = context;
+      if (!runtimeContext?.has("brandId")) {
+         throw AppError.validation("Missing brandId in runtime context");
+      }
+      const externalId = runtimeContext.get("brandId") as string;
       try {
          const ragClient = createPgVector({
             pgVectorURL: serverEnv.PG_VECTOR_URL,

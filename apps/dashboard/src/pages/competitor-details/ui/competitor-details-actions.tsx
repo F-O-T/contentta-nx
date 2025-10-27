@@ -6,7 +6,14 @@ import {
    CardDescription,
 } from "@packages/ui/components/card";
 import { Button } from "@packages/ui/components/button";
-import { ExternalLink, RefreshCw, Edit, Trash, Upload } from "lucide-react";
+import {
+   ExternalLink,
+   RefreshCw,
+   Edit,
+   Trash,
+   Upload,
+   Brain,
+} from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTRPC } from "@/integrations/clients";
 import { createToast } from "@/features/error-modal/lib/create-toast";
@@ -62,8 +69,32 @@ export function CompetitorDetailsActions({
       }),
    );
 
+   const generateFindingsMutation = useMutation(
+      trpc.competitor.generateInsights.mutationOptions({
+         onSuccess: () => {
+            createToast({
+               type: "success",
+               message: "Findings generation started!",
+            });
+            queryClient.invalidateQueries({
+               queryKey: trpc.competitor.get.queryKey({ id: competitor.id }),
+            });
+         },
+         onError: (error) => {
+            createToast({
+               type: "danger",
+               message: `Error generating findings: ${error.message ?? "Unknown error"}`,
+            });
+         },
+      }),
+   );
+
    const handleAnalyze = () => {
       analyzeMutation.mutate({ id: competitor.id });
+   };
+
+   const handleGenerateFindings = () => {
+      generateFindingsMutation.mutate({ competitorId: competitor.id });
    };
 
    const handleVisitWebsite = () => {
@@ -88,6 +119,14 @@ export function CompetitorDetailsActions({
               ),
          onClick: handleAnalyze,
          disabled: analyzeMutation.isPending,
+      },
+      {
+         icon: Brain,
+         label: generateFindingsMutation.isPending
+            ? "Generating..."
+            : "Generate Findings",
+         onClick: handleGenerateFindings,
+         disabled: generateFindingsMutation.isPending,
       },
       {
          icon: Upload,

@@ -78,40 +78,28 @@ export async function deleteBrand(
    }
 }
 
-export async function listBrands(
+export async function getBrandByOrgId(
    dbClient: DatabaseInstance,
-   {
-      organizationId,
-      page = 1,
-      limit = 20,
-   }: {
-      organizationId?: string;
-      page?: number;
-      limit?: number;
-   },
+   organizationId: string,
 ) {
    try {
-      const offset = (page - 1) * limit;
-
-      if (organizationId) {
-         return await dbClient.query.brand.findMany({
-            where: eq(brand.organizationId, organizationId),
-            limit,
-            offset,
-            orderBy: (brand, { desc }) => [desc(brand.createdAt)],
-            with: {
-               features: {
-                  orderBy: (brandFeature, { desc }) => [
-                     desc(brandFeature.extractedAt),
-                  ],
-               },
+      const result = await dbClient.query.brand.findFirst({
+         where: eq(brand.organizationId, organizationId),
+         orderBy: (brand, { desc }) => [desc(brand.createdAt)],
+         with: {
+            features: {
+               orderBy: (brandFeature, { desc }) => [
+                  desc(brandFeature.extractedAt),
+               ],
             },
-         });
-      }
-      return [];
+         },
+      });
+      if (!result) throw AppError.database("Brand not found");
+      return result;
    } catch (err) {
+      propagateError(err);
       throw AppError.database(
-         `Failed to list brands: ${(err as Error).message}`,
+         `Failed to get brand by organization: ${(err as Error).message}`,
       );
    }
 }

@@ -8,26 +8,41 @@
       "jsx": "react-jsx"
    },
    "references": [
-      {
-         "path": "../payment"
-      },
-      {
-         "path": "../utils"
-      },
-      {
-         "path": "../rag"
-      },
-      {
-         "path": "../files"
-      },
-      {
-         "path": "../database"
-      },
-      {
-         "path": "../workers"
-      },
-      {
-         "path": "../server-events"
-      }
-   ]
+    {
+      "path": "../agents"
+    },
+    {
+      "path": "../utils"
+    },
+    {
+      "path": "../payment"
+    },
+    {
+      "path": "../posthog"
+    },
+    {
+      "path": "../rag"
+    },
+    {
+      "path": "../files"
+    },
+    {
+      "path": "../database"
+    },
+    {
+      "path": "../authentication"
+    },
+    {
+      "path": "../workers"
+    },
+    {
+      "path": "../server-events"
+    },
+    {
+      "path": "../contenta-sdk"
+    },
+    {
+      "path": "../localization"
+    }
+  ]
 }

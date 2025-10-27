@@ -12,7 +12,7 @@ import {
    getBrandById,
    updateBrand,
    deleteBrand,
-   listBrands,
+   getBrandByOrgId,
    searchBrands,
    getTotalBrands,
 } from "@packages/database/repositories/brand-repository";
@@ -51,18 +51,16 @@ export const brandRouter = router({
                throw APIError.unauthorized("Organization must be specified.");
             }
 
-            const brands = await listBrands(resolvedCtx.db, {
-               organizationId,
-               page: input.page,
-               limit: input.limit,
-            });
+            const brand = await getBrandByOrgId(resolvedCtx.db, organizationId);
 
-            const total = await getTotalBrands(resolvedCtx.db, {
-               organizationId,
-            });
+            if (!brand) {
+               throw APIError.notFound("Brand not found.");
+            }
+
+            const total = brand ? 1 : 0;
 
             return {
-               items: brands,
+               items: brand ? [brand] : [],
                total,
                page: input.page,
                limit: input.limit,
@@ -288,17 +286,20 @@ export const brandRouter = router({
             );
          }
 
-         const brands = await listBrands(resolvedCtx.db, {
-            organizationId,
-            page: 1,
-            limit: 1,
-         });
-
-         if (brands.length === 0) {
-            throw APIError.notFound("No brand found for this organization.");
+         let brand: Awaited<ReturnType<typeof getBrandByOrgId>> | null = null;
+         try {
+            brand = await getBrandByOrgId(resolvedCtx.db, organizationId);
+         } catch (err) {
+            if (
+               !(
+                  err instanceof Error &&
+                  err.message.includes("Brand not found")
+               )
+            ) {
+               throw err;
+            }
          }
-
-         return brands[0];
+         return brand;
       } catch (err) {
          console.error("Error getting organization brand:", err);
          propagateError(err);

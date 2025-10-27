@@ -3,5 +3,9 @@
    "compilerOptions": {
       "jsx": "react-jsx"
    },
-   "references": []
+   "references": [
+      {
+         "path": "../utils"
+      }
+   ]
 }

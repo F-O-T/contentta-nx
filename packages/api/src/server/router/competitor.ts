@@ -15,6 +15,7 @@ import {
    listCompetitors,
    searchCompetitors,
    getTotalCompetitors,
+   getRandomFindingsFromCompetitors,
 } from "@packages/database/repositories/competitor-repository";
 import {
    getFeaturesByCompetitorId,
@@ -25,11 +26,6 @@ import { z } from "zod";
 
 import { deleteFeaturesByCompetitorId } from "@packages/database/repositories/competitor-feature-repository";
 import {
-   getOrCreateCompetitorSummary,
-   updateCompetitorSummary,
-   getCompetitorSummaryByOrganization,
-} from "@packages/database/repositories/competitor-summary-repository";
-import {
    eventEmitter,
    EVENTS,
    type CompetitorStatusChangedPayload,
@@ -37,12 +33,14 @@ import {
 import { on } from "node:events";
 import { enqueueCreateCompleteKnowledgeWorkflowJob } from "@packages/workers/queues/create-complete-knowledge-workflow-queue";
 import { enqueueCreateFeaturesKnowledgeJob } from "@packages/workers/queues/create-features-knowledge-queue";
-import { enqueueCreateCompetitorSummaryJob } from "@packages/workers/queues/create-competitor-summary-queue";
+import { enqueueCreateCompetitorInsightsJob } from "@packages/workers/queues/create-competitor-insights-queue";
+import { getBrandByOrgId } from "@packages/database/repositories/brand-repository";
 
 export const competitorRouter = router({
-   getSummary: organizationProcedure
+   generateInsights: organizationProcedure
       .use(hasGenerationCredits)
-      .query(async ({ ctx }) => {
+      .input(z.object({ competitorId: z.uuid() }))
+      .mutation(async ({ ctx, input }) => {
          try {
             const resolvedCtx = await ctx;
             const userId = resolvedCtx.session?.user.id;
@@ -51,167 +49,80 @@ export const competitorRouter = router({
 
             if (!userId || !organizationId) {
                throw APIError.unauthorized(
-                  "User must be authenticated and belong to an organization to view competitor summaries.",
+                  "User must be authenticated and belong to an organization to generate competitor insights.",
                );
             }
 
-            const summaryRecord = await getCompetitorSummaryByOrganization(
+            const competitor = await getCompetitorById(
                resolvedCtx.db,
-               organizationId,
+               input.competitorId,
             );
 
-            // Get competitor count
-            const competitors = await listCompetitors(resolvedCtx.db, {
-               userId,
+            // Verify the competitor belongs to the user/organization
+            if (
+               competitor.userId !== userId &&
+               competitor.organizationId !== organizationId
+            ) {
+               throw APIError.forbidden(
+                  "You don't have permission to generate insights for this competitor.",
+               );
+            }
+
+            const brand = await getBrandByOrgId(resolvedCtx.db, organizationId);
+            if (!brand) {
+               throw APIError.notFound(
+                  "Active brand not found for organization.",
+               );
+            }
+
+            // Enqueue background job to generate the insights
+            await enqueueCreateCompetitorInsightsJob({
                organizationId,
-               page: 1,
-               limit: 1000,
+               userId,
+               competitorId: input.competitorId,
+               runtimeContext: {
+                  language: resolvedCtx.language,
+                  userId,
+                  brandId: brand.id,
+               },
             });
 
-            // If no summary exists, create one and queue generation
-            if (!summaryRecord) {
-               // Check if we have competitors to analyze
-               if (competitors.length === 0) {
-                  return `# Weekly Competitive Brief
-
-*No competitors found. Add competitors to generate your weekly competitive insights.*
-
-## Getting Started
-1. Add competitors to your organization
-2. We'll automatically generate your weekly strategic brief
-3. Check back here for actionable weekly insights
-
-**Note**: Start by adding your main competitors to get valuable weekly briefings.`;
-               }
-
-               // Create summary record and queue generation
-               const summaryRecord = await getOrCreateCompetitorSummary(
-                  resolvedCtx.db,
-                  organizationId,
-                  userId,
-               );
-
-               if (!summaryRecord) {
-                  throw APIError.internal(
-                     "Failed to create competitor summary record.",
-                  );
-               }
-               // Update status to pending
-               await updateCompetitorSummary(resolvedCtx.db, summaryRecord.id, {
-                  status: "pending",
-                  errorMessage: null,
-               });
-
-               // Enqueue background job to generate the summary
-               await enqueueCreateCompetitorSummaryJob({
-                  organizationId,
-                  userId,
-                  summaryId: summaryRecord.id,
-                  runtimeContext: {
-                     language: resolvedCtx.language,
-                     userId,
-                  },
-               });
-
-               // Return placeholder while generating
-               return `# Weekly Competitive Brief
-
-*Generating your weekly competitive insights... Please check back in a few minutes.*
-
-## Current Competitors
-Analyzing **${competitors.length}** competitors for this week's strategic brief.
-
-## What's Coming
-- Key competitor moves to watch this week
-- Actionable opportunities for your business
-- Potential threats to monitor
-- Quick strategic recommendations
-
-**Status**: Weekly brief in progress... Refresh this page to see results.`;
-            }
-
-            // If summary exists but failed, try to regenerate it
-            if (summaryRecord.status === "failed") {
-               if (competitors.length === 0) {
-                  return `# Weekly Competitive Brief
-
-*No competitors found. Add competitors to generate your weekly competitive insights.*
-
-## Getting Started
-1. Add competitors to your organization
-2. We'll automatically generate your weekly strategic brief
-3. Check back here for actionable weekly insights
-
-**Note**: Start by adding your main competitors to get valuable weekly briefings.`;
-               }
-
-               // Update status to pending for retry
-               await updateCompetitorSummary(resolvedCtx.db, summaryRecord.id, {
-                  status: "pending",
-                  errorMessage: null,
-               });
-
-               // Enqueue background job to regenerate
-               await enqueueCreateCompetitorSummaryJob({
-                  organizationId,
-                  userId,
-                  summaryId: summaryRecord.id,
-                  runtimeContext: {
-                     language: resolvedCtx.language,
-                     userId,
-                  },
-               });
-
-               // Return placeholder while regenerating
-               return `# Weekly Competitive Brief
-
-*Regenerating your weekly competitive insights... Please check back in a few minutes.*
-
-## Current Competitors
-Analyzing **${competitors.length}** competitors for this week's strategic brief.
-
-## Previous Error
-${summaryRecord.errorMessage || "Unknown error occurred"}
-
-**Status**: Regenerating weekly brief... Refresh this page to see results.`;
-            }
-
-            // If summary is still pending, show progress placeholder
-            if (
-               summaryRecord.status === "pending" ||
-               summaryRecord.status === "generating"
-            ) {
-               return `# Weekly Competitive Brief
-
-*Generating your weekly competitive insights... Please check back in a few minutes.*
-
-## Current Competitors
-Analyzing **${competitors.length}** competitors for this week's strategic brief.
-
-## What's Coming
-- Key competitor moves to watch this week
-- Actionable opportunities for your business
-- Potential threats to monitor
-- Quick strategic recommendations
-
-**Status**: ${summaryRecord.status === "pending" ? "Queued for analysis" : "Analysis in progress"}... Refresh this page to see results.`;
-            }
-
-            // Return the completed summary
-            return (
-               summaryRecord.summary ||
-               `# Weekly Competitive Brief
-
-*Weekly brief data incomplete. Please try regenerating.*
-
-**Status**: Brief available but incomplete. Try refreshing to regenerate.`
-            );
+            // Return success - the insights will be generated asynchronously
+            return { success: true, competitorId: input.competitorId };
          } catch (err) {
-            console.error("Error getting competitor summary:", err);
+            console.error("Error generating competitor insights:", err);
             propagateError(err);
-            throw APIError.internal("Failed to get competitor summary.");
+            throw APIError.internal("Failed to generate competitor insights.");
          }
       }),
+
+   getRandomFindings: organizationProcedure.query(async ({ ctx }) => {
+      try {
+         const resolvedCtx = await ctx;
+         const organizationId =
+            resolvedCtx.session?.session?.activeOrganizationId;
+
+         if (!organizationId) {
+            return {
+               findings: [],
+               insights: [],
+            };
+         }
+
+         const findings = await getRandomFindingsFromCompetitors(
+            resolvedCtx.db,
+            organizationId,
+            3,
+         );
+
+         return findings;
+      } catch (err) {
+         console.error("Error getting random findings:", err);
+         propagateError(err);
+         throw APIError.internal("Failed to get random findings.");
+      }
+   }),
+
    list: protectedProcedure
       .input(
          z.object({

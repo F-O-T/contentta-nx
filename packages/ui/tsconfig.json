@@ -5,9 +5,13 @@
       "paths": {
          "@packages/ui/*": ["./src/*"]
       },
-      "lib": ["ES2022", "dom", "dom.iterable"],
       "jsx": "preserve"
    },
    "include": ["src"],
-   "exclude": ["node_modules"]
+   "exclude": ["node_modules"],
+   "references": [
+      {
+         "path": "../utils"
+      }
+   ]
 }

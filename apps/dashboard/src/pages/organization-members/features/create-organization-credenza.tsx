@@ -76,6 +76,7 @@ export function CreateOrganizationCredenza({
          verifySlug,
          queryClient,
          trpc.authHelpers.getDefaultOrganization.queryKey,
+         trpc.authHelpers.getDefaultOrganization,
       ],
    );
 

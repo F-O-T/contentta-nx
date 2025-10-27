@@ -2,8 +2,6 @@
 # Stage 1: Install all dependencies and build the application
 FROM oven/bun:1.2.23 AS builder
 
-
-
 WORKDIR /app
 
 # Copy all package manifests and the lockfile first.
@@ -13,6 +11,7 @@ COPY package.json ./
 COPY apps/dashboard/package.json ./apps/dashboard/
 COPY packages/localization/package.json ./packages/localization/
 
+COPY packages/contenta-sdk/package.json ./packages/contenta-sdk/
 COPY packages/ui/package.json ./packages/ui/
 COPY packages/brand/package.json ./packages/brand/
 COPY packages/server-events/package.json ./packages/server-events/
@@ -57,6 +56,7 @@ COPY package.json ./
 COPY apps/dashboard/package.json ./apps/dashboard/
 COPY packages/localization/package.json ./packages/localization/
 
+COPY packages/contenta-sdk/package.json ./packages/contenta-sdk/
 COPY packages/ui/package.json ./packages/ui/
 COPY packages/brand/package.json ./packages/brand/
 COPY packages/server-events/package.json ./packages/server-events/

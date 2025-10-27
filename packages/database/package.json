@@ -4,6 +4,10 @@
   "private": true,
   "type": "module",
   "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./src/index.ts"
+    },
     "./client": {
       "types": "./dist/src/client.d.ts",
       "default": "./src/client.ts"
@@ -35,13 +39,14 @@
     "generate": "bun run env:run drizzle-kit generate --custom",
     "studio": "bun run env:run drizzle-kit studio",
     "typecheck": "tsc ",
-    "build": "tsc "
+    "build": "tsc --build"
   },
   "dependencies": {
     "drizzle-orm": "catalog:database",
     "drizzle-zod": "catalog:database",
     "zod": "catalog:validation",
-    "pg": "catalog:database"
+    "pg": "catalog:database",
+    "@packages/utils": "workspace:*"
   },
   "devDependencies": {
     "@tooling/typescript": "workspace:*",
@@ -51,5 +56,5 @@
     "shx": "catalog:enviroment",
     "typescript": "catalog:development"
   },
-  "version": "0.8.1"
+  "version": "0.13.0"
 }

@@ -7,7 +7,7 @@
   "license": "Apache-2.0",
   "name": "@packages/transactional",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --build",
     "check": "biome check --write ./src",
     "typecheck": "bunx --bun tsc "
   },
@@ -19,7 +19,7 @@
       "default": "./src/client.tsx"
     }
   },
-  "version": "0.4.0",
+  "version": "0.8.0",
   "dependencies": {
     "react": "catalog:react",
     "react-dom": "catalog:react",

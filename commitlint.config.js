@@ -28,6 +28,7 @@ export default {
             "transactional",
             "ui",
             "utils",
+              "contenta-sdk",
             "workers",
 
             // Tooling

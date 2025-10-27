@@ -12,6 +12,7 @@ import { organization, user } from "./auth";
 import { relations } from "drizzle-orm";
 import { competitorFeature } from "./competitor-feature";
 import type { CompetitorFeatureSelect } from "./competitor-feature";
+import z from "zod";
 
 export const knowledgeCreationStatusEnum = pgEnum("knowledge_creation_status", [
    "failed",
@@ -19,6 +20,27 @@ export const knowledgeCreationStatusEnum = pgEnum("knowledge_creation_status", [
    "completed",
 ]);
 
+export const CompetitorFindingsSchema = z
+   .object({
+      insights: z.array(
+         z
+            .string()
+            .describe(
+               "Key insights about the competitor's strategies, features, or market position",
+            ),
+      ),
+      priorities: z.array(
+         z
+            .string()
+            .describe(
+               "Actionable priorities based on the competitive analysis, ordered by importance",
+            ),
+      ),
+   })
+   .describe(
+      "Structured data representing competitive intelligence findings and recommended actions",
+   );
+export type CompetitorFindings = z.infer<typeof CompetitorFindingsSchema>;
 export const competitor = pgTable(
    "competitor",
    {
@@ -34,6 +56,9 @@ export const competitor = pgTable(
       organizationId: text("organization_id")
          .references(() => organization.id, { onDelete: "cascade" })
          .notNull(),
+      findings: jsonb("findings")
+         .$type<CompetitorFindings>()
+         .default({ insights: [], priorities: [] }),
       uploadedFiles: jsonb("uploaded_files")
          .$type<{ fileName: string; fileUrl: string; uploadedAt: string }[]>()
          .default([]),

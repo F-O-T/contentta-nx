@@ -1,47 +1,57 @@
 {
-   "dependencies": {
-      "@trpc/server": "catalog:trpc",
-      "slugify": "^1.6.6",
-      "zod": "catalog:validation"
-   },
-   "devDependencies": {
-      "@tooling/typescript": "workspace:*",
-      "typescript": "catalog:development"
-   },
-   "license": "Apache-2.0",
-   "name": "@packages/utils",
-   "scripts": {
-      "build": "tsc",
-      "check": "biome check --write ./src",
-      "typecheck": "bunx --bun tsc  "
-   },
-   "private": true,
-   "type": "module",
-   "exports": {
-      "./file": {
-         "types": "./dist/src/file.d.ts",
-         "default": "./src/file.ts"
-      },
-      "./diff": {
-         "types": "./dist/src/diff.d.ts",
-         "default": "./src/diff.ts"
-      },
-      "./date": {
-         "types": "./dist/src/date.d.ts",
-         "default": "./src/date.ts"
-      },
-      "./errors": {
-         "types": "./dist/src/errors.d.ts",
-         "default": "./src/errors.ts"
-      },
-      "./text": {
-         "types": "./dist/src/text.d.ts",
-         "default": "./src/text.ts"
-      },
-      "./number": {
-         "types": "./dist/src/numbers.d.ts",
-         "default": "./src/numbers.ts"
-      }
-   },
-   "version": "0.20.0"
+  "dependencies": {
+    "@trpc/server": "catalog:trpc",
+    "slugify": "^1.6.6",
+    "zod": "catalog:validation"
+  },
+  "devDependencies": {
+    "@tooling/typescript": "workspace:*",
+    "typescript": "catalog:development",
+    "vitest": "catalog:testing"
+  },
+  "license": "Apache-2.0",
+  "name": "@packages/utils",
+  "scripts": {
+    "build": "tsc --build",
+    "check": "biome check --write ./src",
+    "typecheck": "bunx --bun tsc  ",
+    "test": "bun test"
+  },
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./file": {
+      "types": "./dist/src/file.d.ts",
+      "default": "./src/file.ts"
+    },
+    "./diff": {
+      "types": "./dist/src/diff.d.ts",
+      "default": "./src/diff.ts"
+    },
+    "./date": {
+      "types": "./dist/src/date.d.ts",
+      "default": "./src/date.ts"
+    },
+    "./errors": {
+      "types": "./dist/src/errors.d.ts",
+      "default": "./src/errors.ts"
+    },
+    "./text": {
+      "types": "./dist/src/text.d.ts",
+      "default": "./src/text.ts"
+    },
+    "./array": {
+      "types": "./dist/src/array.d.ts",
+      "default": "./src/array.ts"
+    },
+    "./markdown": {
+      "types": "./dist/src/markdown.d.ts",
+      "default": "./src/markdown.ts"
+    },
+    "./number": {
+      "types": "./dist/src/numbers.d.ts",
+      "default": "./src/numbers.ts"
+    }
+  },
+  "version": "0.26.0"
 }

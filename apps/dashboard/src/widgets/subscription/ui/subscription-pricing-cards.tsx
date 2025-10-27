@@ -17,7 +17,7 @@ export function SubscriptionPricingCards() {
          {
             slug: "basic",
             name: "Basic",
-            price: "$5 / mo",
+            price: "$8 / mo",
             buttonVariant: "default" as const,
             features: ["$5 of credits", "Pay as you go after"],
          },

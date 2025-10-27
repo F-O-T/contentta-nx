@@ -49,7 +49,13 @@ export function DeleteApiKeyCredenza({
             },
          },
       );
-   }, [onOpenChange, keyId, queryClient, trpc.authHelpers.getApiKeys.queryKey]);
+   }, [
+      onOpenChange,
+      keyId,
+      queryClient,
+      trpc.authHelpers.getApiKeys.queryKey,
+      trpc.authHelpers.getApiKeys,
+   ]);
 
    return (
       <Credenza open={open} onOpenChange={onOpenChange}>

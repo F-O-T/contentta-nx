@@ -10,7 +10,8 @@ import {
    isOrganizationOwner,
 } from "@packages/database/repositories/auth-repository";
 import { getCustomerState } from "@packages/payment/ingestion";
-import { setRuntimeContext } from "@packages/agents";
+import type { SupportedLng } from "@packages/localization";
+import { createContentaSdk } from "@packages/contenta-sdk";
 export const createTRPCContext = async ({
    auth,
    polarClient,
@@ -36,16 +37,15 @@ export const createTRPCContext = async ({
    auth: AuthInstance;
    headers: Headers;
    session: AuthInstance["$Infer"]["Session"] | null;
-   language: Parameters<typeof setRuntimeContext>[0]["language"];
+   contentaSdk: ReturnType<typeof createContentaSdk>;
+   language: SupportedLng;
 }> => {
    const session = await auth.api.getSession({
       headers,
    });
 
-   const language = headers.get("x-Locale") as Parameters<
-      typeof setRuntimeContext
-   >[0]["language"];
-   setRuntimeContext({ language, userId: session?.session.userId ?? "" });
+   const language = headers.get("x-locale") as SupportedLng;
+   const contentaSdk = createContentaSdk(language || "en");
    return {
       polarClient,
       minioBucket,
@@ -54,6 +54,7 @@ export const createTRPCContext = async ({
       ragClient,
       session,
       auth,
+      contentaSdk,
       headers,
       language,
    };

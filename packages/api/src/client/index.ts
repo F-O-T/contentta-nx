@@ -1,10 +1,12 @@
 import {
    createTRPCClient,
    httpBatchLink,
+   httpBatchStreamLink,
    httpSubscriptionLink,
    loggerLink,
    splitLink,
 } from "@trpc/client";
+
 import SuperJSON from "superjson";
 import urlJoin from "url-join";
 import type { AppRouter } from "../server";
@@ -37,40 +39,48 @@ export const createTrpcClient = ({
                   };
                },
             }),
-            false: httpBatchLink({
-               url: urlJoin(serverUrl, "/trpc"),
-               transformer: SuperJSON,
-               fetch(url, options) {
-                  const requestHeaders = new Headers(options?.headers);
+            false: splitLink({
+               // Use streaming for operations that contain "stream" in the path
+               condition: (op) => op.path.includes("stream"),
+               true: httpBatchStreamLink({
+                  url: urlJoin(serverUrl, "/trpc"),
+                  transformer: SuperJSON,
+               }),
+               false: httpBatchLink({
+                  url: urlJoin(serverUrl, "/trpc"),
+                  transformer: SuperJSON,
+                  fetch(url, options) {
+                     const requestHeaders = new Headers(options?.headers);
 
-                  // Add language headers
-                  const clientLanguage =
-                     language ||
-                     (typeof window !== "undefined"
-                        ? document.documentElement.lang
-                        : "en");
-                  if (clientLanguage) {
-                     requestHeaders.set("Accept-Language", clientLanguage);
-                     requestHeaders.set("X-Locale", clientLanguage);
-                  }
+                     // Add language headers
+                     const clientLanguage =
+                        language ||
+                        (typeof window !== "undefined"
+                           ? document.documentElement.lang
+                           : "en");
+                     if (clientLanguage) {
+                        requestHeaders.set("Accept-Language", clientLanguage);
+                        requestHeaders.set("x-locale", clientLanguage);
+                     }
 
-                  if (headers) {
-                     const incomingHeaders = new Headers(headers as Headers);
-                     const cookie = incomingHeaders.get("cookie");
-                     if (cookie) {
-                        requestHeaders.set("cookie", cookie);
+                     if (headers) {
+                        const incomingHeaders = new Headers(headers as Headers);
+                        const cookie = incomingHeaders.get("cookie");
+                        if (cookie) {
+                           requestHeaders.set("cookie", cookie);
+                        }
+                        const authorization = incomingHeaders.get("authorization");
+                        if (authorization) {
+                           requestHeaders.set("authorization", authorization);
+                        }
                      }
-                     const authorization = incomingHeaders.get("authorization");
-                     if (authorization) {
-                        requestHeaders.set("authorization", authorization);
-                     }
-                  }
-                  return fetch(url, {
-                     ...options,
-                     credentials: "include",
-                     headers: requestHeaders,
-                  });
-               },
+                     return fetch(url, {
+                        ...options,
+                        credentials: "include",
+                        headers: requestHeaders,
+                     });
+                  },
+               }),
             }),
          }),
       ],

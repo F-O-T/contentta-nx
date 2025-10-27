@@ -17,7 +17,7 @@ export const USAGE_TYPE = {
 } as const;
 
 export const BILLING_CONFIG = {
-   margin: 0.3,
+   rag_usage: 0.05,
    llmPricePerMillionTokens: 2.5, // $2.5 per 1M tokens
    webSearchCost: 0.0008, // $0.08 cents per search
 };
@@ -54,9 +54,7 @@ export const createAiUsageMetadata = (params: {
    outputTokens: number;
    effort: keyof typeof MODELS;
 }) => {
-   const creditsDebited = calculateCreditsDebited(
-      params.inputTokens + params.outputTokens,
-   );
+   const creditsDebited = params.inputTokens + params.outputTokens;
    return {
       usage_type: USAGE_TYPE.LLM,
       input_tokens: params.inputTokens,
@@ -84,23 +82,21 @@ export const createWebSearchUsageMetadata = (params: {
    };
 };
 
-export const createRagUsageMetadata = (params: {
-   agentId: string;
-   type: "READ" | "WRITE";
-}) => {
-   const creditsDebited = calculateCreditsDebited(10);
+export const createRagUsageMetadata = (params: { agentId: string }) => {
+   const cost = convertRagOperationCostToTokens(BILLING_CONFIG.rag_usage);
    return {
       usage_type: USAGE_TYPE.RAG_OPERATIONS,
-      operation_type: params.type,
       agent_id: params.agentId,
-      credits_debited: creditsDebited,
+      credits_debited: cost,
    };
 };
-function calculateCreditsDebited(amount: number) {
-   return Math.ceil(amount * BILLING_CONFIG.margin);
+
+function convertRagOperationCostToTokens(cost: number): number {
+   const tokens = (cost / BILLING_CONFIG.rag_usage) * 1000000;
+   return Math.round(tokens);
 }
 
 function convertWebSearchCostToTokens(cost: number): number {
    const tokens = (cost / BILLING_CONFIG.llmPricePerMillionTokens) * 1000000;
-   return calculateCreditsDebited(Math.round(tokens));
+   return Math.round(tokens);
 }

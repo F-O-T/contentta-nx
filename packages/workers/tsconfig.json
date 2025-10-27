@@ -3,13 +3,13 @@
    "include": ["src/**/*.ts"],
    "references": [
       {
+         "path": "../server-events"
+      },
+      {
          "path": "../database"
       },
       {
          "path": "../environment"
-      },
-      {
-         "path": "../server-events"
       },
       {
          "path": "../files"

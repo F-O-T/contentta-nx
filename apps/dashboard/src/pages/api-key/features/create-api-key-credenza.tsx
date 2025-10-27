@@ -109,7 +109,11 @@ export function CreateApiKeyCredenza({
             },
          );
       },
-      [queryClient, trpc.authHelpers.getApiKeys.queryKey],
+      [
+         queryClient,
+         trpc.authHelpers.getApiKeys.queryKey,
+         trpc.authHelpers.getApiKeys,
+      ],
    );
 
    const form = useAppForm({

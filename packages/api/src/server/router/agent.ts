@@ -99,7 +99,11 @@ export const agentRouter = router({
          };
       }),
    create: organizationOwnerProcedure
-      .input(PersonaConfigSchema.omit({ instructions: true }))
+      .input(
+         PersonaConfigSchema.omit({
+            instructions: true,
+         }),
+      )
       .mutation(async ({ ctx, input }) => {
          const resolvedCtx = await ctx;
          try {

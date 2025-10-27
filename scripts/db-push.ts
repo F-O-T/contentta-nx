@@ -261,6 +261,106 @@ program
       listEnvironments();
    });
 
+async function checkStatus(
+   env: string,
+   packages: string[] = DATABASE_PACKAGES,
+) {
+   console.log(
+      colors.blue(`🔍 Checking database status for ${env} environment`),
+   );
+   console.log(colors.cyan("─".repeat(50)));
+
+   const results: { package: string; success: boolean; error?: string }[] = [];
+
+   for (const packageName of packages) {
+      const packageDir = path.join("packages", packageName);
+
+      if (!fs.existsSync(packageDir)) {
+         console.log(
+            colors.red(`❌ Package directory not found: ${packageDir}`),
+         );
+         results.push({
+            package: packageName,
+            success: false,
+            error: "Directory not found",
+         });
+         continue;
+      }
+
+      try {
+         const envFile = getEnvFilePath(packageDir, env);
+         console.log(colors.magenta(`📦 Checking package: ${packageName}`));
+
+         // Check if package.json exists to verify it's a valid package
+         const packageJsonPath = path.join(packageDir, "package.json");
+         if (!fs.existsSync(packageJsonPath)) {
+            throw new Error("package.json not found");
+         }
+
+         // Check if drizzle config exists
+         const drizzleConfig = path.join(packageDir, "drizzle.config.ts");
+         if (!fs.existsSync(drizzleConfig)) {
+            throw new Error("drizzle.config.ts not found");
+         }
+
+         // Check if environment file exists and is readable
+         try {
+            fs.readFileSync(envFile, "utf8");
+         } catch {
+            throw new Error(`Cannot read environment file: ${envFile}`);
+         }
+
+         // Try to run a simple drizzle command to check configuration
+         console.log(colors.cyan("   🔧 Checking drizzle configuration..."));
+         await runCommand(
+            "npm run db:generate -- --dry-run",
+            packageDir,
+            envFile,
+         );
+
+         console.log(
+            colors.green(
+               `✅ ${packageName} status check completed successfully`,
+            ),
+         );
+         results.push({ package: packageName, success: true });
+      } catch (error) {
+         console.log(
+            colors.red(`❌ ${packageName} status check failed: ${error}`),
+         );
+         results.push({
+            package: packageName,
+            success: false,
+            error: error instanceof Error ? error.message : String(error),
+         });
+      }
+
+      console.log(colors.cyan("─".repeat(50)));
+   }
+
+   // Summary
+   console.log(colors.blue("📊 Status Summary:"));
+   const successCount = results.filter((r) => r.success).length;
+   const failureCount = results.filter((r) => !r.success).length;
+
+   console.log(colors.green(`✅ Healthy: ${successCount}`));
+   console.log(colors.red(`❌ Issues: ${failureCount}`));
+
+   if (failureCount > 0) {
+      console.log(colors.yellow("⚠️  Packages with issues:"));
+      results
+         .filter((r) => !r.success)
+         .forEach((r) => {
+            console.log(colors.red(`   - ${r.package}: ${r.error}`));
+         });
+      process.exit(1);
+   } else {
+      console.log(
+         colors.green("🎉 All database packages are properly configured!"),
+      );
+   }
+}
+
 program
    .command("status")
    .description("Check database connection and schema status")
@@ -269,10 +369,16 @@ program
       "Environment to use (local, production, etc.)",
       "local",
    )
+   .option(
+      "-p, --packages <packages>",
+      "Comma-separated list of packages to run on",
+   )
    .action((options) => {
-      console.log(colors.blue("🔍 Checking database status..."));
-      // This would need to be implemented based on your specific setup
-      console.log(colors.yellow("⚠️  Status check not implemented yet"));
+      const packages = options.packages
+         ? options.packages.split(",").map((p: string) => p.trim())
+         : DATABASE_PACKAGES;
+
+      checkStatus(options.env, packages);
    });
 
 program.parse();

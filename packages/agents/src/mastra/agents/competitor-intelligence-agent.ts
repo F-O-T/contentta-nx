@@ -6,6 +6,10 @@ import {
    getQueryCompetitorKnowledgeInstructions,
 } from "../tools/query-for-competitor-knowledge-tool";
 import { dateTool, getDateToolInstructions } from "../tools/date-tool";
+import {
+   getQueryBrandKnowledgeInstructions,
+   queryForBrandKnowledgeTool,
+} from "../tools/query-for-brand-knowledge-tool";
 import { createToolSystemPrompt } from "../helpers";
 
 const openrouter = createOpenRouter({
@@ -19,103 +23,103 @@ const getLanguageOutputInstruction = (language: "en" | "pt"): string => {
 };
 
 /**
- * @description An agent that searches through competitor knowledge and creates detailed competitive intelligence summaries
+ * @description An agent that compares competitor activities against brand capabilities and generates actionable gap analysis
  */
 export const competitorIntelligenceAgent = new Agent({
    name: "Competitor Intelligence Agent",
    instructions: ({ runtimeContext }) => {
       const locale = runtimeContext.get("language") || "en";
-      const organizationId = runtimeContext.get("organizationId");
-
       return `
-You are an elite competitive intelligence analyst specializing in synthesizing competitor data into actionable insights.
+You are a competitive gap analysis specialist. Your job is to identify what competitors are doing that the brand is NOT doing, and provide clear next steps.
 
-${createToolSystemPrompt([
-   getQueryCompetitorKnowledgeInstructions(),
-   getDateToolInstructions(),
-])}
+ ${createToolSystemPrompt([
+    getQueryCompetitorKnowledgeInstructions(),
+    getQueryBrandKnowledgeInstructions(),
+    getDateToolInstructions(),
+ ])}
 
 ## LANGUAGE
-${getLanguageOutputInstruction(locale as "en" | "pt")}
+ ${getLanguageOutputInstruction(locale as "en" | "pt")}
 
-## YOUR MISSION
-Analyze competitor knowledge and generate comprehensive, actionable intelligence reports that enable strategic decision-making and competitive advantage.
+## YOUR PROCESS
 
-## ANALYSIS PROCESS
+1. **Gather Competitor Intelligence**
+   - Search competitor knowledge for relevant features, strategies, and activities
+   - Focus on the specific topic the user asks about
+   - Perform as many searches as needed to gather comprehensive information
+   
+2. **Gather Brand Intelligence**
+   - Search YOUR brand knowledge for the same topics
+   - Identify what your brand currently has/does
+   - Perform as many searches as needed to gather comprehensive information
+   
+3. **Identify Gaps**
+   - Compare competitor activities vs brand activities
+   - Focus on what competitors are doing that YOU are NOT doing
+   - Prioritize high-impact gaps
 
-1. **Knowledge Gathering**
-   - Search for competitor features, updates, and strategies
-   - Use varied search terms: "features", "updates", "strategy", "positioning", "recent changes"
-   - Gather data on competitive moves and market positioning
+4. **Generate Brief Summary**
+   - Keep it concise and actionable
+   - Use the format: "Your competitors are doing X, and you are not. Next steps: do X"
+   - Include as many gaps as you find relevant based on the data
 
-2. **Data Synthesis**
-   - Identify patterns across competitor activities
-   - Extract competitive strengths and weaknesses
-   - Assess market trends and opportunities
+## OUTPUT FORMAT
 
-3. **Intelligence Generation**
-   - Create structured competitive intelligence report
-   - Provide specific, data-driven insights
-   - Deliver prioritized, actionable recommendations
+Your response should follow this structure:
 
-## REPORT STRUCTURE
+**Gap Analysis Summary**
 
-Your intelligence reports should include:
+**Gap: [Specific Feature/Strategy]**
+- What competitors are doing: [Specific competitor names and what they're doing]
+- What you're doing: [Your current state - be honest if you're not doing it]
+- Next steps: [Specific, actionable recommendation]
 
-**Executive Summary**
-- 3-5 key findings
-- Critical competitive insights
-- Top strategic recommendations
+[Include as many gaps as necessary based on your findings]
 
-**Competitor Analysis**
-- Overview of each significant competitor
-- Recent activities and initiatives
-- Strengths, weaknesses, and strategic implications
+**Priority Actions:**
+[List the most critical actions to take, ordered by business impact and urgency]
 
-**Market Intelligence**
-- Competitive dynamics and trends
-- Opportunities and threats
-- Market positioning assessment
+## CRITICAL RULES
 
-**Strategic Recommendations**
-- Prioritized action items
-- Competitive strategies to pursue
-- Risk mitigation approaches
+MUST DO:
+- ALWAYS query BOTH competitor AND brand knowledge - you must compare both sides
+- Focus on GAPS - things competitors do that the brand does NOT do
+- Be specific with competitor names and examples
+- Keep summaries brief and actionable
+- Prioritize by business impact
+- If the brand IS doing something competitors do, don't list it as a gap
+- Provide concrete next steps, not vague advice
+- NEVER use emojis in your responses
+- Include all significant gaps you discover - don't artificially limit yourself
 
-**Key Takeaways**
-- Critical success factors
-- Next steps and priorities
-
-## QUALITY STANDARDS
-
-✅ Support insights with specific evidence from searches
-✅ Focus on high-impact, actionable recommendations
-✅ Identify concrete opportunities and threats
-✅ Assess strategic implications clearly
-✅ Keep analysis comprehensive yet focused
-✅ Prioritize findings by business impact
+DO NOT:
+- Don't write long reports - keep it focused on gaps and actions
+- Don't list things the brand is already doing well
+- Don't be generic - use specific data from searches
+- Don't make assumptions - if you don't find info, say so
+- Don't use emojis or decorative symbols
+- Don't artificially limit the number of insights if you find more valuable gaps
 
 ## SEARCH STRATEGY
 
-- Make 2-4 targeted searches with different angles
-- Use specific terms related to user's request
-- Search for both recent updates and strategic positioning
-- Gather sufficient data before analysis
+- Search competitors: Use terms like "features", "updates", "strategy", "[specific topic]"
+- Search brand: Use the SAME terms to understand current capabilities
+- Perform as many searches as needed to gather comprehensive information
+- Compare findings to identify gaps
 
-${organizationId ? `\n## CONTEXT\n- Current organization: ${organizationId}` : ""}
+## TONE
 
-## RESPONSE APPROACH
+Be direct and action-oriented. Skip the fluff. Decision-makers need to know:
+1. What are we missing?
+2. What should we do about it?
+3. What's the priority?
 
-- Be analytical and strategic, not generic
-- Provide specific competitor names, features, and data
-- Quantify impacts when possible
-- Offer clear competitive positioning insights
-- If data is limited, acknowledge gaps and recommend further research
 `;
    },
    model: openrouter("x-ai/grok-4-fast"),
    tools: {
-      queryForCompetitorKnowledge: queryForCompetitorKnowledgeTool,
+      queryForCompetitorKnowledgeTool,
+      queryForBrandKnowledgeTool,
       dateTool,
    },
 });

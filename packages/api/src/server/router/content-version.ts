@@ -12,7 +12,7 @@ import {
 } from "@packages/database/repositories/content-repository";
 import { APIError, propagateError } from "@packages/utils/errors";
 import { z } from "zod";
-import { calculateContentStats } from "@packages/utils/text";
+import { calculateTextStats } from "@packages/utils/text";
 import { createDiff, createLineDiff } from "@packages/utils/diff";
 
 export const contentVersionRouter = router({
@@ -89,7 +89,7 @@ export const contentVersionRouter = router({
             await updateContentCurrentVersion(db, input.id, versionNumber);
 
             // Calculate new stats for the updated content
-            const newStats = calculateContentStats(input.body);
+            const newStats = calculateTextStats(input.body);
 
             // Merge existing stats with new stats, preserving existing values unless new ones should override
             const updatedStats = {

@@ -8,7 +8,8 @@ const checks = [
       name: "Node.js Version",
       fn: () => {
          const version = process.versions.node;
-         if (parseInt(version.split(".")[0], 10) < 20) {
+         const majorVersion = parseInt(version.split(".")[0] || "0", 10);
+         if (majorVersion < 20) {
             throw new Error(
                `Node.js version is ${version}, but >=20 is required.`,
             );
@@ -22,7 +23,8 @@ const checks = [
          try {
             const version = execSync("bun --version").toString().trim();
             return version;
-         } catch (e) {
+         } catch (error) {
+            console.error(error);
             throw new Error(
                "Bun is not installed. Please visit https://bun.sh/",
             );
@@ -35,7 +37,9 @@ const checks = [
          try {
             const version = execSync("podman --version").toString().trim();
             return version;
-         } catch (e) {
+         } catch (error) {
+            console.error(error);
+
             throw new Error(
                "Podman is not installed or not in PATH. Please install it to run local dependencies.",
             );
@@ -50,7 +54,9 @@ const checks = [
                .toString()
                .trim();
             return version;
-         } catch (e) {
+         } catch (error) {
+            console.error(error);
+
             throw new Error(
                "Podman Compose is not available. Please ensure you have podman-compose installed.",
             );

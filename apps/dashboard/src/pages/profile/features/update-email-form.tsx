@@ -32,6 +32,8 @@ const emailSchema = z.object({
       ),
 });
 
+type EmailFormValues = z.infer<typeof emailSchema>;
+
 export function UpdateEmailForm({
    open,
    onOpenChange,
@@ -43,14 +45,14 @@ export function UpdateEmailForm({
 }) {
    const [confirmOpen, setConfirmOpen] = useState(false);
    const handleChangeEmail = useCallback(
-      async (value: { email: string }, formApi: any) => {
+      async (value: EmailFormValues, formApi: { reset: () => void }) => {
          await betterAuthClient.changeEmail(
             {
                newEmail: value.email,
                callbackURL: "/profile?emailChanged=1",
             },
             {
-               onError: ({ error }: any) => {
+               onError: ({ error }: { error: Error }) => {
                   toast.error(
                      error?.message ||
                         translate(

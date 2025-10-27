@@ -13,7 +13,7 @@ const postsPerPage = 5;
 
 // Get first page data for the index
 const response = await sdk.listContentByAgent({
-   agentId: [agentId],
+   agentId: agentId,
    status: ["approved"],
    limit: postsPerPage,
    page: 1,

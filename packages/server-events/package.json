@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "name": "@packages/server-events",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --build",
     "check": "biome check --write ./src",
     "typecheck": "bunx --bun tsc  "
   },
@@ -18,5 +18,5 @@
       "default": "./src/index.ts"
     }
   },
-  "version": "0.4.0"
+  "version": "0.8.0"
 }

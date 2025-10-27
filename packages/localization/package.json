@@ -1,6 +1,6 @@
 {
   "name": "@packages/localization",
-  "version": "0.4.0",
+  "version": "0.8.0",
   "license": "Apache-2.0",
   "private": true,
   "type": "module",
@@ -18,7 +18,7 @@
   },
   "scripts": {
     "dev": "dotenv -e .env -- bunx --bun mastra dev",
-    "build": "tsc",
+    "build": "tsc --build",
     "check": "biome check --write ./src",
     "typecheck": "tsc ",
     "test": "bun test"

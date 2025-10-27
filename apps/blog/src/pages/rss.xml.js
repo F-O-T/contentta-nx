@@ -5,7 +5,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 //@ts-expect-error
 export const GET = async (context) => {
    const response = await sdk.listContentByAgent({
-      agentId: [agentId],
+      agentId: agentId,
       status: ["approved"],
       limit: 100,
       page: 1,

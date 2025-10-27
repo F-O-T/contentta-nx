@@ -2,6 +2,9 @@
    "extends": "@tooling/typescript/internal-package.json",
    "references": [
       {
+         "path": "../utils"
+      },
+      {
          "path": "../environment"
       }
    ]

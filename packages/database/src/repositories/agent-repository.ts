@@ -1,5 +1,4 @@
 import { agent } from "../schemas/agent";
-
 import type { AgentSelect, AgentInsert } from "../schemas/agent";
 import type { DatabaseInstance } from "../client";
 import { AppError, propagateError } from "@packages/utils/errors";

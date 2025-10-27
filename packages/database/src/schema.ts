@@ -4,7 +4,6 @@ export * from "./schemas/brand";
 export * from "./schemas/brand-features";
 export * from "./schemas/competitor";
 export * from "./schemas/competitor-feature";
-export * from "./schemas/competitor-summary";
 export * from "./schemas/content";
 export * from "./schemas/content-version";
 export * from "./schemas/export-log";

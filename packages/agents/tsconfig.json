@@ -4,22 +4,25 @@
    "exclude": ["node_modules"],
    "references": [
       {
-         "path": "../utils"
-      },
-      {
-         "path": "../payment"
-      },
-      {
          "path": "../server-events"
       },
       {
          "path": "../database"
       },
       {
+         "path": "../localization"
+      },
+      {
          "path": "../files"
       },
       {
          "path": "../rag"
+      },
+      {
+         "path": "../payment"
+      },
+      {
+         "path": "../utils"
       },
       {
          "path": "../environment"
