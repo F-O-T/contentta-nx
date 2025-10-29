@@ -95,9 +95,7 @@ const getProductItems = (lang: SupportedLng) => {
 
 export const NavMenu = ({
    orientation = "horizontal",
-   className = "",
    lang = "en",
-   ...props
 }: NavMenuProps) => {
    const locale = lang === "en" ? "en-US" : "pt-BR";
    const menuItems = getMenuItems(lang);
