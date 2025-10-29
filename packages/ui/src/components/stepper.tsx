@@ -410,7 +410,6 @@ const classForSeparator = cva(
    },
 );
 
-// biome-ignore lint/suspicious/noFunctionAssign: <no need>
 function scrollIntoStepperPanel(
    node: HTMLDivElement | null,
    tracking?: boolean,
