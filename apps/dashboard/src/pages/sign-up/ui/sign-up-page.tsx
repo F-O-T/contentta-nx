@@ -309,7 +309,6 @@ export function SignUpPage() {
                            <form.Subscribe>
                               {(formState) => (
                                  <Button
-                                    className="shadow-lg transition-all duration-300 group bg-primary shadow-primary/20 hover:bg-primary/90 flex gap-2 items-center justify-center"
                                     disabled={
                                        !formState.canSubmit ||
                                        formState.isSubmitting

@@ -28,7 +28,6 @@ import { type FormEvent, useCallback, useMemo } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { betterAuthClient } from "@/integrations/clients";
-import { Separator } from "@packages/ui/components/separator";
 
 type codes = "INVALID_EMAIL_OR_PASSWORD" | "default";
 export function SignInPage() {
