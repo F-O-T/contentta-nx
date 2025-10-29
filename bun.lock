@@ -19,7 +19,7 @@
     },
     "apps/blog": {
       "name": "blog",
-      "version": "0.8.0",
+      "version": "0.8.1",
       "dependencies": {
         "@astrojs/check": "catalog:astro",
         "@astrojs/mdx": "catalog:astro",
@@ -95,7 +95,7 @@
     },
     "apps/docs": {
       "name": "docs",
-      "version": "0.8.0",
+      "version": "0.8.1",
       "dependencies": {
         "@astrojs/check": "catalog:astro",
         "@astrojs/mdx": "catalog:astro",
@@ -115,7 +115,7 @@
     },
     "apps/landing-page": {
       "name": "landing-page",
-      "version": "0.8.0",
+      "version": "0.8.1",
       "dependencies": {
         "@astrojs/check": "catalog:astro",
         "@astrojs/node": "catalog:astro",
@@ -172,7 +172,7 @@
     },
     "packages/agents": {
       "name": "@packages/agents",
-      "version": "0.26.0",
+      "version": "0.25.1",
       "dependencies": {
         "@mastra/core": "^0.21.0",
         "@mastra/libsql": "^0.15.2",
@@ -231,7 +231,7 @@
     },
     "packages/authentication": {
       "name": "@packages/authentication",
-      "version": "0.8.0",
+      "version": "0.8.1",
       "dependencies": {
         "@packages/database": "workspace:*",
         "@packages/environment": "workspace:*",
@@ -247,11 +247,11 @@
     },
     "packages/brand": {
       "name": "@packages/brand",
-      "version": "0.10.0",
+      "version": "0.10.1",
     },
     "packages/contenta-sdk": {
       "name": "@packages/contenta-sdk",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": {
         "@contentagen/sdk": "0.16.0",
         "@packages/environment": "workspace:*",
@@ -263,7 +263,7 @@
     },
     "packages/database": {
       "name": "@packages/database",
-      "version": "0.13.0",
+      "version": "0.12.1",
       "dependencies": {
         "@packages/utils": "workspace:*",
         "drizzle-orm": "catalog:database",
@@ -282,7 +282,7 @@
     },
     "packages/environment": {
       "name": "@packages/environment",
-      "version": "0.8.0",
+      "version": "0.8.1",
       "dependencies": {
         "@packages/utils": "workspace:*",
         "zod": "catalog:validation",
@@ -296,7 +296,7 @@
     },
     "packages/files": {
       "name": "@packages/files",
-      "version": "0.10.0",
+      "version": "0.11.0",
       "dependencies": {
         "@packages/environment": "workspace:*",
         "fflate": "catalog:files",
@@ -310,7 +310,7 @@
     },
     "packages/localization": {
       "name": "@packages/localization",
-      "version": "0.8.0",
+      "version": "0.8.1",
       "dependencies": {
         "i18next": "^25.5.2",
         "i18next-browser-languagedetector": "^8.2.0",
@@ -324,7 +324,7 @@
     },
     "packages/payment": {
       "name": "@packages/payment",
-      "version": "0.8.0",
+      "version": "0.8.1",
       "dependencies": {
         "@packages/environment": "workspace:*",
         "@packages/utils": "workspace:*",
@@ -337,7 +337,7 @@
     },
     "packages/posthog": {
       "name": "@packages/posthog",
-      "version": "0.8.0",
+      "version": "0.8.1",
       "dependencies": {
         "@packages/environment": "workspace:*",
         "posthog-js": "^1.259.0",
@@ -350,7 +350,7 @@
     },
     "packages/rag": {
       "name": "@packages/rag",
-      "version": "0.10.0",
+      "version": "0.11.0",
       "dependencies": {
         "@packages/environment": "workspace:*",
         "@packages/utils": "workspace:*",
@@ -371,7 +371,7 @@
     },
     "packages/server-events": {
       "name": "@packages/server-events",
-      "version": "0.8.0",
+      "version": "0.8.1",
       "devDependencies": {
         "@tooling/typescript": "workspace:*",
         "typescript": "catalog:development",
@@ -379,7 +379,7 @@
     },
     "packages/transactional": {
       "name": "@packages/transactional",
-      "version": "0.8.0",
+      "version": "0.8.1",
       "dependencies": {
         "@packages/brand": "workspace:*",
         "@packages/utils": "workspace:*",
@@ -396,7 +396,7 @@
     },
     "packages/ui": {
       "name": "@packages/ui",
-      "version": "0.10.0",
+      "version": "0.11.0",
       "dependencies": {
         "@packages/utils": "workspace:*",
         "@radix-ui/react-accordion": "^1.2.11",
@@ -454,7 +454,7 @@
     },
     "packages/utils": {
       "name": "@packages/utils",
-      "version": "0.26.0",
+      "version": "0.27.0",
       "dependencies": {
         "@trpc/server": "catalog:trpc",
         "slugify": "^1.6.6",
@@ -468,7 +468,7 @@
     },
     "packages/workers": {
       "name": "@packages/workers",
-      "version": "0.10.0",
+      "version": "0.11.0",
       "dependencies": {
         "@packages/agents": "workspace:*",
         "@packages/database": "workspace:*",
