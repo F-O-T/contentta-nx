@@ -239,11 +239,11 @@ const ThemeScript = React.memo(
 
       return (
          <script
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: Needed to inject script before hydration
             dangerouslySetInnerHTML={{
                __html: `(${script.toString()})(${scriptArgs})`,
             }}
             nonce={typeof window === "undefined" ? nonce : ""}
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: Needed to inject script before hydration
             suppressHydrationWarning
          />
          // <></>

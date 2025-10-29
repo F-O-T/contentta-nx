@@ -9,7 +9,6 @@ export const Route = createFileRoute("/auth/email-verification")({
    validateSearch: searchParams,
    component: RouteComponent,
    ssr: true,
-   validateSearch: (search) => searchParams.parse(search),
    wrapInSuspense: true,
 });
 
