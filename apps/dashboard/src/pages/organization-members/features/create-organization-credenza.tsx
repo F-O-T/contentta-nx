@@ -7,9 +7,10 @@ import {
    CredenzaHeader,
    CredenzaTitle,
 } from "@packages/ui/components/credenza";
-import { useAppForm } from "@packages/ui/components/form";
+import { Field, FieldError, FieldLabel } from "@packages/ui/components/field";
 import { Input } from "@packages/ui/components/input";
 import { createSlug } from "@packages/utils/text";
+import { useForm } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { type FormEvent, useCallback } from "react";
 import { toast } from "sonner";
@@ -80,7 +81,7 @@ export function CreateOrganizationCredenza({
       ],
    );
 
-   const form = useAppForm({
+   const form = useForm({
       defaultValues: { name: "" },
       onSubmit: async ({ value, formApi }) => {
          await createOrganization(value);
@@ -108,24 +109,32 @@ export function CreateOrganizationCredenza({
             </CredenzaHeader>
             <form onSubmit={(e) => handleSubmit(e)}>
                <CredenzaBody>
-                  <form.AppField name="name">
-                     {(field) => (
-                        <field.FieldContainer>
-                           <field.FieldLabel>Name</field.FieldLabel>
-                           <Input
-                              id={field.name}
-                              name={field.name}
-                              onBlur={field.handleBlur}
-                              onChange={(e) =>
-                                 field.handleChange(e.target.value)
-                              }
-                              placeholder="Enter a name for your organization"
-                              value={field.state.value}
-                           />
-                           <field.FieldMessage />
-                        </field.FieldContainer>
-                     )}
-                  </form.AppField>
+                  <form.Field name="name">
+                     {(field) => {
+                        const isInvalid =
+                           field.state.meta.isTouched &&
+                           !field.state.meta.isValid;
+                        return (
+                           <Field data-invalid={isInvalid}>
+                              <FieldLabel htmlFor={field.name}>Name</FieldLabel>
+                              <Input
+                                 aria-invalid={isInvalid}
+                                 id={field.name}
+                                 name={field.name}
+                                 onBlur={field.handleBlur}
+                                 onChange={(e) =>
+                                    field.handleChange(e.target.value)
+                                 }
+                                 placeholder="Enter a name for your organization"
+                                 value={field.state.value}
+                              />
+                              {isInvalid && (
+                                 <FieldError errors={field.state.meta.errors} />
+                              )}
+                           </Field>
+                        );
+                     }}
+                  </form.Field>
                </CredenzaBody>
                <CredenzaFooter>
                   <form.Subscribe>

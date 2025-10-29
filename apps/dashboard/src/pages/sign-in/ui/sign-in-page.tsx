@@ -206,11 +206,22 @@ export function SignInPage() {
                               !field.state.meta.isValid;
                            return (
                               <Field data-invalid={isInvalid}>
-                                 <FieldLabel htmlFor={field.name}>
-                                    {translate(
-                                       "pages.sign-in.form.password.label",
-                                    )}
-                                 </FieldLabel>
+                                 <div className="flex justify-between items-center">
+                                    <FieldLabel htmlFor={field.name}>
+                                       {translate(
+                                          "pages.sign-in.form.password.label",
+                                       )}
+                                    </FieldLabel>
+                                    <Link
+                                       className="underline text-sm  text-muted-foreground"
+                                       to="/auth/forgot-password"
+                                    >
+                                       {translate(
+                                          "pages.sign-in.footer.forgot-password",
+                                       )}
+                                    </Link>
+                                 </div>
+
                                  <PasswordInput
                                     autoComplete="current-password"
                                     id={field.name}
@@ -251,12 +262,6 @@ export function SignInPage() {
                </form>
             </CardContent>
             <CardFooter className="text-sm space-y-2 flex flex-col justify-center items-center">
-               <Link
-                  className="underline text-center text-muted-foreground"
-                  to="/auth/forgot-password"
-               >
-                  {translate("pages.sign-in.footer.forgot-password")}
-               </Link>
                <div className="w-full  flex gap-1 justify-center items-center">
                   <span>{translate("pages.sign-in.footer.no-account")}</span>
                   <Link

@@ -9,8 +9,14 @@ import {
    CredenzaHeader,
    CredenzaTitle,
 } from "@packages/ui/components/credenza";
-import { useAppForm } from "@packages/ui/components/form";
+import {
+   Field,
+   FieldError,
+   FieldGroup,
+   FieldLabel,
+} from "@packages/ui/components/field";
 import { Input } from "@packages/ui/components/input";
+import { useForm } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { type FormEvent, useCallback } from "react";
 import { toast } from "sonner";
@@ -69,7 +75,7 @@ export function SendInvitationCredenza({
       ],
    );
 
-   const form = useAppForm({
+   const form = useForm({
       defaultValues: { email: "" },
       onSubmit: async ({ value, formApi }) => {
          await sendInvitation(value);
@@ -103,30 +109,43 @@ export function SendInvitationCredenza({
             </CredenzaHeader>
             <form onSubmit={handleSubmit}>
                <CredenzaBody>
-                  <form.AppField name="email">
-                     {(field) => (
-                        <field.FieldContainer>
-                           <field.FieldLabel>
-                              {translate(
-                                 "pages.organization.modals.invite.email-label",
-                              )}
-                           </field.FieldLabel>
-                           <Input
-                              id={field.name}
-                              name={field.name}
-                              onBlur={field.handleBlur}
-                              onChange={(e) =>
-                                 field.handleChange(e.target.value)
-                              }
-                              placeholder={translate(
-                                 "pages.organization.modals.invite.email-placeholder",
-                              )}
-                              value={field.state.value}
-                           />
-                           <field.FieldMessage />
-                        </field.FieldContainer>
-                     )}
-                  </form.AppField>
+                  <FieldGroup>
+                     <form.Field name="email">
+                        {(field) => {
+                           const isInvalid =
+                              field.state.meta.isTouched &&
+                              !field.state.meta.isValid;
+                           return (
+                              <Field data-invalid={isInvalid}>
+                                 <FieldLabel htmlFor={field.name}>
+                                    {translate(
+                                       "pages.organization.modals.invite.email-label",
+                                    )}
+                                 </FieldLabel>
+                                 <Input
+                                    aria-invalid={isInvalid}
+                                    id={field.name}
+                                    name={field.name}
+                                    onBlur={field.handleBlur}
+                                    onChange={(e) =>
+                                       field.handleChange(e.target.value)
+                                    }
+                                    placeholder={translate(
+                                       "pages.organization.modals.invite.email-placeholder",
+                                    )}
+                                    type="email"
+                                    value={field.state.value}
+                                 />
+                                 {isInvalid && (
+                                    <FieldError
+                                       errors={field.state.meta.errors}
+                                    />
+                                 )}
+                              </Field>
+                           );
+                        }}
+                     </form.Field>
+                  </FieldGroup>
                </CredenzaBody>
                <CredenzaFooter>
                   <form.Subscribe>

@@ -11,7 +11,8 @@ import {
    CardDescription,
    CardHeader,
 } from "@packages/ui/components/card";
-import { useAppForm } from "@packages/ui/components/form";
+import { Field, FieldError } from "@packages/ui/components/field";
+import { useForm } from "@tanstack/react-form";
 import {
    Tabs,
    TabsContent,
@@ -95,7 +96,7 @@ export function EditAgentInstructions({
       }),
    );
 
-   const editForm = useAppForm({
+   const editForm = useForm({
       defaultValues: {
          audienceProfile: personaConfig.instructions?.audienceProfile ?? "",
          ragIntegration: personaConfig.instructions?.ragIntegration ?? "",
@@ -179,21 +180,30 @@ export function EditAgentInstructions({
                            <CardDescription>
                               {translate(card.descriptionKey)}
                            </CardDescription>
-                           <editForm.AppField name={card.fieldName}>
-                              {(field) => (
-                                 <field.FieldContainer>
-                                    <TiptapEditor
-                                       onBlur={field.handleBlur}
-                                       onChange={field.handleChange}
-                                       placeholder={translate(
-                                          card.placeholderKey,
+                           <editForm.Field name={card.fieldName}>
+                              {(field) => {
+                                 const isInvalid =
+                                    field.state.meta.isTouched &&
+                                    !field.state.meta.isValid;
+                                 return (
+                                    <Field data-invalid={isInvalid}>
+                                       <TiptapEditor
+                                          onBlur={field.handleBlur}
+                                          onChange={field.handleChange}
+                                          placeholder={translate(
+                                             card.placeholderKey,
+                                          )}
+                                          value={field.state.value}
+                                       />
+                                       {isInvalid && (
+                                          <FieldError
+                                             errors={field.state.meta.errors}
+                                          />
                                        )}
-                                       value={field.state.value}
-                                    />
-                                    <field.FieldMessage />
-                                 </field.FieldContainer>
-                              )}
-                           </editForm.AppField>
+                                    </Field>
+                                 );
+                              }}
+                           </editForm.Field>
                         </div>
                      </TabsContent>
                   ))}

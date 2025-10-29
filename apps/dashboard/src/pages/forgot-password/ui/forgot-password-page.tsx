@@ -1,17 +1,4 @@
 import { translate } from "@packages/localization";
-import { useAppForm } from "@packages/ui/components/form";
-import { useRouter } from "@tanstack/react-router";
-import { useCallback, useState } from "react";
-import { toast } from "sonner";
-import z from "zod";
-import { betterAuthClient } from "@/integrations/clients";
-
-import {
-   Field,
-   FieldError,
-   FieldGroup,
-   FieldLabel,
-} from "@packages/ui/components/field";
 import { Button } from "@packages/ui/components/button";
 import {
    Card,
@@ -21,6 +8,12 @@ import {
    CardHeader,
    CardTitle,
 } from "@packages/ui/components/card";
+import {
+   Field,
+   FieldError,
+   FieldGroup,
+   FieldLabel,
+} from "@packages/ui/components/field";
 import { Input } from "@packages/ui/components/input";
 import {
    InputOTP,
@@ -30,7 +23,12 @@ import {
 } from "@packages/ui/components/input-otp";
 import { PasswordInput } from "@packages/ui/components/password-input";
 import { defineStepper } from "@packages/ui/components/stepper";
-import { Link } from "@tanstack/react-router";
+import { useForm } from "@tanstack/react-form";
+import { Link, useRouter } from "@tanstack/react-router";
+import { useCallback, useState } from "react";
+import { toast } from "sonner";
+import z from "zod";
+import { betterAuthClient } from "@/integrations/clients";
 
 const steps = [
    { id: "enter-email", title: "enter-email" },
@@ -117,7 +115,7 @@ export function ForgotPasswordPage() {
       },
       [router],
    );
-   const form = useAppForm({
+   const form = useForm({
       defaultValues: {
          confirmPassword: "",
          email: "",
@@ -192,17 +190,17 @@ export function ForgotPasswordPage() {
                            {translate("pages.forgot-password.form.email.label")}
                         </FieldLabel>
                         <Input
-                           value={field.state.value}
+                           aria-invalid={isInvalid}
+                           autoComplete="email"
                            id={field.name}
                            name={field.name}
-                           type="email"
+                           onBlur={field.handleBlur}
+                           onChange={(e) => field.handleChange(e.target.value)}
                            placeholder={translate(
                               "pages.forgot-password.form.email.placeholder",
                            )}
-                           autoComplete="email"
-                           onBlur={field.handleBlur}
-                           onChange={(e) => field.handleChange(e.target.value)}
-                           aria-invalid={isInvalid}
+                           type="email"
+                           value={field.state.value}
                         />
                         {isInvalid && (
                            <FieldError errors={field.state.meta.errors} />
@@ -228,14 +226,14 @@ export function ForgotPasswordPage() {
                            {translate("pages.forgot-password.form.otp.label")}
                         </FieldLabel>
                         <InputOTP
+                           aria-invalid={isInvalid}
+                           autoComplete="one-time-code"
                            id={field.name}
+                           maxLength={6}
                            name={field.name}
-                           value={field.state.value}
                            onBlur={field.handleBlur}
                            onChange={field.handleChange}
-                           maxLength={6}
-                           autoComplete="one-time-code"
-                           aria-invalid={isInvalid}
+                           value={field.state.value}
                         >
                            <div className="w-full flex justify-center items-center gap-2">
                               <InputOTPGroup>
@@ -281,18 +279,18 @@ export function ForgotPasswordPage() {
                               )}
                            </FieldLabel>
                            <PasswordInput
-                              value={field.state.value}
+                              aria-invalid={isInvalid}
+                              autoComplete="new-password"
                               id={field.name}
                               name={field.name}
-                              placeholder={translate(
-                                 "pages.forgot-password.placeholders.enter-new-password",
-                              )}
-                              autoComplete="new-password"
                               onBlur={field.handleBlur}
                               onChange={(e) =>
                                  field.handleChange(e.target.value)
                               }
-                              aria-invalid={isInvalid}
+                              placeholder={translate(
+                                 "pages.forgot-password.placeholders.enter-new-password",
+                              )}
+                              value={field.state.value}
                            />
                            {isInvalid && (
                               <FieldError errors={field.state.meta.errors} />
@@ -315,18 +313,18 @@ export function ForgotPasswordPage() {
                               )}
                            </FieldLabel>
                            <PasswordInput
-                              value={field.state.value}
+                              aria-invalid={isInvalid}
+                              autoComplete="new-password"
                               id={field.name}
                               name={field.name}
-                              placeholder={translate(
-                                 "pages.forgot-password.placeholders.confirm-new-password",
-                              )}
-                              autoComplete="new-password"
                               onBlur={field.handleBlur}
                               onChange={(e) =>
                                  field.handleChange(e.target.value)
                               }
-                              aria-invalid={isInvalid}
+                              placeholder={translate(
+                                 "pages.forgot-password.placeholders.confirm-new-password",
+                              )}
+                              value={field.state.value}
                            />
                            {isInvalid && (
                               <FieldError errors={field.state.meta.errors} />
@@ -409,12 +407,12 @@ export function ForgotPasswordPage() {
                            >
                               {({ emailValid, emailValue }) => (
                                  <Button
+                                    disabled={!emailValid || sendingOtp}
                                     onClick={async () => {
                                        await sendOtp(emailValue);
                                        methods.next();
                                     }}
                                     type="button"
-                                    disabled={!emailValid || sendingOtp}
                                  >
                                     {translate(
                                        "pages.forgot-password.actions.next",
@@ -437,8 +435,8 @@ export function ForgotPasswordPage() {
                      )}
                   </span>
                   <Link
-                     to="/auth/sign-in"
                      className=" underline text-muted-foreground"
+                     to="/auth/sign-in"
                   >
                      {translate("pages.forgot-password.actions.sign-in")}
                   </Link>

@@ -1,5 +1,7 @@
 import { translate } from "@packages/localization";
-import { Badge } from "@packages/ui/components/badge";
+import { ExternalLink } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@packages/ui/components/tooltip";
+import { Item, ItemDescription, ItemTitle, ItemContent } from "@packages/ui/components/item";
 import { Button } from "@packages/ui/components/button";
 import {
    Card,
@@ -12,7 +14,7 @@ import {
 import { Progress } from "@packages/ui/components/progress";
 import { Skeleton } from "@packages/ui/components/skeleton";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { AlertCircle, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useCallback } from "react";
 import { betterAuthClient, useTRPC } from "@/integrations/clients";
 import { SubscriptionPricingCards } from "@/widgets/subscription/ui/subscription-pricing-cards";
@@ -204,18 +206,6 @@ export function ProfilePageBilling() {
       return Math.min((consumed / credited) * 100, 100);
    };
 
-   const getStatusColor = (status: string) => {
-      switch (status.toLowerCase()) {
-         case "active":
-            return "bg-green-100 text-green-800";
-         case "canceled":
-            return "bg-red-100 text-red-800";
-         case "past_due":
-            return "bg-yellow-100 text-yellow-800";
-         default:
-            return "bg-gray-100 text-gray-800";
-      }
-   };
 
    // Compute meter details and usage percentage using the helper
    const selectedMeter =
@@ -224,17 +214,16 @@ export function ProfilePageBilling() {
 
    const meterDetails = selectedMeter
       ? computeMeterDetails(
-           selectedMeter as { consumedUnits: number; creditedUnits: number },
-           activeSubscription?.amount ?? 0,
-           activeSubscription?.currency ?? "USD",
-        )
+         selectedMeter as { consumedUnits: number; creditedUnits: number },
+         activeSubscription?.amount ?? 0,
+         activeSubscription?.currency ?? "USD",
+      )
       : null;
 
    const usagePercentage = calculateUsagePercentage(
       selectedMeter?.consumedUnits ?? 0,
       selectedMeter?.creditedUnits ?? 0,
    );
-   const isNearLimit = usagePercentage > 80;
 
    return (
       <Card>
@@ -246,112 +235,66 @@ export function ProfilePageBilling() {
                {translate("pages.profile.billing.current-plan-description")}
             </CardDescription>
             <CardAction>
-               <Button onClick={handleManageSubscription} variant="outline">
-                  {translate("pages.profile.billing.manage-subscription")}
-               </Button>
+               <Tooltip >
+
+                  <TooltipTrigger asChild>
+
+                     <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={handleManageSubscription}
+                     >
+                        <ExternalLink className=" h-4 w-4" />
+                     </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                     {translate("pages.profile.billing.manage-subscription")}
+                  </TooltipContent>
+               </Tooltip>
             </CardAction>
          </CardHeader>
          <CardContent>
-            <div className="flex items-center justify-between mb-6">
-               <div>
-                  <h3 className="text-2xl font-bold text-foreground">
+            <Card>
+               <CardHeader>
+                  <CardTitle>
                      {formatCurrency(
                         activeSubscription.amount,
                         activeSubscription.currency,
                      )}
-                     <span className="text-base font-normal text-foreground/70">
+                     <span className="text-muted-foreground font-normal">
                         /{activeSubscription.recurringInterval}
                      </span>
-                  </h3>
-                  <p className="text-sm text-foreground/70">
+                  </CardTitle>
+                  <CardDescription>
                      {translate("pages.profile.billing.next-billing")}{" "}
                      {formatDate(activeSubscription.currentPeriodEnd)}
-                  </p>
-               </div>
-               <Badge
-                  className={getStatusColor(activeSubscription.status)}
-                  variant="secondary"
-               >
-                  {activeSubscription.status.charAt(0).toUpperCase() +
-                     activeSubscription.status.slice(1)}
-               </Badge>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-               <div>
-                  <h4 className="font-medium text-foreground mb-3">
-                     {translate("pages.profile.billing.usage-this-month")}
-                  </h4>
-                  <div className="space-y-4">
-                     {selectedMeter ? (
-                        <div key={selectedMeter.id}>
-                           <div className="flex justify-between items-center mb-2">
-                              <span className="text-sm font-medium">
-                                 Usage:{" "}
-                                 {selectedMeter.consumedUnits.toLocaleString()}{" "}
-                                 /{" "}
-                                 {selectedMeter.creditedUnits === -1
-                                    ? "∞"
-                                    : selectedMeter.creditedUnits.toLocaleString()}{" "}
-                                 {translate(
-                                    "pages.profile.billing.usage-units",
-                                 )}
-                              </span>
+                  </CardDescription>
+               </CardHeader>
+               <CardContent>
+                  {selectedMeter ? (
+                     <Item variant="outline">
+                        <ItemContent>
+                           <ItemTitle className="flex items-center justify-between w-full">
+                              {String(translate('pages.profile.billing.usage')).replace('{usage}', selectedMeter.consumedUnits.toLocaleString()).replace('{limit}', selectedMeter.creditedUnits === -1 ? '∞' : selectedMeter.creditedUnits.toLocaleString())}
                               {meterDetails?.consumedFormatted && (
-                                 <span className="text-sm font-semibold text-green-600">
+                                 <span className="text-sm font-semibold text-primary ">
                                     {meterDetails.consumedFormatted}
                                  </span>
                               )}
-                           </div>
-                           <Progress className="h-2" value={usagePercentage} />
-                           <div className="flex justify-between text-xs text-foreground/60 mt-1">
-                              <span>
-                                 {translate("pages.profile.billing.remaining")}{" "}
-                                 {selectedMeter.creditedUnits === -1
-                                    ? "∞"
-                                    : (
-                                         selectedMeter.creditedUnits -
-                                         selectedMeter.consumedUnits
-                                      ).toLocaleString()}{" "}
-                                 {translate(
-                                    "pages.profile.billing.usage-units",
-                                 )}
-                              </span>
-                              {meterDetails &&
-                                 selectedMeter.creditedUnits !== -1 && (
-                                    <span>
-                                       {translate(
-                                          "pages.profile.billing.remaining-value",
-                                       )}{" "}
-                                       {formatCurrency(
-                                          Math.round(
-                                             (selectedMeter.creditedUnits -
-                                                selectedMeter.consumedUnits) *
-                                                meterDetails.perUnitCents,
-                                          ),
-                                          activeSubscription?.currency ?? "USD",
-                                       )}
-                                    </span>
-                                 )}
-                           </div>
-                           {isNearLimit &&
-                              selectedMeter.creditedUnits !== -1 && (
-                                 <p className="text-xs text-orange-600 mt-1 flex items-center">
-                                    <AlertCircle className="h-3 w-3 mr-1" />
-                                    {translate(
-                                       "pages.profile.billing.approaching-limit",
-                                    )}
-                                 </p>
-                              )}
-                        </div>
-                     ) : (
-                        <p className="text-sm text-foreground/60">
-                           {translate("pages.profile.billing.no-usage-meters")}
-                        </p>
-                     )}
-                  </div>
-               </div>
-            </div>
+                           </ItemTitle>
+                           <ItemDescription>
+                              <Progress className="h-2" value={usagePercentage} />
+                           </ItemDescription>
+                        </ItemContent>
+                     </Item>
+
+                  ) : (
+                     <p className="text-sm text-foreground/60">
+                        {translate("pages.profile.billing.no-usage-meters")}
+                     </p>
+                  )}
+               </CardContent>
+            </Card>
          </CardContent>
       </Card>
    );

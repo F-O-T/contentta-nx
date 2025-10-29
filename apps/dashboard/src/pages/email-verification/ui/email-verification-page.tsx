@@ -1,3 +1,4 @@
+import { translate } from "@packages/localization";
 import { Button } from "@packages/ui/components/button";
 import {
    Card,
@@ -19,14 +20,13 @@ import {
    InputOTPSeparator,
    InputOTPSlot,
 } from "@packages/ui/components/input-otp";
-import { ArrowRight } from "lucide-react";
-import { useAppForm } from "@packages/ui/components/form";
+import { useForm } from "@tanstack/react-form";
 import { useRouter, useSearch } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
 import { type FormEvent, useCallback, useMemo } from "react";
 import { toast } from "sonner";
 import z from "zod";
 import { betterAuthClient } from "@/integrations/clients";
-import { translate } from "@packages/localization";
 
 type codes = "INVALID_OTP" | "default";
 
@@ -143,7 +143,7 @@ export function EmailVerificationPage() {
       },
       [email, router, getErrorMessage],
    );
-   const form = useAppForm({
+   const form = useForm({
       defaultValues: {
          otp: "",
       },
@@ -190,8 +190,8 @@ export function EmailVerificationPage() {
                            !field.state.meta.isValid;
                         return (
                            <Field
-                              data-invalid={isInvalid}
                               className="flex flex-col items-center"
+                              data-invalid={isInvalid}
                            >
                               <FieldLabel>
                                  {translate(
@@ -199,13 +199,13 @@ export function EmailVerificationPage() {
                                  )}
                               </FieldLabel>
                               <InputOTP
+                                 aria-invalid={isInvalid}
                                  autoComplete="one-time-code"
                                  className="gap-2"
                                  maxLength={6}
                                  onBlur={field.handleBlur}
                                  onChange={field.handleChange}
                                  value={field.state.value}
-                                 aria-invalid={isInvalid}
                               >
                                  <div className="w-full flex gap-2 items-center justify-center">
                                     <InputOTPGroup>
