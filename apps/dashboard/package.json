@@ -25,6 +25,7 @@
     "@packages/ui": "workspace:*",
     "@packages/utils": "workspace:*",
     "@tailwindcss/vite": "catalog:vite",
+    "@tanstack/react-form": "catalog:tanstack",
     "@tanstack/react-query": "catalog:tanstack",
     "@tanstack/react-query-devtools": "catalog:tanstack",
     "@tanstack/react-router": "catalog:tanstack",

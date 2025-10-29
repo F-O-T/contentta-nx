@@ -1,4 +1,12 @@
 import { translate } from "@packages/localization";
+import {
+   Field,
+   FieldDescription,
+   FieldError,
+   FieldGroup,
+   FieldLabel,
+} from "@packages/ui/components/field";
+
 import { Button } from "@packages/ui/components/button";
 import {
    Card,
@@ -13,113 +21,265 @@ import { PasswordInput } from "@packages/ui/components/password-input";
 import { Separator } from "@packages/ui/components/separator";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { useSignIn } from "../lib/use-sign-in";
+import brandConfig from "@packages/brand/index.json";
+import { useForm } from "@tanstack/react-form";
+import { useRouter } from "@tanstack/react-router";
+import { type FormEvent, useCallback, useMemo } from "react";
+import { toast } from "sonner";
+import { z } from "zod";
+import { betterAuthClient } from "@/integrations/clients";
+import { Separator } from "@packages/ui/components/separator";
+
+type codes = "INVALID_EMAIL_OR_PASSWORD" | "default";
 export function SignInPage() {
-   const { handleSubmit, form, handleGoogleSignIn } = useSignIn();
+   const schema = z.object({
+      email: z.email(translate("pages.sign-in.validation.email-invalid")),
+      password: z
+         .string()
+         .min(8, translate("pages.sign-in.validation.password-min-length")),
+   });
+   const router = useRouter();
+   const getErrorMessage = useMemo(
+      () => ({
+         default: translate("pages.sign-in.errors.unknown"),
+         INVALID_EMAIL_OR_PASSWORD: translate(
+            "pages.sign-in.errors.invalid-credentials",
+         ),
+      }),
+      [],
+   );
+   const handleGoogleSignIn = useCallback(async () => {
+      await betterAuthClient.signIn.social(
+         {
+            provider: "google",
+            callbackURL: `${window.location.origin}/home`,
+         },
+         {
+            onError: ({ error }) => {
+               toast.error(
+                  getErrorMessage[error.code as codes] ||
+                     translate("pages.sign-in.errors.unknown"),
+                  {
+                     id: "sign-in-toast",
+                  },
+               );
+            },
+            onRequest: () => {
+               toast.loading(translate("pages.sign-in.messages.loading"), {
+                  id: "sign-in-toast",
+               });
+            },
+         },
+      );
+   }, [getErrorMessage]);
+   const handleSignIn = useCallback(
+      async ({ email, password }: z.infer<typeof schema>) => {
+         await betterAuthClient.signIn.email(
+            {
+               email,
+               password,
+            },
+            {
+               onError: ({ error }) => {
+                  toast.error(
+                     getErrorMessage[error.code as codes] ||
+                        translate("pages.sign-in.errors.unknown"),
+                     {
+                        id: "sign-in-toast",
+                     },
+                  );
+               },
+               onRequest: () => {
+                  toast.loading(translate("pages.sign-in.messages.loading"), {
+                     id: "sign-in-toast",
+                  });
+               },
+               onSuccess: ({ data }) => {
+                  toast.success(translate("pages.sign-in.messages.success"), {
+                     description: translate("pages.sign-in.messages.welcome", {
+                        brand: brandConfig.name,
+                        name: data.user.name,
+                     }),
+                     id: "sign-in-toast",
+                  });
+                  router.navigate({
+                     to: "/home",
+                  });
+               },
+            },
+         );
+      },
+      [getErrorMessage, router],
+   );
+
+   const form = useForm({
+      defaultValues: {
+         email: "",
+         password: "",
+      },
+      onSubmit: async ({ value, formApi }) => {
+         await handleSignIn(value);
+         formApi.reset();
+      },
+      validators: {
+         onBlur: schema,
+      },
+   });
+   const handleSubmit = useCallback(
+      (e: FormEvent) => {
+         e.preventDefault();
+         e.stopPropagation();
+         form.handleSubmit();
+      },
+      [form],
+   );
    return (
-      <Card className="border shadow-xl transition-all duration-300 border-muted/50 bg-card backdrop-blur-xl animate-in fade-in-50 slide-in-from-bottom-6">
-         <CardHeader>
-            <CardTitle className="text-3xl font-bold tracking-tight text-center ">
-               {translate("pages.sign-in.title")}
-            </CardTitle>
-            <CardDescription className="text-base text-center text-muted-foreground/60">
-               {translate("pages.sign-in.description")}
-            </CardDescription>
-         </CardHeader>
-         <CardContent className="space-y-4">
-            <Button
-               className="w-full bg-muted/50"
-               onClick={handleGoogleSignIn}
-               variant="outline"
-            >
-               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <title>Google</title>
-                  <path
-                     d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
-                     fill="currentColor"
-                  />
-               </svg>{" "}
-               {translate("pages.sign-in.google-button")}
-            </Button>
-            <Separator />
-            <form className="space-y-4 " onSubmit={(e) => handleSubmit(e)}>
-               <form.AppField name="email">
-                  {(field) => (
-                     <field.FieldContainer>
-                        <field.FieldLabel>
-                           {translate("pages.sign-in.form.email.label")}
-                        </field.FieldLabel>
-                        <Input
-                           autoComplete="email"
-                           id={field.name}
-                           name={field.name}
-                           onBlur={field.handleBlur}
-                           onChange={(e) => field.handleChange(e.target.value)}
-                           placeholder={translate(
-                              "pages.sign-in.form.email.placeholder",
-                           )}
-                           type="email"
-                           value={field.state.value}
-                        />
-                        <field.FieldMessage />
-                     </field.FieldContainer>
-                  )}
-               </form.AppField>
-               <form.AppField name="password">
-                  {(field) => (
-                     <field.FieldContainer>
-                        <field.FieldLabel>
-                           {translate("pages.sign-in.form.password.label")}
-                        </field.FieldLabel>
-                        <PasswordInput
-                           autoComplete="current-password"
-                           id={field.name}
-                           name={field.name}
-                           onBlur={field.handleBlur}
-                           onChange={(e) => field.handleChange(e.target.value)}
-                           placeholder={translate(
-                              "pages.sign-in.form.password.placeholder",
-                           )}
-                           value={field.state.value}
-                        />
-                        <field.FieldMessage />
-                     </field.FieldContainer>
-                  )}
-               </form.AppField>
-               <form.Subscribe>
-                  {(formState) => (
-                     <Button
-                        className=" w-full shadow-lg transition-all duration-300 group bg-primary shadow-primary/20 hover:bg-primary/90 flex gap-2 items-center justify-center"
-                        disabled={
-                           !formState.canSubmit || formState.isSubmitting
-                        }
-                        type="submit"
-                        variant="default"
-                     >
-                        {translate("pages.sign-in.form.submit")}
-                        <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                     </Button>
-                  )}
-               </form.Subscribe>
-            </form>
-         </CardContent>
-         <CardFooter className="space-y-4 flex flex-col justify-center items-center">
-            <Link
-               className="text-sm block underline text-muted-foreground text-center"
-               to="/auth/forgot-password"
-            >
-               {translate("pages.sign-in.footer.forgot-password")}
-            </Link>
-            <p className="text-sm text-center">
-               {translate("pages.sign-in.footer.no-account")}
-               <Link
-                  className="ml-1 underline text-muted-foreground"
-                  to="/auth/sign-up"
+      <section className="space-y-4">
+         <Card>
+            <CardHeader className="text-center">
+               <CardTitle className="text-3xl">
+                  {translate("pages.sign-in.title")}
+               </CardTitle>
+               <CardDescription>
+                  {translate("pages.sign-in.description")}
+               </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+               <Button
+                  className="w-full"
+                  variant="outline"
+                  onClick={handleGoogleSignIn}
                >
-                  {translate("pages.sign-in.footer.sign-up-link")}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                     <title>Google</title>
+                     <path
+                        d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
+                        fill="currentColor"
+                     />
+                  </svg>
+                  <span>{translate("pages.sign-in.google-button")}</span>
+               </Button>
+               <Separator />
+               <form className="space-y-4 " onSubmit={(e) => handleSubmit(e)}>
+                  <FieldGroup>
+                     <form.Field name="email">
+                        {(field) => {
+                           const isInvalid =
+                              field.state.meta.isTouched &&
+                              !field.state.meta.isValid;
+                           return (
+                              <Field data-invalid={isInvalid}>
+                                 <FieldLabel htmlFor={field.name}>
+                                    {translate(
+                                       "pages.sign-in.form.email.label",
+                                    )}
+                                 </FieldLabel>
+                                 <Input
+                                    id={field.name}
+                                    name={field.name}
+                                    value={field.state.value}
+                                    onBlur={field.handleBlur}
+                                    onChange={(e) =>
+                                       field.handleChange(e.target.value)
+                                    }
+                                    aria-invalid={isInvalid}
+                                    placeholder={translate(
+                                       "pages.sign-in.form.email.placeholder",
+                                    )}
+                                    type="email"
+                                 />
+
+                                 {isInvalid && (
+                                    <FieldError
+                                       errors={field.state.meta.errors}
+                                    />
+                                 )}
+                              </Field>
+                           );
+                        }}
+                     </form.Field>
+                  </FieldGroup>
+                  <FieldGroup>
+                     <form.Field name="password">
+                        {(field) => {
+                           const isInvalid =
+                              field.state.meta.isTouched &&
+                              !field.state.meta.isValid;
+                           return (
+                              <Field data-invalid={isInvalid}>
+                                 <FieldLabel htmlFor={field.name}>
+                                    {translate(
+                                       "pages.sign-in.form.password.label",
+                                    )}
+                                 </FieldLabel>
+                                 <PasswordInput
+                                    autoComplete="current-password"
+                                    id={field.name}
+                                    name={field.name}
+                                    onBlur={field.handleBlur}
+                                    onChange={(e) =>
+                                       field.handleChange(e.target.value)
+                                    }
+                                    placeholder={translate(
+                                       "pages.sign-in.form.password.placeholder",
+                                    )}
+                                    value={field.state.value}
+                                 />
+                                 {isInvalid && (
+                                    <FieldError
+                                       errors={field.state.meta.errors}
+                                    />
+                                 )}
+                              </Field>
+                           );
+                        }}
+                     </form.Field>
+                  </FieldGroup>
+                  <form.Subscribe>
+                     {(formState) => (
+                        <Button
+                           className=" w-full flex gap-2 items-center justify-center"
+                           disabled={
+                              !formState.canSubmit || formState.isSubmitting
+                           }
+                           type="submit"
+                        >
+                           {translate("pages.sign-in.form.submit")}
+                           <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                        </Button>
+                     )}
+                  </form.Subscribe>
+               </form>
+            </CardContent>
+            <CardFooter className="text-sm space-y-2 flex flex-col justify-center items-center">
+               <Link
+                  className="underline text-center text-muted-foreground"
+                  to="/auth/forgot-password"
+               >
+                  {translate("pages.sign-in.footer.forgot-password")}
                </Link>
-            </p>
-         </CardFooter>
-      </Card>
+               <div className="w-full  flex gap-1 justify-center items-center">
+                  <span>{translate("pages.sign-in.footer.no-account")}</span>
+                  <Link
+                     className="underline text-muted-foreground"
+                     to="/auth/sign-up"
+                  >
+                     {translate("pages.sign-in.footer.sign-up-link")}
+                  </Link>
+               </div>
+            </CardFooter>
+         </Card>
+         <FieldDescription className="text-center">
+            <span>By clicking continue, you agree to our</span>
+            &nbsp;
+            <a href="https://contentagen.com/terms-of-service">
+               Terms of Service
+            </a>
+            &nbsp;
+            <span>and</span>
+            &nbsp;
+            <a href="https://contentagen.com/privacy-policy">Privacy Policy</a>.
+         </FieldDescription>
+      </section>
    );
 }
