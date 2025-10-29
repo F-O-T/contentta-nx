@@ -17,7 +17,7 @@
       "remaining-value": "Remaining value:",
       "title": "Billing & Subscription",
       "upgrade": "Upgrade Plan",
-      "usage": "Usage",
+      "usage": "Credit usage this month: {usage} out of {limit} credits",
       "usage-this-month": "Usage this month",
       "usage-this-month-loading": "Usage This Month",
       "usage-units": "units"

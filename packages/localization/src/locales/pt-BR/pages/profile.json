@@ -1,6 +1,7 @@
 {
    "billing": {
       "approaching-limit": "Aproximando do limite",
+      "usage": "Uso de creditos este mês: {usage} de {limit} creditos",
       "current-plan": "Plano Atual",
       "current-plan-description": "Estes são os detalhes do seu plano de assinatura atual. Você pode gerenciar sua assinatura ou visualizar métricas de uso abaixo.",
       "current-plan-title": "Plano atual",
@@ -17,7 +18,6 @@
       "remaining-value": "Valor restante:",
       "title": "Cobrança e Assinatura",
       "upgrade": "Fazer Upgrade",
-      "usage": "Uso",
       "usage-this-month": "Uso este mês",
       "usage-this-month-loading": "Uso Este Mês",
       "usage-units": "unidades"
