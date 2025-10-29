@@ -1,51 +1,51 @@
 {
-   "dependencies": {
-      "@packages/agents": "workspace:*",
-      "@packages/authentication": "workspace:*",
-      "@packages/contenta-sdk": "workspace:*",
-      "@packages/database": "workspace:*",
-      "@packages/files": "workspace:*",
-      "@packages/localization": "workspace:*",
-      "@packages/payment": "workspace:*",
-      "@packages/posthog": "workspace:*",
-      "@packages/rag": "workspace:*",
-      "@packages/server-events": "workspace:*",
-      "@packages/utils": "workspace:*",
-      "@packages/workers": "workspace:*",
-      "@polar-sh/sdk": "catalog:payment",
-      "@trpc/client": "catalog:trpc",
-      "@trpc/server": "catalog:trpc",
-      "superjson": "catalog:trpc",
-      "url-join": "catalog:trpc",
-      "zod": "catalog:validation"
-   },
-   "devDependencies": {
-      "@tooling/typescript": "workspace:*",
-      "typescript": "catalog:development",
-      "vite": "catalog:vite",
-      "vitest": "catalog:testing"
-   },
-   "exports": {
-      "./client": {
-         "default": "./src/client/index.ts",
-         "types": "./dist/src/client/index.d.ts"
-      },
-      "./server": {
-         "default": "./src/server/index.ts",
-         "types": "./dist/src/server/index.d.ts"
-      }
-   },
-   "files": [
-      "dist"
-   ],
-   "license": "Apache-2.0",
-   "name": "@packages/api",
-   "private": true,
-   "scripts": {
-      "build": "tsc --build",
-      "check": "biome check --write ./src",
-      "typecheck": "tsc "
-   },
-   "type": "module",
-   "version": "0.9.1"
+  "dependencies": {
+    "@packages/agents": "workspace:*",
+    "@packages/authentication": "workspace:*",
+    "@packages/contenta-sdk": "workspace:*",
+    "@packages/database": "workspace:*",
+    "@packages/files": "workspace:*",
+    "@packages/localization": "workspace:*",
+    "@packages/payment": "workspace:*",
+    "@packages/posthog": "workspace:*",
+    "@packages/rag": "workspace:*",
+    "@packages/server-events": "workspace:*",
+    "@packages/utils": "workspace:*",
+    "@packages/workers": "workspace:*",
+    "@polar-sh/sdk": "catalog:payment",
+    "@trpc/client": "catalog:trpc",
+    "@trpc/server": "catalog:trpc",
+    "superjson": "catalog:trpc",
+    "url-join": "catalog:trpc",
+    "zod": "catalog:validation"
+  },
+  "devDependencies": {
+    "@tooling/typescript": "workspace:*",
+    "typescript": "catalog:development",
+    "vite": "catalog:vite",
+    "vitest": "catalog:testing"
+  },
+  "exports": {
+    "./client": {
+      "default": "./src/client/index.ts",
+      "types": "./dist/src/client/index.d.ts"
+    },
+    "./server": {
+      "default": "./src/server/index.ts",
+      "types": "./dist/src/server/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "Apache-2.0",
+  "name": "@packages/api",
+  "private": true,
+  "scripts": {
+    "build": "tsc --build",
+    "check": "biome check --write ./src",
+    "typecheck": "tsc "
+  },
+  "type": "module",
+  "version": "0.9.1"
 }
