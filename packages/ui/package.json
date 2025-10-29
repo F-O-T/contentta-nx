@@ -55,7 +55,7 @@
   },
   "exports": {
     "./components/*": {
-      "default": "./src/components/*.ts",
+      "default": "./src/components/*.{ts,tsx}",
       "types": "./dist/src/components/*.d.ts"
     },
     "./globals.css": "./src/styles/globals.css",
