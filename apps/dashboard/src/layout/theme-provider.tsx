@@ -1,370 +1,160 @@
 import { SquaredIconButton } from "@packages/ui/components/squared-icon-button";
+import { ScriptOnce } from "@tanstack/react-router";
 import { MoonIcon, SunIcon } from "lucide-react";
 import * as React from "react";
 
-interface ValueObject {
-   [themeName: string]: string;
+// FunctionOnce utility for TanStack Router integration
+function FunctionOnce<T = unknown>({
+   children,
+   param,
+}: {
+   children: (param: T) => unknown;
+   param?: T;
+}) {
+   return (
+      <ScriptOnce>
+         {`(${children.toString()})(${JSON.stringify(param)})`}
+      </ScriptOnce>
+   );
 }
+
+// Modern theme types
+export type ResolvedTheme = "dark" | "light";
+export type Theme = ResolvedTheme | "system";
 
 export interface UseThemeProps {
-   /** List of all available theme names */
-   themes: string[];
-   /** Forced theme name for the current page */
-   forcedTheme?: string | undefined;
-   /** Update the theme */
-   setTheme: React.Dispatch<React.SetStateAction<string>>;
-   /** Active theme name */
-   theme?: string | undefined;
-   /** If enableSystem is true, returns the System theme preference ("dark" or "light"), regardless what the active theme is */
-   systemTheme?: "dark" | "light" | undefined;
+   theme: Theme;
+   resolvedTheme: ResolvedTheme;
+   setTheme: (theme: Theme) => void;
 }
 
-export type Attribute = `data-${string}` | "class";
-
-export interface ThemeProviderProps extends React.PropsWithChildren {
-   /** List of all available theme names */
-   themes?: string[] | undefined;
-   /** Forced theme name for the current page */
-   forcedTheme?: string | undefined;
-   /** Whether to switch between dark and light themes based on prefers-color-scheme */
-   enableSystem?: boolean | undefined;
-   /** Disable all CSS transitions when switching themes */
-   disableTransitionOnChange?: boolean | undefined;
-   /** Whether to indicate to browsers which color scheme is used (dark or light) for built-in UI like inputs and buttons */
-   enableColorScheme?: boolean | undefined;
-   /** Key used to store theme setting in localStorage */
-   storageKey?: string | undefined;
-   /** Default theme name (for v0.0.12 and lower the default was light). If `enableSystem` is false, the default theme is light */
-   defaultTheme?: string | undefined;
-   /** HTML attribute modified based on the active theme. Accepts `class`, `data-*` (meaning any data attribute, `data-mode`, `data-color`, etc.), or an array which could include both */
-   attribute?: Attribute | Attribute[] | undefined;
-   /** Mapping of theme name to HTML attribute value. Object where key is the theme name and value is the attribute value */
-   value?: ValueObject | undefined;
-   /** Nonce string to pass to the inline script for CSP headers */
-   nonce?: string | undefined;
+export interface ThemeProviderProps {
+   children: React.ReactNode;
+   defaultTheme?: Theme;
+   storageKey?: string;
+   enableSystem?: boolean;
+   attribute?: "class" | "data-theme";
 }
 
-const colorSchemes = ["light", "dark"];
-const MEDIA = "(prefers-color-scheme: dark)";
-const isServer = typeof window === "undefined";
-const ThemeContext = React.createContext<UseThemeProps | undefined>(undefined);
-const defaultContext: UseThemeProps = { setTheme: (_) => {}, themes: [] };
-
-export const useTheme = () => React.useContext(ThemeContext) ?? defaultContext;
-
-export const ThemeProvider = (props: ThemeProviderProps): React.ReactNode => {
-   const context = React.useContext(ThemeContext);
-
-   // Ignore nested context providers, just passthrough children
-   if (context) return props.children;
-   return <Theme {...props} />;
+const isBrowser = typeof window !== "undefined";
+const initialState: UseThemeProps = {
+   resolvedTheme: "light",
+   setTheme: () => null,
+   theme: "system",
 };
+const ThemeProviderContext = React.createContext<UseThemeProps>(initialState);
 
-const defaultThemes = ["light", "dark"];
-
-const Theme = ({
-   forcedTheme,
-   disableTransitionOnChange = false,
-   enableSystem = true,
-   enableColorScheme = true,
-   storageKey = "theme",
-   themes = defaultThemes,
-   defaultTheme = enableSystem ? "system" : "light",
-   attribute = "data-theme",
-   value,
+export function ThemeProvider({
    children,
-   nonce,
-}: ThemeProviderProps) => {
-   const [theme, setThemeState] = React.useState(() =>
-      getTheme(storageKey, defaultTheme),
+   defaultTheme = "system",
+   storageKey = "conar.theme",
+   enableSystem = true,
+   attribute = "class",
+}: ThemeProviderProps) {
+   const [theme, setTheme] = React.useState<Theme>(
+      () =>
+         (isBrowser
+            ? (localStorage.getItem(storageKey) as Theme)
+            : defaultTheme) || defaultTheme,
    );
-   const attrs = !value ? themes : Object.values(value);
+   const [resolvedTheme, setResolvedTheme] =
+      React.useState<ResolvedTheme>("light");
 
-   // apply selected theme function (light, dark, system)
-   // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally excluding dependencies
-   const applyTheme = React.useCallback((theme: string | undefined) => {
-      let resolved = theme;
-      if (!resolved) return;
-
-      // If theme is system, resolve it before setting theme
-      if (theme === "system" && enableSystem) {
-         resolved = getSystemTheme();
-      }
-
-      const name = value ? value[resolved] : resolved;
-      const enable = disableTransitionOnChange ? disableAnimation() : null;
-      const d = document.documentElement;
-
-      const handleAttribute = (attr: Attribute) => {
-         if (attr === "class") {
-            d.classList.remove(...attrs);
-            if (name) d.classList.add(name);
-         } else if (attr.startsWith("data-")) {
-            if (name) {
-               d.setAttribute(attr, name);
-            } else {
-               d.removeAttribute(attr);
-            }
-         }
-      };
-
-      if (Array.isArray(attribute)) attribute.forEach(handleAttribute);
-      else handleAttribute(attribute);
-
-      if (enableColorScheme) {
-         const fallback = colorSchemes.includes(defaultTheme)
-            ? defaultTheme
-            : null;
-         const colorScheme = colorSchemes.includes(resolved)
-            ? resolved
-            : fallback;
-         // @ts-expect-error
-         d.style.colorScheme = colorScheme;
-      }
-
-      enable?.();
-   }, []);
-
-   // Set theme state and save to local storage
-   // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally excluding dependencies
-   const setTheme = React.useCallback(
-      // biome-ignore lint/suspicious/noExplicitAny: legacy theme API
-      (value: any) => {
-         const newTheme = typeof value === "function" ? value(theme) : value;
-         setThemeState(newTheme);
-
-         // Save to storage
-         try {
-            localStorage.setItem(storageKey, newTheme);
-         } catch (_e) {
-            // Unsupported
-         }
-      },
-      [theme],
-   );
-
-   // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally excluding dependencies
-   const handleMediaQuery = React.useCallback(() => {
-      if (theme === "system" && enableSystem && !forcedTheme) {
-         applyTheme("system");
-      }
-   }, [theme, forcedTheme]);
-
-   // Always listen to System preference
    React.useEffect(() => {
-      const media = window.matchMedia(MEDIA);
+      const root = window.document.documentElement;
 
-      // Intentionally use deprecated listener methods to support iOS & old browsers
-      media.addListener(handleMediaQuery);
-      handleMediaQuery();
+      function updateTheme() {
+         root.classList.remove("light", "dark");
 
-      return () => media.removeListener(handleMediaQuery);
-   }, [handleMediaQuery]);
-
-   // localStorage event handling, allow to sync theme changes between tabs
-   // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally excluding dependencies
-   React.useEffect(() => {
-      const handleStorage = (e: StorageEvent) => {
-         if (e.key !== storageKey) {
+         if (theme === "system" && enableSystem) {
+            const systemTheme = window.matchMedia(
+               "(prefers-color-scheme: dark)",
+            ).matches
+               ? "dark"
+               : "light";
+            setResolvedTheme(systemTheme);
+            root.classList.add(systemTheme);
             return;
          }
 
-         // If default theme set, use it if localstorage === null (happens on local storage manual deletion)
-         const theme = e.newValue || defaultTheme;
-         setTheme(theme);
-      };
+         setResolvedTheme(theme as ResolvedTheme);
 
-      window.addEventListener("storage", handleStorage);
-      return () => window.removeEventListener("storage", handleStorage);
-   }, [setTheme]);
+         if (attribute === "class") {
+            root.classList.add(theme);
+         } else {
+            root.setAttribute(attribute, theme);
+         }
+      }
 
-   // Whenever theme or forcedTheme changes, apply it
-   // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally excluding dependencies
-   React.useEffect(() => {
-      applyTheme(forcedTheme ?? theme);
-   }, [forcedTheme, theme]);
+      if (enableSystem) {
+         const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+         mediaQuery.addEventListener("change", updateTheme);
+         updateTheme();
+         return () => mediaQuery.removeEventListener("change", updateTheme);
+      } else {
+         updateTheme();
+      }
+   }, [theme, enableSystem, attribute]);
 
-   const providerValue = React.useMemo(
+   const value = React.useMemo(
       () => ({
-         forcedTheme,
-         setTheme,
+         resolvedTheme,
+         setTheme: (theme: Theme) => {
+            localStorage.setItem(storageKey, theme);
+            setTheme(theme);
+         },
          theme,
-         themes: enableSystem ? [...themes, "system"] : themes,
       }),
-      [theme, setTheme, forcedTheme, enableSystem, themes],
+      [theme, resolvedTheme, storageKey],
    );
 
    return (
-      <ThemeContext.Provider value={providerValue}>
-         <ThemeScript
-            {...{
-               attribute,
-               defaultTheme,
-               enableColorScheme,
-               enableSystem,
-               forcedTheme,
-               nonce,
-               storageKey,
-               themes,
-               value,
+      <ThemeProviderContext value={value}>
+         <FunctionOnce param={{ attribute, enableSystem, storageKey }}>
+            {({ storageKey, enableSystem, attribute }) => {
+               const theme: string | null = localStorage.getItem(storageKey);
+               const root = document.documentElement;
+
+               if (
+                  theme === "dark" ||
+                  ((theme === null || theme === "system") &&
+                     enableSystem &&
+                     window.matchMedia("(prefers-color-scheme: dark)").matches)
+               ) {
+                  if (attribute === "class") {
+                     root.classList.add("dark");
+                  } else {
+                     root.setAttribute(attribute, "dark");
+                  }
+               }
             }}
-         />
+         </FunctionOnce>
          {children}
-      </ThemeContext.Provider>
+      </ThemeProviderContext>
    );
-};
+}
 
-const ThemeScript = React.memo(
-   ({
-      forcedTheme,
-      storageKey,
-      attribute,
-      enableSystem,
-      enableColorScheme,
-      defaultTheme,
-      value,
-      themes,
-      nonce,
-   }: Omit<ThemeProviderProps, "children"> & { defaultTheme: string }) => {
-      const scriptArgs = JSON.stringify([
-         attribute,
-         storageKey,
-         defaultTheme,
-         forcedTheme,
-         themes,
-         value,
-         enableSystem,
-         enableColorScheme,
-      ]).slice(1, -1);
+export function useTheme() {
+   const context = React.useContext(ThemeProviderContext);
 
-      return (
-         <script
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: Needed to inject script before hydration
-            dangerouslySetInnerHTML={{
-               __html: `(${script.toString()})(${scriptArgs})`,
-            }}
-            nonce={typeof window === "undefined" ? nonce : ""}
-            suppressHydrationWarning
-         />
-         // <></>
-      );
-   },
-);
+   if (context === undefined)
+      throw new Error("useTheme must be used within a ThemeProvider");
 
-// Helpers
-const getTheme = (key: string, fallback?: string) => {
-   if (isServer) return fallback || "light";
-   let theme: string | undefined;
-   try {
-      theme = localStorage.getItem(key) || undefined;
-   } catch (_e) {
-      // Unsupported
-   }
-   return theme || fallback;
-};
-
-const disableAnimation = () => {
-   const css = document.createElement("style");
-   css.appendChild(
-      document.createTextNode(
-         "*,*::before,*::after{-webkit-transition:none!important;-moz-transition:none!important;-o-transition:none!important;-ms-transition:none!important;transition:none!important}",
-      ),
-   );
-   document.head.appendChild(css);
-
-   return () => {
-      // Force restyle
-      (() => window.getComputedStyle(document.body))();
-
-      // Wait for next tick before removing
-      setTimeout(() => {
-         document.head.removeChild(css);
-      }, 1);
-   };
-};
-
-const getSystemTheme = (e?: MediaQueryList | MediaQueryListEvent) => {
-   const event = e ?? window.matchMedia(MEDIA);
-   const isDark = event.matches;
-   const systemTheme = isDark ? "dark" : "light";
-   return systemTheme;
-};
-
-/*
-  This file is adapted from next-themes to work with tanstack start.
-  next-themes can be found at https://github.com/pacocoursey/next-themes under the MIT license.
-*/
-
-// biome-ignore lint/suspicious/noExplicitAny: legacy theme API
-export const script: (...args: any[]) => void = (
-   attribute,
-   storageKey,
-   defaultTheme,
-   forcedTheme,
-   themes,
-   value,
-   enableSystem,
-   enableColorScheme,
-) => {
-   const el = document.documentElement;
-   const systemThemes = ["light", "dark"];
-   const isClass = attribute === "class";
-   const classes =
-      isClass && value
-         ? themes.map((t: string | number) => value[t] || t)
-         : themes;
-
-   function updateDOM(theme: string) {
-      if (isClass) {
-         el.classList.remove(...classes);
-         el.classList.add(theme);
-      } else {
-         el.setAttribute(attribute, theme);
-      }
-
-      setColorScheme(theme);
-   }
-
-   function setColorScheme(theme: string) {
-      if (enableColorScheme && systemThemes.includes(theme)) {
-         el.style.colorScheme = theme;
-      }
-   }
-
-   function getSystemTheme() {
-      return window.matchMedia("(prefers-color-scheme: dark)").matches
-         ? "dark"
-         : "light";
-   }
-
-   if (forcedTheme) {
-      updateDOM(forcedTheme);
-   } else {
-      try {
-         const themeName = localStorage.getItem(storageKey) || defaultTheme;
-         const isSystem = enableSystem && themeName === "system";
-         const theme = isSystem ? getSystemTheme() : themeName;
-         updateDOM(theme);
-      } catch (e) {
-         console.error("Error reading theme from localStorage:", e);
-         //
-      }
-   }
-};
+   return context;
+}
 
 export const ThemeToggler = () => {
-   const { theme, setTheme, forcedTheme, themes } = useTheme();
+   const { theme, setTheme, resolvedTheme } = useTheme();
 
    const nextTheme = React.useMemo(() => {
-      if (forcedTheme) return forcedTheme;
       if (theme === "dark") return "light";
       if (theme === "light") return "dark";
-      return themes.includes("dark") ? "dark" : "light";
-   }, [theme, forcedTheme, themes]);
+      return resolvedTheme === "dark" ? "light" : "dark";
+   }, [theme, resolvedTheme]);
 
    return (
       <SquaredIconButton onClick={() => setTheme(nextTheme)}>
-         {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+         {resolvedTheme === "dark" ? <SunIcon /> : <MoonIcon />}
          Toggle theme
       </SquaredIconButton>
    );
