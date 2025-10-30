@@ -2,6 +2,7 @@ import { translate } from "@packages/localization";
 import { Button } from "@packages/ui/components/button";
 import {
    Item,
+   ItemActions,
    ItemContent,
    ItemDescription,
    ItemGroup,
@@ -9,6 +10,7 @@ import {
    ItemSeparator,
    ItemTitle,
 } from "@packages/ui/components/item";
+import { Separator } from "@packages/ui/components/separator";
 import {
    Sheet,
    SheetContent,
@@ -17,17 +19,10 @@ import {
    SheetTitle,
    SheetTrigger,
 } from "@packages/ui/components/sheet";
-import {
-   Tooltip,
-   TooltipContent,
-   TooltipProvider,
-   TooltipTrigger,
-} from "@packages/ui/components/tooltip";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CheckCircle2, Monitor, Trash2 } from "lucide-react";
 import { useCallback, useMemo } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { betterAuthClient } from "@/integrations/clients";
-import { type Session } from "@/integrations/clients";
+import { betterAuthClient, type Session } from "@/integrations/clients";
 
 interface SessionDetailsSheetProps {
    session: Session["session"];
@@ -65,34 +60,34 @@ export function SessionDetailsSheet({
    const sessionDetails = useMemo(() => {
       return [
          {
+            isCurrent: session.id === currentSessionId,
+            showIcon: false,
             title: "Device",
             value:
                session.userAgent ||
                translate("pages.profile.sessions.unknown-device"),
-            showIcon: false,
-            isCurrent: session.id === currentSessionId,
          },
          {
+            isCurrent: false,
+            showIcon: false,
             title: translate("pages.profile.sessions.ip-address"),
             value: session.ipAddress || "-",
-            showIcon: false,
-            isCurrent: false,
          },
          {
+            isCurrent: false,
+            showIcon: false,
             title: translate("pages.profile.sessions.created"),
             value: session.createdAt
                ? new Date(session.createdAt).toLocaleString()
                : "-",
-            showIcon: false,
-            isCurrent: false,
          },
          {
+            isCurrent: false,
+            showIcon: false,
             title: translate("pages.profile.sessions.last-active"),
             value: session.updatedAt
                ? new Date(session.updatedAt).toLocaleString()
                : "-",
-            showIcon: false,
-            isCurrent: false,
          },
       ];
    }, [session, currentSessionId]);
@@ -107,75 +102,74 @@ export function SessionDetailsSheet({
                   Here are the details of your session
                </SheetDescription>
             </SheetHeader>
-            <div className="p-2 space-y-2">
-               <ItemGroup>
-                  {sessionDetails.map((detail, index) => (
-                     <Item key={detail.title}>
-                        {detail.showIcon && (
-                           <ItemMedia variant="icon">
-                              <Monitor className="size-4" />
-                           </ItemMedia>
+            <ItemGroup>
+               {sessionDetails.map((detail, index) => (
+                  <Item key={detail.title}>
+                     {detail.showIcon && (
+                        <ItemMedia variant="icon">
+                           <Monitor className="size-4" />
+                        </ItemMedia>
+                     )}
+                     <ItemContent>
+                        <ItemTitle>
+                           {detail.title}
+                           {detail.isCurrent && (
+                              <span className="text-primary flex items-center gap-1 text-xs font-semibold">
+                                 <CheckCircle2 className="w-4 h-4" />
+                                 {translate("pages.profile.sessions.current")}
+                              </span>
+                           )}
+                        </ItemTitle>
+                        <ItemDescription>{detail.value}</ItemDescription>
+                     </ItemContent>
+                     {index < sessionDetails.length - 1 && <ItemSeparator />}
+                  </Item>
+               ))}
+            </ItemGroup>
+            <Separator />
+            <SheetHeader>
+               <SheetTitle>Actions</SheetTitle>
+               <SheetDescription>
+                  Here you find the actions for this session
+               </SheetDescription>
+            </SheetHeader>
+            <ItemGroup>
+               <Item>
+                  <ItemMedia variant="icon">
+                     <Trash2 className="w-4 h-4 text-destructive" />
+                  </ItemMedia>
+                  <ItemContent className="gap-1">
+                     <ItemTitle className="text-destructive">
+                        {translate("pages.profile.sessions.revoke-session")}
+                     </ItemTitle>
+                     <ItemDescription>
+                        {translate(
+                           "pages.profile.sessions.revoke-session-description",
                         )}
-                        <ItemContent>
-                           <ItemTitle>
-                              {detail.title}
-                              {detail.isCurrent && (
-                                 <span className="text-primary flex items-center gap-1 text-xs font-semibold">
-                                    <CheckCircle2 className="w-4 h-4" />
-                                    {translate(
-                                       "pages.profile.sessions.current",
-                                    )}
-                                 </span>
-                              )}
-                           </ItemTitle>
-                           <ItemDescription>{detail.value}</ItemDescription>
-                        </ItemContent>
-                        {index < sessionDetails.length - 1 && <ItemSeparator />}
-                     </Item>
-                  ))}
-               </ItemGroup>
-               <div className="border-t pt-4">
-                  <div className="flex flex-col gap-4 items-center justify-between">
-                     <h4 className="font-medium text-sm text-start">
-                        {translate("pages.profile.sessions.session-actions")}
-                     </h4>
-                     <TooltipProvider>
-                        <Tooltip>
-                           <TooltipTrigger asChild>
-                              <Button
-                                 aria-label={translate(
-                                    "pages.profile.sessions.revoke-session",
-                                 )}
-                                 disabled={revokeSessionMutation.isPending}
-                                 onClick={() =>
-                                    handleDelete(session.token || session.id)
-                                 }
-                                 size="icon"
-                                 variant="destructive"
-                              >
-                                 {revokeSessionMutation.isPending ? (
-                                    <div className="w-4 h-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                                 ) : (
-                                    <Trash2 className="w-4 h-4" />
-                                 )}
-                              </Button>
-                           </TooltipTrigger>
-                           <TooltipContent>
-                              <p>
-                                 {revokeSessionMutation.isPending
-                                    ? translate(
-                                         "pages.profile.sessions.revoke-session-loading",
-                                      )
-                                    : translate(
-                                         "pages.profile.sessions.revoke-session",
-                                      )}
-                              </p>
-                           </TooltipContent>
-                        </Tooltip>
-                     </TooltipProvider>
-                  </div>
-               </div>
-            </div>
+                     </ItemDescription>
+                  </ItemContent>
+                  <ItemActions>
+                     <Button
+                        aria-label={translate(
+                           "pages.profile.sessions.revoke-session",
+                        )}
+                        className="text-destructive hover:text-destructive hover:bg-destructive/10 rounded-full"
+                        disabled={revokeSessionMutation.isPending}
+                        onClick={() =>
+                           handleDelete(session.token || session.id)
+                        }
+                        size="icon"
+                        variant="ghost"
+                     >
+                        {revokeSessionMutation.isPending ? (
+                           <div className="w-4 h-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                        ) : (
+                           <Trash2 className="w-4 h-4" />
+                        )}
+                     </Button>
+                  </ItemActions>
+               </Item>
+            </ItemGroup>
          </SheetContent>
       </Sheet>
    );

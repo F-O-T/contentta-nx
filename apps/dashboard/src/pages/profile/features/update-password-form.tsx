@@ -11,16 +11,24 @@ import {
 } from "@packages/ui/components/alert-dialog";
 import { Button } from "@packages/ui/components/button";
 import {
-   Credenza,
-   CredenzaContent,
-   CredenzaFooter,
-   CredenzaHeader,
-   CredenzaTitle,
-} from "@packages/ui/components/credenza";
-import { useAppForm } from "@packages/ui/components/form";
+   Field,
+   FieldError,
+   FieldGroup,
+   FieldLabel,
+} from "@packages/ui/components/field";
 import { Input } from "@packages/ui/components/input";
+import {
+   Sheet,
+   SheetContent,
+   SheetDescription,
+   SheetFooter,
+   SheetHeader,
+   SheetTitle,
+} from "@packages/ui/components/sheet";
+import { useForm } from "@tanstack/react-form";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
+import { type FormEvent } from "react";
 import { z } from "zod";
 import { betterAuthClient } from "@/integrations/clients";
 
@@ -91,75 +99,113 @@ export function UpdatePasswordForm({
       },
       [onOpenChange],
    );
-   const form = useAppForm({
+   const form = useForm({
       defaultValues: { currentPassword: "", newPassword: "" },
       onSubmit: async ({ value, formApi }) => {
          await handleChangePassword(value, formApi);
       },
       validators: { onBlur: passwordSchema },
    });
+
+   const handleSubmit = useCallback(
+      (e: FormEvent) => {
+         e.preventDefault();
+         e.stopPropagation();
+         form.handleSubmit();
+      },
+      [form],
+   );
    return (
-      <Credenza onOpenChange={onOpenChange} open={open}>
-         <CredenzaContent>
-            <CredenzaHeader>
-               <CredenzaTitle>
-                  {translate("pages.profile.forms.update-password.title")}
-               </CredenzaTitle>
-            </CredenzaHeader>
-            <form
-               autoComplete="off"
-               className="space-y-4 py-4"
-               onSubmit={form.handleSubmit}
-            >
-               <form.AppField name="currentPassword">
-                  {(field) => (
-                     <field.FieldContainer>
-                        <field.FieldLabel>
-                           {translate(
-                              "pages.profile.forms.update-password.fields.current-password.label",
-                           )}
-                        </field.FieldLabel>
-                        <Input
-                           autoComplete="current-password"
-                           id={field.name}
-                           name={field.name}
-                           onBlur={field.handleBlur}
-                           onChange={(e) => field.handleChange(e.target.value)}
-                           placeholder={translate(
-                              "pages.profile.forms.update-password.fields.current-password.placeholder",
-                           )}
-                           type="password"
-                           value={field.state.value}
-                        />
-                        <field.FieldMessage />
-                     </field.FieldContainer>
-                  )}
-               </form.AppField>{" "}
-               <form.AppField name="newPassword">
-                  {(field) => (
-                     <field.FieldContainer>
-                        <field.FieldLabel>
-                           {translate(
-                              "pages.profile.forms.update-password.fields.new-password.label",
-                           )}
-                        </field.FieldLabel>
-                        <Input
-                           autoComplete="new-password"
-                           id={field.name}
-                           name={field.name}
-                           onBlur={field.handleBlur}
-                           onChange={(e) => field.handleChange(e.target.value)}
-                           placeholder={translate(
-                              "pages.profile.forms.update-password.fields.new-password.placeholder",
-                           )}
-                           type="password"
-                           value={field.state.value}
-                        />
-                        <field.FieldMessage />
-                     </field.FieldContainer>
-                  )}
-               </form.AppField>{" "}
-               <CredenzaFooter>
+      <Sheet onOpenChange={onOpenChange} open={open}>
+         <form autoComplete="off" onSubmit={(e) => handleSubmit(e)}>
+            <SheetContent>
+               <SheetHeader>
+                  <SheetTitle>
+                     {translate("pages.profile.forms.update-password.title")}
+                  </SheetTitle>
+                  <SheetDescription>
+                     {translate("pages.profile.forms.update-password.description")}
+                  </SheetDescription>
+               </SheetHeader>
+               <div className="px-2 space-y-4 py-4">
+                  <FieldGroup>
+                     <form.Field name="currentPassword">
+                        {(field) => {
+                           const isInvalid =
+                              field.state.meta.isTouched &&
+                              !field.state.meta.isValid;
+                           return (
+                              <Field data-invalid={isInvalid}>
+                                 <FieldLabel htmlFor={field.name}>
+                                    {translate(
+                                       "pages.profile.forms.update-password.fields.current-password.label",
+                                    )}
+                                 </FieldLabel>
+                                 <Input
+                                    autoComplete="current-password"
+                                    id={field.name}
+                                    name={field.name}
+                                    value={field.state.value}
+                                    onBlur={field.handleBlur}
+                                    onChange={(e) =>
+                                       field.handleChange(e.target.value)
+                                    }
+                                    aria-invalid={isInvalid}
+                                    placeholder={translate(
+                                       "pages.profile.forms.update-password.fields.current-password.placeholder",
+                                    )}
+                                    type="password"
+                                 />
+                                 {isInvalid && (
+                                    <FieldError
+                                       errors={field.state.meta.errors}
+                                    />
+                                 )}
+                              </Field>
+                           );
+                        }}
+                     </form.Field>
+                  </FieldGroup>
+                  <FieldGroup>
+                     <form.Field name="newPassword">
+                        {(field) => {
+                           const isInvalid =
+                              field.state.meta.isTouched &&
+                              !field.state.meta.isValid;
+                           return (
+                              <Field data-invalid={isInvalid}>
+                                 <FieldLabel htmlFor={field.name}>
+                                    {translate(
+                                       "pages.profile.forms.update-password.fields.new-password.label",
+                                    )}
+                                 </FieldLabel>
+                                 <Input
+                                    autoComplete="new-password"
+                                    id={field.name}
+                                    name={field.name}
+                                    value={field.state.value}
+                                    onBlur={field.handleBlur}
+                                    onChange={(e) =>
+                                       field.handleChange(e.target.value)
+                                    }
+                                    aria-invalid={isInvalid}
+                                    placeholder={translate(
+                                       "pages.profile.forms.update-password.fields.new-password.placeholder",
+                                    )}
+                                    type="password"
+                                 />
+                                 {isInvalid && (
+                                    <FieldError
+                                       errors={field.state.meta.errors}
+                                    />
+                                 )}
+                              </Field>
+                           );
+                        }}
+                     </form.Field>
+                  </FieldGroup>
+               </div>
+               <SheetFooter>
                   <Button
                      onClick={() => onOpenChange(false)}
                      type="button"
@@ -172,7 +218,9 @@ export function UpdatePasswordForm({
                   <form.Subscribe>
                      {(formState) => (
                         <Button
-                           disabled={!formState.canSubmit}
+                           disabled={
+                              !formState.canSubmit || formState.isSubmitting
+                           }
                            onClick={() => setConfirmOpen(true)}
                            type="button"
                         >
@@ -181,43 +229,46 @@ export function UpdatePasswordForm({
                            )}
                         </Button>
                      )}
-                  </form.Subscribe>{" "}
-               </CredenzaFooter>
-            </form>
-            <AlertDialog onOpenChange={setConfirmOpen} open={confirmOpen}>
-               <AlertDialogContent>
-                  <AlertDialogHeader>
-                     <AlertDialogTitle>
-                        {translate(
-                           "pages.profile.forms.update-password.confirm.title",
-                        )}
-                     </AlertDialogTitle>
-                     <AlertDialogDescription>
-                        {translate(
-                           "pages.profile.forms.update-password.confirm.description",
-                        )}
-                     </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                     <AlertDialogCancel onClick={() => setConfirmOpen(false)}>
-                        {translate(
-                           "pages.profile.forms.update-password.confirm.cancel",
-                        )}
-                     </AlertDialogCancel>
-                     <AlertDialogAction
-                        onClick={() => {
-                           setConfirmOpen(false);
-                           form.handleSubmit();
-                        }}
-                     >
-                        {translate(
-                           "pages.profile.forms.update-password.confirm.confirm",
-                        )}
-                     </AlertDialogAction>
-                  </AlertDialogFooter>
-               </AlertDialogContent>
-            </AlertDialog>
-         </CredenzaContent>
-      </Credenza>
+                  </form.Subscribe>
+               </SheetFooter>
+
+               <AlertDialog onOpenChange={setConfirmOpen} open={confirmOpen}>
+                  <AlertDialogContent>
+                     <AlertDialogHeader>
+                        <AlertDialogTitle>
+                           {translate(
+                              "pages.profile.forms.update-password.confirm.title",
+                           )}
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                           {translate(
+                              "pages.profile.forms.update-password.confirm.description",
+                           )}
+                        </AlertDialogDescription>
+                     </AlertDialogHeader>
+                     <AlertDialogFooter>
+                        <AlertDialogCancel
+                           onClick={() => setConfirmOpen(false)}
+                        >
+                           {translate(
+                              "pages.profile.forms.update-password.confirm.cancel",
+                           )}
+                        </AlertDialogCancel>
+                        <AlertDialogAction
+                           onClick={() => {
+                              setConfirmOpen(false);
+                              form.handleSubmit();
+                           }}
+                        >
+                           {translate(
+                              "pages.profile.forms.update-password.confirm.confirm",
+                           )}
+                        </AlertDialogAction>
+                     </AlertDialogFooter>
+                  </AlertDialogContent>
+               </AlertDialog>
+            </SheetContent>
+         </form>
+      </Sheet>
    );
 }

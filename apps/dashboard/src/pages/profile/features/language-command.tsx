@@ -1,0 +1,93 @@
+import { type SupportedLng } from "@packages/localization";
+import {
+   Command,
+   CommandDialog,
+   CommandEmpty,
+   CommandGroup,
+   CommandInput,
+   CommandItem,
+   CommandList,
+} from "@packages/ui/components/command";
+import { Button } from "@packages/ui/components/button";
+import { CheckCircle, Globe } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useEffect, useRef, useState } from "react";
+
+const languageOptions = [
+   { flag: "🇺🇸", name: "English", value: "en" as SupportedLng },
+   { flag: "🇧🇷", name: "Português", value: "pt" as SupportedLng },
+] as const;
+
+type LanguageName = (typeof languageOptions)[number]["name"];
+
+export function LanguageCommand() {
+   const { i18n } = useTranslation();
+   const [isOpen, setIsOpen] = useState(false);
+   const currentLanguageRef = useRef<string | null>(null);
+
+   const currentLanguage: SupportedLng =
+      (i18n.language?.split("-")[0] as SupportedLng) || "en";
+
+   const currentLanguageOption = languageOptions.find(
+      (option) => option.value === currentLanguage,
+   );
+
+   const handleLanguageChange = async (langName: LanguageName) => {
+      try {
+         const language = languageOptions.find(
+            (option) => option.name === langName,
+         );
+         if (language) {
+            await i18n.changeLanguage(language.value);
+            setIsOpen(false);
+         }
+      } catch (error) {
+         console.error("Failed to change language:", error);
+      }
+   };
+
+   // Set focus to current language when dialog opens
+   useEffect(() => {
+      if (isOpen) {
+         if (currentLanguageOption) {
+            currentLanguageRef.current = currentLanguageOption.name;
+         }
+      }
+   }, [isOpen, currentLanguageOption]);
+
+   return (
+      <>
+         <Button
+            variant="outline"
+            className="gap-2 flex items-center justify-center"
+            onClick={() => setIsOpen(true)}
+         >
+            <span>{currentLanguageOption?.flag}</span>
+            <span>{currentLanguageOption?.name || "English"}</span>
+         </Button>
+         <CommandDialog open={isOpen} onOpenChange={setIsOpen}>
+            <CommandInput placeholder="Search language..." />
+            <CommandList>
+               <Command value={currentLanguageRef.current || undefined}>
+                  <CommandEmpty>No languages found.</CommandEmpty>
+                  <CommandGroup>
+                     {languageOptions.map((option) => (
+                        <CommandItem
+                           key={option.value}
+                           onSelect={() => handleLanguageChange(option.name)}
+                           value={option.name}
+                        >
+                           <span className="mr-3 text-lg">{option.flag}</span>
+                           <span className="flex-1">{option.name}</span>
+                           {option.value === currentLanguage && (
+                              <CheckCircle className="ml-auto size-4 text-primary" />
+                           )}
+                        </CommandItem>
+                     ))}
+                  </CommandGroup>
+               </Command>
+            </CommandList>
+         </CommandDialog>
+      </>
+   );
+}
