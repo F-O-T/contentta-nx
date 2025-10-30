@@ -16,24 +16,25 @@ import {
 import {
    DropdownMenu,
    DropdownMenuContent,
+   DropdownMenuGroup,
    DropdownMenuItem,
+   DropdownMenuLabel,
+   DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@packages/ui/components/dropdown-menu";
 import {
    Item,
-   ItemActions,
    ItemContent,
    ItemDescription,
-   ItemMedia,
    ItemTitle,
 } from "@packages/ui/components/item";
 import {
    KeyIcon,
    Mail as MailIcon,
-   MoreHorizontal,
+   MoreVertical,
    User as UserIcon,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { betterAuthClient } from "@/integrations/clients";
 import { UpdateEmailForm } from "../features/update-email-form";
 import { UpdatePasswordForm } from "../features/update-password-form";
@@ -58,27 +59,9 @@ export function ProfileInformation() {
       return email ? email.slice(0, 2).toUpperCase() : "?";
    };
 
-   const profileItems = useMemo(
-      () => [
-         {
-            id: "name",
-            title: translate("pages.profile.information.fields.name"),
-            value: session?.user?.name,
-         },
-         {
-            id: "email",
-            title: translate("pages.profile.information.fields.email"),
-            value:
-               session?.user?.email ||
-               translate("pages.profile.information.fields.no-email"),
-         },
-      ],
-      [session?.user?.name, session?.user?.email],
-   );
-
    return (
       <>
-         <Card>
+         <Card className="w-full h-full">
             <CardHeader>
                <CardTitle>
                   {translate("pages.profile.information.title")}
@@ -89,62 +72,77 @@ export function ProfileInformation() {
                <CardAction>
                   <DropdownMenu>
                      <DropdownMenuTrigger asChild>
-                        <Button size="icon" variant="ghost">
-                           <MoreHorizontal className="h-4 w-4" />
+                        <Button
+                           aria-label={translate(
+                              "pages.profile.information.actions.manage-profile",
+                           )}
+                           size="icon"
+                           variant="ghost"
+                        >
+                           <MoreVertical className="w-5 h-5" />
                         </Button>
                      </DropdownMenuTrigger>
-                     <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                           onClick={() => setShowEmailModal(true)}
-                        >
-                           <MailIcon className="h-4 w-4" />
+                     <DropdownMenuContent className="w-56" align="end">
+                        <DropdownMenuLabel>
                            {translate(
-                              "pages.profile.information.actions.update-email",
+                              "pages.profile.information.actions.manage-profile",
                            )}
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                           onClick={() => setShowPasswordModal(true)}
-                        >
-                           <KeyIcon className="h-4 w-4" />
-                           {translate(
-                              "pages.profile.information.actions.update-password",
-                           )}
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                           onClick={() => setShowProfileModal(true)}
-                        >
-                           <UserIcon className="h-4 w-4" />
-                           {translate(
-                              "pages.profile.information.actions.update-profile",
-                           )}
-                        </DropdownMenuItem>
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuGroup>
+                           <DropdownMenuItem
+                              onClick={() => setShowEmailModal(true)}
+                           >
+                              <MailIcon className="w-4 h-4 mr-2" />
+                              {translate(
+                                 "pages.profile.information.actions.update-email",
+                              )}
+                           </DropdownMenuItem>
+                           <DropdownMenuItem
+                              onClick={() => setShowPasswordModal(true)}
+                           >
+                              <KeyIcon className="w-4 h-4 mr-2" />
+                              {translate(
+                                 "pages.profile.information.actions.update-password",
+                              )}
+                           </DropdownMenuItem>
+                           <DropdownMenuItem
+                              onClick={() => setShowProfileModal(true)}
+                           >
+                              <UserIcon className="w-4 h-4 mr-2" />
+                              {translate(
+                                 "pages.profile.information.actions.update-profile",
+                              )}
+                           </DropdownMenuItem>
+                        </DropdownMenuGroup>
                      </DropdownMenuContent>
                   </DropdownMenu>
                </CardAction>
             </CardHeader>
-            <CardContent className="flex flex-col items-center justify-center gap-4 md:flex-row">
-               <Avatar className="h-20 w-20">
+            <CardContent className="grid place-items-center gap-4">
+               <Avatar className="w-24 h-24">
                   <AvatarImage
                      alt={session?.user?.name || "Profile picture"}
                      src={session?.user?.image || undefined}
                   />
-                  <AvatarFallback className="text-lg">
+                  <AvatarFallback>
                      {getInitials(
                         session?.user?.name || "",
                         session?.user?.email || "",
                      )}
                   </AvatarFallback>
                </Avatar>
-               <div className="flex flex-col gap-2 w-full h-full">
-                  {profileItems.map((item) => (
-                     <Item key={item.id}>
-                        <ItemContent>
-                           <ItemTitle>{item.title}</ItemTitle>
-                           <ItemContent>{item.value}</ItemContent>
-                        </ItemContent>
-                     </Item>
-                  ))}
-               </div>
+               <Item className=" text-center">
+                  <ItemContent>
+                     <ItemTitle>{session?.user?.name}</ItemTitle>
+                     <ItemDescription>
+                        {session?.user?.email ||
+                           translate(
+                              "pages.profile.information.fields.no-email",
+                           )}
+                     </ItemDescription>
+                  </ItemContent>
+               </Item>
             </CardContent>
          </Card>
          <UpdateEmailForm

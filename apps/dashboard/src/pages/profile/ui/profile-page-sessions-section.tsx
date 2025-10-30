@@ -1,6 +1,7 @@
 import { translate } from "@packages/localization";
 import { Button } from "@packages/ui/components/button";
 import {
+   CardAction,
    Card,
    CardContent,
    CardDescription,
@@ -10,7 +11,10 @@ import {
 import {
    DropdownMenu,
    DropdownMenuContent,
+   DropdownMenuGroup,
    DropdownMenuItem,
+   DropdownMenuLabel,
+   DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@packages/ui/components/dropdown-menu";
 import {
@@ -23,13 +27,7 @@ import {
    ItemSeparator,
    ItemTitle,
 } from "@packages/ui/components/item";
-import {
-   Tooltip,
-   TooltipContent,
-   TooltipProvider,
-   TooltipTrigger,
-} from "@packages/ui/components/tooltip";
-import { CheckCircle2 } from "lucide-react";
+import { TooltipProvider } from "@packages/ui/components/tooltip";
 import {
    useMutation,
    useQueryClient,
@@ -82,31 +80,31 @@ export function ProfilePageSessionsSection() {
       <TooltipProvider>
          <Card>
             <CardHeader>
-               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                  <div>
-                     <CardTitle>
-                        {translate("pages.profile.sessions.sessions-title")}
-                     </CardTitle>
-                     <CardDescription>
-                        {translate(
-                           "pages.profile.sessions.sessions-description",
-                        )}
-                     </CardDescription>
-                  </div>
-                  <div className="mt-2 sm:mt-0">
-                     <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                           <Button
-                              aria-label={translate(
-                                 "pages.profile.sessions.manage-sessions",
-                              )}
-                              size="icon"
-                              variant="ghost"
-                           >
-                              <MoreVertical className="w-5 h-5" />
-                           </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
+               <CardTitle>
+                  {translate("pages.profile.sessions.sessions-title")}
+               </CardTitle>
+               <CardDescription>
+                  {translate("pages.profile.sessions.sessions-description")}
+               </CardDescription>
+               <CardAction>
+                  <DropdownMenu>
+                     <DropdownMenuTrigger asChild>
+                        <Button
+                           aria-label={translate(
+                              "pages.profile.sessions.manage-sessions",
+                           )}
+                           size="icon"
+                           variant="ghost"
+                        >
+                           <MoreVertical className="w-5 h-5" />
+                        </Button>
+                     </DropdownMenuTrigger>
+                     <DropdownMenuContent className="w-56" align="end">
+                        <DropdownMenuLabel>
+                           {translate("pages.profile.sessions.manage-sessions")}
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuGroup>
                            <DropdownMenuItem
                               disabled={revokeOtherSessionsMutation.isPending}
                               onSelect={(e) => {
@@ -140,10 +138,10 @@ export function ProfilePageSessionsSection() {
                                       "pages.profile.sessions.revoke-all-sessions",
                                    )}
                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                     </DropdownMenu>
-                  </div>
-               </div>
+                        </DropdownMenuGroup>
+                     </DropdownMenuContent>
+                  </DropdownMenu>
+               </CardAction>
             </CardHeader>
             <CardContent>
                {sessions.length === 0 ? (
@@ -158,22 +156,12 @@ export function ProfilePageSessionsSection() {
                               <ItemMedia variant="icon">
                                  <Monitor className="size-4" />
                               </ItemMedia>
-                              <ItemContent>
-                                 <ItemTitle className="flex items-center justify-start gap-4 w-full">
-                                    <span className="truncate">
-                                       {session.userAgent ||
-                                          translate(
-                                             "pages.profile.sessions.unknown-device",
-                                          )}
-                                    </span>
-                                    {session.id === currentSessionId && (
-                                       <span className="text-primary flex items-center gap-1 text-xs font-semibold ">
-                                          <CheckCircle2 className="w-4 h-4" />
-                                          {translate(
-                                             "pages.profile.sessions.current",
-                                          )}
-                                       </span>
-                                    )}
+                              <ItemContent className="truncate">
+                                 <ItemTitle>
+                                    {session.userAgent ||
+                                       translate(
+                                          "pages.profile.sessions.unknown-device",
+                                       )}
                                  </ItemTitle>
                                  <ItemDescription>
                                     {translate(
