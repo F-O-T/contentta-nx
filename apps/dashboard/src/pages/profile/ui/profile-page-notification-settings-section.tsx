@@ -1,22 +1,29 @@
-import { translate } from "@packages/localization";
 import {
    Card,
-   CardAction,
    CardContent,
    CardDescription,
    CardHeader,
    CardTitle,
 } from "@packages/ui/components/card";
+import {
+   Item,
+   ItemActions,
+   ItemContent,
+   ItemDescription,
+   ItemMedia,
+   ItemTitle,
+} from "@packages/ui/components/item";
 import { Switch } from "@packages/ui/components/switch";
 import {
    useMutation,
    useQueryClient,
    useSuspenseQuery,
 } from "@tanstack/react-query";
+import { Bell } from "lucide-react";
 import { createToast } from "@/features/error-modal/lib/create-toast";
 import { useTRPC } from "@/integrations/clients";
 
-export function WorkflowPreferences() {
+export function NotificationSettingsSection() {
    const trpc = useTRPC();
    // Fetch workflow preferences
    const { data } = useSuspenseQuery(
@@ -40,12 +47,12 @@ export function WorkflowPreferences() {
          });
 
          createToast({
-            message: translate("pages.profile.toast.preference-updated"),
+            message: "Preference updated successfully",
             type: "success",
          });
       } catch (error) {
          createToast({
-            message: translate("pages.profile.toast.preference-failed"),
+            message: "Failed to update preference",
             type: "danger",
          });
          console.error("Error updating workflow preference:", error);
@@ -55,37 +62,31 @@ export function WorkflowPreferences() {
    return (
       <Card>
          <CardHeader>
-            <CardTitle>
-               {translate("pages.profile.preferences.workflow.workflow-title")}
-            </CardTitle>
+            <CardTitle>Notification Settings</CardTitle>
             <CardDescription>
-               {translate(
-                  "pages.profile.preferences.workflow.workflow-description",
-               )}
+               Manage your notification preferences
             </CardDescription>
          </CardHeader>
-         <CardContent className="space-y-4">
-            <Card>
-               <CardHeader>
-                  <CardTitle>
-                     {translate(
-                        "pages.profile.preferences.workflow.missing-urls-title",
-                     )}
-                  </CardTitle>
-                  <CardDescription>
-                     {translate(
-                        "pages.profile.preferences.workflow.missing-urls-description",
-                     )}
-                  </CardDescription>
-                  <CardAction>
-                     <Switch
-                        checked={data.notifyMissingImages}
-                        id="notify-missing-images"
-                        onCheckedChange={handleToggleMissingImages}
-                     />
-                  </CardAction>
-               </CardHeader>
-            </Card>
+
+         <CardContent>
+            <Item className="p-0">
+               <ItemMedia variant="icon">
+                  <Bell className="size-4" />
+               </ItemMedia>
+               <ItemContent>
+                  <ItemTitle>Posts without images</ItemTitle>
+                  <ItemDescription>
+                     Get notified when posts have missing images
+                  </ItemDescription>
+               </ItemContent>
+               <ItemActions>
+                  <Switch
+                     aria-label="Posts without images"
+                     checked={data?.notifyMissingImages ?? true}
+                     onCheckedChange={handleToggleMissingImages}
+                  />
+               </ItemActions>
+            </Item>
          </CardContent>
       </Card>
    );

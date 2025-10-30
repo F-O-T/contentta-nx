@@ -1,7 +1,16 @@
 import { translate } from "@packages/localization";
 import { ExternalLink } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@packages/ui/components/tooltip";
-import { Item, ItemDescription, ItemTitle, ItemContent } from "@packages/ui/components/item";
+import {
+   Tooltip,
+   TooltipContent,
+   TooltipTrigger,
+} from "@packages/ui/components/tooltip";
+import {
+   Item,
+   ItemDescription,
+   ItemTitle,
+   ItemContent,
+} from "@packages/ui/components/item";
 import { Button } from "@packages/ui/components/button";
 import {
    Card,
@@ -206,7 +215,6 @@ export function ProfilePageBilling() {
       return Math.min((consumed / credited) * 100, 100);
    };
 
-
    // Compute meter details and usage percentage using the helper
    const selectedMeter =
       customerState?.activeMeters?.find((m) => (m?.creditedUnits ?? 0) > 0) ??
@@ -214,10 +222,10 @@ export function ProfilePageBilling() {
 
    const meterDetails = selectedMeter
       ? computeMeterDetails(
-         selectedMeter as { consumedUnits: number; creditedUnits: number },
-         activeSubscription?.amount ?? 0,
-         activeSubscription?.currency ?? "USD",
-      )
+           selectedMeter as { consumedUnits: number; creditedUnits: number },
+           activeSubscription?.amount ?? 0,
+           activeSubscription?.currency ?? "USD",
+        )
       : null;
 
    const usagePercentage = calculateUsagePercentage(
@@ -235,14 +243,12 @@ export function ProfilePageBilling() {
                {translate("pages.profile.billing.current-plan-description")}
             </CardDescription>
             <CardAction>
-               <Tooltip >
-
+               <Tooltip>
                   <TooltipTrigger asChild>
-
                      <Button
-                        variant="ghost"
-                        size="icon"
                         onClick={handleManageSubscription}
+                        size="icon"
+                        variant="ghost"
                      >
                         <ExternalLink className=" h-4 w-4" />
                      </Button>
@@ -253,8 +259,8 @@ export function ProfilePageBilling() {
                </Tooltip>
             </CardAction>
          </CardHeader>
-         <CardContent>
-            <Card>
+         <CardContent className="p-0">
+            <Card className="p-0 border-none">
                <CardHeader>
                   <CardTitle>
                      {formatCurrency(
@@ -272,10 +278,20 @@ export function ProfilePageBilling() {
                </CardHeader>
                <CardContent>
                   {selectedMeter ? (
-                     <Item variant="outline">
+                     <Item className="p-0">
                         <ItemContent>
                            <ItemTitle className="flex items-center justify-between w-full">
-                              {String(translate('pages.profile.billing.usage')).replace('{usage}', selectedMeter.consumedUnits.toLocaleString()).replace('{limit}', selectedMeter.creditedUnits === -1 ? '∞' : selectedMeter.creditedUnits.toLocaleString())}
+                              {String(translate("pages.profile.billing.usage"))
+                                 .replace(
+                                    "{usage}",
+                                    selectedMeter.consumedUnits.toLocaleString(),
+                                 )
+                                 .replace(
+                                    "{limit}",
+                                    selectedMeter.creditedUnits === -1
+                                       ? "∞"
+                                       : selectedMeter.creditedUnits.toLocaleString(),
+                                 )}
                               {meterDetails?.consumedFormatted && (
                                  <span className="text-sm font-semibold text-primary ">
                                     {meterDetails.consumedFormatted}
@@ -283,11 +299,13 @@ export function ProfilePageBilling() {
                               )}
                            </ItemTitle>
                            <ItemDescription>
-                              <Progress className="h-2" value={usagePercentage} />
+                              <Progress
+                                 className="h-2"
+                                 value={usagePercentage}
+                              />
                            </ItemDescription>
                         </ItemContent>
                      </Item>
-
                   ) : (
                      <p className="text-sm text-foreground/60">
                         {translate("pages.profile.billing.no-usage-meters")}

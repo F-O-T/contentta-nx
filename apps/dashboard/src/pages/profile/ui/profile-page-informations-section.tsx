@@ -61,13 +61,11 @@ export function ProfileInformation() {
    const profileItems = useMemo(
       () => [
          {
-            icon: UserIcon,
             id: "name",
             title: translate("pages.profile.information.fields.name"),
             value: session?.user?.name,
          },
          {
-            icon: MailIcon,
             id: "email",
             title: translate("pages.profile.information.fields.email"),
             value:
@@ -137,12 +135,9 @@ export function ProfileInformation() {
                      )}
                   </AvatarFallback>
                </Avatar>
-               <div className="flex flex-col gap-4 w-full h-full">
+               <div className="flex flex-col gap-2 w-full h-full">
                   {profileItems.map((item) => (
-                     <Item key={item.id} variant="outline">
-                        <ItemMedia>
-                           <item.icon className="h-4 w-4" />
-                        </ItemMedia>
+                     <Item key={item.id}>
                         <ItemContent>
                            <ItemTitle>{item.title}</ItemTitle>
                            <ItemContent>{item.value}</ItemContent>
