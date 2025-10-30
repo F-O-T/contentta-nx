@@ -1,6 +1,15 @@
-import { SquaredIconButton } from "@packages/ui/components/squared-icon-button";
+import { Monitor, Moon, Sun } from "lucide-react";
+import { motion } from "motion/react";
+import { useCallback, useEffect, useState } from "react";
+import { cn } from "@packages/ui/lib/utils";
+import {
+   Tooltip,
+   TooltipContent,
+   TooltipProvider,
+   TooltipTrigger,
+} from "@packages/ui/components/tooltip";
+
 import { ScriptOnce } from "@tanstack/react-router";
-import { MoonIcon, SunIcon } from "lucide-react";
 import * as React from "react";
 
 // FunctionOnce utility for TanStack Router integration
@@ -77,12 +86,19 @@ export function ThemeProvider({
             return;
          }
 
-         setResolvedTheme(theme as ResolvedTheme);
+         // Validate theme before applying
+         const validTheme =
+            (theme as ResolvedTheme) === "light" ||
+            (theme as ResolvedTheme) === "dark"
+               ? (theme as ResolvedTheme)
+               : "light";
+
+         setResolvedTheme(validTheme);
 
          if (attribute === "class") {
-            root.classList.add(theme);
+            root.classList.add(validTheme);
          } else {
-            root.setAttribute(attribute, theme);
+            root.setAttribute(attribute, validTheme);
          }
       }
 
@@ -100,6 +116,12 @@ export function ThemeProvider({
       () => ({
          resolvedTheme,
          setTheme: (theme: Theme) => {
+            // Validate theme to prevent empty strings
+            if (!theme || theme.trim() === "") {
+               console.warn("Invalid theme provided, defaulting to system");
+               theme = "system";
+            }
+
             localStorage.setItem(storageKey, theme);
             setTheme(theme);
          },
@@ -143,19 +165,102 @@ export function useTheme() {
    return context;
 }
 
-export const ThemeToggler = () => {
-   const { theme, setTheme, resolvedTheme } = useTheme();
+const themes = [
+   {
+      key: "system",
+      icon: Monitor,
+      label: "System theme",
+   },
+   {
+      key: "light",
+      icon: Sun,
+      label: "Light theme",
+   },
+   {
+      key: "dark",
+      icon: Moon,
+      label: "Dark theme",
+   },
+];
 
-   const nextTheme = React.useMemo(() => {
-      if (theme === "dark") return "light";
-      if (theme === "light") return "dark";
-      return resolvedTheme === "dark" ? "light" : "dark";
-   }, [theme, resolvedTheme]);
+export type ThemeSwitcherProps = {
+   className?: string;
+};
+
+export const ThemeSwitcher = ({ className }: ThemeSwitcherProps) => {
+   const { theme, setTheme } = useTheme();
+   const [mounted, setMounted] = useState(false);
+
+   const handleThemeClick = useCallback(
+      (themeKey: "light" | "dark" | "system") => {
+         // Validate theme before applying
+         if (!themeKey || themeKey.trim() === "") {
+            console.warn("Empty theme received, defaulting to system");
+            themeKey = "system";
+         }
+         console.log("Theme changing to:", themeKey);
+         setTheme(themeKey);
+      },
+      [setTheme],
+   );
+
+   // Prevent hydration mismatch
+   useEffect(() => {
+      setMounted(true);
+   }, []);
+
+   if (!mounted) {
+      return null;
+   }
 
    return (
-      <SquaredIconButton onClick={() => setTheme(nextTheme)}>
-         {resolvedTheme === "dark" ? <SunIcon /> : <MoonIcon />}
-         Toggle theme
-      </SquaredIconButton>
+      <TooltipProvider>
+         <div
+            className={cn(
+               "relative isolate flex h-8 rounded-full bg-background p-1 ring-1 ring-border",
+               className,
+            )}
+         >
+            {themes.map(({ key, icon: Icon, label }) => {
+               const isActive = theme === key;
+
+               return (
+                  <Tooltip key={key}>
+                     <TooltipTrigger asChild>
+                        <button
+                           aria-label={label}
+                           className="relative h-6 w-6 rounded-full"
+                           onClick={() =>
+                              handleThemeClick(
+                                 key as "light" | "dark" | "system",
+                              )
+                           }
+                           type="button"
+                        >
+                           {isActive && (
+                              <motion.div
+                                 className="absolute inset-0 rounded-full bg-muted"
+                                 layoutId="activeTheme"
+                                 transition={{ type: "spring", duration: 0.5 }}
+                              />
+                           )}
+                           <Icon
+                              className={cn(
+                                 "relative z-10 m-auto h-4 w-4",
+                                 isActive
+                                    ? "text-foreground"
+                                    : "text-muted-foreground",
+                              )}
+                           />
+                        </button>
+                     </TooltipTrigger>
+                     <TooltipContent>
+                        <p>{label}</p>
+                     </TooltipContent>
+                  </Tooltip>
+               );
+            })}
+         </div>
+      </TooltipProvider>
    );
 };
