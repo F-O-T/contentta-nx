@@ -1,16 +1,16 @@
-import { Monitor, Moon, Sun } from "lucide-react";
-import { motion } from "motion/react";
-import { useCallback, useEffect, useState } from "react";
-import { cn } from "@packages/ui/lib/utils";
+import { translate } from "@packages/localization";
 import {
    Tooltip,
    TooltipContent,
    TooltipProvider,
    TooltipTrigger,
 } from "@packages/ui/components/tooltip";
-
+import { cn } from "@packages/ui/lib/utils";
 import { ScriptOnce } from "@tanstack/react-router";
+import { Monitor, Moon, Sun } from "lucide-react";
+import { motion } from "motion/react";
 import * as React from "react";
+import { useCallback, useEffect, useState } from "react";
 
 // FunctionOnce utility for TanStack Router integration
 function FunctionOnce<T = unknown>({
@@ -165,29 +165,29 @@ export function useTheme() {
    return context;
 }
 
-const themes = [
-   {
-      key: "system",
-      icon: Monitor,
-      label: "System theme",
-   },
-   {
-      key: "light",
-      icon: Sun,
-      label: "Light theme",
-   },
-   {
-      key: "dark",
-      icon: Moon,
-      label: "Dark theme",
-   },
-];
-
 export type ThemeSwitcherProps = {
    className?: string;
 };
 
 export const ThemeSwitcher = ({ className }: ThemeSwitcherProps) => {
+   const themes = [
+      {
+         icon: Monitor,
+         key: "system",
+         label: translate("common.themes.system"),
+      },
+      {
+         icon: Sun,
+         key: "light",
+         label: translate("common.themes.light"),
+      },
+      {
+         icon: Moon,
+         key: "dark",
+         label: translate("common.themes.dark"),
+      },
+   ];
+
    const { theme, setTheme } = useTheme();
    const [mounted, setMounted] = useState(false);
 
@@ -241,7 +241,7 @@ export const ThemeSwitcher = ({ className }: ThemeSwitcherProps) => {
                               <motion.div
                                  className="absolute inset-0 rounded-full bg-muted"
                                  layoutId="activeTheme"
-                                 transition={{ type: "spring", duration: 0.5 }}
+                                 transition={{ duration: 0.5, type: "spring" }}
                               />
                            )}
                            <Icon
