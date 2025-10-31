@@ -28,6 +28,8 @@
       "validationError": "Please describe what happened before submitting"
    },
    "form": {
+      "current-email": "Current Email",
+      "email": "Email",
       "field-required": "This field is required"
    },
    "languages": {

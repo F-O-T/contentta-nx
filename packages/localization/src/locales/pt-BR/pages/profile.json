@@ -2,16 +2,26 @@
    "billing": {
       "actions": {
          "portal": "Abrir o portal",
-         "title": "Gerencias assinatura"
+         "title": "Gerenciar assinatura"
       },
       "description": "Gerencie sua assinatura e informações de cobrança.",
       "next-billing": "Próxima data de cobrança:",
-      "title": "Assinatura",
-      "usage": {
-         "description": "Visualize o seu uso de créditos deste mês.",
-         "legend": "Creditos utilizados este mês: ",
-         "title": "Uso de creditos"
-      }
+      "state": {
+         "active": {
+            "description": "Visualize o seu uso de créditos deste mês.",
+            "legend": "Créditos utilizados este mês: ",
+            "title": "Uso de créditos"
+         },
+         "not-active": {
+            "description": "Você não tem uma assinatura ativa no momento. Atualize para continuar aproveitando nossos serviços.",
+            "title": "Assinatura inativa"
+         },
+         "organization": {
+            "description": "As assinaturas são gerenciadas pela organização à qual você pertence.",
+            "title": "Assinatura da organização"
+         }
+      },
+      "title": "Assinatura"
    },
    "features": {
       "language-command": {
@@ -20,7 +30,7 @@
       },
       "session-details": {
          "actions": {
-            "description": "Aqui voce pode gerenciar sua sessão atual.",
+            "description": "Aqui você pode gerenciar sua sessão atual.",
             "revoke-current": {
                "description": "Revogar a sessão atual e sair deste dispositivo.",
                "title": "Revogar sessão atual"

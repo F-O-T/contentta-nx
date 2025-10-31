@@ -1,98 +1,108 @@
 {
    "billing": {
       "actions": {
-         "portal": "Abrir o portal",
-         "title": "Gerencias assinatura"
+         "portal": "Open portal",
+         "title": "Manage subscription"
       },
-      "description": "Gerencie sua assinatura e informações de cobrança.",
-      "next-billing": "Próxima data de cobrança:",
-      "title": "Assinatura",
-      "usage": {
-         "description": "Visualize o seu uso de créditos deste mês.",
-         "legend": "Creditos utilizados este mês: ",
-         "title": "Uso de creditos"
-      }
+      "description": "Manage your subscription and billing information.",
+      "next-billing": "Next billing date:",
+      "state": {
+         "active": {
+            "description": "View your credit usage this month.",
+            "legend": "Credits used this month: ",
+            "title": "Credit usage"
+         },
+         "not-active": {
+            "description": "You don't have an active subscription at the moment. Upgrade to continue enjoying our services.",
+            "title": "Inactive subscription"
+         },
+         "organization": {
+            "description": "Subscriptions are managed by the organization you belong to.",
+            "title": "Organization subscription"
+         }
+      },
+      "title": "Subscription"
    },
    "features": {
       "language-command": {
-         "empty": "Nenhum idioma encontrado.",
-         "search": "Pesquisar idiomas..."
+         "empty": "No languages found.",
+         "search": "Search languages..."
       },
       "session-details": {
          "actions": {
-            "description": "Aqui voce pode gerenciar sua sessão atual.",
+            "description": "Here you can manage your current session.",
             "revoke-current": {
-               "description": "Revogar a sessão atual e sair deste dispositivo.",
-               "title": "Revogar sessão atual"
+               "description": "Revoke current session and log out from this device.",
+               "title": "Revoke current session"
             },
-            "title": "Gerencie sua sessão"
+            "title": "Manage your session"
          },
-         "description": "Informações sobre a sessão selecionada.",
-         "title": "Detalhes da sessão"
+         "description": "Information about the selected session.",
+         "title": "Session details"
       }
    },
    "information": {
       "actions": {
-         "edit-email": "Editar email",
-         "edit-password": "Alterar senha",
-         "edit-profile": "Editar perfil",
-         "title": "Gerenciar informações"
+         "edit-email": "Edit email",
+         "edit-password": "Change password",
+         "edit-profile": "Edit profile",
+         "title": "Manage information"
       },
-      "description": "Atualize suas informações pessoais e de conta.",
-      "title": "Informações do perfil"
+      "description": "Update your personal and account information.",
+      "title": "Profile information"
    },
-   "mascot-message": "Gerencie suas informações de perfil e configurações de conta aqui.",
+   "mascot-message": "Manage your profile information and account settings here.",
    "notifications": {
-      "description": "Gerencie suas preferências de notificação.",
+      "description": "Manage your notification preferences.",
       "items": {
          "missing-images": {
-            "description": "Notifique-me quando meus posts estão sem imagens.",
-            "label": "Ativar notificações de imagens faltando",
-            "title": "Imagens faltando"
+            "description": "Notify me when my posts are missing images.",
+            "label": "Enable missing image notifications",
+            "title": "Missing images"
          }
       },
-      "title": "Notificações"
+      "title": "Notifications"
    },
    "preferences": {
-      "description": "Gerencie suas preferências de conta.",
+      "description": "Manage your account preferences.",
       "items": {
          "language": {
-            "description": "Selecione o idioma preferido para a interface.",
-            "title": "Idioma"
+            "description": "Select your preferred interface language.",
+            "title": "Language"
          },
          "theme": {
-            "description": "Escolha entre o modo claro, escuro ou siga o do seu sistema.",
-            "title": "Tema"
+            "description": "Choose between light mode, dark mode, or follow your system's theme.",
+            "title": "Theme"
          }
       },
-      "title": "Preferências"
+      "title": "Preferences"
    },
    "quick-access": {
       "api-keys": {
-         "description": "Gerencie suas chaves API para acesso programático.",
-         "title": "Chaves API"
+         "description": "Manage your API keys for programmatic access.",
+         "title": "API keys"
       },
       "organization": {
-         "description": "Visualize a organização associada à sua conta.",
-         "title": "Organização"
+         "description": "View the organization associated with your account.",
+         "title": "Organization"
       }
    },
    "sessions": {
       "actions": {
-         "revoke-all": "Revogar todas as sessões",
-         "revoke-others": "Revogar outras sessões",
-         "title": "Gerenciar sessões"
+         "revoke-all": "Revoke all sessions",
+         "revoke-others": "Revoke other sessions",
+         "title": "Manage sessions"
       },
-      "description": "Visualize e gerencie suas sessões de login ativas.",
+      "description": "View and manage your active login sessions.",
       "item": {
-         "created-at": "Iniciado em",
-         "current": "Sessão atual",
-         "details": "Detalhes da sessão",
-         "device": "Dispositivo",
-         "ip-address": "Endereço IP",
-         "last-active": "Última atividade",
-         "unknown-device": "Dispositivo desconhecido"
+         "created-at": "Started at",
+         "current": "Current session",
+         "details": "Session details",
+         "device": "Device",
+         "ip-address": "IP address",
+         "last-active": "Last activity",
+         "unknown-device": "Unknown device"
       },
-      "title": "Sessões ativas"
+      "title": "Active sessions"
    }
 }
