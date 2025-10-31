@@ -24,6 +24,75 @@ export const authHelpersRouter = router({
       });
       return apiKeys;
    }),
+   getBillingInfo: protectedProcedure.query(async ({ ctx }) => {
+      const resolvedCtx = await ctx;
+      const userId = resolvedCtx.session?.user.id;
+      const organizationId = resolvedCtx.session?.session?.activeOrganizationId;
+
+      if (!userId) {
+         throw APIError.unauthorized("User not authenticated");
+      }
+
+      // Get customer state
+      const customerState = await resolvedCtx.auth.api.state({
+         headers: resolvedCtx.headers,
+      });
+
+      // Get active subscription
+      const activeSubscription = customerState.activeSubscriptions[0] || null;
+
+      // Determine billing state
+      if (!organizationId) {
+         // User is not in an organization
+         return {
+            activeSubscription,
+            billingState: activeSubscription
+               ? "active_subscription"
+               : "no_subscription",
+            customerState,
+            isOrganizationOwner: true,
+            organization: null,
+         };
+      }
+
+      // User is in an organization
+      const isOwner = await isOrganizationOwner(
+         resolvedCtx.db,
+         userId,
+         organizationId,
+      );
+
+      // Get organization details
+      const organization = await resolvedCtx.db.query.organization.findFirst({
+         columns: {
+            id: true,
+            name: true,
+         },
+         where: (org, { eq }) => eq(org.id, organizationId),
+      });
+
+      if (isOwner) {
+         // User is organization owner
+         return {
+            activeSubscription,
+            billingState: activeSubscription
+               ? "active_subscription"
+               : "no_subscription",
+            customerState,
+            isOrganizationOwner: true,
+            organization,
+         };
+      } else {
+         // User is organization member, billing is managed by organization
+         return {
+            activeSubscription: null, // Organization members don't have direct subscriptions
+            billingState: "organization_member",
+            customerState,
+            isOrganizationOwner: false,
+            organization,
+         };
+      }
+   }),
    getCustomerState: protectedProcedure.query(async ({ ctx }) => {
       const resolvedCtx = await ctx;
       const customer = resolvedCtx.auth.api.state({
