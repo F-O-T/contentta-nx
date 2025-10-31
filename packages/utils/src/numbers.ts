@@ -1,3 +1,15 @@
+export function formatNumberIntoCurrency(
+   amount: number,
+   currency: string,
+   locale: Intl.LocalesArgument,
+): string {
+   if (typeof amount !== "number" || Number.isNaN(amount)) return "";
+
+   return new Intl.NumberFormat(locale, {
+      currency: currency.toUpperCase(),
+      style: "currency",
+   }).format(amount / 100);
+}
 export function formatWindow(ms: number): string {
    if (typeof ms !== "number" || Number.isNaN(ms) || ms <= 0) return "period";
 
