@@ -1,8 +1,8 @@
 import { translate } from "@packages/localization";
 import { Button } from "@packages/ui/components/button";
 import {
-   CardAction,
    Card,
+   CardAction,
    CardContent,
    CardDescription,
    CardHeader,
@@ -81,17 +81,17 @@ export function ProfilePageSessionsSection() {
          <Card>
             <CardHeader>
                <CardTitle>
-                  {translate("pages.profile.sessions.sessions-title")}
+                  {translate("pages.profile.sessions.title")}
                </CardTitle>
                <CardDescription>
-                  {translate("pages.profile.sessions.sessions-description")}
+                  {translate("pages.profile.sessions.description")}
                </CardDescription>
                <CardAction>
                   <DropdownMenu>
                      <DropdownMenuTrigger asChild>
                         <Button
                            aria-label={translate(
-                              "pages.profile.sessions.manage-sessions",
+                              "pages.profile.sessions.actions.title",
                            )}
                            size="icon"
                            variant="ghost"
@@ -99,9 +99,9 @@ export function ProfilePageSessionsSection() {
                            <MoreVertical className="w-5 h-5" />
                         </Button>
                      </DropdownMenuTrigger>
-                     <DropdownMenuContent className="w-56" align="end">
+                     <DropdownMenuContent align="end" className="w-56">
                         <DropdownMenuLabel>
-                           {translate("pages.profile.sessions.manage-sessions")}
+                           {translate("pages.profile.sessions.actions.title")}
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
@@ -113,13 +113,9 @@ export function ProfilePageSessionsSection() {
                               }}
                            >
                               <Trash2 className="w-4 h-4 mr-2" />
-                              {revokeOtherSessionsMutation.isPending
-                                 ? translate(
-                                      "pages.profile.sessions.revoke-other-loading",
-                                   )
-                                 : translate(
-                                      "pages.profile.sessions.revoke-other",
-                                   )}
+                              {translate(
+                                 "pages.profile.sessions.actions.revoke-others",
+                              )}
                            </DropdownMenuItem>
                            <DropdownMenuItem
                               disabled={revokeAllSessionsMutation.isPending}
@@ -130,13 +126,9 @@ export function ProfilePageSessionsSection() {
                               variant="destructive"
                            >
                               <Trash2 className="w-4 h-4 mr-2 text-destructive" />
-                              {revokeAllSessionsMutation.isPending
-                                 ? translate(
-                                      "pages.profile.sessions.revoke-all-loading",
-                                   )
-                                 : translate(
-                                      "pages.profile.sessions.revoke-all-sessions",
-                                   )}
+                              {translate(
+                                 "pages.profile.sessions.actions.revoke-all",
+                              )}
                            </DropdownMenuItem>
                         </DropdownMenuGroup>
                      </DropdownMenuContent>
@@ -144,54 +136,51 @@ export function ProfilePageSessionsSection() {
                </CardAction>
             </CardHeader>
             <CardContent>
-               {sessions.length === 0 ? (
-                  <div className="text-center text-muted-foreground py-8">
-                     {translate("pages.profile.sessions.no-sessions")}
-                  </div>
-               ) : (
-                  <ItemGroup>
-                     {sessions.map((session, index) => (
-                        <Fragment key={session.id}>
-                           <Item>
-                              <ItemMedia variant="icon">
-                                 <Monitor className="size-4" />
-                              </ItemMedia>
-                              <ItemContent className="truncate">
-                                 <ItemTitle>
-                                    {session.userAgent ||
-                                       translate(
-                                          "pages.profile.sessions.unknown-device",
-                                       )}
-                                 </ItemTitle>
-                                 <ItemDescription>
+               <ItemGroup>
+                  {sessions.map((session, index) => (
+                     <Fragment key={session.id}>
+                        <Item>
+                           <ItemMedia variant="icon">
+                              <Monitor className="size-4" />
+                           </ItemMedia>
+                           <ItemContent className="truncate">
+                              <ItemTitle>
+                                 {session.userAgent ||
+                                    translate(
+                                       "pages.profile.sessions.item.unknown-device",
+                                    )}
+                              </ItemTitle>
+                              <ItemDescription>
+                                 <span>
                                     {translate(
-                                       "pages.profile.sessions.ip-address",
-                                    )}{" "}
-                                    {session.ipAddress || "-"}
-                                 </ItemDescription>
-                              </ItemContent>
-                              <ItemActions>
-                                 <SessionDetailsSheet
-                                    currentSessionId={currentSessionId}
-                                    session={session}
+                                       "pages.profile.sessions.item.ip-address",
+                                    )}
+                                 </span>
+                                 <span>:</span>
+                                 <span> {session.ipAddress || "-"}</span>
+                              </ItemDescription>
+                           </ItemContent>
+                           <ItemActions>
+                              <SessionDetailsSheet
+                                 currentSessionId={currentSessionId}
+                                 session={session}
+                              >
+                                 <Button
+                                    aria-label={translate(
+                                       "pages.profile.sessions.item.details",
+                                    )}
+                                    size="icon"
+                                    variant="ghost"
                                  >
-                                    <Button
-                                       aria-label={translate(
-                                          "pages.profile.sessions.session-details",
-                                       )}
-                                       size="icon"
-                                       variant="ghost"
-                                    >
-                                       <Info className="w-4 h-4" />
-                                    </Button>
-                                 </SessionDetailsSheet>
-                              </ItemActions>
-                           </Item>
-                           {index !== sessions.length - 1 && <ItemSeparator />}
-                        </Fragment>
-                     ))}
-                  </ItemGroup>
-               )}
+                                    <Info className="w-4 h-4" />
+                                 </Button>
+                              </SessionDetailsSheet>
+                           </ItemActions>
+                        </Item>
+                        {index !== sessions.length - 1 && <ItemSeparator />}
+                     </Fragment>
+                  ))}
+               </ItemGroup>
             </CardContent>
          </Card>
       </TooltipProvider>

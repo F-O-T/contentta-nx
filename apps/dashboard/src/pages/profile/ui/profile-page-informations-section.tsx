@@ -34,7 +34,7 @@ import {
    MoreVertical,
    User as UserIcon,
 } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { betterAuthClient } from "@/integrations/clients";
 import { UpdateEmailForm } from "../features/update-email-form";
 import { UpdatePasswordForm } from "../features/update-password-form";
@@ -59,6 +59,28 @@ export function ProfileInformation() {
       return email ? email.slice(0, 2).toUpperCase() : "?";
    };
 
+   // Memoize dropdown menu items
+   const dropdownMenuItems = useMemo(
+      () => [
+         {
+            icon: MailIcon,
+            label: translate("pages.profile.information.actions.edit-email"),
+            onClick: () => setShowEmailModal(true),
+         },
+         {
+            icon: KeyIcon,
+            label: translate("pages.profile.information.actions.edit-password"),
+            onClick: () => setShowPasswordModal(true),
+         },
+         {
+            icon: UserIcon,
+            label: translate("pages.profile.information.actions.edit-profile"),
+            onClick: () => setShowProfileModal(true),
+         },
+      ],
+      [],
+   );
+
    return (
       <>
          <Card className="w-full h-full">
@@ -74,7 +96,7 @@ export function ProfileInformation() {
                      <DropdownMenuTrigger asChild>
                         <Button
                            aria-label={translate(
-                              "pages.profile.information.actions.manage-profile",
+                              "pages.profile.information.actions.title",
                            )}
                            size="icon"
                            variant="ghost"
@@ -82,38 +104,27 @@ export function ProfileInformation() {
                            <MoreVertical className="w-5 h-5" />
                         </Button>
                      </DropdownMenuTrigger>
-                     <DropdownMenuContent className="w-56" align="end">
+                     <DropdownMenuContent align="end" className="w-56">
                         <DropdownMenuLabel>
                            {translate(
-                              "pages.profile.information.actions.manage-profile",
+                              "pages.profile.information.actions.title",
                            )}
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                           <DropdownMenuItem
-                              onClick={() => setShowEmailModal(true)}
-                           >
-                              <MailIcon className="w-4 h-4 mr-2" />
-                              {translate(
-                                 "pages.profile.information.actions.update-email",
-                              )}
-                           </DropdownMenuItem>
-                           <DropdownMenuItem
-                              onClick={() => setShowPasswordModal(true)}
-                           >
-                              <KeyIcon className="w-4 h-4 mr-2" />
-                              {translate(
-                                 "pages.profile.information.actions.update-password",
-                              )}
-                           </DropdownMenuItem>
-                           <DropdownMenuItem
-                              onClick={() => setShowProfileModal(true)}
-                           >
-                              <UserIcon className="w-4 h-4 mr-2" />
-                              {translate(
-                                 "pages.profile.information.actions.update-profile",
-                              )}
-                           </DropdownMenuItem>
+                           {dropdownMenuItems.map((item, index) => {
+                              const Icon = item.icon;
+                              return (
+                                 <DropdownMenuItem
+                                    className=" flex items-center gap-2"
+                                    key={`${item.label}-${index + 1}`}
+                                    onClick={item.onClick}
+                                 >
+                                    <Icon className="w-4 h-4 " />
+                                    <span>{item.label}</span>
+                                 </DropdownMenuItem>
+                              );
+                           })}
                         </DropdownMenuGroup>
                      </DropdownMenuContent>
                   </DropdownMenu>
@@ -135,12 +146,7 @@ export function ProfileInformation() {
                <Item className=" text-center">
                   <ItemContent>
                      <ItemTitle>{session?.user?.name}</ItemTitle>
-                     <ItemDescription>
-                        {session?.user?.email ||
-                           translate(
-                              "pages.profile.information.fields.no-email",
-                           )}
-                     </ItemDescription>
+                     <ItemDescription>{session?.user?.email}</ItemDescription>
                   </ItemContent>
                </Item>
             </CardContent>

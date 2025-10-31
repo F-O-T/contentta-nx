@@ -17,7 +17,7 @@ import {
    ItemSeparator,
    ItemTitle,
 } from "@packages/ui/components/item";
-import { Moon, Globe } from "lucide-react";
+import { Globe, Moon } from "lucide-react";
 import { ThemeSwitcher } from "@/layout/theme-provider";
 import { LanguageCommand } from "../features/language-command";
 
@@ -30,7 +30,7 @@ export function PreferencesSection() {
                   {translate("pages.profile.preferences.title")}
                </CardTitle>
                <CardDescription>
-                  Manage your application preferences
+                  {translate("pages.profile.preferences.description")}
                </CardDescription>
             </CardHeader>
             <CardContent>
@@ -41,9 +41,15 @@ export function PreferencesSection() {
                         <Moon className="size-4" />
                      </ItemMedia>
                      <ItemContent className="truncate">
-                        <ItemTitle>Theme</ItemTitle>
+                        <ItemTitle>
+                           {translate(
+                              "pages.profile.preferences.items.theme.title",
+                           )}
+                        </ItemTitle>
                         <ItemDescription>
-                           Choose your preferred color theme
+                           {translate(
+                              "pages.profile.preferences.items.theme.description",
+                           )}
                         </ItemDescription>
                      </ItemContent>
                      <ItemActions>
@@ -59,9 +65,15 @@ export function PreferencesSection() {
                         <Globe className="size-4" />
                      </ItemMedia>
                      <ItemContent className="truncate">
-                        <ItemTitle>Language</ItemTitle>
+                        <ItemTitle>
+                           {translate(
+                              "pages.profile.preferences.items.language.title",
+                           )}
+                        </ItemTitle>
                         <ItemDescription>
-                           Select your preferred language
+                           {translate(
+                              "pages.profile.preferences.items.language.description",
+                           )}
                         </ItemDescription>
                      </ItemContent>
                      <ItemActions>

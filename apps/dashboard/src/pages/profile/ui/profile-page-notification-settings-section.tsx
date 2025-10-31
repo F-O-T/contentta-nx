@@ -1,3 +1,4 @@
+import { translate } from "@packages/localization";
 import {
    Card,
    CardContent,
@@ -62,9 +63,11 @@ export function NotificationSettingsSection() {
    return (
       <Card>
          <CardHeader>
-            <CardTitle>Notification Settings</CardTitle>
+            <CardTitle>
+               {translate("pages.profile.notifications.title")}
+            </CardTitle>
             <CardDescription>
-               Manage your notification preferences
+               {translate("pages.profile.notifications.description")}
             </CardDescription>
          </CardHeader>
 
@@ -74,14 +77,22 @@ export function NotificationSettingsSection() {
                   <Bell className="size-4" />
                </ItemMedia>
                <ItemContent>
-                  <ItemTitle>Posts without images</ItemTitle>
+                  <ItemTitle>
+                     {translate(
+                        "pages.profile.notifications.items.missing-images.title",
+                     )}
+                  </ItemTitle>
                   <ItemDescription>
-                     Get notified when posts have missing images
+                     {translate(
+                        "pages.profile.notifications.items.missing-images.description",
+                     )}
                   </ItemDescription>
                </ItemContent>
                <ItemActions>
                   <Switch
-                     aria-label="Posts without images"
+                     aria-label={translate(
+                        "pages.profile.notifications.items.missing-images.label",
+                     )}
                      checked={data?.notifyMissingImages ?? true}
                      onCheckedChange={handleToggleMissingImages}
                   />
