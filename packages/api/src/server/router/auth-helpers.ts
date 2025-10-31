@@ -9,6 +9,14 @@ import { APIError, propagateError } from "@packages/utils/errors";
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 
 export const authHelpersRouter = router({
+   getActiveSubscription: protectedProcedure.query(async ({ ctx }) => {
+      const resolvedCtx = await ctx;
+      const customer = await resolvedCtx.auth.api.state({
+         headers: resolvedCtx.headers,
+      });
+      const activeSubscription = customer.activeSubscriptions[0] || null;
+      return activeSubscription;
+   }),
    getApiKeys: protectedProcedure.query(async ({ ctx }) => {
       const resolvedCtx = await ctx;
       const apiKeys = await resolvedCtx.auth.api.listApiKeys({
