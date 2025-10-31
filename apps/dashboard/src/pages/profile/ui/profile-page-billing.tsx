@@ -10,6 +10,17 @@ import {
    CardTitle,
 } from "@packages/ui/components/card";
 import {
+   Credenza,
+   CredenzaBody,
+   CredenzaClose,
+   CredenzaContent,
+   CredenzaDescription,
+   CredenzaFooter,
+   CredenzaHeader,
+   CredenzaTitle,
+   CredenzaTrigger,
+} from "@packages/ui/components/credenza";
+import {
    DropdownMenu,
    DropdownMenuContent,
    DropdownMenuGroup,
@@ -32,6 +43,7 @@ import { formatDate } from "@packages/utils/date";
 import { formatNumberIntoCurrency } from "@packages/utils/number";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
+   Building,
    CreditCard,
    ExternalLink,
    MoreVertical,
@@ -39,21 +51,19 @@ import {
 } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import { betterAuthClient, useTRPC } from "@/integrations/clients";
+import { SubscriptionPricingCards } from "@/widgets/subscription/ui/subscription-pricing-cards";
 
 export function ProfilePageBilling() {
    const trpc = useTRPC();
-   const { data: activeSubscription } = useSuspenseQuery(
-      trpc.authHelpers.getActiveSubscription.queryOptions(),
-   );
-   const { data: customerState } = useSuspenseQuery(
-      trpc.authHelpers.getCustomerState.queryOptions(),
+   const { data: billingInfo } = useSuspenseQuery(
+      trpc.authHelpers.getBillingInfo.queryOptions(),
    );
 
    const meterData = useMemo(() => {
       const selectedMeter =
-         customerState?.activeMeters?.find(
+         billingInfo.customerState?.activeMeters?.find(
             (m) => (m?.creditedUnits ?? 0) > 0,
-         ) ?? customerState?.activeMeters?.[0];
+         ) ?? billingInfo.customerState?.activeMeters?.[0];
 
       const consumedUnits =
          typeof selectedMeter?.consumedUnits === "number"
@@ -69,7 +79,7 @@ export function ProfilePageBilling() {
          creditedUnits,
          selectedMeter,
       };
-   }, [customerState?.activeMeters]);
+   }, [billingInfo.customerState?.activeMeters]);
 
    const rulerDisplayLimit = 50000;
    const displayConsumed = useMemo(
@@ -81,29 +91,136 @@ export function ProfilePageBilling() {
       return await betterAuthClient.customer.portal();
    }, []);
 
-   const getSubscriptionDisplay = useCallback(() => {
-      const amount = formatNumberIntoCurrency(
-         activeSubscription?.amount ?? 0,
-         activeSubscription?.currency ?? "USD",
-         "en-US",
+   function OrganizationMemberContent() {
+      return (
+         <ItemGroup>
+            <Item>
+               <ItemMedia variant="icon">
+                  <Building className="size-4" />
+               </ItemMedia>
+               <ItemContent>
+                  <ItemTitle>
+                     {translate(
+                        "pages.profile.billing.state.organization.title",
+                     )}
+                  </ItemTitle>
+                  <ItemDescription>
+                     {translate(
+                        "pages.profile.billing.state.organization.description",
+                     )}
+                  </ItemDescription>
+               </ItemContent>
+            </Item>
+         </ItemGroup>
       );
-      const interval = activeSubscription?.recurringInterval ?? "month";
-      return `${amount} /${interval}`;
-   }, [
-      activeSubscription?.amount,
-      activeSubscription?.currency,
-      activeSubscription?.recurringInterval,
-   ]);
+   }
 
-   const getNextBillingDate = useCallback(() => {
-      return activeSubscription?.currentPeriodEnd
-         ? formatDate(
-              new Date(activeSubscription.currentPeriodEnd),
-              "DD/MM/YYYY",
-           )
-         : "N/A";
-   }, [activeSubscription?.currentPeriodEnd]);
+   function NoSubscriptionContent() {
+      return (
+         <ItemGroup>
+            <Item>
+               <ItemMedia variant="icon">
+                  <CreditCard className="size-4" />
+               </ItemMedia>
+               <ItemContent>
+                  <ItemTitle>
+                     {translate("pages.profile.billing.state.not-active.title")}
+                  </ItemTitle>
+                  <ItemDescription>
+                     {translate(
+                        "pages.profile.billing.state.not-active.description",
+                     )}
+                  </ItemDescription>
+               </ItemContent>
+            </Item>
+            <Credenza>
+               <CredenzaTrigger asChild>
+                  <Button className="w-full">Choose Plan</Button>
+               </CredenzaTrigger>
+               <CredenzaContent>
+                  <CredenzaHeader>
+                     <CredenzaTitle>Choose Your Plan</CredenzaTitle>
+                     <CredenzaDescription>
+                        Select the perfect plan for your needs
+                     </CredenzaDescription>
+                  </CredenzaHeader>
+                  <CredenzaBody>
+                     <SubscriptionPricingCards />
+                  </CredenzaBody>
+                  <CredenzaFooter>
+                     <CredenzaClose asChild>
+                        <Button variant="outline">Cancel</Button>
+                     </CredenzaClose>
+                  </CredenzaFooter>
+               </CredenzaContent>
+            </Credenza>
+         </ItemGroup>
+      );
+   }
 
+   function ActiveSubscriptionContent() {
+      const getSubscriptionDisplay = useCallback(() => {
+         const amount = formatNumberIntoCurrency(
+            billingInfo.activeSubscription?.amount ?? 0,
+            billingInfo.activeSubscription?.currency ?? "USD",
+            "en-US",
+         );
+         const interval =
+            billingInfo.activeSubscription?.recurringInterval ?? "month";
+         return `${amount} /${interval}`;
+      }, []);
+
+      const getNextBillingDate = useCallback(() => {
+         return billingInfo.activeSubscription?.currentPeriodEnd
+            ? formatDate(
+                 new Date(billingInfo.activeSubscription.currentPeriodEnd),
+                 "DD/MM/YYYY",
+              )
+            : "N/A";
+      }, []);
+
+      return (
+         <ItemGroup>
+            <Item>
+               <ItemMedia variant="icon">
+                  <CreditCard className="size-4" />
+               </ItemMedia>
+               <ItemContent>
+                  <ItemTitle>{getSubscriptionDisplay()}</ItemTitle>
+                  <ItemDescription>
+                     {translate("pages.profile.billing.next-billing")}{" "}
+                     {getNextBillingDate()}
+                  </ItemDescription>
+               </ItemContent>
+            </Item>
+            <ItemSeparator />
+            <Item>
+               <ItemMedia variant="icon">
+                  <TrendingUp className="size-4" />
+               </ItemMedia>
+               <ItemContent>
+                  <ItemTitle>
+                     {translate("pages.profile.billing.state.active.title")}
+                  </ItemTitle>
+                  <ItemDescription>
+                     {translate(
+                        "pages.profile.billing.state.active.description",
+                     )}
+                  </ItemDescription>
+               </ItemContent>
+               <UsageRuler
+                  defaultValue={displayConsumed}
+                  displayMax={rulerDisplayLimit}
+                  legend={translate(
+                     "pages.profile.billing.state.active.legend",
+                  )}
+                  max={meterData.creditedUnits}
+                  min={0}
+               />
+            </Item>
+         </ItemGroup>
+      );
+   }
    return (
       <TooltipProvider>
          <Card>
@@ -112,79 +229,55 @@ export function ProfilePageBilling() {
                <CardDescription>
                   {translate("pages.profile.billing.description")}
                </CardDescription>
-               <CardAction>
-                  <DropdownMenu>
-                     <DropdownMenuTrigger asChild>
-                        <Button
-                           aria-label={translate(
-                              "pages.profile.billing.actions.title",
-                           )}
-                           size="icon"
-                           variant="ghost"
-                        >
-                           <MoreVertical className="w-4 h-4" />
-                        </Button>
-                     </DropdownMenuTrigger>
-                     <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>
-                           {translate("pages.profile.billing.actions.title")}
-                        </DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuGroup>
-                           <DropdownMenuItem
-                              className=" flex items-center gap-2"
-                              onSelect={goToBillingPortal}
+               {billingInfo.billingState === "active_subscription" && (
+                  <CardAction>
+                     <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                           <Button
+                              aria-label={translate(
+                                 "pages.profile.billing.actions.title",
+                              )}
+                              size="icon"
+                              variant="ghost"
                            >
-                              <ExternalLink className="size-4" />
-                              <span>
-                                 {translate(
-                                    "pages.profile.billing.actions.portal",
-                                 )}
-                              </span>
-                           </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                     </DropdownMenuContent>
-                  </DropdownMenu>
-               </CardAction>
+                              <MoreVertical className="w-4 h-4" />
+                           </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                           <DropdownMenuLabel>
+                              {translate("pages.profile.billing.actions.title")}
+                           </DropdownMenuLabel>
+                           <DropdownMenuSeparator />
+                           <DropdownMenuGroup>
+                              <DropdownMenuItem
+                                 className=" flex items-center gap-2"
+                                 onSelect={goToBillingPortal}
+                              >
+                                 <ExternalLink className="size-4" />
+                                 <span>
+                                    {translate(
+                                       "pages.profile.billing.actions.portal",
+                                    )}
+                                 </span>
+                              </DropdownMenuItem>
+                           </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                     </DropdownMenu>
+                  </CardAction>
+               )}
             </CardHeader>
             <CardContent>
-               <ItemGroup>
-                  <Item>
-                     <ItemMedia variant="icon">
-                        <CreditCard className="size-4" />
-                     </ItemMedia>
-                     <ItemContent>
-                        <ItemTitle>{getSubscriptionDisplay()}</ItemTitle>
-                        <ItemDescription>
-                           {translate("pages.profile.billing.next-billing")}{" "}
-                           {getNextBillingDate()}
-                        </ItemDescription>
-                     </ItemContent>
-                  </Item>
-                  <ItemSeparator />
-                  <Item>
-                     <ItemMedia variant="icon">
-                        <TrendingUp className="size-4" />
-                     </ItemMedia>
-                     <ItemContent>
-                        <ItemTitle>
-                           {translate("pages.profile.billing.usage.title")}
-                        </ItemTitle>
-                        <ItemDescription>
-                           {translate(
-                              "pages.profile.billing.usage.description",
-                           )}
-                        </ItemDescription>
-                     </ItemContent>
-                     <UsageRuler
-                        defaultValue={displayConsumed}
-                        displayMax={rulerDisplayLimit}
-                        legend={translate("pages.profile.billing.usage.legend")}
-                        max={meterData.creditedUnits}
-                        min={0}
-                     />
-                  </Item>
-               </ItemGroup>
+               {billingInfo.billingState === "organization_member" && (
+                  <OrganizationMemberContent />
+               )}
+
+               {billingInfo.billingState === "no_subscription" && (
+                  <NoSubscriptionContent />
+               )}
+
+               {billingInfo.billingState === "active_subscription" && (
+                  <ActiveSubscriptionContent />
+               )}
             </CardContent>
          </Card>
       </TooltipProvider>
