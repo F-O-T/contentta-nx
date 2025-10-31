@@ -1,35 +1,19 @@
-<div align="center">
-  <!-- You can change the width, height, and fill color of the logo. -->
-  <svg width="128" height="128" viewBox="0 0 58 58" fill="#8A2BE2" xmlns="http://www.w3.org/2000/svg">
-    <path d="M51.875 18.625H51.7917C50.0938 18.6146 48.4635 18.276 46.901 17.6146C45.3385 16.9479 43.9688 16.0104 42.7812 14.7969C41.5677 13.6094 40.6302 12.2396 39.9635 10.6771C39.3021 9.11458 38.9635 7.48438 38.9531 5.78646C38.9583 3.73958 39.4375 1.8125 40.3906 0H12.9531C12.1042 0 11.2604 0.0885417 10.4271 0.255208C9.59375 0.421875 8.78646 0.666667 8 0.989583C7.21354 1.31771 6.46875 1.71875 5.76042 2.1875C5.05729 2.66146 4.40104 3.19792 3.80208 3.80208C3.19792 4.40104 2.66146 5.05729 2.1875 5.76042C1.71354 6.46875 1.31771 7.21354 0.989583 8C0.666666 8.78646 0.416667 9.59375 0.25 10.4323C0.0833333 11.2656 0 12.1042 0 12.9583V44.625C0 45.474 0.0833333 46.3177 0.25 47.151C0.416667 47.9844 0.666666 48.7917 0.989583 49.5781C1.31771 50.3646 1.71354 51.1094 2.1875 51.8177C2.66146 52.526 3.19792 53.1771 3.80208 53.7812C4.40104 54.3802 5.05729 54.9167 5.76042 55.3906C6.46875 55.8646 7.21354 56.2604 8 56.5885C8.78646 56.9115 9.59375 57.1615 10.4271 57.3281C11.2604 57.4948 12.1042 57.5781 12.9531 57.5781H44.6198C45.474 57.5781 46.3125 57.4948 47.151 57.3281C47.9844 57.1615 48.7917 56.9115 49.5781 56.5885C50.3646 56.2604 51.1094 55.8646 51.8177 55.3906C52.5208 54.9167 53.1771 54.3802 53.776 53.7812C54.3802 53.1771 54.9167 52.526 55.3906 51.8177C55.8594 51.1094 56.2604 50.3646 56.5885 49.5781C56.9115 48.7917 57.1562 47.9844 57.3229 47.151C57.4896 46.3177 57.5781 45.474 57.5781 44.625V17.1875C55.7969 18.1406 53.8958 18.6198 51.875 18.625ZM18.7135 28.7917H18.6823C18.2917 28.776 17.9635 28.6302 17.6875 28.3542C17.4167 28.0729 17.276 27.7396 17.2708 27.349C17.2708 26.776 17.3802 26.2292 17.599 25.6979C17.8229 25.1667 18.1302 24.7031 18.5365 24.2969C18.9427 23.8906 19.4115 23.5781 19.9375 23.3594C20.4688 23.1406 21.0208 23.0312 21.5885 23.0312C22.1615 23.0312 22.7135 23.1406 23.2448 23.3594C23.7708 23.5781 24.2396 23.8906 24.6458 24.2969C25.0521 24.7031 25.3594 25.1667 25.5833 25.6979C25.8021 26.2292 25.9115 26.776 25.9115 27.349C25.9115 27.5417 25.875 27.724 25.8021 27.901C25.7292 28.0781 25.625 28.2396 25.4896 28.375C25.3542 28.5104 25.1979 28.6094 25.0208 28.6823C24.8438 28.7552 24.6615 28.7917 24.4688 28.7917C24.2812 28.7917 24.0938 28.75 23.9219 28.6771C23.7448 28.6042 23.5885 28.5 23.4531 28.3646C23.3177 28.2344 23.2135 28.0781 23.1406 27.901C23.0677 27.724 23.0312 27.5417 23.0312 27.349C23.0469 27.1562 23.026 26.9635 22.9583 26.776C22.8906 26.5938 22.7865 26.4323 22.651 26.2917C22.5104 26.151 22.349 26.0521 22.1615 25.9844C21.9792 25.9167 21.7865 25.8906 21.5885 25.9115C21.3958 25.8958 21.2031 25.9219 21.0156 25.9948C20.8281 26.0625 20.6667 26.1667 20.5312 26.3073C20.3906 26.4531 20.2865 26.6146 20.224 26.8021C20.1562 26.9896 20.1302 27.1823 20.151 27.3802C20.1406 27.7708 19.9948 28.099 19.7135 28.375C19.4375 28.6458 19.1042 28.7865 18.7135 28.7917ZM37.25 33.3958C37.0521 34.3698 36.6979 35.2865 36.1823 36.1354C35.6667 36.9896 35.0208 37.7292 34.25 38.3594C33.4792 38.9896 32.625 39.4688 31.6875 39.8021C30.75 40.1354 29.7813 40.3073 28.7865 40.3073C27.7917 40.3073 26.8281 40.1354 25.8906 39.8021C24.9531 39.4688 24.099 38.9896 23.3281 38.3594C22.5521 37.7292 21.9115 36.9896 21.3958 36.1354C20.8802 35.2865 20.526 34.3698 20.3229 33.3958C20.2865 33.2083 20.2865 33.0208 20.3229 32.8333C20.3594 32.6458 20.4271 32.474 20.5312 32.3125C20.6406 32.1562 20.7708 32.0208 20.9271 31.9167C21.0885 31.8073 21.2604 31.7344 21.4479 31.6979C21.6354 31.6562 21.8229 31.6562 22.0104 31.6927C22.1979 31.7292 22.3698 31.8021 22.5312 31.9062C22.6875 32.0104 22.8229 32.1458 22.9271 32.3021C23.0365 32.4583 23.1094 32.6354 23.1458 32.8177C23.276 33.4688 23.5156 34.0781 23.8594 34.6458C24.2031 35.2135 24.6302 35.7083 25.1458 36.1302C25.6615 36.5469 26.2292 36.8698 26.8542 37.0938C27.4792 37.3177 28.125 37.4271 28.7865 37.4271C29.4531 37.4271 30.099 37.3177 30.724 37.0938C31.349 36.8698 31.9167 36.5469 32.4323 36.1302C32.9427 35.7083 33.375 35.2135 33.7188 34.6458C34.0625 34.0781 34.2969 33.4688 34.4323 32.8177C34.4688 32.6354 34.5417 32.4583 34.651 32.3021C34.7552 32.1458 34.8906 32.0104 35.0469 31.9062C35.2083 31.8021 35.3802 31.7292 35.5677 31.6927C35.7552 31.6562 35.9427 31.6615 36.1302 31.6979C36.3177 31.7344 36.4896 31.8073 36.6458 31.9167C36.8073 32.0208 36.9375 32.1562 37.0417 32.3125C37.1458 32.474 37.2188 32.6458 37.2552 32.8333C37.2917 33.0208 37.2917 33.2083 37.25 33.3958ZM38.8646 28.7917C38.6719 28.7917 38.4896 28.75 38.3125 28.6771C38.1406 28.6042 37.9844 28.5 37.849 28.3646C37.7135 28.2344 37.6094 28.0781 37.5365 27.901C37.4635 27.724 37.4271 27.5417 37.4271 27.349C37.4427 27.1562 37.4219 26.9635 37.3542 26.776C37.2865 26.5938 37.1823 26.4323 37.0417 26.2917C36.9062 26.151 36.7448 26.0521 36.5573 25.9844C36.3698 25.9167 36.1823 25.8906 35.9844 25.9115C35.7865 25.8958 35.5938 25.9219 35.4115 25.9948C35.224 26.0625 35.0625 26.1667 34.9219 26.3073C34.7865 26.4531 34.6823 26.6146 34.6146 26.8021C34.5521 26.9896 34.526 27.1823 34.5469 27.3802C34.5312 27.7708 34.3906 28.099 34.1094 28.375C33.8333 28.6458 33.4948 28.7865 33.1042 28.7917H33.0781C32.6875 28.776 32.3542 28.6302 32.0833 28.3542C31.8125 28.0729 31.6719 27.7396 31.6667 27.349C31.6667 26.776 31.776 26.2292 31.9948 25.6979C32.2135 25.1667 32.526 24.7031 32.9323 24.2969C33.3385 23.8906 33.8021 23.5781 34.3333 23.3594C34.8646 23.1406 35.4115 23.0312 35.9844 23.0312C36.5573 23.0312 37.1094 23.1406 37.6406 23.3594C38.1667 23.5781 38.6354 23.8906 39.0417 24.2969C39.4427 24.7031 39.7552 25.1667 39.974 25.6979C40.1927 26.2292 40.3021 26.776 40.3021 27.349C40.3073 27.5417 40.2708 27.724 40.1979 27.901C40.125 28.0781 40.0208 28.2396 39.8854 28.375C39.75 28.5104 39.5938 28.6094 39.4167 28.6823C39.2396 28.7552 39.0573 28.7917 38.8646 28.7917ZM57.1458 13.7917L43.8438 0.432292C43.75 0.348958 43.6458 0.281249 43.526 0.229167C42.3854 1.90625 41.8177 3.76042 41.8281 5.78646C41.8385 6.4375 41.9115 7.08333 42.0469 7.71875C42.1823 8.35417 42.375 8.97396 42.6302 9.57292C42.8854 10.1719 43.1927 10.7448 43.5573 11.2812C43.9219 11.8229 44.3333 12.3229 44.7969 12.7812C45.2552 13.2448 45.7552 13.6562 46.2969 14.0208C46.8333 14.3854 47.4062 14.6927 48.0052 14.9479C48.6042 15.2031 49.224 15.3958 49.8594 15.5312C50.4948 15.6667 51.1406 15.7396 51.7917 15.75C53.8333 15.8021 55.6823 15.2344 57.349 14.0521C57.2865 13.9583 57.224 13.8698 57.1458 13.7917Z"/>
-  </svg>
-</div>
-
 # ContentaGen
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](./LICENSE.md)
 [![GitHub Stars](https://img.shields.io/github/stars/F-O-T/contentagen-nx?style=social)](https://github.com/F-O-T/contentagen-nx)
-[![Discord](https://img.shields.io/discord/1286767551016865842?label=discord&style=social)](https://discord.gg/WsfyJtvF2u)
 
-**ContentaGen** is an open-source, agent-based platform for creating strategic, brand-aligned SEO content. Our AI agents learn your unique brand voice to generate ready-to-publish articles that increase organic traffic while cutting production time by over 80%.
+**ContentaGen** is the open-source alternative to SurferSEO. A powerful SEO content optimization platform that you can self-host for free, forever.
 
-It's designed for B2B SaaS companies, content marketing teams, and developers looking to automate and scale their content strategy.
+Perfect for content creators, SEO specialists, and businesses who want full control over their SEO tools without expensive subscriptions.
 
 ## ✨ Key Features
 
--   🧠 **Brand Learning**: AI agents crawl your website and brand documents to build a unique "Brand Brain," ensuring all content is perfectly on-brand.
--   🔬 **Competitor Intelligence**: Analyze competitor websites to identify content gaps, track product features, and generate data-driven ideas that outperform.
--   ⚙️ **Automated Content Workflow**: A fully automated pipeline from idea generation and SERP analysis to a polished, ready-to-publish draft.
--   ✍️ **Advanced Content Editor**: Review, tweak, and approve AI-generated drafts with a full-featured inline editor.
--   ↔️ **Developer SDK**: Integrate your generated content into any application (e.g., Astro, Next.js) with our powerful TypeScript SDK.
--   🚀 **100% Open Source**: Built with transparency and community at its core. Self-host for free, forever, under the Apache-2.0 license.
-
-## 🚀 Live Demos
-
--   **Dashboard**: [app.contentagen.com](https://app.contentagen.com)
--   **Landing Page**: [www.contentagen.com](https://www.contentagen.com)
--   **Blog (Powered by the SDK)**: [blog.contentagen.com](https://blog.contentagen.com)
--   **Documentation**: [docs.contentagen.com](https://docs.contentagen.com)
+-   🔍 **SERP Analysis**: Analyze top-ranking pages for any keyword to understand what Google wants
+-   📊 **Content Optimization**: Real-time scoring as you write based on SERP data and competitors
+-   🏆 **Competitor Research**: See what's working for competitors and find content gaps
+-   📈 **Keyword Tracking**: Monitor your rankings and track content performance over time
+-   🎯 **Topic Clustering**: Organize your content strategy with topic clusters and content pillars
 
 ## 🛠️ Tech Stack
 
@@ -45,106 +29,6 @@ It's designed for B2B SaaS companies, content marketing teams, and developers lo
 -   **Authentication**: [Better Auth](https://www.better-auth.com/)
 -   **Payments**: [Polar](https://polar.sh/)
 -   **Formatting & Linting**: [Biome](https://biomejs.dev/)
-
-## 🏁 Getting Started
-
-Follow these steps to set up your local development environment.
-
-### Prerequisites
-
--   [Bun](https://bun.sh/) (v1.1.0 or higher)
--   [Docker](https://www.docker.com/) and Docker Compose
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/F-O-T/contentagen-nx.git
-cd contentagen-nx
-```
-
-### 2. Install Dependencies
-
-```bash
-bun install
-```
-
-### 3. Set Up Environment Variables
-
-The project includes several .env.example files in the apps/ and packages/ directories. You'll need to create the corresponding .env files from them.
-
-```bash
-# This script copies .env.example files to .env where they exist
-bun run scripts/env-setup.ts setup
-```
-
-After running the script, review the newly created .env files and fill in the required values, especially for the apps/server.
-
-### 4. Start Local Services
-
-Start the required services (PostgreSQL, Redis, MinIO, PGVector) using Docker.
-
-```bash
-# This command is located in apps/server
-docker-compose -f apps/server/docker-compose.yml up -d
-```
-
-### 5. Push Database Schema
-
-Push the database schemas to your local PostgreSQL and PGVector instances.
-
-```bash
-# This runs db:push for both `packages/database` and `packages/rag`
-bun run db:push
-```
-
-### 6. Run the Development Servers
-
-Start the backend server and the dashboard application.
-
-```bash
-# This starts both the server and the dashboard
-bun run dev:dashboard
-```
-
-Your applications will be available at:
-
--   Dashboard: http://localhost:3000
--   Server: http://localhost:9876
-
-## 📂 Project Structure
-
-This is a monorepo managed by Nx.
-
-```
-├── apps/                    # Applications
-│   ├── server/             # ElysiaJS backend with tRPC
-│   ├── dashboard/          # React dashboard (Vite)
-│   ├── blog/               # Astro-powered blog
-│   ├── docs/               # Astro documentation site
-│   └── landing-page/       # Astro landing page
-├── packages/               # Shared libraries
-│   ├── agents/             # AI agents and logic
-│   ├── api/                # tRPC router definitions
-│   ├── authentication/     # Auth logic (Better Auth)
-│   ├── brand/              # Brand management
-│   ├── database/           # Drizzle ORM schema & repos for PostgreSQL
-│   ├── environment/        # Environment utilities
-│   ├── files/              # File handling utilities
-│   ├── localization/       # Internationalization
-│   ├── payment/            # Payment processing (Polar)
-│   ├── posthog/            # Analytics integration
-│   ├── rag/                # Drizzle ORM schema & repos for PGVector
-│   ├── server-events/      # Server-side event handling
-│   ├── transactional/      # Transactional email/notifications
-│   ├── ui/                 # React components (shadcn/ui)
-│   ├── utils/              # Shared utilities
-│   └── workers/            # BullMQ queues & workers
-├── tooling/                # Shared tooling configs
-│   └── typescript/         # TypeScript configuration
-├── scripts/                # Development and build scripts
-├── nx.json                 # Nx workspace configuration
-└── package.json            # Root package configuration
-```
 
 ## 🤝 Contributing
 
