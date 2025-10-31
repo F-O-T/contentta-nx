@@ -1,176 +1,98 @@
 {
    "billing": {
-      "approaching-limit": "Approaching limit",
-      "current-plan": "Current Plan",
-      "current-plan-description": "This is your current subscription plan details. You can manage your subscription or view usage metrics below.",
-      "current-plan-title": "Current plan",
-      "description": "Manage your subscription and billing information.",
-      "loading": "Current plan",
-      "manage-billing": "Manage Billing",
-      "manage-subscription": "Manage subscription",
-      "next-billing": "Next billing date:",
-      "no-active-plan": "No active plan",
-      "no-active-plan-description": "You don't have an active subscription plan.",
-      "no-usage-meters": "No usage meters available for this plan.",
-      "plan-features": "Plan Features",
-      "remaining": "Remaining:",
-      "remaining-value": "Remaining value:",
-      "title": "Billing & Subscription",
-      "upgrade": "Upgrade Plan",
-      "usage": "Credit usage this month: {usage} out of {limit} credits",
-      "usage-this-month": "Usage this month",
-      "usage-this-month-loading": "Usage This Month",
-      "usage-units": "units"
+      "actions": {
+         "portal": "Abrir o portal",
+         "title": "Gerencias assinatura"
+      },
+      "description": "Gerencie sua assinatura e informações de cobrança.",
+      "next-billing": "Próxima data de cobrança:",
+      "title": "Assinatura",
+      "usage": {
+         "description": "Visualize o seu uso de créditos deste mês.",
+         "legend": "Creditos utilizados este mês: ",
+         "title": "Uso de creditos"
+      }
    },
-   "forms": {
-      "update-email": {
-         "actions": {
-            "cancel": "Cancel",
-            "send": "Send Verification"
-         },
-         "confirm": {
-            "cancel": "Cancel",
-            "confirm": "Yes, Change Email",
-            "description": "Are you sure you want to change your email address?",
-            "title": "Confirm Email Change"
-         },
-         "fields": {
-            "current-email": {
-               "label": "Current Email"
-            },
-            "new-email": {
-               "label": "New Email",
-               "placeholder": "Enter new email address"
-            }
-         },
-         "messages": {
-            "error": "Failed to change email.",
-            "loading": "Sending verification email...",
-            "success": "Verification email sent. Please check your inbox."
-         },
-         "title": "Change Email Address",
-         "validation": {
-            "email-invalid": "Please enter a valid email address"
-         }
+   "features": {
+      "language-command": {
+         "empty": "Nenhum idioma encontrado.",
+         "search": "Pesquisar idiomas..."
       },
-      "update-password": {
+      "session-details": {
          "actions": {
-            "cancel": "Cancel",
-            "change": "Change Password"
-         },
-         "confirm": {
-            "cancel": "Cancel",
-            "confirm": "Yes, Change Password",
-            "description": "Are you sure you want to change your password?",
-            "title": "Confirm Password Change"
-         },
-         "fields": {
-            "current-password": {
-               "label": "Current Password",
-               "placeholder": "Enter current password"
+            "description": "Aqui voce pode gerenciar sua sessão atual.",
+            "revoke-current": {
+               "description": "Revogar a sessão atual e sair deste dispositivo.",
+               "title": "Revogar sessão atual"
             },
-            "new-password": {
-               "label": "New Password",
-               "placeholder": "Enter new password"
-            }
+            "title": "Gerencie sua sessão"
          },
-         "messages": {
-            "error": "Failed to change password.",
-            "loading": "Changing password...",
-            "success": "Password changed successfully."
-         },
-         "title": "Change Password",
-         "validation": {
-            "current-required": "Current password is required",
-            "new-min-length": "Password must be at least 8 characters"
-         }
-      },
-      "update-profile": {
-         "actions": {
-            "cancel": "Cancel",
-            "save": "Save Changes"
-         },
-         "confirm": {
-            "cancel": "Cancel",
-            "confirm": "Yes, Update Profile",
-            "description": "Are you sure you want to update your profile information?",
-            "title": "Confirm Profile Update"
-         },
-         "fields": {
-            "image": {
-               "label": "Profile Image"
-            },
-            "name": {
-               "label": "Name",
-               "placeholder": "Enter your name"
-            }
-         },
-         "messages": {
-            "error": "Failed to update profile.",
-            "loading": "Updating profile...",
-            "success": "Profile updated successfully."
-         },
-         "title": "Update Name & Photo",
-         "validation": {
-            "name-required": "Name is required"
-         }
+         "description": "Informações sobre a sessão selecionada.",
+         "title": "Detalhes da sessão"
       }
    },
    "information": {
       "actions": {
-         "update-email": "Update Email",
-         "update-password": "Update Password",
-         "update-profile": "Update Name & Photo"
+         "edit-email": "Editar email",
+         "edit-password": "Alterar senha",
+         "edit-profile": "Editar perfil",
+         "title": "Gerenciar informações"
       },
-      "description": "Update your personal information and account details.",
-      "fields": {
-         "anonymous": "Anonymous",
-         "email": "Email",
-         "name": "Name",
-         "no-email": "No email set"
-      },
-      "more-options": "More options",
-      "title": "Profile Information"
+      "description": "Atualize suas informações pessoais e de conta.",
+      "title": "Informações do perfil"
    },
-   "mascot-message": "Welcome to your profile! Update your details, manage billing, and set your preferences below.",
+   "mascot-message": "Gerencie suas informações de perfil e configurações de conta aqui.",
+   "notifications": {
+      "description": "Gerencie suas preferências de notificação.",
+      "items": {
+         "missing-images": {
+            "description": "Notifique-me quando meus posts estão sem imagens.",
+            "label": "Ativar notificações de imagens faltando",
+            "title": "Imagens faltando"
+         }
+      },
+      "title": "Notificações"
+   },
    "preferences": {
-      "description": "Customize your experience.",
-      "title": "Preferences",
-      "workflow": {
-         "missing-urls-description": "Receive notifications when posts are missing image URLs.",
-         "missing-urls-title": "Notify on missing urls",
-         "notify-missing-images": "Notify about missing images",
-         "title": "Workflow Preferences",
-         "workflow-description": "Customize your content workflow settings.",
-         "workflow-title": "Content workflow Preferences"
+      "description": "Gerencie suas preferências de conta.",
+      "items": {
+         "language": {
+            "description": "Selecione o idioma preferido para a interface.",
+            "title": "Idioma"
+         },
+         "theme": {
+            "description": "Escolha entre o modo claro, escuro ou siga o do seu sistema.",
+            "title": "Tema"
+         }
+      },
+      "title": "Preferências"
+   },
+   "quick-access": {
+      "api-keys": {
+         "description": "Gerencie suas chaves API para acesso programático.",
+         "title": "Chaves API"
+      },
+      "organization": {
+         "description": "Visualize a organização associada à sua conta.",
+         "title": "Organização"
       }
    },
    "sessions": {
-      "created": "Created:",
-      "current": "Current",
-      "current-session": "Current Session",
-      "description": "Manage your active login sessions.",
-      "ip-address": "IP:",
-      "last-active": "Last Active:",
-      "manage-sessions": "Manage Sessions",
-      "no-sessions": "No active sessions found.",
-      "revoke": "Revoke",
-      "revoke-all": "Revoke All Other Sessions",
-      "revoke-all-loading": "Revoking All Sessions...",
-      "revoke-all-sessions": "Revoke All Sessions",
-      "revoke-confirm": "Are you sure you want to revoke this session?",
-      "revoke-other": "Revoke Other Sessions",
-      "revoke-other-loading": "Revoking Other Sessions...",
-      "revoke-session": "Revoke Session",
-      "revoke-session-loading": "Revoking...",
-      "session-actions": "Session Actions",
-      "sessions-description": "View and manage your active sessions. Revoke any session to log out from that device.",
-      "sessions-title": "Sessions",
-      "title": "Active Sessions",
-      "unknown-device": "Unknown Device"
-   },
-   "toast": {
-      "preference-failed": "Failed to update preference",
-      "preference-updated": "Preference updated successfully"
+      "actions": {
+         "revoke-all": "Revogar todas as sessões",
+         "revoke-others": "Revogar outras sessões",
+         "title": "Gerenciar sessões"
+      },
+      "description": "Visualize e gerencie suas sessões de login ativas.",
+      "item": {
+         "created-at": "Iniciado em",
+         "current": "Sessão atual",
+         "details": "Detalhes da sessão",
+         "device": "Dispositivo",
+         "ip-address": "Endereço IP",
+         "last-active": "Última atividade",
+         "unknown-device": "Dispositivo desconhecido"
+      },
+      "title": "Sessões ativas"
    }
 }

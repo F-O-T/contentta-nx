@@ -30,6 +30,10 @@
    "form": {
       "field-required": "This field is required"
    },
+   "languages": {
+      "en": "Inglês",
+      "pt": "Português"
+   },
    "messages": {
       "loading": "Loading..."
    },
@@ -40,6 +44,11 @@
       "active": "Active",
       "inactive": "Inactive",
       "loading": "Loading..."
+   },
+   "themes": {
+      "dark": "Tema escuro",
+      "light": "Tema claro",
+      "system": "Seguir o sistema"
    },
    "time": {
       "last-modified": "Last Modified",
