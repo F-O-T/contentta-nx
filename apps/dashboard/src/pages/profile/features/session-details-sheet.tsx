@@ -1,5 +1,15 @@
 import { translate } from "@packages/localization";
-import { Button } from "@packages/ui/components/button";
+import {
+   AlertDialog,
+   AlertDialogAction,
+   AlertDialogCancel,
+   AlertDialogContent,
+   AlertDialogDescription,
+   AlertDialogFooter,
+   AlertDialogHeader,
+   AlertDialogTitle,
+   AlertDialogTrigger,
+} from "@packages/ui/components/alert-dialog";
 import {
    Item,
    ItemActions,
@@ -19,8 +29,9 @@ import {
    SheetTitle,
    SheetTrigger,
 } from "@packages/ui/components/sheet";
+import { formatDate } from "@packages/utils/date";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CheckCircle2, Monitor, Trash2 } from "lucide-react";
+import { ArrowRight, CheckCircle2, Monitor, Trash2 } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import { betterAuthClient, type Session } from "@/integrations/clients";
 
@@ -48,10 +59,6 @@ export function SessionDetailsSheet({
 
    const handleDelete = useCallback(
       (token: string) => {
-         if (
-            !window.confirm(translate("pages.profile.sessions.revoke-confirm"))
-         )
-            return;
          revokeSessionMutation.mutate(token);
       },
       [revokeSessionMutation],
@@ -65,29 +72,25 @@ export function SessionDetailsSheet({
             title: "Device",
             value:
                session.userAgent ||
-               translate("pages.profile.sessions.unknown-device"),
+               translate("pages.profile.sessions.item.unknown-device"),
          },
          {
             isCurrent: false,
             showIcon: false,
-            title: translate("pages.profile.sessions.ip-address"),
+            title: translate("pages.profile.sessions.item.ip-address"),
             value: session.ipAddress || "-",
          },
          {
             isCurrent: false,
             showIcon: false,
-            title: translate("pages.profile.sessions.created"),
-            value: session.createdAt
-               ? new Date(session.createdAt).toLocaleString()
-               : "-",
+            title: translate("pages.profile.sessions.item.created-at"),
+            value: formatDate(session.createdAt),
          },
          {
             isCurrent: false,
             showIcon: false,
-            title: translate("pages.profile.sessions.last-active"),
-            value: session.updatedAt
-               ? new Date(session.updatedAt).toLocaleString()
-               : "-",
+            title: translate("pages.profile.sessions.item.last-active"),
+            value: formatDate(session.updatedAt),
          },
       ];
    }, [session, currentSessionId]);
@@ -97,9 +100,13 @@ export function SessionDetailsSheet({
          <SheetTrigger asChild>{children}</SheetTrigger>
          <SheetContent>
             <SheetHeader>
-               <SheetTitle>Your Session</SheetTitle>
+               <SheetTitle>
+                  {translate("pages.profile.features.session-details.title")}
+               </SheetTitle>
                <SheetDescription>
-                  Here are the details of your session
+                  {translate(
+                     "pages.profile.features.session-details.description",
+                  )}
                </SheetDescription>
             </SheetHeader>
             <ItemGroup>
@@ -116,7 +123,9 @@ export function SessionDetailsSheet({
                            {detail.isCurrent && (
                               <span className="text-primary flex items-center gap-1 text-xs font-semibold">
                                  <CheckCircle2 className="w-4 h-4" />
-                                 {translate("pages.profile.sessions.current")}
+                                 {translate(
+                                    "pages.profile.sessions.item.current",
+                                 )}
                               </span>
                            )}
                         </ItemTitle>
@@ -128,47 +137,76 @@ export function SessionDetailsSheet({
             </ItemGroup>
             <Separator />
             <SheetHeader>
-               <SheetTitle>Actions</SheetTitle>
+               <SheetTitle>
+                  {translate(
+                     "pages.profile.features.session-details.actions.title",
+                  )}
+               </SheetTitle>
                <SheetDescription>
-                  Here you find the actions for this session
+                  {translate(
+                     "pages.profile.features.session-details.actions.description",
+                  )}
                </SheetDescription>
             </SheetHeader>
-            <ItemGroup>
-               <Item>
-                  <ItemMedia variant="icon">
-                     <Trash2 className="w-4 h-4 text-destructive" />
-                  </ItemMedia>
-                  <ItemContent className="gap-1">
-                     <ItemTitle className="text-destructive">
-                        {translate("pages.profile.sessions.revoke-session")}
-                     </ItemTitle>
-                     <ItemDescription>
-                        {translate(
-                           "pages.profile.sessions.revoke-session-description",
-                        )}
-                     </ItemDescription>
-                  </ItemContent>
-                  <ItemActions>
-                     <Button
+            <ItemGroup className="px-4">
+               <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                     <Item
                         aria-label={translate(
-                           "pages.profile.sessions.revoke-session",
+                           "pages.profile.features.session-details.actions.revoke-current.title",
                         )}
-                        className="text-destructive hover:text-destructive hover:bg-destructive/10 rounded-full"
-                        disabled={revokeSessionMutation.isPending}
-                        onClick={() =>
-                           handleDelete(session.token || session.id)
-                        }
-                        size="icon"
-                        variant="ghost"
+                        className="cursor-pointer"
+                        variant="outline"
                      >
-                        {revokeSessionMutation.isPending ? (
-                           <div className="w-4 h-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                        ) : (
-                           <Trash2 className="w-4 h-4" />
-                        )}
-                     </Button>
-                  </ItemActions>
-               </Item>
+                        <ItemMedia variant="icon">
+                           <Trash2 className="w-4 h-4 text-destructive" />
+                        </ItemMedia>
+                        <ItemContent className="gap-1">
+                           <ItemTitle className="text-destructive">
+                              {translate(
+                                 "pages.profile.features.session-details.actions.revoke-current.title",
+                              )}
+                           </ItemTitle>
+                           <ItemDescription>
+                              {translate(
+                                 "pages.profile.features.session-details.actions.revoke-current.description",
+                              )}
+                           </ItemDescription>
+                        </ItemContent>
+                        <ItemActions>
+                           <ArrowRight className="size-4 text-destructive" />
+                        </ItemActions>
+                     </Item>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                     <AlertDialogHeader>
+                        <AlertDialogTitle>
+                           {translate(
+                              "pages.profile.features.session-details.actions.revoke-current.title",
+                           )}
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                           {translate(
+                              "pages.profile.features.session-details.actions.revoke-current.description",
+                           )}
+                        </AlertDialogDescription>
+                     </AlertDialogHeader>
+                     <AlertDialogFooter>
+                        <AlertDialogCancel>
+                           {translate("common.actions.cancel")}
+                        </AlertDialogCancel>
+                        <AlertDialogAction
+                           onClick={() =>
+                              handleDelete(session.token || session.id)
+                           }
+                        >
+                           {translate(
+                              "pages.profile.features.session-details.actions.revoke-current.title",
+                           )}
+                        </AlertDialogAction>
+                     </AlertDialogFooter>
+                  </AlertDialogContent>
+               </AlertDialog>
             </ItemGroup>
          </SheetContent>
       </Sheet>

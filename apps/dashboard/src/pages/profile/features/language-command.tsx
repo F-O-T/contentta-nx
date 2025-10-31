@@ -1,4 +1,6 @@
-import { type SupportedLng } from "@packages/localization";
+import type { SupportedLng } from "@packages/localization";
+
+import { Button } from "@packages/ui/components/button";
 import {
    Command,
    CommandDialog,
@@ -8,19 +10,27 @@ import {
    CommandItem,
    CommandList,
 } from "@packages/ui/components/command";
-import { Button } from "@packages/ui/components/button";
-import { CheckCircle, Globe } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { CheckCircle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-
-const languageOptions = [
-   { flag: "🇺🇸", name: "English", value: "en" as SupportedLng },
-   { flag: "🇧🇷", name: "Português", value: "pt" as SupportedLng },
-] as const;
-
-type LanguageName = (typeof languageOptions)[number]["name"];
+import { useTranslation } from "react-i18next";
+import { translate } from "@packages/localization";
 
 export function LanguageCommand() {
+   const languageOptions = [
+      {
+         flag: "🇺🇸",
+         name: translate("common.languages.en"),
+         value: "en" as SupportedLng,
+      },
+      {
+         flag: "🇧🇷",
+         name: translate("common.languages.pt"),
+         value: "pt" as SupportedLng,
+      },
+   ] as const;
+
+   type LanguageName = (typeof languageOptions)[number]["name"];
+
    const { i18n } = useTranslation();
    const [isOpen, setIsOpen] = useState(false);
    const currentLanguageRef = useRef<string | null>(null);
@@ -58,18 +68,26 @@ export function LanguageCommand() {
    return (
       <>
          <Button
-            variant="outline"
             className="gap-2 flex items-center justify-center"
             onClick={() => setIsOpen(true)}
+            variant="outline"
          >
             <span>{currentLanguageOption?.flag}</span>
             <span>{currentLanguageOption?.name || "English"}</span>
          </Button>
-         <CommandDialog open={isOpen} onOpenChange={setIsOpen}>
-            <CommandInput placeholder="Search language..." />
+         <CommandDialog onOpenChange={setIsOpen} open={isOpen}>
+            <CommandInput
+               placeholder={translate(
+                  "pages.profile.features.language-command.search",
+               )}
+            />
             <CommandList>
                <Command value={currentLanguageRef.current || undefined}>
-                  <CommandEmpty>No languages found.</CommandEmpty>
+                  <CommandEmpty>
+                     {translate(
+                        "pages.profile.features.language-command.empty",
+                     )}
+                  </CommandEmpty>
                   <CommandGroup>
                      {languageOptions.map((option) => (
                         <CommandItem

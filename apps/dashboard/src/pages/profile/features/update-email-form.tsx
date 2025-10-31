@@ -18,17 +18,16 @@ import {
 } from "@packages/ui/components/field";
 import { Input } from "@packages/ui/components/input";
 import {
-   SheetDescription,
    Sheet,
    SheetContent,
+   SheetDescription,
    SheetFooter,
    SheetHeader,
    SheetTitle,
 } from "@packages/ui/components/sheet";
 import { useForm } from "@tanstack/react-form";
-import { useCallback, useState } from "react";
+import { type FormEvent, useCallback, useState } from "react";
 import { toast } from "sonner";
-import { type FormEvent } from "react";
 import { z } from "zod";
 import { betterAuthClient } from "@/integrations/clients";
 
@@ -144,19 +143,19 @@ export function UpdateEmailForm({
                                     )}
                                  </FieldLabel>
                                  <Input
+                                    aria-invalid={isInvalid}
                                     autoComplete="email"
                                     id={field.name}
                                     name={field.name}
-                                    value={field.state.value}
                                     onBlur={field.handleBlur}
                                     onChange={(e) =>
                                        field.handleChange(e.target.value)
                                     }
-                                    aria-invalid={isInvalid}
                                     placeholder={translate(
                                        "pages.profile.forms.update-email.fields.new-email.placeholder",
                                     )}
                                     type="email"
+                                    value={field.state.value}
                                  />
                                  {isInvalid && (
                                     <FieldError

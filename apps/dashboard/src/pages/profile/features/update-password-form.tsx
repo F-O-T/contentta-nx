@@ -26,9 +26,8 @@ import {
    SheetTitle,
 } from "@packages/ui/components/sheet";
 import { useForm } from "@tanstack/react-form";
-import { useCallback, useState } from "react";
+import { type FormEvent, useCallback, useState } from "react";
 import { toast } from "sonner";
-import { type FormEvent } from "react";
 import { z } from "zod";
 import { betterAuthClient } from "@/integrations/clients";
 
@@ -124,7 +123,9 @@ export function UpdatePasswordForm({
                      {translate("pages.profile.forms.update-password.title")}
                   </SheetTitle>
                   <SheetDescription>
-                     {translate("pages.profile.forms.update-password.description")}
+                     {translate(
+                        "pages.profile.forms.update-password.description",
+                     )}
                   </SheetDescription>
                </SheetHeader>
                <div className="px-2 space-y-4 py-4">
@@ -142,19 +143,19 @@ export function UpdatePasswordForm({
                                     )}
                                  </FieldLabel>
                                  <Input
+                                    aria-invalid={isInvalid}
                                     autoComplete="current-password"
                                     id={field.name}
                                     name={field.name}
-                                    value={field.state.value}
                                     onBlur={field.handleBlur}
                                     onChange={(e) =>
                                        field.handleChange(e.target.value)
                                     }
-                                    aria-invalid={isInvalid}
                                     placeholder={translate(
                                        "pages.profile.forms.update-password.fields.current-password.placeholder",
                                     )}
                                     type="password"
+                                    value={field.state.value}
                                  />
                                  {isInvalid && (
                                     <FieldError
@@ -180,19 +181,19 @@ export function UpdatePasswordForm({
                                     )}
                                  </FieldLabel>
                                  <Input
+                                    aria-invalid={isInvalid}
                                     autoComplete="new-password"
                                     id={field.name}
                                     name={field.name}
-                                    value={field.state.value}
                                     onBlur={field.handleBlur}
                                     onChange={(e) =>
                                        field.handleChange(e.target.value)
                                     }
-                                    aria-invalid={isInvalid}
                                     placeholder={translate(
                                        "pages.profile.forms.update-password.fields.new-password.placeholder",
                                     )}
                                     type="password"
+                                    value={field.state.value}
                                  />
                                  {isInvalid && (
                                     <FieldError
