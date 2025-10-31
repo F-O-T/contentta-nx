@@ -1,8 +1,8 @@
 "use client";
 
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
-import { motion } from "motion/react";
 import { cn } from "@packages/ui/lib/utils";
+import { motion } from "motion/react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 
 export type UsageRulerProps = {
    className?: string;
@@ -33,9 +33,7 @@ export function UsageRuler({
    value,
    displayMax,
 }: UsageRulerProps) {
-   const [currentValue, setCurrentValue] = useState(
-      clamp(defaultValue, min, max),
-   );
+   const [currentValue] = useState(clamp(defaultValue, min, max));
    const finalValue =
       value !== undefined ? clamp(value, min, max) : currentValue;
 
@@ -69,7 +67,6 @@ export function UsageRuler({
       setPosPct(clamp(pctFromValue, 0, 100));
    }, [visualValue, min, visualMax]);
 
-   const pct = posPct;
    const tickCount = useMemo(
       () => Math.max(80, Math.floor((trackWidth || 1) / 6)),
       [trackWidth],
@@ -93,7 +90,7 @@ export function UsageRuler({
    return (
       <div className={cn("w-full", className)}>
          <div>
-            <div ref={trackRef} className="relative h-12 select-none">
+            <div className="relative h-12 select-none" ref={trackRef}>
                {/* Animated ruler ticks */}
                <div className="pointer-events-none absolute inset-0">
                   {Array.from({ length: tickCount }).map((_, i) => {
@@ -119,14 +116,14 @@ export function UsageRuler({
                              : "w-px";
                      return (
                         <motion.div
-                           key={i}
-                           className={`absolute top-1/2 -translate-y-full ${widthClass} rounded-full ${color}`}
-                           style={{ left: `${left}%` }}
                            animate={{ height }}
+                           className={`absolute top-1/2 -translate-y-full ${widthClass} rounded-full ${color}`}
+                           key={i}
+                           style={{ left: `${left}%` }}
                            transition={{
-                              type: "spring",
-                              stiffness: 260,
                               damping: 28,
+                              stiffness: 260,
+                              type: "spring",
                            }}
                         />
                      );
@@ -158,14 +155,14 @@ export function UsageRuler({
                         const isActive = Math.round(finalValue) >= v;
                         dots.push(
                            <div
-                              key={`dot-${v}`}
                               className={`absolute rounded-full ${isActive ? "bg-primary" : "bg-muted-foreground/70"}`}
+                              key={`dot-${v}`}
                               style={{
+                                 height: "4px",
                                  left,
                                  top: "calc(50% + 14px)",
                                  transform: "translateX(-50%)",
                                  width: "4px",
-                                 height: "4px",
                               }}
                            />,
                         );
