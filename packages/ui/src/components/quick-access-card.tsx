@@ -13,6 +13,7 @@ interface QuickAccessCardProps {
    title: string;
    description: string;
    onClick?: () => void;
+   disabled?: boolean;
 }
 
 export function QuickAccessCard({
@@ -20,8 +21,10 @@ export function QuickAccessCard({
    title,
    description,
    onClick,
+   disabled = false,
 }: QuickAccessCardProps) {
    const handleKeyDown = (event: React.KeyboardEvent) => {
+      if (disabled) return;
       if (event.key === 'Enter' || event.key === ' ') {
          event.preventDefault();
          onClick?.();
@@ -30,12 +33,13 @@ export function QuickAccessCard({
 
    return (
       <Card
-         className="cursor-pointer "
-         onClick={onClick}
+         className={`${disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'} transition-opacity`}
+         onClick={disabled ? undefined : onClick}
          onKeyDown={handleKeyDown}
-         role="button"
-         tabIndex={0}
+         role={disabled ? undefined : "button"}
+         tabIndex={disabled ? -1 : 0}
          aria-label={`${title}: ${description}`}
+         aria-disabled={disabled}
       >
          <CardAction className="px-6 flex items-center justify-between w-full">
             <div className="rounded-lg bg-accent p-2">{icon}</div>
