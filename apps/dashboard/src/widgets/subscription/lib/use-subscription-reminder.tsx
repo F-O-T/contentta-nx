@@ -1,9 +1,11 @@
 import { useIsomorphicLayoutEffect } from "@packages/ui/hooks/use-isomorphic-layout-effect";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { toast } from "sonner";
 import { useTRPC } from "@/integrations/clients";
 import { SubscriptionReminderCredenza } from "../ui/subscription-reminder-credenza";
+
+const DISMISSED_KEY = "subscription-reminder-dismissed";
 
 export function useSubscriptionReminder() {
    const [showReminder, setShowReminder] = useState(false);
@@ -13,8 +15,19 @@ export function useSubscriptionReminder() {
       trpc.authHelpers.subscriptionReminder.queryOptions(),
    );
 
+   const isDismissed = useCallback(() => {
+      if (typeof window === "undefined") return false;
+      return localStorage.getItem(DISMISSED_KEY) === "true";
+   }, []);
+
+   const dismissReminder = useCallback(() => {
+      if (typeof window !== "undefined") {
+         localStorage.setItem(DISMISSED_KEY, "true");
+      }
+   }, []);
+
    useIsomorphicLayoutEffect(() => {
-      if (!shouldShow) {
+      if (!shouldShow || isDismissed()) {
          setShowReminder(false);
          return;
       }
@@ -24,10 +37,11 @@ export function useSubscriptionReminder() {
       }, 500);
 
       return () => clearTimeout(timer);
-   }, [shouldShow]);
+   }, [shouldShow, isDismissed]);
 
    const handleClose = () => {
       setShowReminder(false);
+      dismissReminder();
       toast.info(
          "You can upgrade your subscription anytime from the profile page to unlock all features.",
       );
