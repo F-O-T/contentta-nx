@@ -65,6 +65,10 @@ export function CreateOrganizationCredenza({
                   toast.success(
                      `Organization "${data.name}" created successfully`,
                   );
+                  await betterAuthClient.organization.setActive({
+                     organizationId: data?.id,
+                     organizationSlug: data?.slug,
+                  });
                   await queryClient.invalidateQueries({
                      queryKey:
                         trpc.authHelpers.getDefaultOrganization.queryKey(),
