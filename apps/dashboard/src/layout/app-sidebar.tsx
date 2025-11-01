@@ -1,5 +1,6 @@
 import brandConfig from "@packages/brand/index.json";
 import logo from "@packages/brand/logo.svg";
+import { Separator } from "@packages/ui/components/separator";
 import {
    Sidebar,
    SidebarContent,
@@ -22,6 +23,7 @@ import {
 import type * as React from "react";
 import type { Session } from "@/integrations/clients";
 import type { FileRoutesByTo } from "@/routeTree.gen";
+import { SidebarUsageMeter } from "@/widgets/subscription/ui/sidebar-usage-meter";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 
@@ -112,9 +114,12 @@ export function AppSidebar({
             </SidebarMenu>
          </SidebarHeader>
          <SidebarContent>
+            <Separator />
             <NavMain items={navMain} />
          </SidebarContent>
          <SidebarFooter>
+            <SidebarUsageMeter />
+            <Separator />
             <NavUser session={session} />
          </SidebarFooter>
       </Sidebar>

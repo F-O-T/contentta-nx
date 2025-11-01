@@ -1,6 +1,6 @@
 import { SidebarInset, SidebarProvider } from "@packages/ui/components/sidebar";
 import type * as React from "react";
-import { useSubscriptionReminder } from "@/features/subscription-reminder/lib/use-subscription-reminder";
+import { useSubscriptionReminder } from "@/widgets/subscription/lib/use-subscription-reminder";
 import type { Session } from "@/integrations/clients";
 import { AppSidebar } from "./app-sidebar";
 import { SiteHeader } from "./site-header";
