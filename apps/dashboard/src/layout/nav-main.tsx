@@ -36,7 +36,7 @@ export function NavMain({
    const { setOpenMobile } = useSidebar();
    const isActive = (url: string) => {
       if (!url) return false;
-      return pathname.startsWith(url);
+      return pathname === url;
    };
 
    return (
