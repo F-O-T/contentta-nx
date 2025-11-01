@@ -10,17 +10,6 @@ import {
    CardTitle,
 } from "@packages/ui/components/card";
 import {
-   Credenza,
-   CredenzaBody,
-   CredenzaClose,
-   CredenzaContent,
-   CredenzaDescription,
-   CredenzaFooter,
-   CredenzaHeader,
-   CredenzaTitle,
-   CredenzaTrigger,
-} from "@packages/ui/components/credenza";
-import {
    DropdownMenu,
    DropdownMenuContent,
    DropdownMenuGroup,
@@ -51,7 +40,7 @@ import {
 } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import { betterAuthClient, useTRPC } from "@/integrations/clients";
-import { SubscriptionPricingCards } from "@/widgets/subscription/ui/subscription-pricing-cards";
+import { SubscriptionPlansCredenza } from "@/widgets/subscription/ui/subscription-plans-credenza";
 
 export function ProfilePageBilling() {
    const trpc = useTRPC();
@@ -117,44 +106,30 @@ export function ProfilePageBilling() {
 
    function NoSubscriptionContent() {
       return (
-         <ItemGroup>
-            <Item>
-               <ItemMedia variant="icon">
-                  <CreditCard className="size-4" />
-               </ItemMedia>
-               <ItemContent>
-                  <ItemTitle>
-                     {translate("pages.profile.billing.state.not-active.title")}
-                  </ItemTitle>
-                  <ItemDescription>
-                     {translate(
-                        "pages.profile.billing.state.not-active.description",
-                     )}
-                  </ItemDescription>
-               </ItemContent>
-            </Item>
-            <Credenza>
-               <CredenzaTrigger asChild>
-                  <Button className="w-full">Choose Plan</Button>
-               </CredenzaTrigger>
-               <CredenzaContent>
-                  <CredenzaHeader>
-                     <CredenzaTitle>Choose Your Plan</CredenzaTitle>
-                     <CredenzaDescription>
-                        Select the perfect plan for your needs
-                     </CredenzaDescription>
-                  </CredenzaHeader>
-                  <CredenzaBody>
-                     <SubscriptionPricingCards />
-                  </CredenzaBody>
-                  <CredenzaFooter>
-                     <CredenzaClose asChild>
-                        <Button variant="outline">Cancel</Button>
-                     </CredenzaClose>
-                  </CredenzaFooter>
-               </CredenzaContent>
-            </Credenza>
-         </ItemGroup>
+         <>
+            <ItemGroup>
+               <Item>
+                  <ItemMedia variant="icon">
+                     <CreditCard className="size-4" />
+                  </ItemMedia>
+                  <ItemContent>
+                     <ItemTitle>
+                        {translate(
+                           "pages.profile.billing.state.not-active.title",
+                        )}
+                     </ItemTitle>
+                     <ItemDescription>
+                        {translate(
+                           "pages.profile.billing.state.not-active.description",
+                        )}
+                     </ItemDescription>
+                  </ItemContent>
+               </Item>
+            </ItemGroup>
+            <SubscriptionPlansCredenza>
+               <Button className="w-full">Upgrade</Button>
+            </SubscriptionPlansCredenza>
+         </>
       );
    }
 
@@ -167,7 +142,7 @@ export function ProfilePageBilling() {
          );
          const interval =
             billingInfo.activeSubscription?.recurringInterval ?? "month";
-         return `${amount} /${interval}`;
+         return `${amount}/${interval}`;
       }, []);
 
       const getNextBillingDate = useCallback(() => {

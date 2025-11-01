@@ -3,6 +3,8 @@ import { QuickAccessCard } from "@packages/ui/components/quick-access-card";
 import { useRouter } from "@tanstack/react-router";
 import { Building2, Key } from "lucide-react";
 import { useMemo } from "react";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useTRPC } from "@/integrations/clients";
 import { TalkingMascot } from "@/widgets/talking-mascot/ui/talking-mascot";
 import { ProfilePageBilling } from "./profile-page-billing";
 import { ProfileInformation } from "./profile-page-informations-section";
@@ -11,6 +13,13 @@ import { PreferencesSection } from "./profile-page-preferences-sections";
 import { ProfilePageSessionsSection } from "./profile-page-sessions-section";
 export function ProfilePage() {
    const router = useRouter();
+   const trpc = useTRPC();
+
+   const { data: billingInfo } = useSuspenseQuery(
+      trpc.authHelpers.getBillingInfo.queryOptions(),
+   );
+
+   const hasActiveSubscription = billingInfo.billingState === "active_subscription";
 
    // Memoize quick access cards
    const quickAccessCards = useMemo(
@@ -52,6 +61,7 @@ export function ProfilePage() {
                      key={`${card.title}-${index + 1}`}
                      onClick={card.onClick}
                      title={card.title}
+                     disabled={!hasActiveSubscription}
                   />
                ))}
             </div>
