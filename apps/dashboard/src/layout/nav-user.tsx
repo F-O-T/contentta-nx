@@ -23,9 +23,7 @@ import { Skeleton } from "@packages/ui/components/skeleton";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { Link, useRouter } from "@tanstack/react-router";
 import {
-   Building2,
    Crown,
-   KeyIcon,
    LogOutIcon,
    MoreVerticalIcon,
    UserCircleIcon,
