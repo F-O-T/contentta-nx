@@ -17,6 +17,7 @@ import { ideasRouter } from "./router/ideas";
 import { organizationRouter } from "./router/organization";
 import { organizationFileRouter } from "./router/organization-file";
 import { preferencesRouter } from "./router/preferences";
+import { sessionRouter } from "./router/session";
 import { statisticsRouter } from "./router/statistics";
 import { createTRPCContext as createTRPCContextInternal, router } from "./trpc";
 
@@ -35,6 +36,7 @@ export const appRouter = router({
    organization: organizationRouter,
    organizationFile: organizationFileRouter,
    preferences: preferencesRouter,
+   session: sessionRouter,
    statistics: statisticsRouter,
 });
 export const createApi = ({
