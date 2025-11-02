@@ -273,13 +273,13 @@ function ProfilePageBillingContent() {
                   </ItemDescription>
                </ItemContent>
                <UsageRuler
-                  defaultValue={displayConsumed}
                   displayMax={rulerDisplayLimit}
                   legend={translate(
                      "pages.profile.billing.state.active.legend",
                   )}
                   max={meterData.creditedUnits}
                   min={0}
+                  value={displayConsumed}
                />
             </Item>
          </ItemGroup>

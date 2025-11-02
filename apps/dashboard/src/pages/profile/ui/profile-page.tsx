@@ -29,7 +29,7 @@ function QuickAccessCardsErrorFallback() {
          ),
          disabled: true,
          icon: <AlertCircle className="w-4 h-4" />,
-         onClick: () => window.location.reload(),
+         onClick: () => {},
          title: translate("pages.profile.quick-access.state.error.title"),
       },
       {
@@ -38,7 +38,7 @@ function QuickAccessCardsErrorFallback() {
          ),
          disabled: true,
          icon: <AlertCircle className="w-4 h-4" />,
-         onClick: () => window.location.reload(),
+         onClick: () => {},
          title: translate("pages.profile.quick-access.state.error.title"),
       },
    ];
