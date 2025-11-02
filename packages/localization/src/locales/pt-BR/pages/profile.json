@@ -12,6 +12,10 @@
             "legend": "Créditos utilizados este mês: ",
             "title": "Uso de créditos"
          },
+         "error": {
+            "description": "Ocorreu um erro ao carregar suas informações de assinatura.",
+            "title": "Erro ao carregar"
+         },
          "not-active": {
             "description": "Você não tem uma assinatura ativa no momento. Atualize para continuar aproveitando nossos serviços.",
             "title": "Assinatura inativa"
@@ -49,6 +53,12 @@
          "title": "Gerenciar informações"
       },
       "description": "Atualize suas informações pessoais e de conta.",
+      "state": {
+         "error": {
+            "description": "Ocorreu um erro ao carregar suas informações de perfil.",
+            "title": "Erro ao carregar"
+         }
+      },
       "title": "Informações do perfil"
    },
    "mascot-message": "Gerencie suas informações de perfil e configurações de conta aqui.",
@@ -59,6 +69,12 @@
             "description": "Notifique-me quando meus posts estão sem imagens.",
             "label": "Ativar notificações de imagens faltando",
             "title": "Imagens faltando"
+         }
+      },
+      "state": {
+         "error": {
+            "description": "Ocorreu um erro ao carregar suas preferências de notificação.",
+            "title": "Erro ao carregar"
          }
       },
       "title": "Notificações"
@@ -85,6 +101,12 @@
       "organization": {
          "description": "Visualize a organização associada à sua conta.",
          "title": "Organização"
+      },
+      "state": {
+         "error": {
+            "description": "Ocorreu um erro ao carregar seus atalhos.",
+            "title": "Erro ao carregar"
+         }
       }
    },
    "sessions": {
@@ -102,6 +124,12 @@
          "ip-address": "Endereço IP",
          "last-active": "Última atividade",
          "unknown-device": "Dispositivo desconhecido"
+      },
+      "state": {
+         "error": {
+            "description": "Ocorreu um erro ao carregar suas sessões ativas.",
+            "title": "Erro ao carregar"
+         }
       },
       "title": "Sessões ativas"
    }

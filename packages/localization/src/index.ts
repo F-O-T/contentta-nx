@@ -1,6 +1,6 @@
 import i18n, { type TOptions } from "i18next";
+import Backend from "i18next-http-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
-import { initReactI18next } from "react-i18next";
 import enUSResources from "./locales/en-US";
 import ptBRResources from "./locales/pt-BR";
 
@@ -20,8 +20,8 @@ export type TranslationKey = RecursiveKeyOf<TranslationResources>;
 export type TranslationOptions = TOptions;
 
 const resources = {
-   en: enUSResources,
-   pt: ptBRResources,
+   "en-US": enUSResources,
+   "pt-BR": ptBRResources,
 };
 
 export type SupportedLng = keyof typeof resources;
@@ -31,27 +31,25 @@ declare module "i18next" {
       resources: typeof resources;
    }
 }
-const supportedLngs: SupportedLng[] = ["en", "pt"];
+const supportedLngs: SupportedLng[] = ["en-US", "pt-BR"];
 i18n
+   .use(Backend)
    .use(LanguageDetector)
-   .use(initReactI18next)
    .init({
       defaultNS: "translation",
-      detection: {
-         caches: ["localStorage"],
-         order: ["localStorage", "navigator"],
-      },
-      fallbackLng: "en",
+      fallbackLng: "en-US",
       interpolation: {
          escapeValue: false,
       },
-      load: "languageOnly",
       resources,
       supportedLngs,
    });
 
 export default i18n;
 
+export function changeLanguage(lang: SupportedLng) {
+   return i18n.changeLanguage(lang);
+}
 export function translate(key: TranslationKey, options?: TOptions) {
    const result = i18n.t(key, options);
    if (result === key && !options) {
@@ -62,7 +60,7 @@ export function translate(key: TranslationKey, options?: TOptions) {
 
 // Utility to get current language for HTTP requests
 export function getCurrentLanguage(): string {
-   return i18n.language || "en";
+   return i18n.language || "en-US";
 }
 
 // Utility to get language headers for HTTP requests

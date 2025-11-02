@@ -8,9 +8,13 @@
       "next-billing": "Next billing date:",
       "state": {
          "active": {
-            "description": "View your credit usage this month.",
+            "description": "View your credit usage for this month.",
             "legend": "Credits used this month: ",
             "title": "Credit usage"
+         },
+         "error": {
+            "description": "An error occurred while loading your subscription information.",
+            "title": "Loading error"
          },
          "not-active": {
             "description": "You don't have an active subscription at the moment. Upgrade to continue enjoying our services.",
@@ -32,7 +36,7 @@
          "actions": {
             "description": "Here you can manage your current session.",
             "revoke-current": {
-               "description": "Revoke current session and log out from this device.",
+               "description": "Revoke the current session and sign out from this device.",
                "title": "Revoke current session"
             },
             "title": "Manage your session"
@@ -49,6 +53,12 @@
          "title": "Manage information"
       },
       "description": "Update your personal and account information.",
+      "state": {
+         "error": {
+            "description": "An error occurred while loading your profile information.",
+            "title": "Loading error"
+         }
+      },
       "title": "Profile information"
    },
    "mascot-message": "Manage your profile information and account settings here.",
@@ -61,6 +71,12 @@
             "title": "Missing images"
          }
       },
+      "state": {
+         "error": {
+            "description": "An error occurred while loading your notification preferences.",
+            "title": "Loading error"
+         }
+      },
       "title": "Notifications"
    },
    "preferences": {
@@ -71,7 +87,7 @@
             "title": "Language"
          },
          "theme": {
-            "description": "Choose between light mode, dark mode, or follow your system's theme.",
+            "description": "Choose between light mode, dark mode, or follow your system.",
             "title": "Theme"
          }
       },
@@ -85,6 +101,12 @@
       "organization": {
          "description": "View the organization associated with your account.",
          "title": "Organization"
+      },
+      "state": {
+         "error": {
+            "description": "An error occurred while loading your quick access items.",
+            "title": "Loading error"
+         }
       }
    },
    "sessions": {
@@ -102,6 +124,12 @@
          "ip-address": "IP address",
          "last-active": "Last activity",
          "unknown-device": "Unknown device"
+      },
+      "state": {
+         "error": {
+            "description": "An error occurred while loading your active sessions.",
+            "title": "Loading error"
+         }
       },
       "title": "Active sessions"
    }

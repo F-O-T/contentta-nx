@@ -1,5 +1,10 @@
 {
+   "delete-confirmation": {
+      "description": "Are you sure you want to do this? This action cannot be undone.",
+      "title": "Confirmation Required"
+   },
    "actions": {
+      "retry": "Retry",
       "cancel": "Cancel",
       "creating": "Creating...",
       "delete": "Delete",
@@ -33,8 +38,8 @@
       "field-required": "This field is required"
    },
    "languages": {
-      "en": "Inglês",
-      "pt": "Português"
+      "en": "English",
+      "pt": "Portuguese"
    },
    "messages": {
       "loading": "Loading..."
@@ -48,9 +53,9 @@
       "loading": "Loading..."
    },
    "themes": {
-      "dark": "Tema escuro",
-      "light": "Tema claro",
-      "system": "Seguir o sistema"
+      "dark": "Dark theme",
+      "light": "Light theme",
+      "system": "Follow system"
    },
    "time": {
       "last-modified": "Last Modified",
