@@ -36,7 +36,7 @@ export async function runCreateCompleteKnowledgeWorkflow(
             websiteUrl,
          },
          runtimeContext: setRuntimeContext({
-            language: runtimeContext?.language ?? "en",
+            language: runtimeContext?.language,
             userId,
          }),
       });

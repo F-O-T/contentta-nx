@@ -33,7 +33,7 @@ export async function runCreateCompetitorInsightsWorkflow(
          },
          runtimeContext: setRuntimeContext({
             brandId: runtimeContext?.brandId,
-            language: runtimeContext?.language ?? "en",
+            language: runtimeContext?.language,
             userId,
          }),
       });

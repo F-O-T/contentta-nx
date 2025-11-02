@@ -47,7 +47,7 @@ export async function runCreateNewContentWorkflow(
          },
          runtimeContext: setRuntimeContext({
             agentId,
-            language: runtimeContext?.language ?? "en",
+            language: runtimeContext?.language,
             userId,
          }),
       });

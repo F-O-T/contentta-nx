@@ -47,7 +47,7 @@ export const createOverviewWorker = new Worker<CreateOverviewJob>(
                websiteUrl,
             },
             runtimeContext: setRuntimeContext({
-               language: runtimeContext?.language ?? "en",
+               language: runtimeContext?.language,
                userId,
             }),
          });
