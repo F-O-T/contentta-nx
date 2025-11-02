@@ -1,12 +1,12 @@
+import { ArrowUpRight } from "lucide-react";
+import type { ReactNode } from "react";
 import {
    Card,
    CardAction,
+   CardDescription,
    CardHeader,
    CardTitle,
-   CardDescription,
 } from "./card";
-import type { ReactNode } from "react";
-import { ArrowUpRight } from "lucide-react";
 
 interface QuickAccessCardProps {
    icon: ReactNode;
@@ -25,7 +25,7 @@ export function QuickAccessCard({
 }: QuickAccessCardProps) {
    const handleKeyDown = (event: React.KeyboardEvent) => {
       if (disabled) return;
-      if (event.key === 'Enter' || event.key === ' ') {
+      if (event.key === "Enter" || event.key === " ") {
          event.preventDefault();
          onClick?.();
       }
@@ -33,13 +33,13 @@ export function QuickAccessCard({
 
    return (
       <Card
-         className={`${disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'} transition-opacity`}
+         aria-disabled={disabled}
+         aria-label={`${title}: ${description}`}
+         className={`${disabled ? "opacity-60 cursor-not-allowed" : "cursor-pointer"} transition-opacity`}
          onClick={disabled ? undefined : onClick}
          onKeyDown={handleKeyDown}
          role={disabled ? undefined : "button"}
          tabIndex={disabled ? -1 : 0}
-         aria-label={`${title}: ${description}`}
-         aria-disabled={disabled}
       >
          <CardAction className="px-6 flex items-center justify-between w-full">
             <div className="rounded-lg bg-accent p-2">{icon}</div>
@@ -50,6 +50,6 @@ export function QuickAccessCard({
             <CardDescription>{description}</CardDescription>
             <CardAction></CardAction>
          </CardHeader>
-      </Card  >
+      </Card>
    );
 }
