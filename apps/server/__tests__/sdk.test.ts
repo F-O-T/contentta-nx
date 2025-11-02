@@ -4,7 +4,7 @@ import type { DatabaseInstance } from "@packages/database/client";
 import type { MinioClient } from "@packages/files/client";
 import type { PgVectorDatabaseInstance } from "@packages/rag/client";
 import type { Mock } from "vitest";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const mockDb = {} as DatabaseInstance;
 const mockRagClient = {} as PgVectorDatabaseInstance;
@@ -484,13 +484,9 @@ const defaultImageBuffer = Buffer.from("test-image-data");
 const defaultImageBase64 = defaultImageBuffer.toString("base64");
 
 let agentInstance: MockMastraAgent;
-let consoleErrorSpy: ReturnType<typeof vi.spyOn>;
 describe("sdkRoutes", () => {
    beforeEach(() => {
       vi.clearAllMocks();
-      consoleErrorSpy = vi
-         .spyOn(console, "error")
-         .mockImplementation(() => undefined);
       authVerifyApiKeyMock.mockResolvedValue({ valid: true });
       authGetSessionMock.mockResolvedValue({
          user: { id: "test-user-id" },
@@ -503,10 +499,6 @@ describe("sdkRoutes", () => {
          buffer: defaultImageBuffer,
          contentType: "image/jpeg",
       });
-   });
-
-   afterEach(() => {
-      consoleErrorSpy.mockRestore();
    });
 
    describe("GET /sdk/author/:agentId", () => {
