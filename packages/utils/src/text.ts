@@ -133,12 +133,21 @@ export function calculateReadabilityScore({ text }: { text: string }) {
 }
 export function getInitials(name: string, email: string) {
    if (name) {
-      return name
-         .split(" ")
-         .map((n) => n[0])
-         .join("")
-         .toUpperCase()
-         .slice(0, 2);
+      const trimmed = name.trim();
+      const segments = trimmed.split(/\s+/).filter(segment => segment.length > 0);
+
+      if (segments.length > 0) {
+         const initials = segments
+            .map(segment => segment[0])
+            .filter(char => char !== undefined)
+            .join("")
+            .toUpperCase()
+            .slice(0, 2);
+
+         if (initials.length > 0) {
+            return initials;
+         }
+      }
    }
    return email ? email.slice(0, 2).toUpperCase() : "?";
 }
