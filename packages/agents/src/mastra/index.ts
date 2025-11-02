@@ -11,7 +11,7 @@ import { createKnowledgeAndIndexDocumentsWorkflow } from "./workflows/knowledge/
 import { createOverviewWorkflow } from "./workflows/knowledge/create-overview-workflow";
 export type CustomRuntimeContext = {
    brandId?: string;
-   language: SupportedLng;
+   language?: SupportedLng;
    userId: string;
    agentId?: string;
 };
@@ -49,8 +49,8 @@ export const mastra = new Mastra({
 
 export function setRuntimeContext(context: CustomRuntimeContext) {
    const runtimeContext = new RuntimeContext<CustomRuntimeContext>();
-   runtimeContext.set("language", context.language);
    runtimeContext.set("userId", context.userId);
+   runtimeContext.set("language", context.language ?? "en-US");
 
    if (context.brandId) {
       runtimeContext.set("brandId", context.brandId);
