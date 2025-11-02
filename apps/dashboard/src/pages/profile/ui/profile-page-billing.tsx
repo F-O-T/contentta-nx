@@ -346,7 +346,11 @@ function ProfilePageBillingContent() {
             {billingInfo.billingState === "no_subscription" && (
                <CardFooter>
                   <SubscriptionPlansCredenza>
-                     <Button className="w-full">Upgrade</Button>
+                     <Button className="w-full">
+                        {translate(
+                           "pages.profile.billing.state.not-active.action",
+                        )}
+                     </Button>
                   </SubscriptionPlansCredenza>
                </CardFooter>
             )}
