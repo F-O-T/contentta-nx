@@ -44,34 +44,28 @@ export function SidebarUsageMeter() {
       [meterData.consumedUnits],
    );
 
-   // Don't show if no meters or no credited units
-   if (!meterData.selectedMeter || meterData.creditedUnits <= 0) {
-      return null;
-   }
-
-   // Don't show if no active subscription
-   if (billingInfo.billingState !== "active_subscription") {
-      return null;
-   }
-
    return (
-      <Accordion collapsible defaultValue="usage" type="single">
-         <AccordionItem className="px-2" value="usage">
-            <AccordionTrigger>
-               {translate("pages.profile.billing.state.active.title")}
-            </AccordionTrigger>
-            <AccordionContent className="bg-muted rounded-lg p-2">
-               <UsageRuler
-                  defaultValue={displayConsumed}
-                  displayMax={rulerDisplayLimit}
-                  legend={translate(
-                     "pages.profile.billing.state.active.legend",
-                  )}
-                  max={meterData.creditedUnits}
-                  min={0}
-               />
-            </AccordionContent>
-         </AccordionItem>
-      </Accordion>
+      <>
+         {billingInfo.billingState === "active_subscription" && (
+            <Accordion collapsible defaultValue="usage" type="single">
+               <AccordionItem className="px-2" value="usage">
+                  <AccordionTrigger>
+                     {translate("pages.profile.billing.state.active.title")}
+                  </AccordionTrigger>
+                  <AccordionContent className="bg-muted rounded-lg p-2">
+                     <UsageRuler
+                        defaultValue={displayConsumed}
+                        displayMax={rulerDisplayLimit}
+                        legend={translate(
+                           "pages.profile.billing.state.active.legend",
+                        )}
+                        max={meterData.creditedUnits}
+                        min={0}
+                     />
+                  </AccordionContent>
+               </AccordionItem>
+            </Accordion>
+         )}
+      </>
    );
 }

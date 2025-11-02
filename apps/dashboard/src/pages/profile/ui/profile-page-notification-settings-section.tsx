@@ -150,7 +150,7 @@ function NotificationSettingsContent() {
          </CardHeader>
 
          <CardContent>
-            <Item className="p-0">
+            <Item>
                <ItemMedia variant="icon">
                   <Bell className="size-4" />
                </ItemMedia>
