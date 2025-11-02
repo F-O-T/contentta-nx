@@ -11,13 +11,14 @@ import {
    Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { I18nextProvider } from "react-i18next";
 import { ErrorModalProvider } from "@/features/error-modal/lib/error-modal-context";
 import { ErrorModal } from "@/features/error-modal/ui/error-modal";
 import { useTRPC } from "@/integrations/clients";
 import { ThemeProvider } from "@/layout/theme-provider";
 import type { RouterContext } from "../router";
 import "@packages/localization";
-import i18n from "@packages/localization";
+import i18n, { getCurrentLanguage } from "@packages/localization";
 import { NotFoundComponent } from "@/default/not-found";
 export const Route = createRootRouteWithContext<RouterContext>()({
    component: RootComponent,
@@ -42,7 +43,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
             name: "viewport",
          },
          {
-            content: i18n.language,
+            content: getCurrentLanguage(),
             name: "language",
          },
       ],
@@ -87,25 +88,27 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 
 function RootComponent() {
    return (
-      <html lang={i18n.language}>
+      <html lang={getCurrentLanguage()}>
          <head>
             <HeadContent />
          </head>
          <body>
-            <PostHogWrapper>
-               <ThemeProvider
-                  attribute="class"
-                  defaultTheme="system"
-                  enableSystem
-               >
-                  <ErrorModalProvider>
-                     <ErrorModalWithMutation />
-                     <Toaster />
-                     <Outlet /> {/* Start rendering router matches */}
-                     <TanStackRouterDevtools position="bottom-left" />
-                  </ErrorModalProvider>
-               </ThemeProvider>
-            </PostHogWrapper>
+            <I18nextProvider defaultNS={"translation"} i18n={i18n}>
+               <PostHogWrapper>
+                  <ThemeProvider
+                     attribute="class"
+                     defaultTheme="system"
+                     enableSystem
+                  >
+                     <ErrorModalProvider>
+                        <ErrorModalWithMutation />
+                        <Toaster />
+                        <Outlet /> {/* Start rendering router matches */}
+                        <TanStackRouterDevtools position="bottom-left" />
+                     </ErrorModalProvider>
+                  </ThemeProvider>
+               </PostHogWrapper>
+            </I18nextProvider>
             <Scripts />
          </body>
       </html>

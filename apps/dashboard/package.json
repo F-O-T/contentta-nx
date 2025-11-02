@@ -41,6 +41,7 @@
     "react": "catalog:react",
     "react-dom": "catalog:react",
     "react-error-boundary": "catalog:react",
+    "react-i18next": "^16.2.3",
     "sonner": "catalog:ui",
     "tailwindcss": "catalog:ui",
     "vite-tsconfig-paths": "catalog:vite",
