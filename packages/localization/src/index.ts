@@ -59,7 +59,7 @@ export function translate(key: TranslationKey, options?: TOptions) {
 }
 
 // Utility to get current language for HTTP requests
-export function getCurrentLanguage(): string {
+export function getCurrentLanguage(): SupportedLng {
    return i18n.language || "en-US";
 }
 
