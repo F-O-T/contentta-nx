@@ -33,7 +33,9 @@ import { formatDate } from "@packages/utils/date";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowRight, CheckCircle2, Monitor, Trash2 } from "lucide-react";
 import { useCallback, useMemo } from "react";
-import { betterAuthClient, type Session } from "@/integrations/clients";
+import type { Session } from "@/integrations/clients";
+import { toast } from "@packages/ui/components/sonner";
+import { useTRPC } from "@/integrations/clients";
 
 interface SessionDetailsSheetProps {
    session: Session["session"];
@@ -47,22 +49,24 @@ export function SessionDetailsSheet({
    children,
 }: SessionDetailsSheetProps) {
    const queryClient = useQueryClient();
+   const trpc = useTRPC();
 
-   const revokeSessionMutation = useMutation({
-      mutationFn: async (token: string) => {
-         await betterAuthClient.revokeSession({ token });
-      },
-      onSuccess: () => {
-         queryClient.invalidateQueries({ queryKey: ["sessions"] });
-      },
-   });
-
-   const handleDelete = useCallback(
-      (token: string) => {
-         revokeSessionMutation.mutate(token);
-      },
-      [revokeSessionMutation],
+   const revokeSessionMutation = useMutation(
+      trpc.session.revokeSessionByToken.mutationOptions({
+         onSuccess: () => {
+            queryClient.invalidateQueries({
+               queryKey: trpc.session.listAllSessions.queryKey(),
+            });
+            toast.success("Session revoked");
+         },
+      }),
    );
+
+   const handleDelete = useCallback(async () => {
+      await revokeSessionMutation.mutateAsync({
+         token: session.token,
+      });
+   }, [session, revokeSessionMutation]);
 
    const sessionDetails = useMemo(() => {
       return [
@@ -181,25 +185,17 @@ export function SessionDetailsSheet({
                   <AlertDialogContent>
                      <AlertDialogHeader>
                         <AlertDialogTitle>
-                           {translate(
-                              "pages.profile.features.session-details.actions.revoke-current.title",
-                           )}
+                           {translate("common.delete-confirmation.title")}
                         </AlertDialogTitle>
                         <AlertDialogDescription>
-                           {translate(
-                              "pages.profile.features.session-details.actions.revoke-current.description",
-                           )}
+                           {translate("common.delete-confirmation.description")}
                         </AlertDialogDescription>
                      </AlertDialogHeader>
                      <AlertDialogFooter>
                         <AlertDialogCancel>
                            {translate("common.actions.cancel")}
                         </AlertDialogCancel>
-                        <AlertDialogAction
-                           onClick={() =>
-                              handleDelete(session.token || session.id)
-                           }
-                        >
+                        <AlertDialogAction onClick={handleDelete}>
                            {translate(
                               "pages.profile.features.session-details.actions.revoke-current.title",
                            )}

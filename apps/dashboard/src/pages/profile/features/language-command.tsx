@@ -1,5 +1,9 @@
 import type { SupportedLng } from "@packages/localization";
-
+import {
+   getCurrentLanguage,
+   translate,
+   changeLanguage,
+} from "@packages/localization";
 import { Button } from "@packages/ui/components/button";
 import {
    Command,
@@ -11,59 +15,57 @@ import {
    CommandList,
 } from "@packages/ui/components/command";
 import { CheckCircle } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { translate } from "@packages/localization";
+import { useCallback, useMemo, useState } from "react";
 
 export function LanguageCommand() {
-   const languageOptions = [
-      {
-         flag: "🇺🇸",
-         name: translate("common.languages.en"),
-         value: "en" as SupportedLng,
-      },
-      {
-         flag: "🇧🇷",
-         name: translate("common.languages.pt"),
-         value: "pt" as SupportedLng,
-      },
-   ] as const;
+   type LanguageOptions = {
+      flag: string;
+      name: string;
+      value: SupportedLng;
+   };
+
+   const languageOptions = useMemo(
+      (): LanguageOptions[] => [
+         {
+            flag: "🇺🇸",
+            name: translate("common.languages.en"),
+            value: "en-US",
+         },
+         {
+            flag: "🇧🇷",
+            name: translate("common.languages.pt"),
+            value: "pt-BR",
+         },
+      ],
+      [],
+   );
 
    type LanguageName = (typeof languageOptions)[number]["name"];
+   const currentLanguage = useMemo(() => getCurrentLanguage(), []);
 
-   const { i18n } = useTranslation();
    const [isOpen, setIsOpen] = useState(false);
-   const currentLanguageRef = useRef<string | null>(null);
-
-   const currentLanguage: SupportedLng =
-      (i18n.language?.split("-")[0] as SupportedLng) || "en";
 
    const currentLanguageOption = languageOptions.find(
       (option) => option.value === currentLanguage,
    );
 
-   const handleLanguageChange = async (langName: LanguageName) => {
-      try {
-         const language = languageOptions.find(
-            (option) => option.name === langName,
-         );
-         if (language) {
-            await i18n.changeLanguage(language.value);
-            setIsOpen(false);
+   const handleLanguageChange = useCallback(
+      async (langName: LanguageName) => {
+         try {
+            const language = languageOptions.find(
+               (option) => option.name === langName,
+            );
+            if (language) {
+               changeLanguage(language.value);
+               setIsOpen(false);
+               window.location.reload();
+            }
+         } catch (error) {
+            console.error("Failed to change language:", error);
          }
-      } catch (error) {
-         console.error("Failed to change language:", error);
-      }
-   };
-
-   // Set focus to current language when dialog opens
-   useEffect(() => {
-      if (isOpen) {
-         if (currentLanguageOption) {
-            currentLanguageRef.current = currentLanguageOption.name;
-         }
-      }
-   }, [isOpen, currentLanguageOption]);
+      },
+      [languageOptions],
+   );
 
    return (
       <>
@@ -82,7 +84,7 @@ export function LanguageCommand() {
                )}
             />
             <CommandList>
-               <Command value={currentLanguageRef.current || undefined}>
+               <Command>
                   <CommandEmpty>
                      {translate(
                         "pages.profile.features.language-command.empty",
@@ -94,11 +96,12 @@ export function LanguageCommand() {
                            key={option.value}
                            onSelect={() => handleLanguageChange(option.name)}
                            value={option.name}
+                           className="flex items-center justify-start gap-2"
                         >
-                           <span className="mr-3 text-lg">{option.flag}</span>
-                           <span className="flex-1">{option.name}</span>
+                           <span>{option.flag}</span>
+                           <span>{option.name}</span>
                            {option.value === currentLanguage && (
-                              <CheckCircle className="ml-auto size-4 text-primary" />
+                              <CheckCircle className="size-4 text-primary" />
                            )}
                         </CommandItem>
                      ))}
