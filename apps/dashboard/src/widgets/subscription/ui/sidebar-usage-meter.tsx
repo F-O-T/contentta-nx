@@ -54,7 +54,7 @@ export function SidebarUsageMeter() {
                   </AccordionTrigger>
                   <AccordionContent className="bg-muted rounded-lg p-2">
                      <UsageRuler
-                        defaultValue={displayConsumed}
+                        value={displayConsumed}
                         displayMax={rulerDisplayLimit}
                         legend={translate(
                            "pages.profile.billing.state.active.legend",

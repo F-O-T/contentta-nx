@@ -14,7 +14,7 @@
     "debug": "node --inspect-brk server"
   },
   "dependencies": {
-    "@contentagen/assistant-widget": "^0.0.15",
+    "@contentagen/assistant-widget": "^0.0.16",
     "@packages/api": "workspace:*",
     "@packages/authentication": "workspace:*",
     "@packages/brand": "workspace:*",
