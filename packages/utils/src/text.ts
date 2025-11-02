@@ -131,3 +131,14 @@ export function calculateReadabilityScore({ text }: { text: string }) {
 
    return { level, score };
 }
+export function getInitials(name: string, email: string) {
+   if (name) {
+      return name
+         .split(" ")
+         .map((n) => n[0])
+         .join("")
+         .toUpperCase()
+         .slice(0, 2);
+   }
+   return email ? email.slice(0, 2).toUpperCase() : "?";
+}
