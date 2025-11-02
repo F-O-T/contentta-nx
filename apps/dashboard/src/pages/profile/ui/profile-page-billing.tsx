@@ -6,6 +6,7 @@ import {
    CardAction,
    CardContent,
    CardDescription,
+   CardFooter,
    CardHeader,
    CardTitle,
 } from "@packages/ui/components/card";
@@ -19,6 +20,14 @@ import {
    DropdownMenuTrigger,
 } from "@packages/ui/components/dropdown-menu";
 import {
+   Empty,
+   EmptyContent,
+   EmptyDescription,
+   EmptyHeader,
+   EmptyMedia,
+   EmptyTitle,
+} from "@packages/ui/components/empty";
+import {
    Item,
    ItemContent,
    ItemDescription,
@@ -27,22 +36,109 @@ import {
    ItemSeparator,
    ItemTitle,
 } from "@packages/ui/components/item";
+import { Skeleton } from "@packages/ui/components/skeleton";
 import { TooltipProvider } from "@packages/ui/components/tooltip";
 import { formatDate } from "@packages/utils/date";
 import { formatNumberIntoCurrency } from "@packages/utils/number";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
+   AlertCircle,
    Building,
    CreditCard,
    ExternalLink,
    MoreVertical,
    TrendingUp,
 } from "lucide-react";
-import { useCallback, useMemo } from "react";
+import { Suspense, useCallback, useMemo } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { betterAuthClient, useTRPC } from "@/integrations/clients";
 import { SubscriptionPlansCredenza } from "@/widgets/subscription/ui/subscription-plans-credenza";
 
-export function ProfilePageBilling() {
+function ProfilePageBillingErrorFallback() {
+   return (
+      <Card>
+         <CardHeader>
+            <CardTitle>{translate("pages.profile.billing.title")}</CardTitle>
+            <CardDescription>
+               {translate("pages.profile.billing.description")}
+            </CardDescription>
+         </CardHeader>
+         <CardContent>
+            <Empty>
+               <EmptyHeader>
+                  <EmptyMedia variant="icon">
+                     <AlertCircle className="size-6" />
+                  </EmptyMedia>
+                  <EmptyTitle>
+                     {translate("pages.profile.billing.state.error.title")}
+                  </EmptyTitle>
+                  <EmptyDescription>
+                     {translate(
+                        "pages.profile.billing.state.error.description",
+                     )}
+                  </EmptyDescription>
+               </EmptyHeader>
+               <EmptyContent>
+                  <Button
+                     onClick={() => window.location.reload()}
+                     size="sm"
+                     variant="outline"
+                  >
+                     {translate("common.actions.retry")}
+                  </Button>
+               </EmptyContent>
+            </Empty>
+         </CardContent>
+      </Card>
+   );
+}
+
+function ProfilePageBillingSkeleton() {
+   return (
+      <Card>
+         <CardHeader>
+            <CardTitle>
+               <Skeleton className="h-6 w-1/3" />
+            </CardTitle>
+            <CardDescription>
+               <Skeleton className="h-4 w-2/3" />
+            </CardDescription>
+            <CardAction>
+               <Skeleton className="size-8" />
+            </CardAction>
+         </CardHeader>
+         <CardContent>
+            <ItemGroup>
+               <Item>
+                  <ItemMedia variant="icon">
+                     <Skeleton className="size-4" />
+                  </ItemMedia>
+                  <ItemContent>
+                     <Skeleton className="h-5 w-1/2" />
+                     <Skeleton className="h-4 w-3/4" />
+                  </ItemContent>
+               </Item>
+               <ItemSeparator />
+               <Item>
+                  <ItemMedia variant="icon">
+                     <Skeleton className="size-4" />
+                  </ItemMedia>
+                  <ItemContent>
+                     <ItemTitle>
+                        <Skeleton className="h-5 w-1/2" />
+                     </ItemTitle>
+                     <ItemDescription>
+                        <Skeleton className="h-4 w-3/4" />
+                     </ItemDescription>
+                  </ItemContent>
+               </Item>
+            </ItemGroup>
+         </CardContent>
+      </Card>
+   );
+}
+
+function ProfilePageBillingContent() {
    const trpc = useTRPC();
    const { data: billingInfo } = useSuspenseQuery(
       trpc.authHelpers.getBillingInfo.queryOptions(),
@@ -106,30 +202,23 @@ export function ProfilePageBilling() {
 
    function NoSubscriptionContent() {
       return (
-         <>
-            <ItemGroup>
-               <Item>
-                  <ItemMedia variant="icon">
-                     <CreditCard className="size-4" />
-                  </ItemMedia>
-                  <ItemContent>
-                     <ItemTitle>
-                        {translate(
-                           "pages.profile.billing.state.not-active.title",
-                        )}
-                     </ItemTitle>
-                     <ItemDescription>
-                        {translate(
-                           "pages.profile.billing.state.not-active.description",
-                        )}
-                     </ItemDescription>
-                  </ItemContent>
-               </Item>
-            </ItemGroup>
-            <SubscriptionPlansCredenza>
-               <Button className="w-full">Upgrade</Button>
-            </SubscriptionPlansCredenza>
-         </>
+         <ItemGroup>
+            <Item>
+               <ItemMedia variant="icon">
+                  <CreditCard className="size-4" />
+               </ItemMedia>
+               <ItemContent>
+                  <ItemTitle>
+                     {translate("pages.profile.billing.state.not-active.title")}
+                  </ItemTitle>
+                  <ItemDescription>
+                     {translate(
+                        "pages.profile.billing.state.not-active.description",
+                     )}
+                  </ItemDescription>
+               </ItemContent>
+            </Item>
+         </ItemGroup>
       );
    }
 
@@ -254,7 +343,24 @@ export function ProfilePageBilling() {
                   <ActiveSubscriptionContent />
                )}
             </CardContent>
+            {billingInfo.billingState === "no_subscription" && (
+               <CardFooter>
+                  <SubscriptionPlansCredenza>
+                     <Button className="w-full">Upgrade</Button>
+                  </SubscriptionPlansCredenza>
+               </CardFooter>
+            )}
          </Card>
       </TooltipProvider>
+   );
+}
+
+export function ProfilePageBilling() {
+   return (
+      <ErrorBoundary FallbackComponent={ProfilePageBillingErrorFallback}>
+         <Suspense fallback={<ProfilePageBillingSkeleton />}>
+            <ProfilePageBillingContent />
+         </Suspense>
+      </ErrorBoundary>
    );
 }

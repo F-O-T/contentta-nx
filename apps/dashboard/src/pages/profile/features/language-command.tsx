@@ -1,8 +1,8 @@
 import type { SupportedLng } from "@packages/localization";
 import {
+   changeLanguage,
    getCurrentLanguage,
    translate,
-   changeLanguage,
 } from "@packages/localization";
 import { Button } from "@packages/ui/components/button";
 import {
@@ -93,10 +93,10 @@ export function LanguageCommand() {
                   <CommandGroup>
                      {languageOptions.map((option) => (
                         <CommandItem
+                           className="flex items-center justify-start gap-2"
                            key={option.value}
                            onSelect={() => handleLanguageChange(option.name)}
-                           value={option.name}
-                           className="flex items-center justify-start gap-2"
+                           value={`${option.flag} ${option.name}`}
                         >
                            <span>{option.flag}</span>
                            <span>{option.name}</span>

@@ -1,4 +1,5 @@
 import { translate } from "@packages/localization";
+import { Button } from "@packages/ui/components/button";
 import {
    Card,
    CardContent,
@@ -7,6 +8,14 @@ import {
    CardTitle,
 } from "@packages/ui/components/card";
 import {
+   Empty,
+   EmptyContent,
+   EmptyDescription,
+   EmptyHeader,
+   EmptyMedia,
+   EmptyTitle,
+} from "@packages/ui/components/empty";
+import {
    Item,
    ItemActions,
    ItemContent,
@@ -14,50 +23,119 @@ import {
    ItemMedia,
    ItemTitle,
 } from "@packages/ui/components/item";
+import { Skeleton } from "@packages/ui/components/skeleton";
+import { toast } from "@packages/ui/components/sonner";
 import { Switch } from "@packages/ui/components/switch";
 import {
    useMutation,
    useQueryClient,
    useSuspenseQuery,
 } from "@tanstack/react-query";
-import { Bell } from "lucide-react";
-import { createToast } from "@/features/error-modal/lib/create-toast";
+import { AlertCircle, Bell } from "lucide-react";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { useTRPC } from "@/integrations/clients";
 
-export function NotificationSettingsSection() {
+function NotificationSettingsErrorFallback() {
+   return (
+      <Card>
+         <CardHeader>
+            <CardTitle>
+               {translate("pages.profile.notifications.title")}
+            </CardTitle>
+            <CardDescription>
+               {translate("pages.profile.notifications.description")}
+            </CardDescription>
+         </CardHeader>
+         <CardContent>
+            <Empty>
+               <EmptyHeader>
+                  <EmptyMedia variant="icon">
+                     <AlertCircle className="size-6" />
+                  </EmptyMedia>
+                  <EmptyTitle>
+                     {translate(
+                        "pages.profile.notifications.state.error.title",
+                     )}
+                  </EmptyTitle>
+                  <EmptyDescription>
+                     {translate(
+                        "pages.profile.notifications.state.error.description",
+                     )}
+                  </EmptyDescription>
+               </EmptyHeader>
+               <EmptyContent>
+                  <Button
+                     onClick={() => window.location.reload()}
+                     size="sm"
+                     variant="outline"
+                  >
+                     {translate("common.actions.retry")}
+                  </Button>
+               </EmptyContent>
+            </Empty>
+         </CardContent>
+      </Card>
+   );
+}
+
+function NotificationSettingsSkeleton() {
+   return (
+      <Card>
+         <CardHeader>
+            <CardTitle>
+               <Skeleton className="h-6 w-1/3" />
+            </CardTitle>
+            <CardDescription>
+               <Skeleton className="h-4 w-2/3" />
+            </CardDescription>
+         </CardHeader>
+         <CardContent>
+            <Item className="p-0">
+               <ItemMedia variant="icon">
+                  <Skeleton className="size-4" />
+               </ItemMedia>
+               <ItemContent>
+                  <ItemTitle>
+                     <Skeleton className="h-5 w-1/2" />
+                  </ItemTitle>
+                  <ItemDescription>
+                     <Skeleton className="h-4 w-3/4" />
+                  </ItemDescription>
+               </ItemContent>
+               <ItemActions>
+                  <Skeleton className="size-8" />
+               </ItemActions>
+            </Item>
+         </CardContent>
+      </Card>
+   );
+}
+
+function NotificationSettingsContent() {
    const trpc = useTRPC();
-   // Fetch workflow preferences
    const { data } = useSuspenseQuery(
       trpc.preferences.getWorkflow.queryOptions(),
    );
    const queryClient = useQueryClient();
    const updateWorkflowMutation = useMutation(
       trpc.preferences.updateWorkflow.mutationOptions({
+         onError: () => {
+            toast.error("Failed to update preference");
+         },
          onSuccess: async () => {
             await queryClient.invalidateQueries({
                queryKey: trpc.preferences.getWorkflow.queryKey(),
             });
+            toast.success("Preference updated");
          },
       }),
    );
 
    const handleToggleMissingImages = async (checked: boolean) => {
-      try {
-         await updateWorkflowMutation.mutateAsync({
-            notifyMissingImages: checked,
-         });
-
-         createToast({
-            message: "Preference updated successfully",
-            type: "success",
-         });
-      } catch (error) {
-         createToast({
-            message: "Failed to update preference",
-            type: "danger",
-         });
-         console.error("Error updating workflow preference:", error);
-      }
+      await updateWorkflowMutation.mutateAsync({
+         notifyMissingImages: checked,
+      });
    };
 
    return (
@@ -100,5 +178,15 @@ export function NotificationSettingsSection() {
             </Item>
          </CardContent>
       </Card>
+   );
+}
+
+export function NotificationSettingsSection() {
+   return (
+      <ErrorBoundary FallbackComponent={NotificationSettingsErrorFallback}>
+         <Suspense fallback={<NotificationSettingsSkeleton />}>
+            <NotificationSettingsContent />
+         </Suspense>
+      </ErrorBoundary>
    );
 }

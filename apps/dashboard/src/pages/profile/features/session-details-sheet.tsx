@@ -29,12 +29,12 @@ import {
    SheetTitle,
    SheetTrigger,
 } from "@packages/ui/components/sheet";
+import { toast } from "@packages/ui/components/sonner";
 import { formatDate } from "@packages/utils/date";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowRight, CheckCircle2, Monitor, Trash2 } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import type { Session } from "@/integrations/clients";
-import { toast } from "@packages/ui/components/sonner";
 import { useTRPC } from "@/integrations/clients";
 
 interface SessionDetailsSheetProps {

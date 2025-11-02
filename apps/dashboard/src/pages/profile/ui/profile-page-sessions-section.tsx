@@ -1,4 +1,15 @@
 import { translate } from "@packages/localization";
+import {
+   AlertDialog,
+   AlertDialogAction,
+   AlertDialogCancel,
+   AlertDialogContent,
+   AlertDialogDescription,
+   AlertDialogFooter,
+   AlertDialogHeader,
+   AlertDialogTitle,
+   AlertDialogTrigger,
+} from "@packages/ui/components/alert-dialog";
 import { Button } from "@packages/ui/components/button";
 import {
    Card,
@@ -18,6 +29,14 @@ import {
    DropdownMenuTrigger,
 } from "@packages/ui/components/dropdown-menu";
 import {
+   Empty,
+   EmptyContent,
+   EmptyDescription,
+   EmptyHeader,
+   EmptyMedia,
+   EmptyTitle,
+} from "@packages/ui/components/empty";
+import {
    Item,
    ItemActions,
    ItemContent,
@@ -27,54 +46,163 @@ import {
    ItemSeparator,
    ItemTitle,
 } from "@packages/ui/components/item";
+import { Skeleton } from "@packages/ui/components/skeleton";
+import { toast } from "@packages/ui/components/sonner";
 import { TooltipProvider } from "@packages/ui/components/tooltip";
 import {
    useMutation,
    useQueryClient,
    useSuspenseQuery,
 } from "@tanstack/react-query";
-import { Info, Monitor, MoreVertical, Trash2 } from "lucide-react";
-import { Fragment } from "react";
-import { betterAuthClient } from "@/integrations/clients";
+import { AlertCircle, Info, Monitor, MoreVertical, Trash2 } from "lucide-react";
+import { Fragment, Suspense, useMemo } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { useTRPC } from "@/integrations/clients";
 import { SessionDetailsSheet } from "../features/session-details-sheet";
 
-export function ProfilePageSessionsSection() {
-   const queryClient = useQueryClient();
+function SessionsSectionErrorFallback() {
+   return (
+      <Card>
+         <CardHeader>
+            <CardTitle>{translate("pages.profile.sessions.title")}</CardTitle>
+            <CardDescription>
+               {translate("pages.profile.sessions.description")}
+            </CardDescription>
+         </CardHeader>
+         <CardContent>
+            <Empty>
+               <EmptyHeader>
+                  <EmptyMedia variant="icon">
+                     <AlertCircle className="size-6" />
+                  </EmptyMedia>
+                  <EmptyTitle>
+                     {translate("pages.profile.sessions.state.error.title")}
+                  </EmptyTitle>
+                  <EmptyDescription>
+                     {translate(
+                        "pages.profile.sessions.state.error.description",
+                     )}
+                  </EmptyDescription>
+               </EmptyHeader>
+               <EmptyContent>
+                  <Button
+                     onClick={() => window.location.reload()}
+                     size="sm"
+                     variant="outline"
+                  >
+                     {translate("common.actions.retry")}
+                  </Button>
+               </EmptyContent>
+            </Empty>
+         </CardContent>
+      </Card>
+   );
+}
 
-   // Fetch sessions and current session in parallel
-   const { data: sessions } = useSuspenseQuery({
-      queryFn: async () => {
-         const { data } = await betterAuthClient.listSessions();
-         return data || [];
-      },
-      queryKey: ["sessions"],
-   });
-   const { data: currentSession } = useSuspenseQuery({
-      queryFn: async () => {
-         const { data } = await betterAuthClient.getSession();
-         return data;
-      },
-      queryKey: ["currentSession"],
-   });
-   const currentSessionId = currentSession?.session.id || null;
+function SessionsSectionSkeleton() {
+   return (
+      <Card>
+         <CardHeader>
+            <CardTitle>
+               <Skeleton className="h-6 w-1/3" />
+            </CardTitle>
+            <CardDescription>
+               <Skeleton className="h-4 w-2/3" />
+            </CardDescription>
+            <CardAction>
+               <Skeleton className="size-8" />
+            </CardAction>
+         </CardHeader>
+         <CardContent>
+            <ItemGroup>
+               {Array.from({ length: 3 }).map((_, index) => (
+                  <Fragment key={`session-skeleton-${index + 1}`}>
+                     <Item>
+                        <ItemMedia variant="icon">
+                           <Skeleton className="size-4" />
+                        </ItemMedia>
+                        <ItemContent className="truncate">
+                           <Skeleton className="h-5 w-1/2" />
+                           <Skeleton className="h-4 w-3/4" />
+                        </ItemContent>
+                        <ItemActions>
+                           <Skeleton className="size-8" />
+                        </ItemActions>
+                     </Item>
+                     {index !== 2 && <ItemSeparator />}
+                  </Fragment>
+               ))}
+            </ItemGroup>
+         </CardContent>
+      </Card>
+   );
+}
+
+function SessionsSectionContent() {
+   const queryClient = useQueryClient();
+   const trpc = useTRPC();
+   const { data: sessions } = useSuspenseQuery(
+      trpc.session.listAllSessions.queryOptions(),
+   );
+   const { data: currentSession } = useSuspenseQuery(
+      trpc.session.getSession.queryOptions(),
+   );
 
    // Mutations
-   const revokeOtherSessionsMutation = useMutation({
-      mutationFn: async () => {
-         await betterAuthClient.revokeOtherSessions();
-      },
-      onSuccess: () => {
-         queryClient.invalidateQueries({ queryKey: ["sessions"] });
-      },
-   });
-   const revokeAllSessionsMutation = useMutation({
-      mutationFn: async () => {
-         await betterAuthClient.revokeSessions();
-      },
-      onSuccess: () => {
-         queryClient.invalidateQueries({ queryKey: ["sessions"] });
-      },
-   });
+   const revokeOtherSessionsMutation = useMutation(
+      trpc.session.revokeOtherSessions.mutationOptions({
+         onError: () => {
+            toast.error("Failed to revoke other sessions.");
+         },
+         onSuccess: () => {
+            queryClient.invalidateQueries({
+               queryKey: trpc.session.listAllSessions.queryKey(),
+            });
+            toast.success("Other sessions have been revoked successfully.");
+         },
+      }),
+   );
+   const revokeAllSessionsMutation = useMutation(
+      trpc.session.revokeSessions.mutationOptions({
+         onError: () => {
+            toast.error("Failed to revoke all sessions.");
+         },
+         onSuccess: () => {
+            queryClient.invalidateQueries({
+               queryKey: trpc.session.listAllSessions.queryKey(),
+            });
+            toast.success("All sessions have been revoked successfully.");
+         },
+      }),
+   );
+
+   // Memoize dropdown menu items
+   const dropdownMenuItems = useMemo(
+      () => [
+         {
+            action: async () => await revokeOtherSessionsMutation.mutateAsync(),
+            disabled: revokeOtherSessionsMutation.isPending,
+            icon: <Trash2 className="w-4 h-4 mr-2" />,
+            id: "revoke-others",
+            label: translate("pages.profile.sessions.actions.revoke-others"),
+            variant: "destructive" as const,
+         },
+         {
+            action: async () => await revokeAllSessionsMutation.mutateAsync(),
+            disabled: revokeAllSessionsMutation.isPending,
+            icon: <Trash2 className="w-4 h-4 mr-2 text-destructive" />,
+            id: "revoke-all",
+            label: translate("pages.profile.sessions.actions.revoke-all"),
+            variant: "destructive" as const,
+         },
+      ],
+      [
+         revokeOtherSessionsMutation.isPending,
+         revokeAllSessionsMutation.isPending,
+         revokeOtherSessionsMutation.mutateAsync,
+         revokeAllSessionsMutation.mutateAsync,
+      ],
+   );
 
    return (
       <TooltipProvider>
@@ -105,31 +233,45 @@ export function ProfilePageSessionsSection() {
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                           <DropdownMenuItem
-                              disabled={revokeOtherSessionsMutation.isPending}
-                              onSelect={(e) => {
-                                 e.preventDefault();
-                                 revokeOtherSessionsMutation.mutate();
-                              }}
-                           >
-                              <Trash2 className="w-4 h-4 mr-2" />
-                              {translate(
-                                 "pages.profile.sessions.actions.revoke-others",
-                              )}
-                           </DropdownMenuItem>
-                           <DropdownMenuItem
-                              disabled={revokeAllSessionsMutation.isPending}
-                              onSelect={(e) => {
-                                 e.preventDefault();
-                                 revokeAllSessionsMutation.mutate();
-                              }}
-                              variant="destructive"
-                           >
-                              <Trash2 className="w-4 h-4 mr-2 text-destructive" />
-                              {translate(
-                                 "pages.profile.sessions.actions.revoke-all",
-                              )}
-                           </DropdownMenuItem>
+                           {dropdownMenuItems.map((item) => (
+                              <AlertDialog key={item.id}>
+                                 <AlertDialogTrigger asChild>
+                                    <DropdownMenuItem
+                                       disabled={item.disabled}
+                                       onSelect={(e) => e.preventDefault()}
+                                       variant={item.variant}
+                                    >
+                                       {item.icon}
+                                       {item.label}
+                                    </DropdownMenuItem>
+                                 </AlertDialogTrigger>
+                                 <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                       <AlertDialogTitle>
+                                          {translate(
+                                             "common.delete-confirmation.title",
+                                          )}
+                                       </AlertDialogTitle>
+                                       <AlertDialogDescription>
+                                          {translate(
+                                             "common.delete-confirmation.description",
+                                          )}
+                                       </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                       <AlertDialogCancel>
+                                          {translate("common.actions.cancel")}
+                                       </AlertDialogCancel>
+                                       <AlertDialogAction
+                                          disabled={item.disabled}
+                                          onClick={item.action}
+                                       >
+                                          {item.label}
+                                       </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                 </AlertDialogContent>
+                              </AlertDialog>
+                           ))}
                         </DropdownMenuGroup>
                      </DropdownMenuContent>
                   </DropdownMenu>
@@ -162,7 +304,9 @@ export function ProfilePageSessionsSection() {
                            </ItemContent>
                            <ItemActions>
                               <SessionDetailsSheet
-                                 currentSessionId={currentSessionId}
+                                 currentSessionId={
+                                    currentSession?.session.id || ""
+                                 }
                                  session={session}
                               >
                                  <Button
@@ -184,5 +328,15 @@ export function ProfilePageSessionsSection() {
             </CardContent>
          </Card>
       </TooltipProvider>
+   );
+}
+
+export function ProfilePageSessionsSection() {
+   return (
+      <ErrorBoundary FallbackComponent={SessionsSectionErrorFallback}>
+         <Suspense fallback={<SessionsSectionSkeleton />}>
+            <SessionsSectionContent />
+         </Suspense>
+      </ErrorBoundary>
    );
 }
