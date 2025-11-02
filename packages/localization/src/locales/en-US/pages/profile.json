@@ -18,7 +18,8 @@
          },
          "not-active": {
             "description": "You don't have an active subscription at the moment. Upgrade to continue enjoying our services.",
-            "title": "Inactive subscription"
+            "title": "Inactive subscription",
+            "action": "Upgrade subscription"
          },
          "organization": {
             "description": "Subscriptions are managed by the organization you belong to.",

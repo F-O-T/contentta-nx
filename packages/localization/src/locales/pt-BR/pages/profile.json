@@ -18,7 +18,8 @@
          },
          "not-active": {
             "description": "Você não tem uma assinatura ativa no momento. Atualize para continuar aproveitando nossos serviços.",
-            "title": "Assinatura inativa"
+            "title": "Assinatura inativa",
+            "action": "Atualizar assinatura"
          },
          "organization": {
             "description": "As assinaturas são gerenciadas pela organização à qual você pertence.",
