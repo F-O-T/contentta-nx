@@ -25,10 +25,12 @@ export function NavMain({
       title: string;
       url?: string;
       icon?: LucideIcon;
+      disabled?: boolean;
       subItems?: {
          url: string;
          title: string;
          icon?: LucideIcon;
+         disabled?: boolean;
       }[];
    }[];
 }) {
@@ -55,20 +57,32 @@ export function NavMain({
                               <CollapsibleTrigger asChild>
                                  <SidebarMenuButton
                                     asChild
-                                    className={`${isActive(item.url || "") ? "bg-primary/10 text-primary rounded-lg" : ""}`}
+                                    className={`${isActive(item.url || "") ? "bg-primary/10 text-primary rounded-lg" : ""} ${item.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+                                    disabled={item.disabled}
                                     tooltip={item.title}
                                  >
                                     <div className="flex items-center justify-between w-full">
-                                       <Link
-                                          className="flex items-center gap-2"
-                                          onClick={() => setOpenMobile(false)}
-                                          to={item.url || ""}
-                                       >
-                                          {item.icon && (
-                                             <item.icon className="h-4 w-4" />
-                                          )}
-                                          <span>{item.title}</span>
-                                       </Link>
+                                       {item.disabled ? (
+                                          <div className="flex items-center gap-2">
+                                             {item.icon && (
+                                                <item.icon className="h-4 w-4" />
+                                             )}
+                                             <span>{item.title}</span>
+                                          </div>
+                                       ) : (
+                                          <Link
+                                             className="flex items-center gap-2"
+                                             onClick={() =>
+                                                setOpenMobile(false)
+                                             }
+                                             to={item.url || ""}
+                                          >
+                                             {item.icon && (
+                                                <item.icon className="h-4 w-4" />
+                                             )}
+                                             <span>{item.title}</span>
+                                          </Link>
+                                       )}
                                        <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-180" />
                                     </div>
                                  </SidebarMenuButton>
@@ -79,20 +93,29 @@ export function NavMain({
                                        <SidebarMenuSubItem key={subItem.title}>
                                           <SidebarMenuSubButton
                                              asChild
-                                             className={`${isActive(subItem.url) ? "bg-primary/10 text-primary rounded-lg" : ""}`}
+                                             className={`${isActive(subItem.url) ? "bg-primary/10 text-primary rounded-lg" : ""} ${subItem.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
                                           >
-                                             <Link
-                                                className="flex items-center gap-2"
-                                                onClick={() =>
-                                                   setOpenMobile(false)
-                                                }
-                                                to={subItem.url}
-                                             >
-                                                {subItem.icon && (
-                                                   <subItem.icon />
-                                                )}
-                                                <span>{subItem.title}</span>
-                                             </Link>
+                                             {subItem.disabled ? (
+                                                <div className="flex items-center gap-2">
+                                                   {subItem.icon && (
+                                                      <subItem.icon />
+                                                   )}
+                                                   <span>{subItem.title}</span>
+                                                </div>
+                                             ) : (
+                                                <Link
+                                                   className="flex items-center gap-2"
+                                                   onClick={() =>
+                                                      setOpenMobile(false)
+                                                   }
+                                                   to={subItem.url}
+                                                >
+                                                   {subItem.icon && (
+                                                      <subItem.icon />
+                                                   )}
+                                                   <span>{subItem.title}</span>
+                                                </Link>
+                                             )}
                                           </SidebarMenuSubButton>
                                        </SidebarMenuSubItem>
                                     ))}
@@ -108,15 +131,31 @@ export function NavMain({
                         className={`${isActive(item.url || "") ? "bg-primary/10 text-primary rounded-lg" : ""}`}
                         key={item.title}
                      >
-                        <SidebarMenuButton asChild tooltip={item.title}>
-                           <Link
-                              className="flex items-center gap-2"
-                              onClick={() => setOpenMobile(false)}
-                              to={item.url || ""}
-                           >
-                              {item.icon && <item.icon />}
-                              <span>{item.title}</span>
-                           </Link>
+                        <SidebarMenuButton
+                           asChild
+                           className={
+                              item.disabled
+                                 ? "opacity-50 cursor-not-allowed"
+                                 : ""
+                           }
+                           disabled={item.disabled}
+                           tooltip={item.title}
+                        >
+                           {item.disabled ? (
+                              <div className="flex items-center gap-2">
+                                 {item.icon && <item.icon />}
+                                 <span>{item.title}</span>
+                              </div>
+                           ) : (
+                              <Link
+                                 className="flex items-center gap-2"
+                                 onClick={() => setOpenMobile(false)}
+                                 to={item.url || ""}
+                              >
+                                 {item.icon && <item.icon />}
+                                 <span>{item.title}</span>
+                              </Link>
+                           )}
                         </SidebarMenuButton>
                      </SidebarMenuItem>
                   );

@@ -22,19 +22,10 @@ import {
 import { Skeleton } from "@packages/ui/components/skeleton";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { Link, useRouter } from "@tanstack/react-router";
-import {
-   Crown,
-   LogOutIcon,
-   MoreVerticalIcon,
-   UserCircleIcon,
-} from "lucide-react";
-import { useCallback } from "react";
+import { Crown, LogOutIcon, UserCircleIcon } from "lucide-react";
+import { Suspense, useCallback } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import {
-   betterAuthClient,
-   type Session,
-   useTRPC,
-} from "@/integrations/clients";
+import { betterAuthClient, useTRPC } from "@/integrations/clients";
 import { SubscriptionPlansCredenza } from "@/widgets/subscription/ui/subscription-plans-credenza";
 
 function UserAvatarInfo({
@@ -96,12 +87,14 @@ function NavUserSkeleton() {
 }
 
 // Extracted content with Suspense logic
-// No client-side session fetch, session comes from props
-function NavUserContent({ session }: { session: Session | null }) {
-   const { isMobile, setOpenMobile } = useSidebar();
+function NavUserContent() {
+   const { setOpenMobile } = useSidebar();
    const router = useRouter();
    const trpc = useTRPC();
    const queryClient = useQueryClient();
+   const { data: session } = useSuspenseQuery(
+      trpc.session.getSession.queryOptions(),
+   );
    const { data: billingInfo } = useSuspenseQuery(
       trpc.authHelpers.getBillingInfo.queryOptions(),
    );
@@ -127,30 +120,26 @@ function NavUserContent({ session }: { session: Session | null }) {
       trpc.authHelpers.getSession.queryKey,
       trpc.authHelpers.getSession,
    ]);
-   if (!session) return <NavUserSkeleton />;
 
    return (
       <SidebarMenu>
          <SidebarMenuItem>
             <DropdownMenu>
-               <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton
-                     className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                     size="lg"
-                  >
-                     <UserAvatarInfo
-                        email={session?.user.email}
-                        grayscale
-                        image={session?.user.image ?? ""}
-                        name={session?.user.name}
+               <DropdownMenuTrigger className="cursor-pointer py-4">
+                  <Avatar>
+                     <AvatarImage
+                        alt={session?.user.name}
+                        src={session?.user.image ?? ""}
                      />
-                     <MoreVerticalIcon className="ml-auto size-4" />
-                  </SidebarMenuButton>
+                     <AvatarFallback className="rounded-lg">
+                        {session?.user.name?.charAt(0) || "?"}
+                     </AvatarFallback>
+                  </Avatar>
                </DropdownMenuTrigger>
                <DropdownMenuContent
                   align="end"
                   className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-                  side={isMobile ? "bottom" : "right"}
+                  side="bottom"
                   sideOffset={4}
                >
                   <DropdownMenuLabel className="p-0 font-normal">
@@ -211,10 +200,12 @@ function NavUserContent({ session }: { session: Session | null }) {
 }
 
 // Export with Suspense and ErrorBoundary
-export function NavUser({ session }: { session: Session | null }) {
+export function NavUser() {
    return (
       <ErrorBoundary FallbackComponent={NavUserErrorFallback}>
-         <NavUserContent session={session} />
+         <Suspense fallback={<NavUserSkeleton />}>
+            <NavUserContent />
+         </Suspense>
       </ErrorBoundary>
    );
 }
