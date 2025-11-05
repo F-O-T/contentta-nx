@@ -124,12 +124,8 @@ function ProfilePageBillingSkeleton() {
                      <Skeleton className="size-4" />
                   </ItemMedia>
                   <ItemContent>
-                     <ItemTitle>
-                        <Skeleton className="h-5 w-1/2" />
-                     </ItemTitle>
-                     <ItemDescription>
-                        <Skeleton className="h-4 w-3/4" />
-                     </ItemDescription>
+                     <Skeleton className="h-5 w-1/2" />
+                     <Skeleton className="h-4 w-3/4" />
                   </ItemContent>
                </Item>
             </ItemGroup>

@@ -119,7 +119,7 @@ function QuickAccessCards() {
    );
 
    return (
-      <div className="space-y-4">
+      <div className=" grid gap-4">
          {quickAccessCards.map((card, index) => (
             <QuickAccessCard
                description={card.description}
@@ -154,7 +154,7 @@ export function ProfilePage() {
                <ProfileInformation />
             </div>
             <ProfilePageBilling />
-            <div className="grid cols-span-1 gap-4">
+            <div className="grid cols-span-1 gap-4 h-full">
                <QuickAccessCardsWithErrorBoundary />
             </div>
 
