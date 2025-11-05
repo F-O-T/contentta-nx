@@ -6,37 +6,52 @@ import {
    AccordionTrigger,
 } from "@packages/ui/components/accordion";
 import { UsageRuler } from "@packages/ui/components/animated-ruler";
+import { Skeleton } from "@packages/ui/components/skeleton";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { useTRPC } from "@/integrations/clients";
 
-export function SidebarUsageMeter() {
+function SidebarUsageMeterErrorFallback() {
+   return (
+      <Accordion collapsible defaultValue="usage" type="single">
+         <AccordionItem className="px-2" value="usage">
+            <AccordionTrigger>
+               {translate("pages.profile.billing.state.error.title")}
+            </AccordionTrigger>
+            <AccordionContent className="bg-muted rounded-lg p-2">
+               <div className="text-sm text-destructive">
+                  {translate("pages.profile.billing.state.error.description")}
+               </div>
+            </AccordionContent>
+         </AccordionItem>
+      </Accordion>
+   );
+}
+
+function SidebarUsageMeterSkeleton() {
+   return (
+      <Accordion collapsible defaultValue="usage" type="single">
+         <AccordionItem className="px-2" value="usage">
+            <AccordionTrigger>
+               <Skeleton className="h-4 w-24" />
+            </AccordionTrigger>
+            <AccordionContent className="bg-muted rounded-lg p-2">
+               <Skeleton className="h-8 w-full" />
+            </AccordionContent>
+         </AccordionItem>
+      </Accordion>
+   );
+}
+
+function SidebarUsageMeterContent() {
    const trpc = useTRPC();
    const { data: billingInfo } = useSuspenseQuery(
-      trpc.authHelpers.getBillingInfo.queryOptions(),
+      trpc.subscription.getBillingInfo.queryOptions(),
    );
-
-   const meterData = useMemo(() => {
-      const selectedMeter =
-         billingInfo.customerState?.activeMeters?.find(
-            (m) => (m?.creditedUnits ?? 0) > 0,
-         ) ?? billingInfo.customerState?.activeMeters?.[0];
-
-      const consumedUnits =
-         typeof selectedMeter?.consumedUnits === "number"
-            ? selectedMeter.consumedUnits
-            : parseInt(selectedMeter?.consumedUnits ?? "0", 10) || 0;
-      const creditedUnits =
-         typeof selectedMeter?.creditedUnits === "number"
-            ? selectedMeter.creditedUnits
-            : parseInt(selectedMeter?.creditedUnits ?? "0", 10) || 10000;
-
-      return {
-         consumedUnits,
-         creditedUnits,
-         selectedMeter,
-      };
-   }, [billingInfo.customerState?.activeMeters]);
+   const { data: meterData } = useSuspenseQuery(
+      trpc.subscription.activeMeters.queryOptions(),
+   );
 
    const rulerDisplayLimit = 5000;
    const displayConsumed = useMemo(
@@ -54,18 +69,28 @@ export function SidebarUsageMeter() {
                   </AccordionTrigger>
                   <AccordionContent className="bg-muted rounded-lg p-2">
                      <UsageRuler
-                        value={displayConsumed}
                         displayMax={rulerDisplayLimit}
                         legend={translate(
                            "pages.profile.billing.state.active.legend",
                         )}
                         max={meterData.creditedUnits}
                         min={0}
+                        value={displayConsumed}
                      />
                   </AccordionContent>
                </AccordionItem>
             </Accordion>
          )}
       </>
+   );
+}
+
+export function SidebarUsageMeter() {
+   return (
+      <ErrorBoundary FallbackComponent={SidebarUsageMeterErrorFallback}>
+         <Suspense fallback={<SidebarUsageMeterSkeleton />}>
+            <SidebarUsageMeterContent />
+         </Suspense>
+      </ErrorBoundary>
    );
 }

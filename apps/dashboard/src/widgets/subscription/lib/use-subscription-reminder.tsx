@@ -12,7 +12,7 @@ export function useSubscriptionReminder() {
    const trpc = useTRPC();
 
    const { data: shouldShow } = useSuspenseQuery(
-      trpc.authHelpers.subscriptionReminder.queryOptions(),
+      trpc.subscription.subscriptionReminder.queryOptions(),
    );
 
    const isDismissed = useCallback(() => {
