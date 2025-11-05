@@ -65,6 +65,53 @@
          "title": "Remove Member"
       }
    },
+   "overview": {
+      "information": {
+         "description": "View your organization details and information",
+         "state": {
+            "error": {
+               "description": "Failed to load organization information. Please try again.",
+               "title": "Error loading organization information"
+            }
+         },
+         "title": "Organization Information"
+      },
+      "mascot-message": "Here you can see your organization overview",
+      "quick-access": {
+         "members": {
+            "description": "Manage organization members and permissions",
+            "title": "Members"
+         },
+         "organization": {
+            "description": "Access your organization settings and details",
+            "title": "Organization"
+         },
+         "state": {
+            "error": {
+               "description": "Failed to load quick access options",
+               "title": "Error"
+            }
+         }
+      },
+      "stats": {
+         "agents": {
+            "description": "The total number of writer agents in the organization",
+            "title": "Total agents"
+         },
+         "description": "Key metrics and statistics for your organization",
+         "members": {
+            "description": "The total number of members in the organization",
+            "title": "Total Members"
+         },
+         "state": {
+            "error": {
+               "description": "Failed to load organization statistics. Please try again.",
+               "title": "Error loading statistics"
+            }
+         },
+         "title": "Organization Statistics"
+      }
+   },
    "roles": {
       "admin": "Admin",
       "member": "Member",
@@ -73,10 +120,5 @@
    "table": {
       "email": "Email"
    },
-   "title": "Organization Management",
-   "toasts": {
-      "invalid-email": "Please enter a valid email",
-      "invitation-failed": "Failed to send invitation",
-      "invitation-sent": "Invitation sent to {{email}}"
-   }
+   "title": "Organization Management"
 }
