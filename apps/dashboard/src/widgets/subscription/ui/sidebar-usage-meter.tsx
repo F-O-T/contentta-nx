@@ -62,12 +62,17 @@ function SidebarUsageMeterContent() {
    return (
       <>
          {billingInfo.billingState === "active_subscription" && (
-            <Accordion collapsible defaultValue="usage" type="single">
-               <AccordionItem className="px-2" value="usage">
+            <Accordion
+               className="border rounded-lg"
+               collapsible
+               defaultValue="usage"
+               type="single"
+            >
+               <AccordionItem className="px-2 " value="usage">
                   <AccordionTrigger>
                      {translate("pages.profile.billing.state.active.title")}
                   </AccordionTrigger>
-                  <AccordionContent className="bg-muted rounded-lg p-2">
+                  <AccordionContent className=" p-2  ">
                      <UsageRuler
                         displayMax={rulerDisplayLimit}
                         legend={translate(
