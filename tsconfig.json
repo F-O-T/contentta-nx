@@ -1,53 +1,53 @@
 {
    "extends": "@tooling/typescript/base.json",
    "references": [
-      {
-         "path": "./packages/server-events"
-      },
-      {
-         "path": "./packages/transactional"
-      },
-      {
-         "path": "./packages/environment"
-      },
-      {
-         "path": "./packages/database"
-      },
-      {
-         "path": "./packages/payment"
-      },
-      {
-         "path": "./packages/posthog"
-      },
-      {
-         "path": "./packages/workers"
-      },
-      {
-         "path": "./packages/files"
-      },
-      {
-         "path": "./packages/api"
-      },
-      {
-         "path": "./packages/rag"
-      },
-      {
-         "path": "./packages/ui"
-      },
-      {
-         "path": "./packages/agents"
-      },
-      {
-         "path": "./packages/localization"
-      },
-      {
-         "path": "./packages/utils"
-      },
-      {
-         "path": "./packages/authentication"
-      },
-      {
-         "path": "./packages/contenta-sdk"
-      }
-   ]
+    {
+      "path": "./packages/server-events"
+    },
+    {
+      "path": "./packages/transactional"
+    },
+    {
+      "path": "./packages/environment"
+    },
+    {
+      "path": "./packages/database"
+    },
+    {
+      "path": "./packages/payment"
+    },
+    {
+      "path": "./packages/posthog"
+    },
+    {
+      "path": "./packages/workers"
+    },
+    {
+      "path": "./packages/files"
+    },
+    {
+      "path": "./packages/api"
+    },
+    {
+      "path": "./packages/rag"
+    },
+    {
+      "path": "./packages/ui"
+    },
+    {
+      "path": "./packages/agents"
+    },
+    {
+      "path": "./packages/localization"
+    },
+    {
+      "path": "./packages/utils"
+    },
+    {
+      "path": "./packages/authentication"
+    },
+    {
+      "path": "./packages/contenta-sdk"
+    }
+  ]
 }

@@ -1,7 +1,7 @@
 {
    "dependencies": {},
    "devDependencies": {
-      "@biomejs/biome": "2.3.2",
+      "@biomejs/biome": "2.3.4",
       "@commitlint/cli": "20.1.0",
       "@commitlint/config-conventional": "20.0.0",
       "@nx/js": "22.0.1",
@@ -10,7 +10,7 @@
       "@swc/helpers": "0.5.17",
       "@tooling/typescript": "workspace:*",
       "husky": "9.1.7",
-      "nx": "22.0.1",
+      "nx": "22.0.2",
       "typescript": "catalog:development"
    },
    "engines": {
@@ -159,7 +159,7 @@
             "tailwindcss": "^4.1.16"
          },
          "validation": {
-            "zod": "4.1.8"
+            "zod": "4.1.12"
          },
          "vite": {
             "@tailwindcss/vite": "^4.1.8",
