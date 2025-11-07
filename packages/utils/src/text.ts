@@ -131,15 +131,17 @@ export function calculateReadabilityScore({ text }: { text: string }) {
 
    return { level, score };
 }
-export function getInitials(name: string, email: string) {
+export function getInitials(name: string, email?: string) {
    if (name) {
       const trimmed = name.trim();
-      const segments = trimmed.split(/\s+/).filter(segment => segment.length > 0);
+      const segments = trimmed
+         .split(/\s+/)
+         .filter((segment) => segment.length > 0);
 
       if (segments.length > 0) {
          const initials = segments
-            .map(segment => segment[0])
-            .filter(char => char !== undefined)
+            .map((segment) => segment[0])
+            .filter((char) => char !== undefined)
             .join("")
             .toUpperCase()
             .slice(0, 2);
