@@ -23,13 +23,10 @@ export const brand = pgTable(
    {
       createdAt: timestamp("created_at").defaultNow().notNull(),
       id: uuid("id").primaryKey().defaultRandom(),
-      logoUrl: text("logo_url"),
-      name: text("name"),
       organizationId: text("organization_id")
          .references(() => organization.id, { onDelete: "cascade" })
          .notNull(),
       status: brandKnowledgeStatusEnum("status").default("analyzing"),
-      summary: text("summary"),
       updatedAt: timestamp("updated_at")
          .defaultNow()
          .$onUpdate(() => new Date())
