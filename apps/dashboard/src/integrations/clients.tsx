@@ -5,6 +5,7 @@ import { clientEnv } from "@packages/environment/client";
 import { getCurrentLanguage } from "@packages/localization";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 import {
    createTRPCContext,
    createTRPCOptionsProxy,
@@ -61,7 +62,8 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
    return (
       <QueryClientProvider client={queryClient}>
          <TRPCProvider queryClient={queryClient} trpcClient={trpcClient}>
-            <ReactQueryDevtools buttonPosition="top-left" />
+            <ReactQueryDevtools buttonPosition="bottom-left" />
+            
             {children}
          </TRPCProvider>
       </QueryClientProvider>
