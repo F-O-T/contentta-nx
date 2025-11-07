@@ -130,6 +130,17 @@ export const getAuthOptions = (
                return state?.activeSubscriptions.length > 0;
             },
             organizationLimit: 1,
+            schema: {
+               organization: {
+                  additionalFields: {
+                     description: {
+                        defaultValue: "",
+                        required: false,
+                        type: "string",
+                     },
+                  },
+               },
+            },
             async sendInvitationEmail(data) {
                const inviteLink = `${getDomain()}/callback/organization/invitation/${data.id}`;
                await sendOrganizationInvitation(resendClient, {
