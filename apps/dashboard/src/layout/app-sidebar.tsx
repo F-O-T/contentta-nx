@@ -34,7 +34,6 @@ type NavigationItems = {
 };
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
-
    const navMain: NavigationItems[] = [
       {
          icon: FilesIcon,

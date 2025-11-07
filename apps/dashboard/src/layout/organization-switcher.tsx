@@ -4,6 +4,15 @@ import {
    AvatarImage,
 } from "@packages/ui/components/avatar";
 import {
+   Item,
+   ItemActions,
+   ItemContent,
+   ItemDescription,
+   ItemMedia,
+   ItemTitle,
+} from "@packages/ui/components/item";
+import { getInitials } from "@packages/utils/text";
+import {
    DropdownMenu,
    DropdownMenuContent,
    DropdownMenuItem,
@@ -18,16 +27,11 @@ import {
    useSidebar,
 } from "@packages/ui/components/sidebar";
 import { Skeleton } from "@packages/ui/components/skeleton";
-import {
-   useMutation,
-   useQueryClient,
-   useSuspenseQuery,
-} from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, ChevronsUpDown } from "lucide-react";
-import { Suspense } from "react";
+import { Building, ChevronsUpDown } from "lucide-react";
+import { Suspense, useMemo } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { toast } from "sonner";
 import { useTRPC } from "@/integrations/clients";
 
 function OrganizationSwitcherErrorFallback() {
@@ -42,11 +46,9 @@ function OrganizationDropdownErrorFallback() {
    return (
       <>
          <DropdownMenuLabel className="text-muted-foreground text-xs">
-            Switch Organization
+            Teams
          </DropdownMenuLabel>
-         <DropdownMenuItem disabled>
-            You dont have other organizations
-         </DropdownMenuItem>
+         <DropdownMenuItem disabled>Failed to load teams</DropdownMenuItem>
       </>
    );
 }
@@ -71,12 +73,14 @@ function OrganizationDropdownSkeleton() {
    return (
       <>
          <DropdownMenuLabel className="text-muted-foreground text-xs">
-            Switch Organization
+            Teams
          </DropdownMenuLabel>
          <DropdownMenuItem disabled>
-            <div className="gap-2 p-2 w-full">
+            <div className="gap-2 p-2 w-full flex items-center">
                <Skeleton className="size-6 rounded" />
-               <Skeleton className="h-4 w-20" />
+               <div className="flex-1">
+                  <Skeleton className="h-4 w-24" />
+               </div>
             </div>
          </DropdownMenuItem>
       </>
@@ -95,75 +99,29 @@ export function OrganizationSwitcher() {
 
 function OrganizationDropdownContent() {
    const trpc = useTRPC();
-   const queryClient = useQueryClient();
 
-   // Get organizations for switching (excluding active one)
-   const { data: organizations } = useSuspenseQuery(
-      trpc.organization.getOrganizations.queryOptions(),
+   // Get teams for the current active organization
+   const { data: teams } = useSuspenseQuery(
+      trpc.organization.listTeams.queryOptions(),
    );
-
-   const setActiveOrganizationMutation = useMutation(
-      trpc.organization.setActiveOrganization.mutationOptions({
-         onError: (error) => {
-            console.error("Failed to set active organization:", error);
-            toast.error("Failed to switch organization. Please try again.");
-         },
-         onSuccess: async () => {
-            // Invalidate session query to refetch with updated active organization
-            await queryClient.invalidateQueries({
-               queryKey: trpc.authHelpers.getSession.queryKey(),
-            });
-
-            // Invalidate other queries that depend on the active organization
-            await queryClient.invalidateQueries({
-               queryKey: trpc.authHelpers.getBillingInfo.queryKey(),
-            });
-
-            // Invalidate organizations query to refresh the list
-            await queryClient.invalidateQueries({
-               queryKey: trpc.organization.getOrganizations.queryKey(),
-            });
-
-            toast.success("Active organization updated successfully");
-         },
-      }),
-   );
-
-   const handleSetActiveOrganization = async (organizationId: string) => {
-      setActiveOrganizationMutation.mutate({ organizationId });
-   };
 
    return (
       <>
          <DropdownMenuLabel className="text-muted-foreground text-xs">
-            Switch Organization
+            Teams
          </DropdownMenuLabel>
 
-         {organizations?.length === 0 && (
+         {teams?.length === 0 && (
             <DropdownMenuItem disabled>
                <div className="p-2 text-muted-foreground text-sm w-full text-center">
-                  No other organizations
+                  No teams available
                </div>
             </DropdownMenuItem>
          )}
 
-         {organizations?.map((organization) => (
-            <DropdownMenuItem
-               className="gap-2 p-2"
-               disabled={setActiveOrganizationMutation.isPending}
-               key={organization.id}
-               onClick={() => handleSetActiveOrganization(organization.id)}
-            >
-               <Avatar className="size-6">
-                  <AvatarImage
-                     alt={organization.name}
-                     src={organization.logo ?? ""}
-                  />
-                  <AvatarFallback className="text-xs">
-                     {organization.name?.charAt(0)?.toUpperCase()}
-                  </AvatarFallback>
-               </Avatar>
-               <div className="flex-1">{organization.name}</div>
+         {teams?.map((team) => (
+            <DropdownMenuItem className="gap-2 p-2" key={team.id}>
+               <div className="flex-1 text-sm">{team.name}</div>
             </DropdownMenuItem>
          ))}
       </>
@@ -177,6 +135,20 @@ function OrganizationSwitcherContent() {
    const { data: activeOrganization } = useSuspenseQuery(
       trpc.organization.getActiveOrganization.queryOptions(),
    );
+   const { data: logo } = useSuspenseQuery(
+      trpc.organization.getLogo.queryOptions(),
+   );
+   const menuActions = useMemo(
+      () => [
+         {
+            icon: Building,
+            key: "view-organization",
+            label: "View Organization details",
+            to: "/organization",
+         },
+      ],
+      [],
+   );
 
    return (
       <SidebarMenu>
@@ -187,54 +159,51 @@ function OrganizationSwitcherContent() {
                      className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                      size="lg"
                   >
-                     <Avatar className="size-8 rounded-lg">
-                        <AvatarImage
-                           alt={activeOrganization?.name || "Personal"}
-                           src={activeOrganization?.logo ?? ""}
-                        />
-                        <AvatarFallback className="rounded-lg">
-                           {activeOrganization?.name
-                              ?.charAt(0)
-                              ?.toUpperCase() || "P"}
-                        </AvatarFallback>
-                     </Avatar>
-                     <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-medium">
-                           {activeOrganization?.name || "Personal"}
-                        </span>
-                        <span className="truncate text-xs">
-                           {activeOrganization
-                              ? "Organization"
-                              : "Personal Account"}
-                        </span>
-                     </div>
-                     <ChevronsUpDown className="ml-auto" />
+                     <Item className="p-0 w-full">
+                        <ItemMedia>
+                           <Avatar className=" rounded-lg">
+                              <AvatarImage
+                                 alt={activeOrganization?.name || "Personal"}
+                                 src={logo?.data ?? ""}
+                              />
+                              <AvatarFallback className="rounded-lg">
+                                 {getInitials(activeOrganization?.name ?? "")}
+                              </AvatarFallback>
+                           </Avatar>
+                        </ItemMedia>
+                        <ItemContent>
+                           <ItemTitle className="">
+                              {activeOrganization?.name || "Personal"}
+                           </ItemTitle>
+                           <ItemDescription className="text-xs ">
+                              {activeOrganization
+                                 ? activeOrganization.description
+                                 : "Personal Account"}
+                           </ItemDescription>
+                        </ItemContent>
+                        <ItemActions>
+                           <ChevronsUpDown className="size-4" />
+                        </ItemActions>
+                     </Item>
                   </SidebarMenuButton>
                </DropdownMenuTrigger>
                <DropdownMenuContent
                   align="start"
-                  className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
                   side={isMobile ? "bottom" : "right"}
                   sideOffset={4}
                >
-                  {/* Current organization section */}
-                  <DropdownMenuLabel className="text-muted-foreground text-xs">
-                     Current Organization
-                  </DropdownMenuLabel>
+                  <DropdownMenuLabel>Current Organization</DropdownMenuLabel>
 
+                  {activeOrganization &&
+                     menuActions.map(({ key, to, icon: Icon, label }) => (
+                        <DropdownMenuItem asChild key={key}>
+                           <Link className="w-full flex gap-2" to={to}>
+                              <Icon className="size-4" />
+                              {label}
+                           </Link>
+                        </DropdownMenuItem>
+                     ))}
                   <DropdownMenuSeparator />
-                  {activeOrganization && (
-                     <DropdownMenuItem asChild>
-                        <Link className="w-full flex gap-2" to="/organization">
-                           View Organization
-                           <ArrowUpRight className=" size-4" />
-                        </Link>
-                     </DropdownMenuItem>
-                  )}
-
-                  <DropdownMenuSeparator />
-
-                  {/* Other organizations list with suspense */}
                   <ErrorBoundary
                      FallbackComponent={OrganizationDropdownErrorFallback}
                   >
