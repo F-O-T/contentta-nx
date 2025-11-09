@@ -1,3 +1,4 @@
+import { Button } from "@packages/ui/components/button";
 import {
    Card,
    CardContent,
@@ -7,6 +8,7 @@ import {
 } from "@packages/ui/components/card";
 import { Markdown } from "@packages/ui/components/markdown";
 import { useIsomorphicLayoutEffect } from "@packages/ui/hooks/use-isomorphic-layout-effect";
+import { Plus } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSubscription } from "@trpc/tanstack-react-query";
 import { useMemo, useState } from "react";
@@ -83,20 +85,26 @@ export function BrandDetailsPage() {
    if (!brand || brandError) {
       return (
          <main className="h-full w-full flex flex-col gap-4">
-            <Card>
-               <CardHeader>
-                  <CardTitle>Create Your Brand</CardTitle>
-                  <CardDescription>
-                     Set up your brand to start generating content and managing
-                     your brand assets.
+            <TalkingMascot message="Let's set up your brand to get started with content generation" />
+            <Card className="flex flex-col items-center justify-center py-12">
+               <div className="text-center max-w-md">
+                  <CardTitle className="mb-2">No Brand Yet</CardTitle>
+                  <CardDescription className="mb-6">
+                     Create your brand profile to start generating personalized content and managing your brand assets.
                   </CardDescription>
-               </CardHeader>
-               <CardContent>
+                  <Button
+                    onClick={() => setShowCreateDialog(true)}
+                    size="lg"
+                    className="mb-4"
+                  >
+                    <Plus className="mr-2 h-4 w-4" />
+                    Create Your First Brand
+                  </Button>
                   <CreateEditBrandDialog
                      onOpenChange={setShowCreateDialog}
                      open={showCreateDialog}
                   />
-               </CardContent>
+               </div>
             </Card>
          </main>
       );
@@ -109,23 +117,19 @@ export function BrandDetailsPage() {
                <PendingComponent message="Wait while we analyze your brand" />
             ) : (
                <>
-                  <TalkingMascot message="Welcome to your brand dashboard! Here you can manage your brand information, view features, and track your brand analysis." />
+                  <TalkingMascot message="Here you can manage your brand settings and analysis" />
 
-                  <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
-                     <div className="col-span-1 md:col-span-2 flex flex-col gap-4">
-                        <BrandStatsCard brand={brand} />
-
-                        <BrandFeaturesCard brandId={brand.id} />
-                     </div>
-
-                     <div className="col-span-1 gap-4 flex flex-col">
+                  <div className="grid md:grid-cols-3 gap-4">
+                     <div className="col-span-1 md:col-span-2 grid gap-4">
                         <BrandDetailsActions
                            brand={brand}
                            onLogoUpload={() => setShowLogoUploadDialog(true)}
                         />
-
+                        <BrandFeaturesCard brandId={brand.id} />
+                     </div>
+                     <div className="col-span-1 gap-4 flex flex-col">
+                        <BrandStatsCard brand={brand} />
                         <BrandInfoCard brand={brand} />
-
                         <Card>
                            <CardHeader>
                               <CardTitle className="flex items-center gap-2">

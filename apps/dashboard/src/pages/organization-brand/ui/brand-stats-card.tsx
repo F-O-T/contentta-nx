@@ -58,7 +58,7 @@ export function BrandStatsCard({ brand }: BrandStatsCardProps) {
    }, [brand?.features]);
 
    return (
-      <div className="w-full gap-4 grid md:grid-cols-2">
+      <div className="grid h-min grid-cols-2 gap-4">
          {items.map((item) => (
             <StatsCard
                description={item.description}
