@@ -1,8 +1,7 @@
 import { TalkingMascot } from "@/widgets/talking-mascot/ui/talking-mascot";
-import { InvitesStats } from "./organization-invites-stats";
-import { InvitesQuickActionsToolbar } from "./organization-invites-quick-actions-toolbar";
 import { InvitesListSection } from "./organization-invites-list-section";
-import { PendingInvitesSection } from "./organization-pending-invites-section";
+import { InvitesQuickActionsToolbar } from "./organization-invites-quick-actions-toolbar";
+import { InvitesStats } from "./organization-invites-stats";
 
 export function OrganizationInvitesPage() {
    return (
@@ -12,13 +11,9 @@ export function OrganizationInvitesPage() {
          <div className="grid md:grid-cols-3 gap-4">
             <div className="col-span-1 md:col-span-2 grid gap-4">
                <InvitesQuickActionsToolbar />
-               <InvitesStats />
+               <InvitesListSection />
             </div>
-         </div>
-
-         <div className="grid md:grid-cols-2 gap-4">
-            <InvitesListSection />
-            <PendingInvitesSection />
+            <InvitesStats />
          </div>
       </main>
    );
