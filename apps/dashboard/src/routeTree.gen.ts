@@ -26,6 +26,10 @@ import { Route as DashboardIdeasIndexRouteImport } from './routes/_dashboard/ide
 import { Route as DashboardContentIndexRouteImport } from './routes/_dashboard/content/index'
 import { Route as DashboardCompetitorsIndexRouteImport } from './routes/_dashboard/competitors/index'
 import { Route as DashboardAgentsIndexRouteImport } from './routes/_dashboard/agents/index'
+import { Route as DashboardOrganizationTeamsRouteImport } from './routes/_dashboard/organization/teams'
+import { Route as DashboardOrganizationMembersRouteImport } from './routes/_dashboard/organization/members'
+import { Route as DashboardOrganizationInvitesRouteImport } from './routes/_dashboard/organization/invites'
+import { Route as DashboardOrganizationBrandRouteImport } from './routes/_dashboard/organization/brand'
 import { Route as DashboardIdeasIdRouteImport } from './routes/_dashboard/ideas/$id'
 import { Route as DashboardContentIdRouteImport } from './routes/_dashboard/content/$id'
 import { Route as DashboardCompetitorsIdRouteImport } from './routes/_dashboard/competitors/$id'
@@ -124,6 +128,30 @@ const DashboardAgentsIndexRoute = DashboardAgentsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardAgentsRoute,
 } as any)
+const DashboardOrganizationTeamsRoute =
+  DashboardOrganizationTeamsRouteImport.update({
+    id: '/organization/teams',
+    path: '/organization/teams',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+const DashboardOrganizationMembersRoute =
+  DashboardOrganizationMembersRouteImport.update({
+    id: '/organization/members',
+    path: '/organization/members',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+const DashboardOrganizationInvitesRoute =
+  DashboardOrganizationInvitesRouteImport.update({
+    id: '/organization/invites',
+    path: '/organization/invites',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+const DashboardOrganizationBrandRoute =
+  DashboardOrganizationBrandRouteImport.update({
+    id: '/organization/brand',
+    path: '/organization/brand',
+    getParentRoute: () => DashboardRoute,
+  } as any)
 const DashboardIdeasIdRoute = DashboardIdeasIdRouteImport.update({
   id: '/ideas/$id',
   path: '/ideas/$id',
@@ -188,6 +216,10 @@ export interface FileRoutesByFullPath {
   '/competitors/$id': typeof DashboardCompetitorsIdRoute
   '/content/$id': typeof DashboardContentIdRoute
   '/ideas/$id': typeof DashboardIdeasIdRoute
+  '/organization/brand': typeof DashboardOrganizationBrandRoute
+  '/organization/invites': typeof DashboardOrganizationInvitesRoute
+  '/organization/members': typeof DashboardOrganizationMembersRoute
+  '/organization/teams': typeof DashboardOrganizationTeamsRoute
   '/agents/': typeof DashboardAgentsIndexRoute
   '/competitors': typeof DashboardCompetitorsIndexRoute
   '/content': typeof DashboardContentIndexRoute
@@ -213,6 +245,10 @@ export interface FileRoutesByTo {
   '/competitors/$id': typeof DashboardCompetitorsIdRoute
   '/content/$id': typeof DashboardContentIdRoute
   '/ideas/$id': typeof DashboardIdeasIdRoute
+  '/organization/brand': typeof DashboardOrganizationBrandRoute
+  '/organization/invites': typeof DashboardOrganizationInvitesRoute
+  '/organization/members': typeof DashboardOrganizationMembersRoute
+  '/organization/teams': typeof DashboardOrganizationTeamsRoute
   '/competitors': typeof DashboardCompetitorsIndexRoute
   '/content': typeof DashboardContentIndexRoute
   '/ideas': typeof DashboardIdeasIndexRoute
@@ -241,6 +277,10 @@ export interface FileRoutesById {
   '/_dashboard/competitors/$id': typeof DashboardCompetitorsIdRoute
   '/_dashboard/content/$id': typeof DashboardContentIdRoute
   '/_dashboard/ideas/$id': typeof DashboardIdeasIdRoute
+  '/_dashboard/organization/brand': typeof DashboardOrganizationBrandRoute
+  '/_dashboard/organization/invites': typeof DashboardOrganizationInvitesRoute
+  '/_dashboard/organization/members': typeof DashboardOrganizationMembersRoute
+  '/_dashboard/organization/teams': typeof DashboardOrganizationTeamsRoute
   '/_dashboard/agents/': typeof DashboardAgentsIndexRoute
   '/_dashboard/competitors/': typeof DashboardCompetitorsIndexRoute
   '/_dashboard/content/': typeof DashboardContentIndexRoute
@@ -268,6 +308,10 @@ export interface FileRouteTypes {
     | '/competitors/$id'
     | '/content/$id'
     | '/ideas/$id'
+    | '/organization/brand'
+    | '/organization/invites'
+    | '/organization/members'
+    | '/organization/teams'
     | '/agents/'
     | '/competitors'
     | '/content'
@@ -293,6 +337,10 @@ export interface FileRouteTypes {
     | '/competitors/$id'
     | '/content/$id'
     | '/ideas/$id'
+    | '/organization/brand'
+    | '/organization/invites'
+    | '/organization/members'
+    | '/organization/teams'
     | '/competitors'
     | '/content'
     | '/ideas'
@@ -320,6 +368,10 @@ export interface FileRouteTypes {
     | '/_dashboard/competitors/$id'
     | '/_dashboard/content/$id'
     | '/_dashboard/ideas/$id'
+    | '/_dashboard/organization/brand'
+    | '/_dashboard/organization/invites'
+    | '/_dashboard/organization/members'
+    | '/_dashboard/organization/teams'
     | '/_dashboard/agents/'
     | '/_dashboard/competitors/'
     | '/_dashboard/content/'
@@ -459,6 +511,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAgentsIndexRouteImport
       parentRoute: typeof DashboardAgentsRoute
     }
+    '/_dashboard/organization/teams': {
+      id: '/_dashboard/organization/teams'
+      path: '/organization/teams'
+      fullPath: '/organization/teams'
+      preLoaderRoute: typeof DashboardOrganizationTeamsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/_dashboard/organization/members': {
+      id: '/_dashboard/organization/members'
+      path: '/organization/members'
+      fullPath: '/organization/members'
+      preLoaderRoute: typeof DashboardOrganizationMembersRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/_dashboard/organization/invites': {
+      id: '/_dashboard/organization/invites'
+      path: '/organization/invites'
+      fullPath: '/organization/invites'
+      preLoaderRoute: typeof DashboardOrganizationInvitesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/_dashboard/organization/brand': {
+      id: '/_dashboard/organization/brand'
+      path: '/organization/brand'
+      fullPath: '/organization/brand'
+      preLoaderRoute: typeof DashboardOrganizationBrandRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/_dashboard/ideas/$id': {
       id: '/_dashboard/ideas/$id'
       path: '/ideas/$id'
@@ -565,6 +645,10 @@ interface DashboardRouteChildren {
   DashboardCompetitorsIdRoute: typeof DashboardCompetitorsIdRoute
   DashboardContentIdRoute: typeof DashboardContentIdRoute
   DashboardIdeasIdRoute: typeof DashboardIdeasIdRoute
+  DashboardOrganizationBrandRoute: typeof DashboardOrganizationBrandRoute
+  DashboardOrganizationInvitesRoute: typeof DashboardOrganizationInvitesRoute
+  DashboardOrganizationMembersRoute: typeof DashboardOrganizationMembersRoute
+  DashboardOrganizationTeamsRoute: typeof DashboardOrganizationTeamsRoute
   DashboardCompetitorsIndexRoute: typeof DashboardCompetitorsIndexRoute
   DashboardContentIndexRoute: typeof DashboardContentIndexRoute
   DashboardIdeasIndexRoute: typeof DashboardIdeasIndexRoute
@@ -579,6 +663,10 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardCompetitorsIdRoute: DashboardCompetitorsIdRoute,
   DashboardContentIdRoute: DashboardContentIdRoute,
   DashboardIdeasIdRoute: DashboardIdeasIdRoute,
+  DashboardOrganizationBrandRoute: DashboardOrganizationBrandRoute,
+  DashboardOrganizationInvitesRoute: DashboardOrganizationInvitesRoute,
+  DashboardOrganizationMembersRoute: DashboardOrganizationMembersRoute,
+  DashboardOrganizationTeamsRoute: DashboardOrganizationTeamsRoute,
   DashboardCompetitorsIndexRoute: DashboardCompetitorsIndexRoute,
   DashboardContentIndexRoute: DashboardContentIndexRoute,
   DashboardIdeasIndexRoute: DashboardIdeasIndexRoute,
