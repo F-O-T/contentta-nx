@@ -13,9 +13,9 @@ import {
 } from "@packages/ui/components/tooltip";
 import { Edit, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { SendInvitationSheet } from "@/features/organization-actions/ui/send-invitation-sheet";
 import { DeleteOrganizationDialog } from "../features/delete-organization-dialog";
 import { EditOrganizationSheet } from "../features/edit-organization-sheet";
-import { SendInvitationSheet } from "../features/send-invitation-sheet";
 
 export function QuickActionsToolbar() {
    const [isEditSheetOpen, setIsEditSheetOpen] = useState(false);

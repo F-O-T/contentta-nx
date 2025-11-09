@@ -1,31 +1,33 @@
 import { QuickAccessCard } from "@packages/ui/components/quick-access-card";
-import { Mail, Palette, Users } from "lucide-react";
+import { Mail, Palette, Users, Building2 } from "lucide-react";
+import { useRouter } from "@tanstack/react-router";
 
 export function QuickAccessCards() {
+   const router = useRouter()
    const quickAccessItems = [
       {
-         description: "Manage organization teams and members",
-         icon: <Users className="size-5" />,
-         onClick: () => console.log("Navigate to Teams"),
+         description: "Manage organization teams and collaborate",
+         icon: <Building2 className="size-5" />,
+         onClick: () => router.navigate({ to: "/organization/teams" }),
          title: "Teams",
       },
       {
          description: "Configure brand settings and assets",
          icon: <Palette className="size-5" />,
-         onClick: () => console.log("Navigate to Brand"),
+         onClick: () => router.navigate({ to: "/organization/brand" }),
          title: "Brand",
       },
       {
          description: "View and manage all organization members",
          icon: <Users className="size-5" />,
-         onClick: () => console.log("Navigate to all members"),
-         title: "All Members",
+         onClick: () => router.navigate({ to: "/organization/members" }),
+         title: "Members",
       },
       {
          description: "Manage invitations and send new invites",
          icon: <Mail className="size-5" />,
-         onClick: () => console.log("Navigate to manage invites"),
-         title: "Manage Invites",
+         onClick: () => router.navigate({ to: "/organization/invites" }),
+         title: "Invites",
       },
    ];
 
