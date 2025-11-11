@@ -14,44 +14,41 @@
    },
    "extends": "@tooling/typescript/base.json",
    "references": [
-      {
-         "path": "../../packages/localization"
-      },
-      {
-         "path": "../../packages/workers"
-      },
-      {
-         "path": "../../packages/utils"
-      },
-      {
-         "path": "../../packages/transactional"
-      },
-      {
-         "path": "../../packages/rag"
-      },
-      {
-         "path": "../../packages/posthog"
-      },
-      {
-         "path": "../../packages/agents"
-      },
-      {
-         "path": "../../packages/payment"
-      },
-      {
-         "path": "../../packages/files"
-      },
-      {
-         "path": "../../packages/environment"
-      },
-      {
-         "path": "../../packages/database"
-      },
-      {
-         "path": "../../packages/authentication"
-      },
-      {
-         "path": "../../packages/api"
-      }
-   ]
+    {
+      "path": "../../packages/localization"
+    },
+    {
+      "path": "../../packages/workers"
+    },
+    {
+      "path": "../../packages/utils"
+    },
+    {
+      "path": "../../packages/transactional"
+    },
+    {
+      "path": "../../packages/posthog"
+    },
+    {
+      "path": "../../packages/payment"
+    },
+    {
+      "path": "../../packages/environment"
+    },
+    {
+      "path": "../../packages/api"
+    },
+    {
+      "path": "../../packages/rag"
+    },
+    {
+      "path": "../../packages/files"
+    },
+    {
+      "path": "../../packages/database"
+    },
+    {
+      "path": "../../packages/agents"
+    }
+  ]
 }
