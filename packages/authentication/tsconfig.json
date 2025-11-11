@@ -3,9 +3,13 @@
       "baseUrl": ".",
       "jsx": "react-jsx"
    },
-   "exclude": ["node_modules"],
+   "exclude": [
+      "node_modules"
+   ],
    "extends": "@tooling/typescript/internal-package.json",
-   "include": ["src"],
+   "include": [
+      "src"
+   ],
    "references": [
       {
          "path": "../environment"
