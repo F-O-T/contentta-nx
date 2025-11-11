@@ -55,10 +55,6 @@ const CLEAN_TARGETS = [
    "*.tsbuildinfo",
    ".eslintcache",
    ".cache",
-
-   // Drizzle specific
-   "**/drizzle",
-   "**/.drizzle",
 ];
 
 function runCommand(
@@ -114,9 +110,21 @@ function expandGlobPatterns(patterns: string[]): string[] {
 
    patterns.forEach((pattern) => {
       try {
-         // Use find to handle glob patterns safely
+         // Convert glob pattern to find-compatible pattern
+         let findPattern = pattern;
+
+         // Handle ** patterns by converting to -path with wildcards
+         if (pattern.includes("**")) {
+            findPattern = pattern.replace(/\*\*/g, "*");
+         }
+
+         // Handle * patterns
+         if (pattern.includes("*")) {
+            findPattern = pattern.replace(/\*/g, "*");
+         }
+
          const result = execSync(
-            `find . -path "${pattern}" -not -path "./node_modules/*" 2>/dev/null || true`,
+            `find . -path "./${findPattern}" -not -path "./node_modules/*" 2>/dev/null || true`,
             {
                cwd: process.cwd(),
                encoding: "utf8",
@@ -297,8 +305,8 @@ program
    .option("--dry-run", "Show what would be deleted without actually deleting")
    .option("--no-install", "Skip dependency reinstallation prompt")
    .option("--deep", "Also clean node_modules in all packages")
-   .action((options) => {
-      clean(options);
+   .action(async (options) => {
+      await clean(options);
    });
 
 program
@@ -306,15 +314,15 @@ program
    .description("Complete reset: clean + git reset + clean uncommitted changes")
    .option("--force", "Skip confirmation prompt")
    .option("--no-install", "Skip dependency reinstallation prompt")
-   .action((options) => {
-      reset(options);
+   .action(async (options) => {
+      await reset(options);
    });
 
 program
    .command("cache")
    .description("Clean only cache files (no build files or node_modules)")
    .option("--dry-run", "Show what would be deleted without actually deleting")
-   .action((options) => {
+   .action(async (options) => {
       // Only clean cache-related targets
       const cacheTargets = [
          ".nx/cache",
@@ -329,11 +337,13 @@ program
       CLEAN_TARGETS.length = 0;
       CLEAN_TARGETS.push(...cacheTargets);
 
-      clean(options).then(() => {
+      try {
+         await clean(options);
+      } finally {
          // Restore original targets
          CLEAN_TARGETS.length = 0;
          CLEAN_TARGETS.push(...originalTargets);
-      });
+      }
    });
 
 program.parse();
