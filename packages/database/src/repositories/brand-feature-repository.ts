@@ -137,7 +137,6 @@ export async function getFeaturesByBrandId(
             brand: {
                columns: {
                   id: true,
-                  name: true,
                   websiteUrl: true,
                },
             },
@@ -202,7 +201,6 @@ export async function searchFeatures(
             brand: {
                columns: {
                   id: true,
-                  name: true,
                   websiteUrl: true,
                },
             },
@@ -248,7 +246,6 @@ export async function getRecentFeatures(
             brand: {
                columns: {
                   id: true,
-                  name: true,
                   websiteUrl: true,
                },
             },

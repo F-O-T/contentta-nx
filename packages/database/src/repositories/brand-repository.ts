@@ -1,5 +1,5 @@
 import { AppError, propagateError } from "@packages/utils/errors";
-import { and, eq, sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import type { DatabaseInstance } from "../client";
 import type { BrandInsert, BrandSelect } from "../schemas/brand";
 import { brand } from "../schemas/brand";
@@ -120,60 +120,6 @@ export async function getTotalBrands(
    } catch (err) {
       throw AppError.database(
          `Failed to get total brands: ${(err as Error).message}`,
-      );
-   }
-}
-
-export async function searchBrands(
-   dbClient: DatabaseInstance,
-   {
-      query,
-      organizationId,
-      page = 1,
-      limit = 20,
-   }: {
-      query: string;
-      organizationId?: string;
-      page?: number;
-      limit?: number;
-   },
-): Promise<BrandSelect[]> {
-   try {
-      const offset = (page - 1) * limit;
-
-      function buildSearchWhereCondition(
-         query: string,
-         organizationId?: string,
-      ) {
-         const searchPattern = `%${query.toLowerCase()}%`;
-
-         // Base condition: search name or websiteUrl (case-insensitive) - grouped to avoid precedence issues
-         const baseCondition = sql`(${brand.name}::text ILIKE ${searchPattern} OR ${brand.websiteUrl}::text ILIKE ${searchPattern})`;
-
-         if (organizationId)
-            return and(baseCondition, eq(brand.organizationId, organizationId));
-
-         return baseCondition;
-      }
-      const whereCondition = buildSearchWhereCondition(query, organizationId);
-
-      return await dbClient.query.brand.findMany({
-         limit,
-         offset,
-         orderBy: (brand, { desc }) => [desc(brand.createdAt)],
-         where: whereCondition,
-         with: {
-            features: {
-               limit: 3,
-               orderBy: (brandFeature, { desc }) => [
-                  desc(brandFeature.extractedAt),
-               ],
-            },
-         },
-      });
-   } catch (err) {
-      throw AppError.database(
-         `Failed to search brands: ${(err as Error).message}`,
       );
    }
 }
