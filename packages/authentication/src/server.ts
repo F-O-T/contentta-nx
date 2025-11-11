@@ -140,6 +140,15 @@ export const getAuthOptions = (
                      },
                   },
                },
+               team: {
+                  additionalFields: {
+                     description: {
+                        defaultValue: "",
+                        required: false,
+                        type: "string",
+                     },
+                  },
+               },
             },
             async sendInvitationEmail(data) {
                const inviteLink = `${getDomain()}/callback/organization/invitation/${data.id}`;

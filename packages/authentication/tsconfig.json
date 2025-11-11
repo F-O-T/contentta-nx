@@ -1,15 +1,16 @@
 {
    "compilerOptions": {
       "baseUrl": ".",
-      "jsx": "react-jsx"
+      "composite": false,
+      "declaration": false,
+      "declarationMap": false,
+      "emitDeclarationOnly": false,
+      "jsx": "react-jsx",
+      "lib": ["dom", "ES2022"]
    },
-   "exclude": [
-      "node_modules"
-   ],
+   "exclude": ["node_modules"],
    "extends": "@tooling/typescript/internal-package.json",
-   "include": [
-      "src"
-   ],
+   "include": ["src"],
    "references": [
       {
          "path": "../environment"
