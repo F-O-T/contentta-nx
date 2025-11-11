@@ -7,10 +7,7 @@ import { isProduction } from "@packages/environment/helpers";
 import { serverEnv as env } from "@packages/environment/server";
 import { createCompetitorInsightsQueue } from "@packages/workers/queues/create-competitor-insights-queue";
 import { createCompleteKnowledgeWorkflowQueue } from "@packages/workers/queues/create-complete-knowledge-workflow-queue";
-import { createFeaturesKnowledgeQueue } from "@packages/workers/queues/create-features-knowledge-queue";
-import { createKnowledgeAndIndexDocumentsQueue } from "@packages/workers/queues/create-knowledge-and-index-documents-queue";
 import { createNewContentWorkflowQueue } from "@packages/workers/queues/create-new-content-queue";
-import { createOverviewQueue } from "@packages/workers/queues/create-overview-queue";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { Elysia } from "elysia";
 import { auth, polarClient } from "./integrations/auth";
@@ -28,10 +25,7 @@ createBullBoard({
    },
    queues: [
       new BullMQAdapter(createNewContentWorkflowQueue),
-      new BullMQAdapter(createOverviewQueue),
-      new BullMQAdapter(createFeaturesKnowledgeQueue),
       new BullMQAdapter(createCompleteKnowledgeWorkflowQueue),
-      new BullMQAdapter(createKnowledgeAndIndexDocumentsQueue),
       new BullMQAdapter(createCompetitorInsightsQueue),
    ],
    serverAdapter,
