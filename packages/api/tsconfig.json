@@ -8,41 +8,38 @@
    "extends": "@tooling/typescript/internal-package.json",
    "include": ["src", "__tests__/*.test.ts"],
    "references": [
-      {
-         "path": "../agents"
-      },
-      {
-         "path": "../utils"
-      },
-      {
-         "path": "../payment"
-      },
-      {
-         "path": "../posthog"
-      },
-      {
-         "path": "../rag"
-      },
-      {
-         "path": "../files"
-      },
-      {
-         "path": "../database"
-      },
-      {
-         "path": "../authentication"
-      },
-      {
-         "path": "../workers"
-      },
-      {
-         "path": "../server-events"
-      },
-      {
-         "path": "../contenta-sdk"
-      },
-      {
-         "path": "../localization"
-      }
-   ]
+    {
+      "path": "../workers"
+    },
+    {
+      "path": "../utils"
+    },
+    {
+      "path": "../server-events"
+    },
+    {
+      "path": "../rag"
+    },
+    {
+      "path": "../posthog"
+    },
+    {
+      "path": "../payment"
+    },
+    {
+      "path": "../localization"
+    },
+    {
+      "path": "../files"
+    },
+    {
+      "path": "../database"
+    },
+    {
+      "path": "../contenta-sdk"
+    },
+    {
+      "path": "../agents"
+    }
+  ]
 }
