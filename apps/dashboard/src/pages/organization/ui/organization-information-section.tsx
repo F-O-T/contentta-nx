@@ -56,9 +56,9 @@ function OrganizationAvatar() {
    );
 
    return (
-      <Avatar className="size-12">
+      <Avatar className="rounded-lg size-10">
          <ErrorBoundary FallbackComponent={LogoErrorFallback}>
-            <Suspense fallback={<Skeleton className="size-12 rounded-full" />}>
+            <Suspense fallback={<Skeleton className="size-10 rounded-full" />}>
                <OrganizationLogo />
             </Suspense>
          </ErrorBoundary>
@@ -74,7 +74,7 @@ function OrganizationLogo() {
       trpc.organization.getLogo.queryOptions(),
    );
 
-   return <AvatarImage src={logo?.data} />;
+   return <AvatarImage className="rounded-lg" src={logo?.data} />;
 }
 
 // Content Component
@@ -118,7 +118,7 @@ export function OrganizationInfo() {
       <ErrorBoundary FallbackComponent={OrganizationInfoErrorFallback}>
          <Suspense fallback={<OrganizationInfoSkeleton />}>
             <Item className="w-full rounded-lg" variant="outline">
-               <ItemMedia>
+               <ItemMedia variant="image">
                   <OrganizationAvatar />
                </ItemMedia>
                <ErrorBoundary FallbackComponent={ContentErrorFallback}>

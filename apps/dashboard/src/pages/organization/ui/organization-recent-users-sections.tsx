@@ -131,8 +131,8 @@ export function OrganizationRoles() {
                      <Dialog>
                         <DialogTrigger asChild>
                            <Item className="cursor-pointer hover:bg-accent/50 transition-colors">
-                              <ItemMedia className="size-10 rounded-full bg-muted flex items-center justify-center">
-                                 <role.icon className="size-4 text-muted-foreground" />
+                              <ItemMedia className="size-10 " variant="icon">
+                                 <role.icon className="size-4 " />
                               </ItemMedia>
                               <ItemContent className="gap-1">
                                  <ItemTitle>{role.title}</ItemTitle>

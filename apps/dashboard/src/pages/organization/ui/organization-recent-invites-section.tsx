@@ -42,8 +42,8 @@ function RecentInvitesContent() {
                {recentInvites.map((invite, index) => (
                   <Fragment key={invite.id}>
                      <Item>
-                        <ItemMedia className="size-10 rounded-full bg-muted flex items-center justify-center">
-                           <Mail className="size-4 text-muted-foreground" />
+                        <ItemMedia className="size-10 " variant="icon">
+                           <Mail className="size-4 " />
                         </ItemMedia>
                         <ItemContent className="gap-1">
                            <ItemTitle>{invite.email}</ItemTitle>
@@ -84,10 +84,8 @@ function RecentInvitesSkeleton() {
                {[1, 2, 3].map((index) => (
                   <Fragment key={index}>
                      <Item>
-                        <ItemMedia>
-                           <div className="size-10 rounded-full bg-muted flex items-center justify-center">
-                              <Mail className="size-4 text-muted-foreground" />
-                           </div>
+                        <ItemMedia className="size-10" variant="icon">
+                           <Mail className="size-4 " />
                         </ItemMedia>
                         <ItemContent className="gap-1">
                            <Skeleton className="h-4 w-48" />

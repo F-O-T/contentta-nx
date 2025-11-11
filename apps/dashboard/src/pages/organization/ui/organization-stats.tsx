@@ -91,7 +91,7 @@ function AuthorsStat() {
 
 export function OrganizationStats() {
    return (
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid md:grid-cols-3 gap-4">
          <ErrorBoundary FallbackComponent={StatErrorFallback}>
             <Suspense fallback={<StatSkeleton />}>
                <MembersStat />
@@ -112,3 +112,4 @@ export function OrganizationStats() {
       </div>
    );
 }
+
