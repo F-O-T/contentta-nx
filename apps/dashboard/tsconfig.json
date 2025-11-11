@@ -37,25 +37,22 @@
       "path": "../../packages/utils"
     },
     {
-      "path": "../../packages/transactional"
-    },
-    {
       "path": "../../packages/ui"
     },
     {
+      "path": "../../packages/transactional"
+    },
+    {
       "path": "../../packages/posthog"
+    },
+    {
+      "path": "../../packages/localization"
     },
     {
       "path": "../../packages/environment"
     },
     {
       "path": "../../packages/api"
-    },
-    {
-      "path": "../../packages/authentication"
-    },
-    {
-      "path": "../../packages/localization"
     }
   ]
 }
