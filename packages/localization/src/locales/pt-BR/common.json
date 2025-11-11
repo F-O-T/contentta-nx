@@ -1,14 +1,10 @@
 {
-   "delete-confirmation": {
-      "description": "Voce tem certeza que deseja fazer isso? Esta ação não pode ser desfeita.",
-      "title": "Confirmação Necessária"
-   },
    "actions": {
-      "retry": "Tentar novamente",
       "cancel": "Cancelar",
       "creating": "Criando...",
       "delete": "Excluir",
       "deleting": "Excluindo...",
+      "retry": "Tentar novamente",
       "update": "Atualizar",
       "updating": "Atualizando...",
       "view": "Visualizar"
@@ -18,6 +14,10 @@
          "authRequired": "Usuário precisa estar autenticado",
          "userReportRequired": "Descrição do bug é obrigatória"
       }
+   },
+   "delete-confirmation": {
+      "description": "Voce tem certeza que deseja fazer isso? Esta ação não pode ser desfeita.",
+      "title": "Confirmação Necessária"
    },
    "errorModal": {
       "backButton": "Voltar",

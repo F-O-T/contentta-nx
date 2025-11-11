@@ -1,14 +1,10 @@
 {
-   "delete-confirmation": {
-      "description": "Are you sure you want to do this? This action cannot be undone.",
-      "title": "Confirmation Required"
-   },
    "actions": {
-      "retry": "Retry",
       "cancel": "Cancel",
       "creating": "Creating...",
       "delete": "Delete",
       "deleting": "Deleting...",
+      "retry": "Retry",
       "update": "Update",
       "updating": "Updating...",
       "view": "View"
@@ -18,6 +14,10 @@
          "authRequired": "User must be authenticated",
          "userReportRequired": "Bug description is required"
       }
+   },
+   "delete-confirmation": {
+      "description": "Are you sure you want to do this? This action cannot be undone.",
+      "title": "Confirmation Required"
    },
    "errorModal": {
       "backButton": "Back",

@@ -17,9 +17,9 @@
             "title": "Erro ao carregar"
          },
          "not-active": {
+            "action": "Atualizar assinatura",
             "description": "Você não tem uma assinatura ativa no momento. Atualize para continuar aproveitando nossos serviços.",
-            "title": "Assinatura inativa",
-            "action": "Atualizar assinatura"
+            "title": "Assinatura inativa"
          },
          "organization": {
             "description": "As assinaturas são gerenciadas pela organização à qual você pertence.",

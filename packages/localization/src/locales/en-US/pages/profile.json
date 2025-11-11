@@ -17,9 +17,9 @@
             "title": "Loading error"
          },
          "not-active": {
+            "action": "Upgrade subscription",
             "description": "You don't have an active subscription at the moment. Upgrade to continue enjoying our services.",
-            "title": "Inactive subscription",
-            "action": "Upgrade subscription"
+            "title": "Inactive subscription"
          },
          "organization": {
             "description": "Subscriptions are managed by the organization you belong to.",
