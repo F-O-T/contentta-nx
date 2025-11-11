@@ -2,7 +2,6 @@ import { createWorkflow } from "@mastra/core/workflows";
 import { z } from "zod";
 import { createFeaturesKnowledgeWorkflow } from "./knowledge/create-features-knowledge-workflow";
 import { createKnowledgeAndIndexDocumentsWorkflow } from "./knowledge/create-knowledge-and-index-documents-workflow";
-import { createOverviewWorkflow } from "./knowledge/create-overview-workflow";
 
 export const CreateCompleteKnowledgeInput = z.object({
    id: z.string(),
@@ -18,9 +17,6 @@ export const CreateCompleteKnowledgeOutput = z.object({
    "create-knowledge-and-index-documents": z.object({
       chunkCount: z.number(),
    }),
-   "create-overview": z.object({
-      chunkCount: z.number(),
-   }),
 });
 
 export const createCompleteKnowledgeWorkflow = createWorkflow({
@@ -31,7 +27,6 @@ export const createCompleteKnowledgeWorkflow = createWorkflow({
    outputSchema: CreateCompleteKnowledgeOutput,
 })
    .parallel([
-      createOverviewWorkflow,
       createFeaturesKnowledgeWorkflow,
       createKnowledgeAndIndexDocumentsWorkflow,
    ])

@@ -8,7 +8,6 @@ import { createCompleteKnowledgeWorkflow } from "./workflows/create-complete-kno
 import { createNewContentWorkflow } from "./workflows/create-new-content-workflow";
 import { createFeaturesKnowledgeWorkflow } from "./workflows/knowledge/create-features-knowledge-workflow";
 import { createKnowledgeAndIndexDocumentsWorkflow } from "./workflows/knowledge/create-knowledge-and-index-documents-workflow";
-import { createOverviewWorkflow } from "./workflows/knowledge/create-overview-workflow";
 export type CustomRuntimeContext = {
    brandId?: string;
    language?: SupportedLng;
@@ -43,7 +42,6 @@ export const mastra = new Mastra({
       createFeaturesKnowledgeWorkflow,
       createKnowledgeAndIndexDocumentsWorkflow,
       createNewContentWorkflow,
-      createOverviewWorkflow,
    },
 });
 
