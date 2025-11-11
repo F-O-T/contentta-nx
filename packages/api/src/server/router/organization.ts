@@ -16,38 +16,6 @@ const OrganizationLogoUploadInput = z.object({
 });
 
 export const organizationRouter = router({
-   createInvitation: protectedProcedure
-      .input(
-         z.object({
-            email: z.string().email("Valid email is required"),
-            organizationId: z.string().optional(),
-            resend: z.boolean().optional(),
-            role: z.enum(["member", "admin", "owner"]),
-            teamId: z.string().optional(),
-         }),
-      )
-      .mutation(async ({ ctx, input }) => {
-         const resolvedCtx = await ctx;
-
-         try {
-            const invitation = await resolvedCtx.auth.api.createInvitation({
-               body: {
-                  email: input.email,
-                  organizationId: input.organizationId,
-                  resend: input.resend,
-                  role: input.role,
-                  teamId: input.teamId,
-               },
-               headers: resolvedCtx.headers,
-            });
-
-            return invitation;
-         } catch (error) {
-            console.error("Failed to create invitation:", error);
-            propagateError(error);
-            throw APIError.internal("Failed to create invitation");
-         }
-      }),
    createOrganization: protectedProcedure
       .input(
          z.object({
