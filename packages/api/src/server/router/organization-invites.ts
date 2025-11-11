@@ -27,30 +27,6 @@ export const organizationInvitesRouter = router({
             throw APIError.internal("Failed to accept invitation");
          }
       }),
-   revokeInvitation: protectedProcedure
-      .input(
-         z.object({
-            invitationId: z.string().min(1, "Invitation ID is required"),
-         }),
-      )
-      .mutation(async ({ ctx, input }) => {
-         const resolvedCtx = await ctx;
-
-         try {
-            const result = await resolvedCtx.auth.api.cancelInvitation({
-               body: {
-                  invitationId: input.invitationId,
-               },
-               headers: resolvedCtx.headers,
-            });
-
-            return result;
-         } catch (error) {
-            console.error("Failed to revoke invitation:", error);
-            propagateError(error);
-            throw APIError.internal("Failed to revoke invitation");
-         }
-      }),
    createInvitation: protectedProcedure
       .input(
          z.object({
@@ -228,6 +204,30 @@ export const organizationInvitesRouter = router({
             console.error("Failed to list invitations:", error);
             propagateError(error);
             throw APIError.internal("Failed to list invitations");
+         }
+      }),
+   revokeInvitation: protectedProcedure
+      .input(
+         z.object({
+            invitationId: z.string().min(1, "Invitation ID is required"),
+         }),
+      )
+      .mutation(async ({ ctx, input }) => {
+         const resolvedCtx = await ctx;
+
+         try {
+            const result = await resolvedCtx.auth.api.cancelInvitation({
+               body: {
+                  invitationId: input.invitationId,
+               },
+               headers: resolvedCtx.headers,
+            });
+
+            return result;
+         } catch (error) {
+            console.error("Failed to revoke invitation:", error);
+            propagateError(error);
+            throw APIError.internal("Failed to revoke invitation");
          }
       }),
 });

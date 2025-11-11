@@ -9,8 +9,6 @@ import {
    deleteBrand,
    getBrandById,
    getBrandByOrgId,
-   getTotalBrands,
-   searchBrands,
    updateBrand,
 } from "@packages/database/repositories/brand-repository";
 import { BrandInsertSchema } from "@packages/database/schema";

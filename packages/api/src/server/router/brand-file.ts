@@ -2,25 +2,12 @@ import {
    getBrandById,
    updateBrand,
 } from "@packages/database/repositories/brand-repository";
-import {
-   getFile,
-   listFiles,
-   streamFileForProxy,
-   uploadFile,
-} from "@packages/files/client";
-import { compressImage } from "@packages/files/image-helper";
+import { getFile, listFiles } from "@packages/files/client";
 import { deleteAllBrandKnowledgeByExternalIdAndType } from "@packages/rag/repositories/brand-knowledge-repository";
 import { z } from "zod";
-import { organizationProcedure, protectedProcedure, router } from "../trpc";
+import { protectedProcedure, router } from "../trpc";
 
 const BrandFileDeleteInput = z.object({
-   fileName: z.string(),
-});
-
-const BrandLogoUploadInput = z.object({
-   brandId: z.uuid(),
-   contentType: z.string(),
-   fileBuffer: z.base64(), // base64 encoded
    fileName: z.string(),
 });
 
@@ -120,35 +107,6 @@ export const brandFileRouter = router({
          return { content };
       }),
 
-   getLogo: protectedProcedure
-      .input(z.object({ brandId: z.uuid() }))
-      .query(async ({ ctx, input }) => {
-         const resolvedCtx = await ctx;
-         const brand = await getBrandById(resolvedCtx.db, input.brandId);
-         if (!brand?.logoUrl) {
-            return null;
-         }
-
-         const bucketName = resolvedCtx.minioBucket;
-         const key = brand.logoUrl;
-
-         try {
-            const { buffer, contentType } = await streamFileForProxy(
-               key,
-               bucketName,
-               resolvedCtx.minioClient,
-            );
-            const base64 = buffer.toString("base64");
-            return {
-               contentType,
-               data: `data:${contentType};base64,${base64}`,
-            };
-         } catch (error) {
-            console.error("Error fetching logo:", error);
-            return null;
-         }
-      }),
-
    listBrandFiles: protectedProcedure
       .input(z.object({ brandId: z.uuid() }))
       .query(async ({ ctx, input }) => {
@@ -157,49 +115,5 @@ export const brandFileRouter = router({
          const prefix = `${input.brandId}/`;
          const files = await listFiles(bucketName, prefix, minioClient);
          return { files };
-      }),
-   uploadLogo: organizationProcedure
-      .input(BrandLogoUploadInput)
-      .mutation(async ({ ctx, input }) => {
-         const { brandId, fileName, fileBuffer } = input;
-
-         // Get current brand to check for existing logo
-         const db = (await ctx).db;
-         const currentBrand = await getBrandById(db, brandId);
-
-         // Delete old logo if it exists
-         if (currentBrand?.logoUrl) {
-            try {
-               const bucketName = (await ctx).minioBucket;
-               const minioClient = (await ctx).minioClient;
-               await minioClient.removeObject(bucketName, currentBrand.logoUrl);
-            } catch (error) {
-               console.error("Error deleting old logo:", error);
-               // Continue with upload even if deletion fails
-            }
-         }
-
-         const key = `${brandId}/logo/${fileName}`;
-         const buffer = Buffer.from(fileBuffer, "base64");
-
-         // Compress the image
-         const compressedBuffer = await compressImage(buffer, {
-            format: "webp",
-            quality: 80,
-         });
-
-         const bucketName = (await ctx).minioBucket;
-         const minioClient = (await ctx).minioClient;
-         // Upload to S3/Minio
-         const url = await uploadFile(
-            key,
-            compressedBuffer,
-            "image/webp",
-            bucketName,
-            minioClient,
-         );
-         // Update brand logoUrl
-         await updateBrand(db, brandId, { logoUrl: key });
-         return { url };
       }),
 });
