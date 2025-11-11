@@ -17,7 +17,6 @@ import type * as React from "react";
 import type { FileRoutesByTo } from "@/routeTree.gen";
 import { SidebarUsageMeter } from "@/widgets/subscription/ui/sidebar-usage-meter";
 import { NavMain } from "./nav-main";
-import { NavUser } from "./nav-user";
 import { OrganizationSwitcher } from "./organization-switcher";
 
 type NavigationItems = {

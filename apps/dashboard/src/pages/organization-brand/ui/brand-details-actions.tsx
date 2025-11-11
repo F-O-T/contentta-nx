@@ -13,7 +13,7 @@ import {
    TooltipTrigger,
 } from "@packages/ui/components/tooltip";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Edit, ExternalLink, RefreshCw, Trash, Upload } from "lucide-react";
+import { Edit, ExternalLink, RefreshCw, Trash } from "lucide-react";
 import { useState } from "react";
 import { createToast } from "@/features/error-modal/lib/create-toast";
 import { useTRPC } from "@/integrations/clients";
@@ -22,13 +22,9 @@ import { DeleteBrandConfirmationDialog } from "../features/delete-brand-confirma
 
 interface BrandDetailsActionsProps {
    brand: RouterOutput["brand"]["list"]["items"][number];
-   onLogoUpload?: () => void;
 }
 
-export function BrandDetailsActions({
-   brand,
-   onLogoUpload,
-}: BrandDetailsActionsProps) {
+export function BrandDetailsActions({ brand }: BrandDetailsActionsProps) {
    const trpc = useTRPC();
    const queryClient = useQueryClient();
    const [showEditDialog, setShowEditDialog] = useState(false);
@@ -76,12 +72,6 @@ export function BrandDetailsActions({
          icon: RefreshCw,
          label: analyzeMutation.isPending ? "Analyzing..." : "Refresh Analysis",
          onClick: handleAnalyze,
-      },
-      {
-         disabled: !onLogoUpload,
-         icon: Upload,
-         label: "Upload Logo",
-         onClick: onLogoUpload,
       },
       {
          disabled: false,

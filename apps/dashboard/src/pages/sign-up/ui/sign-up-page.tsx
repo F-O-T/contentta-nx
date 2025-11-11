@@ -1,10 +1,4 @@
 import { translate } from "@packages/localization";
-import {
-   Field,
-   FieldError,
-   FieldGroup,
-   FieldLabel,
-} from "@packages/ui/components/field";
 import { Button } from "@packages/ui/components/button";
 import {
    Card,
@@ -14,12 +8,17 @@ import {
    CardHeader,
    CardTitle,
 } from "@packages/ui/components/card";
+import {
+   Field,
+   FieldError,
+   FieldGroup,
+   FieldLabel,
+} from "@packages/ui/components/field";
 import { Input } from "@packages/ui/components/input";
 import { PasswordInput } from "@packages/ui/components/password-input";
 import { defineStepper } from "@packages/ui/components/stepper";
-import { Link } from "@tanstack/react-router";
 import { useForm } from "@tanstack/react-form";
-import { useRouter } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { type FormEvent, useCallback, useMemo } from "react";
 import { toast } from "sonner";
 import z from "zod";
@@ -142,18 +141,18 @@ export function SignUpPage() {
                               {translate("pages.sign-up.form.name.label")}
                            </FieldLabel>
                            <Input
-                              value={field.state.value}
+                              aria-invalid={isInvalid}
+                              autoComplete="name"
                               id={field.name}
                               name={field.name}
-                              placeholder={translate(
-                                 "pages.sign-up.form.name.placeholder",
-                              )}
-                              autoComplete="name"
                               onBlur={field.handleBlur}
                               onChange={(e) =>
                                  field.handleChange(e.target.value)
                               }
-                              aria-invalid={isInvalid}
+                              placeholder={translate(
+                                 "pages.sign-up.form.name.placeholder",
+                              )}
+                              value={field.state.value}
                            />
                            {isInvalid && (
                               <FieldError errors={field.state.meta.errors} />
@@ -174,19 +173,19 @@ export function SignUpPage() {
                               {translate("pages.sign-up.form.email.label")}
                            </FieldLabel>
                            <Input
-                              value={field.state.value}
+                              aria-invalid={isInvalid}
+                              autoComplete="email"
                               id={field.name}
                               name={field.name}
-                              type="email"
-                              placeholder={translate(
-                                 "pages.sign-up.form.email.placeholder",
-                              )}
-                              autoComplete="email"
                               onBlur={field.handleBlur}
                               onChange={(e) =>
                                  field.handleChange(e.target.value)
                               }
-                              aria-invalid={isInvalid}
+                              placeholder={translate(
+                                 "pages.sign-up.form.email.placeholder",
+                              )}
+                              type="email"
+                              value={field.state.value}
                            />
                            {isInvalid && (
                               <FieldError errors={field.state.meta.errors} />
@@ -215,18 +214,18 @@ export function SignUpPage() {
                               {translate("pages.sign-up.form.password.label")}
                            </FieldLabel>
                            <PasswordInput
-                              value={field.state.value}
+                              aria-invalid={isInvalid}
+                              autoComplete="new-password"
                               id={field.name}
                               name={field.name}
-                              placeholder={translate(
-                                 "pages.sign-up.form.password.placeholder",
-                              )}
-                              autoComplete="new-password"
                               onBlur={field.handleBlur}
                               onChange={(e) =>
                                  field.handleChange(e.target.value)
                               }
-                              aria-invalid={isInvalid}
+                              placeholder={translate(
+                                 "pages.sign-up.form.password.placeholder",
+                              )}
+                              value={field.state.value}
                            />
                            {isInvalid && (
                               <FieldError errors={field.state.meta.errors} />
@@ -249,18 +248,18 @@ export function SignUpPage() {
                               )}
                            </FieldLabel>
                            <PasswordInput
-                              value={field.state.value}
+                              aria-invalid={isInvalid}
+                              autoComplete="new-password"
                               id={field.name}
                               name={field.name}
-                              placeholder={translate(
-                                 "pages.sign-up.form.confirm-password.placeholder",
-                              )}
-                              autoComplete="new-password"
                               onBlur={field.handleBlur}
                               onChange={(e) =>
                                  field.handleChange(e.target.value)
                               }
-                              aria-invalid={isInvalid}
+                              placeholder={translate(
+                                 "pages.sign-up.form.confirm-password.placeholder",
+                              )}
+                              value={field.state.value}
                            />
                            {isInvalid && (
                               <FieldError errors={field.state.meta.errors} />
@@ -309,11 +308,11 @@ export function SignUpPage() {
                            <form.Subscribe>
                               {(formState) => (
                                  <Button
+                                    className=" flex gap-2 items-center justify-center"
                                     disabled={
                                        !formState.canSubmit ||
                                        formState.isSubmitting
                                     }
-                                    className=" flex gap-2 items-center justify-center"
                                     type="submit"
                                     variant="default"
                                  >
@@ -324,15 +323,15 @@ export function SignUpPage() {
                         ) : (
                            <form.Subscribe
                               selector={(state) => ({
-                                 nameValid: state.fieldMeta.name?.isValid,
                                  emailValid: state.fieldMeta.email?.isValid,
+                                 nameValid: state.fieldMeta.name?.isValid,
                               })}
                            >
                               {({ nameValid, emailValid }) => (
                                  <Button
+                                    disabled={!nameValid || !emailValid}
                                     onClick={methods.next}
                                     type="button"
-                                    disabled={!nameValid || !emailValid}
                                  >
                                     {translate("pages.sign-up.form.next")}
                                  </Button>
@@ -345,8 +344,8 @@ export function SignUpPage() {
                <CardFooter className=" text-sm flex gap-1 items-center justify-center">
                   <span>{translate("pages.sign-up.footer.have-account")}</span>
                   <Link
-                     to="/auth/sign-in"
                      className="underline text-muted-foreground"
+                     to="/auth/sign-in"
                   >
                      {translate("pages.sign-up.footer.sign-in-link")}
                   </Link>

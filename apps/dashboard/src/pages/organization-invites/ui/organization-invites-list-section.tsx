@@ -1,5 +1,4 @@
 import { Button } from "@packages/ui/components/button";
-import { useQueryClient } from "@tanstack/react-query";
 import {
    Card,
    CardContent,
@@ -33,7 +32,11 @@ import {
    PaginationPrevious,
 } from "@packages/ui/components/pagination";
 import { Skeleton } from "@packages/ui/components/skeleton";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import {
+   useMutation,
+   useQueryClient,
+   useSuspenseQuery,
+} from "@tanstack/react-query";
 import {
    Clock,
    Mail,

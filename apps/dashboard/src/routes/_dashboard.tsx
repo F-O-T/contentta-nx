@@ -74,7 +74,7 @@ function RouteComponent() {
       [mutation],
    );
    return (
-      <DashboardLayout session={session}>
+      <DashboardLayout>
          <div
             className="duration-700 animate-in slide-in-from-bottom-4 fade-in h-full w-full"
             key={location.pathname}

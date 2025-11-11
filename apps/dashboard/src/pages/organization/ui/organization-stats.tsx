@@ -1,6 +1,3 @@
-import { useTRPC } from "@/integrations/clients";
-import { StatsCard } from "@packages/ui/components/stats-card";
-import { Skeleton } from "@packages/ui/components/skeleton";
 import { Alert, AlertDescription } from "@packages/ui/components/alert";
 import {
    Card,
@@ -9,9 +6,12 @@ import {
    CardHeader,
    CardTitle,
 } from "@packages/ui/components/card";
+import { Skeleton } from "@packages/ui/components/skeleton";
+import { StatsCard } from "@packages/ui/components/stats-card";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { useTRPC } from "@/integrations/clients";
 
 // Error Fallback Component
 function StatErrorFallback() {
@@ -112,4 +112,3 @@ export function OrganizationStats() {
       </div>
    );
 }
-

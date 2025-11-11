@@ -70,8 +70,8 @@ function InvitesStatsSkeleton() {
       <div className="grid h-min  grid-cols-2 gap-4">
          {[1, 2, 3, 4].map((index) => (
             <Card
-               key={`stats-skeleton-card-${index + 1}`}
                className="col-span-1 h-full w-full"
+               key={`stats-skeleton-card-${index + 1}`}
             >
                <CardHeader>
                   <CardTitle>

@@ -63,8 +63,8 @@ export function DeleteBrandConfirmationDialog({
             <AlertDialogHeader>
                <AlertDialogTitle>Delete Brand</AlertDialogTitle>
                <AlertDialogDescription>
-                  Are you sure you want to delete "{brand.name}"? This action
-                  cannot be undone.
+                  Are you sure you want to delete ? This action cannot be
+                  undone.
                   <br />
                   <br />
                   <span className="font-semibold text-destructive">

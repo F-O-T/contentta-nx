@@ -1,15 +1,15 @@
 import type { RouterOutput } from "@packages/api/client";
 import { Button } from "@packages/ui/components/button";
-import {
-   Dialog,
-   DialogContent,
-   DialogDescription,
-   DialogFooter,
-   DialogHeader,
-   DialogTitle,
-} from "@packages/ui/components/dialog";
 import { useAppForm } from "@packages/ui/components/form";
 import { Input } from "@packages/ui/components/input";
+import {
+   Sheet,
+   SheetContent,
+   SheetDescription,
+   SheetFooter,
+   SheetHeader,
+   SheetTitle,
+} from "@packages/ui/components/sheet";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { FormEvent } from "react";
 import { useCallback } from "react";
@@ -18,7 +18,9 @@ import { createToast } from "@/features/error-modal/lib/create-toast";
 import { useTRPC } from "@/integrations/clients";
 
 const brandSchema = z.object({
-   websiteUrl: z.url("Please enter a valid URL"),
+   websiteUrl: z
+      .url("Please enter a valid URL")
+      .min(1, "Website URL is required"),
 });
 
 interface CreateEditBrandDialogProps {
@@ -122,66 +124,63 @@ export function CreateEditBrandDialog({
    );
 
    return (
-      <Dialog onOpenChange={onOpenChange} open={open}>
-         <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-               <DialogTitle>
+      <Sheet onOpenChange={onOpenChange} open={open}>
+         <SheetContent>
+            <SheetHeader>
+               <SheetTitle>
                   {isEditing ? "Edit Brand" : "Create New Brand"}
-               </DialogTitle>
-               <DialogDescription>
+               </SheetTitle>
+               <SheetDescription>
                   {isEditing
                      ? "Update your brand information and settings."
                      : "Create a new brand to start generating content and managing your brand assets."}
-               </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handleSubmit}>
-               <div className="grid gap-4 py-4">
-                  <form.AppField name="websiteUrl">
-                     {(field) => (
-                        <field.FieldContainer>
-                           <field.FieldLabel>Website URL</field.FieldLabel>
-                           <Input
-                              id={field.name}
-                              name={field.name}
-                              onBlur={field.handleBlur}
-                              onChange={(e) =>
-                                 field.handleChange(e.target.value)
-                              }
-                              placeholder="https://example.com"
-                              value={field.state.value}
-                           />
-                           <field.FieldMessage />
-                        </field.FieldContainer>
-                     )}
-                  </form.AppField>
-               </div>
-               <DialogFooter>
-                  <Button
-                     onClick={() => onOpenChange(false)}
-                     type="button"
-                     variant="outline"
-                  >
-                     Cancel
-                  </Button>
-                  <form.Subscribe>
-                     {(formState) => (
-                        <Button
-                           disabled={
-                              !formState.canSubmit || formState.isSubmitting
-                           }
-                           type="submit"
-                        >
-                           {formState.isSubmitting
-                              ? "Saving..."
-                              : isEditing
-                                ? "Save Changes"
-                                : "Create Brand"}
-                        </Button>
-                     )}
-                  </form.Subscribe>
-               </DialogFooter>
+               </SheetDescription>
+            </SheetHeader>
+            <form className="grid gap-4 px-4" onSubmit={handleSubmit}>
+               <form.AppField name="websiteUrl">
+                  {(field) => (
+                     <field.FieldContainer>
+                        <field.FieldLabel>Website URL</field.FieldLabel>
+                        <Input
+                           id={field.name}
+                           name={field.name}
+                           onBlur={field.handleBlur}
+                           onChange={(e) => field.handleChange(e.target.value)}
+                           placeholder="https://example.com"
+                           value={field.state.value}
+                        />
+                        <field.FieldMessage />
+                     </field.FieldContainer>
+                  )}
+               </form.AppField>
             </form>
-         </DialogContent>
-      </Dialog>
+            <SheetFooter>
+               <Button
+                  onClick={() => onOpenChange(false)}
+                  type="button"
+                  variant="outline"
+               >
+                  Cancel
+               </Button>
+               <form.Subscribe>
+                  {(formState) => (
+                     <Button
+                        disabled={
+                           !formState.canSubmit || formState.isSubmitting
+                        }
+                        onClick={() => form.handleSubmit()}
+                        type="submit"
+                     >
+                        {formState.isSubmitting
+                           ? "Saving..."
+                           : isEditing
+                             ? "Save Changes"
+                             : "Create Brand"}
+                     </Button>
+                  )}
+               </form.Subscribe>
+            </SheetFooter>
+         </SheetContent>
+      </Sheet>
    );
 }

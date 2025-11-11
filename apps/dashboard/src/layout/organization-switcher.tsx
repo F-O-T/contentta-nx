@@ -4,15 +4,6 @@ import {
    AvatarImage,
 } from "@packages/ui/components/avatar";
 import {
-   Item,
-   ItemActions,
-   ItemContent,
-   ItemDescription,
-   ItemMedia,
-   ItemTitle,
-} from "@packages/ui/components/item";
-import { getInitials } from "@packages/utils/text";
-import {
    DropdownMenu,
    DropdownMenuContent,
    DropdownMenuItem,
@@ -21,12 +12,21 @@ import {
    DropdownMenuTrigger,
 } from "@packages/ui/components/dropdown-menu";
 import {
+   Item,
+   ItemActions,
+   ItemContent,
+   ItemDescription,
+   ItemMedia,
+   ItemTitle,
+} from "@packages/ui/components/item";
+import {
    SidebarMenu,
    SidebarMenuButton,
    SidebarMenuItem,
    useSidebar,
 } from "@packages/ui/components/sidebar";
 import { Skeleton } from "@packages/ui/components/skeleton";
+import { getInitials } from "@packages/utils/text";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { Building, ChevronsUpDown } from "lucide-react";

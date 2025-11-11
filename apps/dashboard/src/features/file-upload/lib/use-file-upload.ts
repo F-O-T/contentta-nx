@@ -1,5 +1,5 @@
-import { toast } from "sonner";
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface FileUploadOptions {
    /** Maximum file size in bytes (default: 5MB) */
@@ -28,10 +28,10 @@ export const useFileUpload = (options: FileUploadOptions = {}) => {
    } = options;
 
    const [state, setState] = useState<FileUploadState>({
-      filePreview: undefined,
-      selectedFile: null,
-      isUploading: false,
       error: null,
+      filePreview: undefined,
+      isUploading: false,
+      selectedFile: null,
    });
 
    const validateFile = (file: File): string | null => {
@@ -57,10 +57,14 @@ export const useFileUpload = (options: FileUploadOptions = {}) => {
       return null;
    };
 
-   const handleFileSelect = (files: File[] | null, onSuccess?: (file: File) => void) => {
+   const handleFileSelect = (
+      files: File[] | null,
+      onSuccess?: (file: File) => void,
+   ) => {
       if (!files || files.length === 0) return;
 
       const file = files[0];
+      if (!file) return;
       const validationError = validateFile(file);
 
       if (validationError) {
@@ -73,12 +77,13 @@ export const useFileUpload = (options: FileUploadOptions = {}) => {
       if (file.type.startsWith("image/")) {
          const reader = new FileReader();
          reader.onload = (e) => {
-            if (typeof e.target?.result === "string") {
+            const result = e.target?.result;
+            if (typeof result === "string") {
                setState((prev) => ({
                   ...prev,
-                  filePreview: e.target?.result,
-                  selectedFile: file,
                   error: null,
+                  filePreview: result,
+                  selectedFile: file,
                }));
                onSuccess?.(file);
             }
@@ -87,8 +92,8 @@ export const useFileUpload = (options: FileUploadOptions = {}) => {
       } else {
          setState((prev) => ({
             ...prev,
-            selectedFile: file,
             error: null,
+            selectedFile: file,
          }));
          onSuccess?.(file);
       }
@@ -96,10 +101,10 @@ export const useFileUpload = (options: FileUploadOptions = {}) => {
 
    const clearFile = () => {
       setState({
-         filePreview: undefined,
-         selectedFile: null,
-         isUploading: false,
          error: null,
+         filePreview: undefined,
+         isUploading: false,
+         selectedFile: null,
       });
    };
 
@@ -130,11 +135,11 @@ export const useFileUpload = (options: FileUploadOptions = {}) => {
 
    return {
       ...state,
-      handleFileSelect,
       clearFile,
-      setUploading,
-      setError,
       convertToBase64,
+      handleFileSelect,
+      setError,
+      setUploading,
       validateFile,
    };
 };

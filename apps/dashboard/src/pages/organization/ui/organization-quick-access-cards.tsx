@@ -1,14 +1,16 @@
 import { QuickAccessCard } from "@packages/ui/components/quick-access-card";
-import { Mail, Palette, Users, Building2 } from "lucide-react";
 import { useRouter } from "@tanstack/react-router";
+import { Building2, Mail, Palette, Users } from "lucide-react";
 
 export function QuickAccessCards() {
-   const router = useRouter()
+   const router = useRouter();
    const quickAccessItems = [
       {
          description: "Manage organization teams and collaborate",
+         disabled: true,
          icon: <Building2 className="size-5" />,
          onClick: () => router.navigate({ to: "/organization/teams" }),
+
          title: "Teams",
       },
       {
@@ -19,6 +21,7 @@ export function QuickAccessCards() {
       },
       {
          description: "View and manage all organization members",
+         disabled: true,
          icon: <Users className="size-5" />,
          onClick: () => router.navigate({ to: "/organization/members" }),
          title: "Members",
@@ -36,6 +39,7 @@ export function QuickAccessCards() {
          {quickAccessItems.map((item, index) => (
             <QuickAccessCard
                description={item.description}
+               disabled={item.disabled}
                icon={item.icon}
                key={`quick-access-${index + 1}`}
                onClick={item.onClick}

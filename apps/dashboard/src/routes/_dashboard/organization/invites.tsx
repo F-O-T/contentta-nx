@@ -8,4 +8,3 @@ export const Route = createFileRoute("/_dashboard/organization/invites")({
 function RouteComponent() {
    return <OrganizationInvitesPage />;
 }
-
