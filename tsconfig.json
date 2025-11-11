@@ -44,9 +44,6 @@
       "path": "./packages/utils"
     },
     {
-      "path": "./packages/authentication"
-    },
-    {
       "path": "./packages/contenta-sdk"
     }
   ]
