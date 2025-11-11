@@ -168,7 +168,7 @@ function MembersListContent() {
                      paginatedMembers.map((member, index) => (
                         <Fragment key={member.id}>
                            <Item>
-                              <ItemMedia>
+                              <ItemMedia variant="image">
                                  <Avatar className="size-10">
                                     <AvatarImage
                                        src={member.user?.image || undefined}
@@ -339,10 +339,8 @@ function MembersListSkeleton() {
                {[1, 2, 3, 4, 5].map((index) => (
                   <Fragment key={index}>
                      <Item>
-                        <ItemMedia>
-                           <div className="size-10 rounded-full bg-muted flex items-center justify-center">
-                              <User className="size-4 text-muted-foreground" />
-                           </div>
+                        <ItemMedia variant="icon">
+                           <User className="size-4 " />
                         </ItemMedia>
                         <ItemContent className="gap-1">
                            <Skeleton className="h-4 w-32" />

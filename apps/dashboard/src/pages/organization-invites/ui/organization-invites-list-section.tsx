@@ -1,4 +1,5 @@
 import { Button } from "@packages/ui/components/button";
+import { useQueryClient } from "@tanstack/react-query";
 import {
    Card,
    CardContent,
@@ -32,17 +33,14 @@ import {
    PaginationPrevious,
 } from "@packages/ui/components/pagination";
 import { Skeleton } from "@packages/ui/components/skeleton";
-import { formatDate } from "@packages/utils/date";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import {
-   Calendar,
    Clock,
    Mail,
    MailCheck,
    MailX,
    MoreVertical,
    RefreshCw,
-   Settings,
    Trash2,
 } from "lucide-react";
 import { Fragment, Suspense, useState } from "react";
@@ -53,27 +51,44 @@ import { useTRPC } from "@/integrations/clients";
 function InvitesListContent() {
    const trpc = useTRPC();
    const [currentPage, setCurrentPage] = useState(1);
-   const [pageSize, setPageSize] = useState(10);
-
+   const [pageSize] = useState(10);
+   const queryClient = useQueryClient();
    const { data: invitesData } = useSuspenseQuery(
       trpc.organizationInvites.listInvitations.queryOptions({
          limit: pageSize,
          offset: (currentPage - 1) * pageSize,
       }),
    );
-
+   const cancelInvitationMutation = useMutation(
+      trpc.organizationInvites.revokeInvitation.mutationOptions({
+         onError: (error) => {
+            toast.error(`Failed to cancel invitation: ${error.message}`);
+         },
+         onSuccess: () => {
+            toast.success("Invitation cancelled successfully");
+            queryClient.invalidateQueries({
+               queryKey: trpc.organizationInvites.listInvitations.queryKey(),
+            });
+         },
+      }),
+   );
    const resendInviteMutation = useMutation(
-      trpc.organization.createInvitation.mutationOptions({
+      trpc.organizationInvites.createInvitation.mutationOptions({
          onError: (error) => {
             toast.error(`Failed to resend invitation: ${error.message}`);
          },
          onSuccess: () => {
             toast.success("Invitation resent successfully");
+            queryClient.invalidateQueries({
+               queryKey: trpc.organizationInvites.listInvitations.queryKey(),
+            });
          },
       }),
    );
 
-   const handleResendInvite = async (invite: any) => {
+   const handleResendInvite = async (
+      invite: (typeof invitesData)["invitations"][number],
+   ) => {
       await resendInviteMutation.mutateAsync({
          email: invite.email,
          resend: true,
@@ -81,15 +96,8 @@ function InvitesListContent() {
       });
    };
 
-   const handleRevokeInvite = (inviteId: string) => {
-      // TODO: Implement revoke invite logic - no revoke API available yet
-      toast.info("Revoke functionality not yet implemented");
-      console.log("Revoke invite:", inviteId);
-   };
-
-   const handlePageSizeChange = (newSize: number) => {
-      setPageSize(newSize);
-      setCurrentPage(1); // Reset to first page when changing page size
+   const handleRevokeInvite = async (inviteId: string) => {
+      await cancelInvitationMutation.mutateAsync({ invitationId: inviteId });
    };
 
    const getStatusIcon = (status: string) => {
@@ -100,7 +108,7 @@ function InvitesListContent() {
             return <MailCheck className="size-4" />;
          case "expired":
             return <MailX className="size-4" />;
-         case "revoked":
+         case "canceled":
             return <MailX className="size-4" />;
          default:
             return <Mail className="size-4" />;
@@ -108,58 +116,28 @@ function InvitesListContent() {
    };
 
    return (
-      <Card className="w-full">
+      <Card>
          <CardHeader>
-            <div className="flex items-center justify-between">
-               <div>
-                  <CardTitle>Invites List</CardTitle>
-                  <CardDescription>
-                     Manage all your organization invitation requests
-                  </CardDescription>
-               </div>
-               <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                     <Button size="icon" variant="ghost">
-                        <Settings className="size-4" />
-                     </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                     <DropdownMenuItem onClick={() => handlePageSizeChange(5)}>
-                        5 items per page
-                     </DropdownMenuItem>
-                     <DropdownMenuItem onClick={() => handlePageSizeChange(10)}>
-                        10 items per page
-                     </DropdownMenuItem>
-                     <DropdownMenuItem onClick={() => handlePageSizeChange(20)}>
-                        20 items per page
-                     </DropdownMenuItem>
-                     <DropdownMenuItem onClick={() => handlePageSizeChange(50)}>
-                        50 items per page
-                     </DropdownMenuItem>
-                  </DropdownMenuContent>
-               </DropdownMenu>
-            </div>
+            <CardTitle>Invites List</CardTitle>
+            <CardDescription>
+               Manage all your organization invitation requests
+            </CardDescription>
          </CardHeader>
          <CardContent>
             <ItemGroup>
                {invitesData.invitations.map((invite, index) => (
                   <Fragment key={invite.id}>
                      <Item>
-                        <ItemMedia className="size-10 rounded-full bg-muted flex items-center justify-center">
+                        <ItemMedia className="size-10 " variant="icon">
                            {getStatusIcon(invite.status)}
                         </ItemMedia>
-                        <ItemContent className="gap-1">
-                           <ItemTitle>{invite.email}</ItemTitle>
-                           <ItemDescription className="flex items-center gap-2">
-                              <span>{invite.role}</span>
-                              <span>•</span>
-                              <span className="flex items-center gap-1">
-                                 <Calendar className="size-3" />
-                                 {formatDate(invite.expiresAt)}
-                              </span>
-                           </ItemDescription>
+                        <ItemContent>
+                           <ItemTitle className="truncate">
+                              {invite.email}
+                           </ItemTitle>
+                           <ItemDescription>{invite.role}</ItemDescription>
                         </ItemContent>
-                        <ItemActions className="flex items-center gap-2">
+                        <ItemActions>
                            <DropdownMenu>
                               <DropdownMenuTrigger asChild>
                                  <Button
@@ -171,7 +149,7 @@ function InvitesListContent() {
                                  </Button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end">
-                                 <DropdownMenuItem className="text-xs text-muted-foreground">
+                                 <DropdownMenuItem>
                                     Status: {invite.status}
                                  </DropdownMenuItem>
                                  {invite.status === "pending" && (
@@ -243,7 +221,7 @@ function InvitesListContent() {
                         <PaginationNext
                            className={
                               currentPage ===
-                                 Math.ceil(invitesData.total / pageSize)
+                              Math.ceil(invitesData.total / pageSize)
                                  ? "pointer-events-none opacity-50"
                                  : "cursor-pointer"
                            }
@@ -279,10 +257,8 @@ function InvitesListSkeleton() {
                {[1, 2, 3, 4, 5].map((index) => (
                   <Fragment key={index}>
                      <Item>
-                        <ItemMedia>
-                           <div className="size-10 rounded-full bg-muted flex items-center justify-center">
-                              <Mail className="size-4 text-muted-foreground" />
-                           </div>
+                        <ItemMedia className="size-10 " variant="icon">
+                           <Mail className="size-4 " />
                         </ItemMedia>
                         <ItemContent className="gap-1">
                            <Skeleton className="h-4 w-48" />
@@ -290,10 +266,6 @@ function InvitesListSkeleton() {
                         </ItemContent>
                         <ItemActions className="flex items-center gap-2">
                            <Skeleton className="h-6 w-16" />
-                           <div className="flex gap-1">
-                              <Skeleton className="h-8 w-8" />
-                              <Skeleton className="h-8 w-8" />
-                           </div>
                         </ItemActions>
                      </Item>
                      {index !== 5 && <ItemSeparator />}
