@@ -95,7 +95,7 @@ const SendInvitationSheetContent = () => {
    );
 
    const sendInvitationMutation = useMutation(
-      trpc.organization.createInvitation.mutationOptions({
+      trpc.organizationInvites.createInvitation.mutationOptions({
          onError: (error) => {
             console.error("Invitation error:", error);
             toast.error("Failed to send invitation");
