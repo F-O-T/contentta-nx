@@ -1,9 +1,5 @@
 "use client";
 
-import * as React from "react";
-import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
-
-import { cn } from "@packages/ui/lib/utils";
 import { Button } from "@packages/ui/components/button";
 import {
    Command,
@@ -18,6 +14,9 @@ import {
    PopoverContent,
    PopoverTrigger,
 } from "@packages/ui/components/popover";
+import { cn } from "@packages/ui/lib/utils";
+import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
+import * as React from "react";
 
 interface ComboboxOption {
    value: string;
@@ -70,14 +69,14 @@ export function Combobox({
    };
 
    return (
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover onOpenChange={setOpen} open={open}>
          <PopoverTrigger asChild>
             <Button
-               variant="outline"
-               role="combobox"
                aria-expanded={open}
-               disabled={disabled}
                className={cn("justify-between flex items-center", className)}
+               disabled={disabled}
+               role="combobox"
+               variant="outline"
             >
                {selectedOption?.label || placeholder}
                <ChevronsUpDownIcon className=" h-4 w-4 shrink-0 opacity-50" />
@@ -93,10 +92,10 @@ export function Combobox({
                         const isSelected = value === option.value;
                         return (
                            <CommandItem
-                              key={option.value}
-                              value={option.value}
                               disabled={option.disabled}
+                              key={option.value}
                               onSelect={handleSelect}
+                              value={option.value}
                            >
                               <CheckIcon
                                  className={cn(
