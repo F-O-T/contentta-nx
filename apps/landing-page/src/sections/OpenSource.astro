@@ -1,83 +1,91 @@
 ---
+   import { Code, GitFork, Github, Heart, Star, Users } from "@lucide/astro";
+   import type { SupportedLng } from "@packages/localization";
+   import { Button } from "@packages/ui/components/button";
+   import { fetchGitHubRepoStats } from "@/services/github";
+   import { useTranslations } from "../i18n/utils";
 
+   interface Props {
+      lang?: SupportedLng;
+   }
 
+   const { lang = "en" } = Astro.props;
+   const t = useTranslations(lang);
 
-import { Code, GitFork, Github, Heart, Star, Users } from "@lucide/astro";
-import type { SupportedLng } from "@packages/localization";
-import { Button } from "@packages/ui/components/button";
-import { fetchGitHubRepoStats } from "@/services/github";
-import { useTranslations } from "../i18n/utils";
+   const githubStats = await fetchGitHubRepoStats();
 
-interface Props {
-   lang?: SupportedLng;
-}
-
-const { lang = "en" } = Astro.props;
-const t = useTranslations(lang);
-
-const githubStats = await fetchGitHubRepoStats();
-
-const benefits = [
-   {
-      description: t("pages.landing.openSource.benefits.community.description"),
-      icon: Users,
-      title: t("pages.landing.openSource.benefits.community.title"),
-   },
-   {
-      description: t(
-         "pages.landing.openSource.benefits.transparency.description",
-      ),
-      icon: Code,
-      title: t("pages.landing.openSource.benefits.transparency.title"),
-   },
-   {
-      description: t("pages.landing.openSource.benefits.free.description"),
-      icon: Heart,
-      title: t("pages.landing.openSource.benefits.free.title"),
-   },
-];
+   const benefits = [
+      {
+         description: t(
+            "pages.landing.openSource.benefits.community.description",
+         ),
+         icon: Users,
+         title: t("pages.landing.openSource.benefits.community.title"),
+      },
+      {
+         description: t(
+            "pages.landing.openSource.benefits.transparency.description",
+         ),
+         icon: Code,
+         title: t("pages.landing.openSource.benefits.transparency.title"),
+      },
+      {
+         description: t("pages.landing.openSource.benefits.free.description"),
+         icon: Heart,
+         title: t("pages.landing.openSource.benefits.free.title"),
+      },
+   ];
 ---
-
 <section id="open-source" class=" py-16 md:py-24">
-  <div class="container mx-auto max-w-6xl px-6">
-    <div class="mx-auto max-w-3xl text-center">
-      <h2 class="text-balance text-2xl font-bold md:text-3xl lg:text-4xl">
-        {t("pages.landing.openSource.title")}
-      </h2>
-      <p class="text-muted-foreground mx-auto mt-4 max-w-2xl text-balance">
-        {t("pages.landing.openSource.description")}
-      </p>
-    </div>
+   <div class="container mx-auto max-w-6xl px-6">
+      <div class="mx-auto max-w-3xl text-center">
+         <h2 class="text-balance text-2xl font-bold md:text-3xl lg:text-4xl">
+            {t("pages.landing.openSource.title")}
+         </h2>
+         <p class="text-muted-foreground mx-auto mt-4 max-w-2xl text-balance">
+            {t("pages.landing.openSource.description")}
+         </p>
+      </div>
 
-    <div class="relative mt-16 max-w-4xl mx-auto">
-      <div class="absolute -inset-2 rounded-xl bg-gradient-to-r from-primary/50 to-secondary/50 opacity-10 blur-2xl"></div>
-      <div class="relative bg-card border rounded-xl shadow-lg p-8 md:p-12">
-        
-        <!-- GitHub Header -->
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div class="flex items-center gap-4">
-            <Github class="size-8 text-foreground" />
-            <a href={githubStats.html_url} target="_blank" rel="noopener noreferrer" class="text-2xl font-semibold text-foreground hover:text-primary transition-colors">
-              {githubStats.full_name}
-            </a>
-          </div>
-          <div class="flex items-center gap-6">
-            <div class="flex items-center gap-2 text-muted-foreground">
-              <Star class="size-4" />
-              <span class="font-medium">{githubStats.stargazers_count}</span>
+      <div class="relative mt-16 max-w-4xl mx-auto">
+         <div
+            class="absolute -inset-2 rounded-xl bg-gradient-to-r from-primary/50 to-secondary/50 opacity-10 blur-2xl"
+         ></div>
+         <div class="relative bg-card border rounded-xl shadow-lg p-8 md:p-12">
+            <!-- GitHub Header -->
+            <div
+               class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+            >
+               <div class="flex items-center gap-4">
+                  <Github class="size-8 text-foreground"/>
+                  <a
+                     href={githubStats.html_url}
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     class="text-2xl font-semibold text-foreground hover:text-primary transition-colors"
+                  >
+                     {githubStats.full_name}
+                  </a>
+               </div>
+               <div class="flex items-center gap-6">
+                  <div class="flex items-center gap-2 text-muted-foreground">
+                     <Star class="size-4"/>
+                     <span class="font-medium"
+                        >{githubStats.stargazers_count}</span
+                     >
+                  </div>
+                  <div class="flex items-center gap-2 text-muted-foreground">
+                     <GitFork class="size-4"/>
+                     <span class="font-medium">{githubStats.forks_count}</span>
+                  </div>
+               </div>
             </div>
-            <div class="flex items-center gap-2 text-muted-foreground">
-              <GitFork class="size-4" />
-              <span class="font-medium">{githubStats.forks_count}</span>
-            </div>
-          </div>
-        </div>
 
-        <hr class="my-8 border-border" />
+            <hr class="my-8 border-border">
 
-        <!-- Core Benefits -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {benefits.map(benefit => (
+            <!-- Core Benefits -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+               {benefits.map(benefit => (
             <div class="flex flex-col items-start text-left">
               <div class="bg-primary/10 text-primary p-3 rounded-lg">
                 <benefit.icon class="size-6" />
@@ -86,17 +94,24 @@ const benefits = [
               <p class="mt-2 text-muted-foreground text-sm">{benefit.description}</p>
             </div>
           ))}
-        </div>
+            </div>
 
-        <div class="mt-12 text-center flex items-center justify-center gap-4">
-          <Button size="lg" >
-            <a href={githubStats.html_url} class="flex items-center gap-2 " target="_blank" rel="noopener noreferrer">
-              <Github class="size-4 mr-2" />
-              {t("pages.landing.openSource.button")}
-            </a>
-          </Button>
-        </div>
+            <div
+               class="mt-12 text-center flex items-center justify-center gap-4"
+            >
+               <Button size="lg">
+                  <a
+                     href={githubStats.html_url}
+                     class="flex items-center gap-2 "
+                     target="_blank"
+                     rel="noopener noreferrer"
+                  >
+                     <Github class="size-4 mr-2"/>
+                     {t("pages.landing.openSource.button")}
+                  </a>
+               </Button>
+            </div>
+         </div>
       </div>
-    </div>
-  </div>
+   </div>
 </section>
