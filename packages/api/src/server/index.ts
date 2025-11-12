@@ -16,6 +16,7 @@ import { contentRouter } from "./router/content";
 import { ideasRouter } from "./router/ideas";
 import { organizationRouter } from "./router/organization";
 import { organizationInvitesRouter } from "./router/organization-invites";
+import { organizationTeamsRouter } from "./router/organization-teams";
 import { preferencesRouter } from "./router/preferences";
 import { sessionRouter } from "./router/session";
 import { statisticsRouter } from "./router/statistics";
@@ -36,6 +37,7 @@ export const appRouter = router({
    ideas: ideasRouter,
    organization: organizationRouter,
    organizationInvites: organizationInvitesRouter,
+   organizationTeams: organizationTeamsRouter,
    preferences: preferencesRouter,
    session: sessionRouter,
    statistics: statisticsRouter,
