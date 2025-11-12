@@ -90,53 +90,6 @@ function TeamsListContent() {
                            </ItemTitle>
                            <ItemDescription>{team.description}</ItemDescription>
                         </ItemContent>
-                        <ItemActions>
-                           <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                 <Button size="icon" variant="ghost">
-                                    <MoreVertical className="size-4" />
-                                 </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                 <DropdownMenuItem>
-                                    Created:{" "}
-                                    {new Date(
-                                       team.createdAt,
-                                    ).toLocaleDateString()}
-                                 </DropdownMenuItem>
-                                 <DropdownMenuItem
-                                    onClick={() => {
-                                       // TODO: Implement edit team functionality
-                                       toast.info(
-                                          "Edit team functionality coming soon",
-                                       );
-                                    }}
-                                 >
-                                    <Edit className="size-4 mr-2" />
-                                    Edit Team
-                                 </DropdownMenuItem>
-                                 <DropdownMenuItem
-                                    onClick={() => {
-                                       // TODO: Implement team settings functionality
-                                       toast.info(
-                                          "Team settings functionality coming soon",
-                                       );
-                                    }}
-                                 >
-                                    <Settings className="size-4 mr-2" />
-                                    Team Settings
-                                 </DropdownMenuItem>
-                                 <DropdownMenuItem
-                                    className="text-destructive"
-                                    onClick={() => handleDeleteTeam(team.id)}
-                                    disabled={deleteTeamMutation.isPending}
-                                 >
-                                    <Trash2 className="size-4 mr-2" />
-                                    Delete Team
-                                 </DropdownMenuItem>
-                              </DropdownMenuContent>
-                           </DropdownMenu>
-                        </ItemActions>
                      </Item>
                      {index !== teamsData.length - 1 && <ItemSeparator />}
                   </Fragment>
