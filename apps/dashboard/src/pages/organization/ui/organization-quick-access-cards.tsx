@@ -7,7 +7,6 @@ export function QuickAccessCards() {
    const quickAccessItems = [
       {
          description: "Manage organization teams and collaborate",
-         disabled: true,
          icon: <Building2 className="size-5" />,
          onClick: () => router.navigate({ to: "/organization/teams" }),
 
