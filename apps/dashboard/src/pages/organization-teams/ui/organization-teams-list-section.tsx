@@ -1,18 +1,10 @@
-import { Button } from "@packages/ui/components/button";
 import {
    Card,
    CardContent,
    CardDescription,
-   CardFooter,
    CardHeader,
    CardTitle,
 } from "@packages/ui/components/card";
-import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuItem,
-   DropdownMenuTrigger,
-} from "@packages/ui/components/dropdown-menu";
 import {
    Item,
    ItemActions,
@@ -24,49 +16,18 @@ import {
    ItemTitle,
 } from "@packages/ui/components/item";
 import { Skeleton } from "@packages/ui/components/skeleton";
-import {
-   useMutation,
-   useQueryClient,
-   useSuspenseQuery,
-} from "@tanstack/react-query";
-import {
-   Edit,
-   MoreVertical,
-   Trash2,
-   Users,
-   UserPlus,
-   Settings,
-} from "lucide-react";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { Users } from "lucide-react";
 import { Fragment, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { toast } from "sonner";
 import { useTRPC } from "@/integrations/clients";
 
 function TeamsListContent() {
    const trpc = useTRPC();
-   const queryClient = useQueryClient();
 
    const { data: teamsData } = useSuspenseQuery(
       trpc.organizationTeams.listTeams.queryOptions(),
    );
-
-   const deleteTeamMutation = useMutation(
-      trpc.organizationTeams.deleteTeam.mutationOptions({
-         onError: (error) => {
-            toast.error(`Failed to delete team: ${error.message}`);
-         },
-         onSuccess: () => {
-            toast.success("Team deleted successfully");
-            queryClient.invalidateQueries({
-               queryKey: trpc.organizationTeams.listTeams.queryKey(),
-            });
-         },
-      }),
-   );
-
-   const handleDeleteTeam = async (teamId: string) => {
-      await deleteTeamMutation.mutateAsync({ teamId });
-   };
 
    return (
       <Card>
@@ -88,6 +49,7 @@ function TeamsListContent() {
                            <ItemTitle className="truncate">
                               {team.name}
                            </ItemTitle>
+                           {/** @ts-expect-error **/}
                            <ItemDescription>{team.description}</ItemDescription>
                         </ItemContent>
                      </Item>
