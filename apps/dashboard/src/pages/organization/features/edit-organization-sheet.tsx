@@ -91,10 +91,9 @@ const EditOrganizationSheetContent = () => {
       trpc.organization.getLogo.queryOptions(),
    );
 
-   // File upload hook
    const fileUpload = useFileUpload({
       acceptedTypes: ["image/*"],
-      maxSize: 5 * 1024 * 1024, // 5MB
+      maxSize: 5 * 1024 * 1024,
    });
 
    const editOrganizationMutation = useMutation(
