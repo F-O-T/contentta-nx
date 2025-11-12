@@ -1,18 +1,19 @@
 ---
-   import { Image } from "astro:assets";
-   import { CalendarCheck, Layout, Sparkles, Target } from "@lucide/astro";
-   import type { SupportedLng } from "@packages/localization";
-   import darkImage from "../assets/dark/competitor-dark.webp";
-   import lightImage from "../assets/light/competitor-light.webp";
-   import { useTranslations } from "../i18n/utils";
+import { Image } from "astro:assets";
+import { CalendarCheck, Layout, Sparkles, Target } from "@lucide/astro";
+import type { SupportedLng } from "@packages/localization";
+import darkImage from "../assets/dark/competitor-dark.webp";
+import lightImage from "../assets/light/competitor-light.webp";
+import { useTranslations } from "../i18n/utils";
 
-   interface _Props {
-      lang?: SupportedLng;
-   }
+interface _Props {
+   lang?: SupportedLng;
+}
 
-   const { lang = "en" } = Astro.props;
-   const t = useTranslations(lang);
+const { lang = "en-US" } = Astro.props;
+const t = useTranslations(lang);
 ---
+
 <section id="competitor-intelligence" class="py-24 ">
    <div class="mx-auto w-full max-w-5xl px-6">
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

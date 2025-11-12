@@ -1,65 +1,60 @@
 ---
-   import {
-      CheckCircle,
-      Code,
-      Cog,
-      FileText,
-      Lightbulb,
-      Search,
-   } from "@lucide/astro";
-   import type { SupportedLng } from "@packages/localization";
-   import { useTranslations } from "../i18n/utils";
+import {
+   CheckCircle,
+   Code,
+   Cog,
+   FileText,
+   Lightbulb,
+   Search,
+} from "@lucide/astro";
+import type { SupportedLng } from "@packages/localization";
+import { useTranslations } from "../i18n/utils";
 
-   interface _Props {
-      lang?: SupportedLng;
-   }
+interface _Props {
+   lang?: SupportedLng;
+}
 
-   const { lang = "en" } = Astro.props;
-   const t = useTranslations(lang);
+const { lang = "en-US" } = Astro.props;
+const t = useTranslations(lang);
 
-   const steps = [
-      {
-         description: t(
-            "pages.landing.contentWorkflow.steps.strategy.description",
-         ),
-         icon: Cog,
-         title: t("pages.landing.contentWorkflow.steps.strategy.title"),
-      },
-      {
-         description: t("pages.landing.contentWorkflow.steps.idea.description"),
-         icon: Lightbulb,
-         title: t("pages.landing.contentWorkflow.steps.idea.title"),
-      },
-      {
-         description: t(
-            "pages.landing.contentWorkflow.steps.research.description",
-         ),
-         icon: Search,
-         title: t("pages.landing.contentWorkflow.steps.research.title"),
-      },
-      {
-         description: t(
-            "pages.landing.contentWorkflow.steps.draft.description",
-         ),
-         icon: FileText,
-         title: t("pages.landing.contentWorkflow.steps.draft.title"),
-      },
-      {
-         description: t(
-            "pages.landing.contentWorkflow.steps.review.description",
-         ),
-         icon: CheckCircle,
-         title: t("pages.landing.contentWorkflow.steps.review.title"),
-      },
-      {
-         description: t(
-            "pages.landing.contentWorkflow.steps.publish.description",
-         ),
-         icon: Code,
-         title: t("pages.landing.contentWorkflow.steps.publish.title"),
-      },
-   ];
+const steps = [
+   {
+      description: t(
+         "pages.landing.contentWorkflow.steps.strategy.description",
+      ),
+      icon: Cog,
+      title: t("pages.landing.contentWorkflow.steps.strategy.title"),
+   },
+   {
+      description: t("pages.landing.contentWorkflow.steps.idea.description"),
+      icon: Lightbulb,
+      title: t("pages.landing.contentWorkflow.steps.idea.title"),
+   },
+   {
+      description: t(
+         "pages.landing.contentWorkflow.steps.research.description",
+      ),
+      icon: Search,
+      title: t("pages.landing.contentWorkflow.steps.research.title"),
+   },
+   {
+      description: t("pages.landing.contentWorkflow.steps.draft.description"),
+      icon: FileText,
+      title: t("pages.landing.contentWorkflow.steps.draft.title"),
+   },
+   {
+      description: t("pages.landing.contentWorkflow.steps.review.description"),
+      icon: CheckCircle,
+      title: t("pages.landing.contentWorkflow.steps.review.title"),
+   },
+   {
+      description: t("pages.landing.contentWorkflow.steps.publish.description"),
+      icon: Code,
+      title: t("pages.landing.contentWorkflow.steps.publish.title"),
+   },
+];
 ---
+
 <section id="content-workflow" class="bg-muted relative py-16 md:py-24">
    <div class="mx-auto max-w-6xl px-6">
       <div class="mx-auto max-w-3xl text-center">

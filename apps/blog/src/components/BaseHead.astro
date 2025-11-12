@@ -1,24 +1,25 @@
 ---
-   import "@packages/ui/globals.css";
-   import { getAstroPosthogConfig } from "@packages/posthog/client";
-   import { SITE_TITLE } from "../consts";
+import "@packages/ui/globals.css";
+import { getAstroPosthogConfig } from "@packages/posthog/client";
+import { SITE_TITLE } from "../consts";
 
-   interface Props {
-      title: string;
-      description: string;
-      image?: string;
-      keywords?: string[];
-   }
+interface Props {
+   title: string;
+   description: string;
+   image?: string;
+   keywords?: string[];
+}
 
-   const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-   const {
-      title,
-      description,
-      image = "/blog-placeholder-1.jpg",
-      keywords,
-   } = Astro.props;
+const {
+   title,
+   description,
+   image = "/blog-placeholder-1.jpg",
+   keywords,
+} = Astro.props;
 ---
+
 <!-- Global Metadata -->
 {import.meta.env.PROD && <script set:html={getAstroPosthogConfig()}is:inline/>}
 <meta charset="utf-8">

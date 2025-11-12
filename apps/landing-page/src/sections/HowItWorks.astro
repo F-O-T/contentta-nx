@@ -1,33 +1,34 @@
 ---
-   import { BotMessageSquare, BrainCircuit, Rocket } from "@lucide/astro";
-   import type { SupportedLng } from "@packages/localization";
-   import { useTranslations } from "../i18n/utils";
+import { BotMessageSquare, BrainCircuit, Rocket } from "@lucide/astro";
+import type { SupportedLng } from "@packages/localization";
+import { useTranslations } from "../i18n/utils";
 
-   interface _Props {
-      lang?: SupportedLng;
-   }
+interface _Props {
+   lang?: SupportedLng;
+}
 
-   const { lang = "en" } = Astro.props;
-   const t = useTranslations(lang);
+const { lang = "en-US" } = Astro.props;
+const t = useTranslations(lang);
 
-   const steps = [
-      {
-         description: t("pages.landing.howItWorks.steps.create.description"),
-         icon: BrainCircuit,
-         title: t("pages.landing.howItWorks.steps.create.title"),
-      },
-      {
-         description: t("pages.landing.howItWorks.steps.train.description"),
-         icon: BotMessageSquare,
-         title: t("pages.landing.howItWorks.steps.train.title"),
-      },
-      {
-         description: t("pages.landing.howItWorks.steps.generate.description"),
-         icon: Rocket,
-         title: t("pages.landing.howItWorks.steps.generate.title"),
-      },
-   ];
+const steps = [
+   {
+      description: t("pages.landing.howItWorks.steps.create.description"),
+      icon: BrainCircuit,
+      title: t("pages.landing.howItWorks.steps.create.title"),
+   },
+   {
+      description: t("pages.landing.howItWorks.steps.train.description"),
+      icon: BotMessageSquare,
+      title: t("pages.landing.howItWorks.steps.train.title"),
+   },
+   {
+      description: t("pages.landing.howItWorks.steps.generate.description"),
+      icon: Rocket,
+      title: t("pages.landing.howItWorks.steps.generate.title"),
+   },
+];
 ---
+
 <section id="how-it-works" class="py-16 md:py-24 ">
    <div class="mx-auto max-w-6xl px-6">
       <div class="mx-auto max-w-3xl text-center">

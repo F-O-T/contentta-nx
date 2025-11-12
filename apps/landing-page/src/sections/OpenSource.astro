@@ -1,41 +1,40 @@
 ---
-   import { Code, GitFork, Github, Heart, Star, Users } from "@lucide/astro";
-   import type { SupportedLng } from "@packages/localization";
-   import { Button } from "@packages/ui/components/button";
-   import { fetchGitHubRepoStats } from "@/services/github";
-   import { useTranslations } from "../i18n/utils";
+import { Code, GitFork, Github, Heart, Star, Users } from "@lucide/astro";
+import type { SupportedLng } from "@packages/localization";
+import { Button } from "@packages/ui/components/button";
+import { fetchGitHubRepoStats } from "@/services/github";
+import { useTranslations } from "../i18n/utils";
 
-   interface Props {
-      lang?: SupportedLng;
-   }
+interface Props {
+   lang?: SupportedLng;
+}
 
-   const { lang = "en" } = Astro.props;
-   const t = useTranslations(lang);
+const { lang = "en-US" } = Astro.props;
+const t = useTranslations(lang);
 
-   const githubStats = await fetchGitHubRepoStats();
+const githubStats = await fetchGitHubRepoStats();
 
-   const benefits = [
-      {
-         description: t(
-            "pages.landing.openSource.benefits.community.description",
-         ),
-         icon: Users,
-         title: t("pages.landing.openSource.benefits.community.title"),
-      },
-      {
-         description: t(
-            "pages.landing.openSource.benefits.transparency.description",
-         ),
-         icon: Code,
-         title: t("pages.landing.openSource.benefits.transparency.title"),
-      },
-      {
-         description: t("pages.landing.openSource.benefits.free.description"),
-         icon: Heart,
-         title: t("pages.landing.openSource.benefits.free.title"),
-      },
-   ];
+const benefits = [
+   {
+      description: t("pages.landing.openSource.benefits.community.description"),
+      icon: Users,
+      title: t("pages.landing.openSource.benefits.community.title"),
+   },
+   {
+      description: t(
+         "pages.landing.openSource.benefits.transparency.description",
+      ),
+      icon: Code,
+      title: t("pages.landing.openSource.benefits.transparency.title"),
+   },
+   {
+      description: t("pages.landing.openSource.benefits.free.description"),
+      icon: Heart,
+      title: t("pages.landing.openSource.benefits.free.title"),
+   },
+];
 ---
+
 <section id="open-source" class=" py-16 md:py-24">
    <div class="container mx-auto max-w-6xl px-6">
       <div class="mx-auto max-w-3xl text-center">

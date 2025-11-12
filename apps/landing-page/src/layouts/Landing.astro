@@ -1,15 +1,16 @@
 ---
-   import "@packages/ui/globals.css";
-   import brandConfig from "@packages/brand/index.json";
-   import type { SupportedLng } from "@packages/localization";
-   import { getAstroPosthogConfig } from "@packages/posthog/client";
+import "@packages/ui/globals.css";
+import brandConfig from "@packages/brand/index.json";
+import type { SupportedLng } from "@packages/localization";
+import { getAstroPosthogConfig } from "@packages/posthog/client";
 
-   interface Props {
-      lang?: SupportedLng;
-   }
+interface Props {
+   lang?: SupportedLng;
+}
 
-   const { lang = "en" } = Astro.props;
+const { lang = "en" } = Astro.props;
 ---
+
 <!doctype html>
 <html lang={lang} class="scrolsmooth">
    <head>

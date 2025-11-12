@@ -1,7 +1,4 @@
 ---
-
-
-
 import brandConfig from "@packages/brand/index.json";
 import type { SupportedLng } from "@packages/localization";
 import Logo from "../components/Logo.astro";
@@ -11,7 +8,7 @@ interface Props {
    lang?: SupportedLng;
 }
 
-const { lang = "en" } = Astro.props;
+const { lang = "en-US" } = Astro.props;
 const t = useTranslations(lang);
 
 const links = [
@@ -34,7 +31,10 @@ const links = [
             href: "#sdk",
             title: t("pages.landing.footer.product.developerSDK"),
          },
-         { href: "#pricing", title: t("pages.landing.footer.product.pricing") },
+         {
+            href: "#pricing",
+            title: t("pages.landing.footer.product.pricing"),
+         },
       ],
    },
    {
@@ -96,20 +96,22 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="bg-muted border-t pt-20">
-  <div class="mx-auto max-w-6xl px-6">
-    <div class="grid gap-12 md:grid-cols-5">
-      <div class="md:col-span-2">
-        <a href="/" aria-label="go home" class="flex items-center gap-3">
-          <Logo size={32} class="text-primary" />
-          <span class="text-xl font-bold text-foreground">{brandConfig.name}</span>
-        </a>
-        <p class="mt-4 text-muted-foreground text-sm">
-          {t("pages.landing.footer.description")}
-        </p>
-      </div>
+   <div class="mx-auto max-w-6xl px-6">
+      <div class="grid gap-12 md:grid-cols-5">
+         <div class="md:col-span-2">
+            <a href="/" aria-label="go home" class="flex items-center gap-3">
+               <Logo size={32} class="text-primary"/>
+               <span class="text-xl font-bold text-foreground"
+                  >{brandConfig.name}</span
+               >
+            </a>
+            <p class="mt-4 text-muted-foreground text-sm">
+               {t("pages.landing.footer.description")}
+            </p>
+         </div>
 
-      <div class="col-span-3 grid grid-cols-2 md:grid-cols-3 gap-6">
-        {links.map((linkGroup) => (
+         <div class="col-span-3 grid grid-cols-2 md:grid-cols-3 gap-6">
+            {links.map((linkGroup) => (
           <div class="space-y-3">
             <span class="block font-semibold text-foreground">{linkGroup.group}</span>
             <ul class="space-y-2">
@@ -128,12 +130,20 @@ const year = new Date().getFullYear();
             </ul>
           </div>
         ))}
+         </div>
       </div>
-    </div>
-    <div class="mt-12 flex flex-wrap items-center justify-between gap-6 border-t py-6">
-      <span class="text-muted-foreground order-last block text-center text-sm md:order-first">© {year} {brandConfig.name}, Inc. {t("pages.landing.footer.copyright")}</span>
-      <div class="order-first flex flex-wrap justify-center gap-4 text-sm md:order-last">
-        {socialLinks.map(social => (
+      <div
+         class="mt-12 flex flex-wrap items-center justify-between gap-6 border-t py-6"
+      >
+         <span
+            class="text-muted-foreground order-last block text-center text-sm md:order-first"
+            >© {year}
+            {brandConfig.name}, Inc. {t("pages.landing.footer.copyright")}</span
+         >
+         <div
+            class="order-first flex flex-wrap justify-center gap-4 text-sm md:order-last"
+         >
+            {socialLinks.map(social => (
           <a
             href={social.href}
             target="_blank"
@@ -143,7 +153,7 @@ const year = new Date().getFullYear();
             set:html={social.svg}
           />
         ))}
+         </div>
       </div>
-    </div>
-  </div>
+   </div>
 </footer>

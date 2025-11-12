@@ -1,112 +1,113 @@
 ---
-   export const prerender = true;
+export const prerender = true;
 
-   import type { ContentSelectSchema } from "@contentagen/sdk";
-   import type { z } from "zod";
-   import { agentId, sdk } from "../contentagen";
-   import BlogPost from "../layouts/BlogPost.astro";
+import type { ContentSelectSchema } from "@contentagen/sdk";
+import type { z } from "zod";
+import { agentId, sdk } from "../contentagen";
+import BlogPost from "../layouts/BlogPost.astro";
 
-   export async function getStaticPaths() {
-      async function getRelatedPosts(currentSlug: string) {
-         const relatedSlugs = await sdk.getRelatedSlugs({
-            agentId,
-            slug: currentSlug,
+export async function getStaticPaths() {
+   async function getRelatedPosts(currentSlug: string) {
+      const relatedSlugs = await sdk.getRelatedSlugs({
+         agentId,
+         slug: currentSlug,
+      });
+
+      // Batch fetch related posts
+      const relatedPostsPromises = relatedSlugs
+         .slice(0, 3)
+         .map(async (slug) => {
+            try {
+               const relatedPost = await sdk.getContentBySlug({
+                  agentId,
+                  slug,
+               });
+               if (relatedPost.status === "approved") {
+                  // Fetch image if needed
+                  if (!relatedPost.image && relatedPost.imageUrl) {
+                     try {
+                        const imageData = await sdk.getContentImage({
+                           contentId: relatedPost.id,
+                        });
+                        return { ...relatedPost, image: imageData };
+                     } catch (imageError) {
+                        console.error(
+                           `Error fetching image for related post ${relatedPost.id}:`,
+                           imageError,
+                        );
+                     }
+                  }
+                  return relatedPost;
+               }
+            } catch (error) {
+               console.error(`Error fetching related post ${slug}:`, error);
+            }
+            return null;
          });
 
-         // Batch fetch related posts
-         const relatedPostsPromises = relatedSlugs
-            .slice(0, 3)
-            .map(async (slug) => {
-               try {
-                  const relatedPost = await sdk.getContentBySlug({
-                     agentId,
-                     slug,
-                  });
-                  if (relatedPost.status === "approved") {
-                     // Fetch image if needed
-                     if (!relatedPost.image && relatedPost.imageUrl) {
-                        try {
-                           const imageData = await sdk.getContentImage({
-                              contentId: relatedPost.id,
-                           });
-                           return { ...relatedPost, image: imageData };
-                        } catch (imageError) {
-                           console.error(
-                              `Error fetching image for related post ${relatedPost.id}:`,
-                              imageError,
-                           );
-                        }
-                     }
-                     return relatedPost;
-                  }
-               } catch (error) {
-                  console.error(`Error fetching related post ${slug}:`, error);
-               }
-               return null;
-            });
-
-         const relatedPosts = (await Promise.all(relatedPostsPromises)).filter(
-            Boolean,
-         );
-         return relatedPosts;
-      }
-
-      // First get the list of approved posts (without full content)
-      const response = await sdk.listContentByAgent({
-         agentId: agentId,
-         status: ["approved"],
-      });
-      const author = await sdk.getAuthorByAgentId({ agentId });
-
-      // Fetch full content for each post and related posts in parallel
-      const postsWithRelated = await Promise.all(
-         response.posts.map(async (postMeta) => {
-            const slug = postMeta.meta?.slug;
-            if (!slug) {
-               throw new Error(`Post missing slug: ${postMeta.id}`);
-            }
-
-            // Get the full post content by slug
-            const fullPost = await sdk.getContentBySlug({
-               agentId,
-               slug,
-            });
-
-            // Get related posts with better error handling and batching
-            const relatedPosts = await getRelatedPosts(slug);
-
-            // Fetch images for the main post if needed
-            let postWithImage = fullPost;
-            if (!fullPost.image && fullPost.imageUrl) {
-               try {
-                  const imageData = await sdk.getContentImage({
-                     contentId: fullPost.id,
-                  });
-                  postWithImage = { ...fullPost, image: imageData };
-               } catch (error) {
-                  console.error(
-                     `Error fetching image for post ${fullPost.id}:`,
-                     error,
-                  );
-               }
-            }
-
-            return {
-               params: { slug },
-               props: {
-                  author,
-                  post: postWithImage as z.infer<typeof ContentSelectSchema>,
-                  relatedPosts: relatedPosts as z.infer<
-                     typeof ContentSelectSchema
-                  >[],
-               },
-            };
-         }),
+      const relatedPosts = (await Promise.all(relatedPostsPromises)).filter(
+         Boolean,
       );
-
-      return postsWithRelated;
+      return relatedPosts;
    }
 
-   const { post, author, relatedPosts } = Astro.props;
+   // First get the list of approved posts (without full content)
+   const response = await sdk.listContentByAgent({
+      agentId: agentId,
+      status: ["approved"],
+   });
+   const author = await sdk.getAuthorByAgentId({ agentId });
+
+   // Fetch full content for each post and related posts in parallel
+   const postsWithRelated = await Promise.all(
+      response.posts.map(async (postMeta) => {
+         const slug = postMeta.meta?.slug;
+         if (!slug) {
+            throw new Error(`Post missing slug: ${postMeta.id}`);
+         }
+
+         // Get the full post content by slug
+         const fullPost = await sdk.getContentBySlug({
+            agentId,
+            slug,
+         });
+
+         // Get related posts with better error handling and batching
+         const relatedPosts = await getRelatedPosts(slug);
+
+         // Fetch images for the main post if needed
+         let postWithImage = fullPost;
+         if (!fullPost.image && fullPost.imageUrl) {
+            try {
+               const imageData = await sdk.getContentImage({
+                  contentId: fullPost.id,
+               });
+               postWithImage = { ...fullPost, image: imageData };
+            } catch (error) {
+               console.error(
+                  `Error fetching image for post ${fullPost.id}:`,
+                  error,
+               );
+            }
+         }
+
+         return {
+            params: { slug },
+            props: {
+               author,
+               post: postWithImage as z.infer<typeof ContentSelectSchema>,
+               relatedPosts: relatedPosts as z.infer<
+                  typeof ContentSelectSchema
+               >[],
+            },
+         };
+      }),
+   );
+
+   return postsWithRelated;
+}
+
+const { post, author, relatedPosts } = Astro.props;
 ---
+
 <BlogPost post={post} author={author} relatedPosts={relatedPosts}/>

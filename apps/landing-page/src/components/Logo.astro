@@ -1,12 +1,13 @@
 ---
-   //TODO: Encontrar uma forma de renderizar o svg do brand package e editar aqui diretamente
-   export interface Props {
-      size?: number | string;
-      class?: string;
-   }
-   // biome-ignore lint/correctness/noUnusedVariables: <sim>
-   const { size = 58, class: className = "" } = Astro.props;
+//TODO: Encontrar uma forma de renderizar o svg do brand package e editar aqui diretamente
+export interface Props {
+   size?: number | string;
+   class?: string;
+}
+// biome-ignore lint/correctness/noUnusedVariables: <sim>
+const { size = 58, class: className = "" } = Astro.props;
 ---
+
 <svg
    width={size}
    height={size}

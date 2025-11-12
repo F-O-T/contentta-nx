@@ -1,18 +1,19 @@
 ---
-   import type { SupportedLng } from "@packages/localization";
-   import { Button } from "@packages/ui/components/button";
-   import { LanguageToggler } from "./LanguageToggler";
-   import Logo from "./Logo.astro";
-   import { MobileMenu } from "./mobile-menu";
-   import { NavMenu } from "./nav-menu";
-   import ThemeToggler from "./ThemeToggler.astro";
+import type { SupportedLng } from "@packages/localization";
+import { Button } from "@packages/ui/components/button";
+import { LanguageToggler } from "./LanguageToggler";
+import Logo from "./Logo.astro";
+import { MobileMenu } from "./mobile-menu";
+import { NavMenu } from "./nav-menu";
+import ThemeToggler from "./ThemeToggler.astro";
 
-   interface Props {
-      lang?: SupportedLng;
-   }
+interface Props {
+   lang?: SupportedLng;
+}
 
-   const { lang = "en" } = Astro.props;
+const { lang = "en-US" } = Astro.props;
 ---
+
 <nav
    id="sticky-navbar"
    class="fixed top-6 inset-x-4 h-16 bg-background/80 backdrop-blur-md border dark:border-slate-700/70 max-w-7xl mx-auto rounded-lg  z-50 opacity-0 translate-y-[-20px] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-lg shadow-black/5 dark:shadow-black/20 pointer-events-none"
@@ -43,7 +44,7 @@
             <ThemeToggler/>
          </div>
 
-         <button className="hidden md:block">
+         <button class="hidden md:block">
             <a
                href="https://app.contentagen.com/auth/sign-in"
                target="_blank"

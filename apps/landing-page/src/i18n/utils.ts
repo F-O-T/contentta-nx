@@ -4,8 +4,8 @@ import ptBR from "@packages/localization/locales/pt-BR";
 import { defaultLang, supportedLanguages } from "./config";
 
 const translations = {
-   en: enUS.translation,
-   pt: ptBR.translation,
+   "en-US": enUS.translation,
+   "pt-BR": ptBR.translation,
 };
 
 export function getLangFromUrl(url: URL): SupportedLng {

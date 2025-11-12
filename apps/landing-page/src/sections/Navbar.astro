@@ -1,42 +1,45 @@
 ---
-
-
-
 import { Button } from "@packages/ui/components/button";
 import Logo from "../components/Logo.astro";
 import { MobileMenu } from "../components/mobile-menu";
 import ThemeToggler from "../components/ThemeToggler.astro";
 import { menuItems } from "../data/menu-items";
 ---
-  <nav id="navbar" class="bg-muted">
-    <div id="navbar-inner" class="container mx-auto max-w-6xl flex  items-center justify-between gap-4 p-4 ">
-     
-        <Logo class="size-12 text-primary" />
-      
-   
-     
-      
-     
-          
-          <ul class="flex-row  gap-4 items-center justify-center hidden md:flex mr-auto">
-            {menuItems.map((item) => (
+
+<nav id="navbar" class="bg-muted">
+   <div
+      id="navbar-inner"
+      class="container mx-auto max-w-6xl flex  items-center justify-between gap-4 p-4 "
+   >
+      <Logo class="size-12 text-primary"/>
+
+      <ul
+         class="flex-row  gap-4 items-center justify-center hidden md:flex mr-auto"
+      >
+         {menuItems.map((item) => (
               <li class="text-muted-foreground hover:text-primary transition-colors duration-150">
                 <a href={item.href} class="hover:text-primary transition-colors duration-150">
                   {item.name}
                 </a>
               </li>
             ))}
-          </ul>
-     
-        
-  
-      <div class="flex items-center gap-4">
-          <ThemeToggler />
-          <MobileMenu client:load />
-          <a href="https://app.contentagen.com/auth/sign-up" target="_blank" rel="noopener noreferrer">
-            <Button className="hidden md:inline" aria-label="Get started with Contentagen">Get Started</Button>
-          </a>
-        </div>
-    </div>
-  </nav>
+      </ul>
 
+      <div class="flex items-center gap-4">
+         <ThemeToggler/>
+         <MobileMenu client:load/>
+         <a
+            href="https://app.contentagen.com/auth/sign-up"
+            target="_blank"
+            rel="noopener noreferrer"
+         >
+            <Button
+               className="hidden md:inline"
+               aria-label="Get started with Contentagen"
+            >
+               Get Started
+            </Button>
+         </a>
+      </div>
+   </div>
+</nav>

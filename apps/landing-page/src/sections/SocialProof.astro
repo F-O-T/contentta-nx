@@ -1,16 +1,17 @@
 ---
-   import { Image } from "astro:assets";
-   import type { SupportedLng } from "@packages/localization";
-   import liciteiLogo from "../assets/teams/licitei-logo.svg";
-   import { useTranslations } from "../i18n/utils";
+import { Image } from "astro:assets";
+import type { SupportedLng } from "@packages/localization";
+import liciteiLogo from "../assets/teams/licitei-logo.svg";
+import { useTranslations } from "../i18n/utils";
 
-   interface Props {
-      lang?: SupportedLng;
-   }
+interface Props {
+   lang?: SupportedLng;
+}
 
-   const { lang = "en" } = Astro.props;
-   const t = useTranslations(lang);
+const { lang = "en-US" } = Astro.props;
+const t = useTranslations(lang);
 ---
+
 <section class=" relative py-16 md:py-24 ">
    <div class="mx-auto max-w-6xl px-6">
       <div class="mx-auto max-w-2xl text-center">

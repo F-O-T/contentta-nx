@@ -26,68 +26,66 @@ const productIcons = {
 };
 
 const getMenuItems = (lang: SupportedLng) => {
-   const locale = lang === "en" ? "en-US" : "pt-BR";
    return [
       {
          href: "#pricing",
-         name: translate("pages.landing.navigation.pricing", { lng: locale }),
+         name: translate("pages.landing.navigation.pricing", { lng: lang }),
       },
       {
          href: "https://docs.contentagen.com/",
-         name: translate("pages.landing.navigation.docs", { lng: locale }),
+         name: translate("pages.landing.navigation.docs", { lng: lang }),
       },
       {
          href: "https://blog.contentagen.com/",
-         name: translate("pages.landing.navigation.blog", { lng: locale }),
+         name: translate("pages.landing.navigation.blog", { lng: lang }),
       },
    ];
 };
 
 const getProductItems = (lang: SupportedLng) => {
-   const locale = lang === "en" ? "en-US" : "pt-BR";
    return [
       {
          description: translate(
             "pages.landing.navigation.productItems.brandLearning.description",
-            { lng: locale },
+            { lng: lang },
          ),
          href: "#brand-learning",
          name: translate(
             "pages.landing.navigation.productItems.brandLearning.name",
-            { lng: locale },
+            { lng: lang },
          ),
       },
       {
          description: translate(
             "pages.landing.navigation.productItems.competitorIntelligence.description",
-            { lng: locale },
+            { lng: lang },
          ),
          href: "#competitor-intelligence",
          name: translate(
             "pages.landing.navigation.productItems.competitorIntelligence.name",
-            { lng: locale },
+            { lng: lang },
          ),
       },
       {
          description: translate(
             "pages.landing.navigation.productItems.contentWorkflow.description",
-            { lng: locale },
+            { lng: lang },
          ),
          href: "#content-workflow",
          name: translate(
             "pages.landing.navigation.productItems.contentWorkflow.name",
-            { lng: locale },
+            { lng: lang },
          ),
       },
       {
          description: translate(
             "pages.landing.navigation.productItems.developerSDK.description",
-            { lng: locale },
+            { lng: lang },
          ),
          href: "#sdk",
          name: translate(
             "pages.landing.navigation.productItems.developerSDK.name",
-            { lng: locale },
+            { lng: lang },
          ),
       },
    ];
@@ -95,9 +93,8 @@ const getProductItems = (lang: SupportedLng) => {
 
 export const NavMenu = ({
    orientation = "horizontal",
-   lang = "en",
+   lang = "en-US",
 }: NavMenuProps) => {
-   const locale = lang === "en" ? "en-US" : "pt-BR";
    const menuItems = getMenuItems(lang);
    const productItems = getProductItems(lang);
 
@@ -115,7 +112,7 @@ export const NavMenu = ({
             <NavigationMenuItem>
                <NavigationMenuTrigger className="bg-transparent">
                   {translate("pages.landing.navigation.product", {
-                     lng: locale,
+                     lng: lang,
                   })}
                </NavigationMenuTrigger>
                <NavigationMenuContent className="grid gap-3 p-4">

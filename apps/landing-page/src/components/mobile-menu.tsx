@@ -12,19 +12,18 @@ import { Menu } from "lucide-react";
 import { useState } from "react";
 
 const getMenuItems = (lang: SupportedLng) => {
-   const locale = lang === "en" ? "en-US" : "pt-BR";
    return [
       {
          href: "#pricing",
-         name: translate("pages.landing.navigation.pricing", { lng: locale }),
+         name: translate("pages.landing.navigation.pricing", { lng: lang }),
       },
       {
          href: "https://docs.contentagen.com/",
-         name: translate("pages.landing.navigation.docs", { lng: locale }),
+         name: translate("pages.landing.navigation.docs", { lng: lang }),
       },
       {
          href: "https://blog.contentagen.com/",
-         name: translate("pages.landing.navigation.blog", { lng: locale }),
+         name: translate("pages.landing.navigation.blog", { lng: lang }),
       },
    ];
 };
@@ -33,7 +32,7 @@ interface MobileMenuProps {
    lang?: SupportedLng;
 }
 
-export function MobileMenu({ lang = "en" }: MobileMenuProps) {
+export function MobileMenu({ lang = "en-US" }: MobileMenuProps) {
    const [open, setOpen] = useState(false);
    const menuItems = getMenuItems(lang);
 

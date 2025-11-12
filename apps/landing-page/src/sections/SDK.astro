@@ -1,7 +1,4 @@
 ---
-
-
-
 import { BookOpen, Check, Copy, Cpu, Lock, Zap } from "@lucide/astro";
 import type { SupportedLng } from "@packages/localization";
 import { Button } from "@packages/ui/components/button";
@@ -11,7 +8,7 @@ interface Props {
    lang?: SupportedLng;
 }
 
-const { lang = "en" } = Astro.props;
+const { lang = "en-US" } = Astro.props;
 const t = useTranslations(lang);
 
 const benefits = [
@@ -53,22 +50,21 @@ posts.forEach(post => {
 ---
 
 <section id="sdk" class="bg-muted py-16 md:py-32">
-  <div class="mx-auto max-w-6xl px-6">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-      
-      <!-- Left Column: Text Content -->
-      <div class="space-y-8">
-        <div class="space-y-4">
-          <h2 class="text-balance text-4xl font-medium lg:text-5xl">
-            {t("pages.landing.sdk.title")}
-          </h2>
-          <p class="text-muted-foreground text-lg">
-            {t("pages.landing.sdk.description")}
-          </p>
-        </div>
+   <div class="mx-auto max-w-6xl px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+         <!-- Left Column: Text Content -->
+         <div class="space-y-8">
+            <div class="space-y-4">
+               <h2 class="text-balance text-4xl font-medium lg:text-5xl">
+                  {t("pages.landing.sdk.title")}
+               </h2>
+               <p class="text-muted-foreground text-lg">
+                  {t("pages.landing.sdk.description")}
+               </p>
+            </div>
 
-        <div class="space-y-6">
-          {benefits.map(benefit => (
+            <div class="space-y-6">
+               {benefits.map(benefit => (
             <div class="flex items-start gap-4">
               <div class="bg-primary/10 text-primary p-3 rounded-lg flex-shrink-0">
                 <benefit.icon class="size-5" />
@@ -79,161 +75,188 @@ posts.forEach(post => {
               </div>
             </div>
           ))}
-        </div>
-
-        <Button size="lg" className="w-full"  variant="outline">
-          <a href="https://docs.contentagen.com" class="flex items-center gap-2 " target="_blank" rel="noopener noreferrer">
-            <BookOpen class="size-4 mr-2" />
-            {t("pages.landing.sdk.button")}
-          </a>
-        </Button>
-      </div>
-
-      <!-- Right Column: Code Block -->
-      <div class="relative min-h-[400px]">
-        <div class="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-xl opacity-20 blur-2xl"></div>
-        <div id="sdk-code-block" class="relative bg-[#282a36] backdrop-blur-sm border border-white/10 rounded-lg shadow-2xl overflow-hidden font-mono text-sm group">
-          
-          <!-- Faux window header -->
-          <div class="flex items-center justify-between px-4 py-2 border-b border-white/10">
-            <div class="flex items-center gap-2">
-              <span class="h-3 w-3 rounded-full bg-[#ff5f56]"></span>
-              <span class="h-3 w-3 rounded-full bg-[#ffbd2e]"></span>
-              <span class="h-3 w-3 rounded-full bg-[#27c93f]"></span>
             </div>
-            <span class="text-slate-400 text-xs">/contentagen/sdk-example.ts</span>
-            <div></div>
-          </div>
-          
-          <pre class="p-6 overflow-x-auto"><code class="language-typescript text-white/90 selection:bg-primary/50">{codeSnippet.trim()}</code></pre>
 
-          <!-- Copy Button -->
-          <Button id="copy-sdk-code" variant="ghost" size="icon" className="absolute top-14 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-            <Copy id="copy-icon" class="size-4 text-white/70 transition-all" />
-            <Check id="check-icon" class="size-4 text-green-400 absolute transition-all scale-0" />
-            <span class="sr-only">Copy code</span>
-          </Button>
-        </div>
+            <Button size="lg" className="w-full" variant="outline">
+               <a
+                  href="https://docs.contentagen.com"
+                  class="flex items-center gap-2 "
+                  target="_blank"
+                  rel="noopener noreferrer"
+               >
+                  <BookOpen class="size-4 mr-2"/>
+                  {t("pages.landing.sdk.button")}
+               </a>
+            </Button>
+         </div>
+
+         <!-- Right Column: Code Block -->
+         <div class="relative min-h-[400px]">
+            <div
+               class="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-xl opacity-20 blur-2xl"
+            ></div>
+            <div
+               id="sdk-code-block"
+               class="relative bg-[#282a36] backdrop-blur-sm border border-white/10 rounded-lg shadow-2xl overflow-hidden font-mono text-sm group"
+            >
+               <!-- Faux window header -->
+               <div
+                  class="flex items-center justify-between px-4 py-2 border-b border-white/10"
+               >
+                  <div class="flex items-center gap-2">
+                     <span class="h-3 w-3 rounded-full bg-[#ff5f56]"></span>
+                     <span class="h-3 w-3 rounded-full bg-[#ffbd2e]"></span>
+                     <span class="h-3 w-3 rounded-full bg-[#27c93f]"></span>
+                  </div>
+                  <span class="text-slate-400 text-xs"
+                     >/contentagen/sdk-example.ts</span
+                  >
+                  <div></div>
+               </div>
+
+               <pre
+                  class="p-6 overflow-x-auto"
+               ><code class="language-typescript text-white/90 selection:bg-primary/50">{codeSnippet.trim()}</code></pre>
+
+               <!-- Copy Button -->
+               <Button
+                  id="copy-sdk-code"
+                  variant="ghost"
+                  size="icon"
+                  className="absolute top-14 right-4 opacity-0 group-hover:opacity-100 transition-opacity"
+               >
+                  <Copy
+                     id="copy-icon"
+                     class="size-4 text-white/70 transition-all"
+                  />
+                  <Check
+                     id="check-icon"
+                     class="size-4 text-green-400 absolute transition-all scale-0"
+                  />
+                  <span class="sr-only">Copy code</span>
+               </Button>
+            </div>
+         </div>
       </div>
-    </div>
-  </div>
+   </div>
 </section>
 
 <style is:global>
-  /* Enhanced Dracla-like theme for the code block */
-  code[class*="language-"],
-  pre[class*="language-"] {
-    font-family: 'Geist Mono', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-    line-height: 1.5;
-    color: #f8f8f2;
-    text-align: left;
-    word-spacing: normal;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    -webkit-hyphens: none;
-    hyphens: none;
-    word-break: normal;
-    word-wrap: normal;
-    -moz-tab-size: 4;
-    -o-tab-size: 4;
-    tab-size: 4;
-    white-space: pre;
-    background: none;
-  }
+   /* Enhanced Dracla-like theme for the code block */
+   code[class*="language-"],
+   pre[class*="language-"] {
+      font-family:
+         "Geist Mono", Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+      line-height: 1.5;
+      color: #f8f8f2;
+      text-align: left;
+      word-spacing: normal;
+      -moz-hyphens: none;
+      -ms-hyphens: none;
+      -webkit-hyphens: none;
+      hyphens: none;
+      word-break: normal;
+      word-wrap: normal;
+      -moz-tab-size: 4;
+      -o-tab-size: 4;
+      tab-size: 4;
+      white-space: pre;
+      background: none;
+   }
 
-  .token.comment,
-  .token.prolog,
-  .token.doctype,
-  .token.cdata {
-    color: #6272a4;
-  }
+   .token.comment,
+   .token.prolog,
+   .token.doctype,
+   .token.cdata {
+      color: #6272a4;
+   }
 
-  .token.punctuation {
-    color: #f8f8f2;
-  }
+   .token.punctuation {
+      color: #f8f8f2;
+   }
 
-  .token.property,
-  .token.tag,
-  .token.constant,
-  .token.symbol,
-  .token.deleted {
-    color: #ff79c6;
-  }
+   .token.property,
+   .token.tag,
+   .token.constant,
+   .token.symbol,
+   .token.deleted {
+      color: #ff79c6;
+   }
 
-  .token.boolean,
-  .token.number {
-    color: #bd93f9;
-  }
+   .token.boolean,
+   .token.number {
+      color: #bd93f9;
+   }
 
-  .token.selector,
-  .token.attr-name,
-  .token.string,
-  .token.char,
-  .token.builtin,
-  .token.inserted {
-    color: #f1fa8c;
-  }
+   .token.selector,
+   .token.attr-name,
+   .token.string,
+   .token.char,
+   .token.builtin,
+   .token.inserted {
+      color: #f1fa8c;
+   }
 
-  .token.operator,
-  .token.entity,
-  .token.url,
-  .language-css .token.string,
-  .style .token.string,
-  .token.variable {
-    color: #f8f8f2;
-  }
+   .token.operator,
+   .token.entity,
+   .token.url,
+   .language-css .token.string,
+   .style .token.string,
+   .token.variable {
+      color: #f8f8f2;
+   }
 
-  .token.atrule,
-  .token.attr-value,
-  .token.function,
-  .token.class-name {
-    color: #50fa7b;
-  }
+   .token.atrule,
+   .token.attr-value,
+   .token.function,
+   .token.class-name {
+      color: #50fa7b;
+   }
 
-  .token.keyword {
-    color: #ff79c6;
-  }
+   .token.keyword {
+      color: #ff79c6;
+   }
 
-  .token.regex,
-  .token.important {
-    color: #ffb86c;
-  }
+   .token.regex,
+   .token.important {
+      color: #ffb86c;
+   }
 
-  .token.important,
-  .token.bold {
-    font-weight: bold;
-  }
-  .token.italic {
-    font-style: italic;
-  }
+   .token.important,
+   .token.bold {
+      font-weight: bold;
+   }
+   .token.italic {
+      font-style: italic;
+   }
 
-  .token.entity {
-    cursor: help;
-  }
+   .token.entity {
+      cursor: help;
+   }
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const copyButton = document.getElementById('copy-sdk-code');
-    const codeBlock = document.querySelector('#sdk-code-block code');
-    const copyIcon = document.getElementById('copy-icon');
-    const checkIcon = document.getElementById('check-icon');
+   document.addEventListener("DOMContentLoaded", () => {
+      const copyButton = document.getElementById("copy-sdk-code");
+      const codeBlock = document.querySelector("#sdk-code-block code");
+      const copyIcon = document.getElementById("copy-icon");
+      const checkIcon = document.getElementById("check-icon");
 
-    if (copyButton && codeBlock && copyIcon && checkIcon) {
-      copyButton.addEventListener('click', () => {
-        if (navigator.clipboard && codeBlock.textContent) {
-          navigator.clipboard.writeText(codeBlock.textContent).then(() => {
-            // Success feedback
-            copyIcon.classList.add('scale-0');
-            checkIcon.classList.remove('scale-0');
+      if (copyButton && codeBlock && copyIcon && checkIcon) {
+         copyButton.addEventListener("click", () => {
+            if (navigator.clipboard && codeBlock.textContent) {
+               navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                  // Success feedback
+                  copyIcon.classList.add("scale-0");
+                  checkIcon.classList.remove("scale-0");
 
-            setTimeout(() => {
-              copyIcon.classList.remove('scale-0');
-              checkIcon.classList.add('scale-0');
-            }, 2000);
-          });
-        }
-      });
-    }
-  });
+                  setTimeout(() => {
+                     copyIcon.classList.remove("scale-0");
+                     checkIcon.classList.add("scale-0");
+                  }, 2000);
+               });
+            }
+         });
+      }
+   });
 </script>

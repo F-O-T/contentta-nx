@@ -26,8 +26,8 @@ export function LanguageToggler({
 
    const languageOptions = useMemo(
       () => [
-         { code: "en" as const, flag: "🇺🇸", name: "English" },
-         { code: "pt" as const, flag: "🇧🇷", name: "Português" },
+         { code: "en-US" as const, flag: "🇺🇸", name: "English" },
+         { code: "pt-BR" as const, flag: "🇧🇷", name: "Português" },
       ],
       [],
    );

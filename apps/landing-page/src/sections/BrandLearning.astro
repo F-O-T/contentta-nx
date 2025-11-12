@@ -1,39 +1,38 @@
 ---
-   import { Brain, Database, Globe, PenTool } from "@lucide/astro";
-   import type { SupportedLng } from "@packages/localization";
-   import { useTranslations } from "../i18n/utils";
+import { Brain, Database, Globe, PenTool } from "@lucide/astro";
+import type { SupportedLng } from "@packages/localization";
+import { useTranslations } from "../i18n/utils";
 
-   interface _Props {
-      lang?: SupportedLng;
-   }
+interface _Props {
+   lang?: SupportedLng;
+}
 
-   const { lang = "en" } = Astro.props;
-   const t = useTranslations(lang);
+const { lang = "en-US" } = Astro.props;
+const t = useTranslations(lang);
 
-   const benefits = [
-      {
-         description: t(
-            "pages.landing.brandLearning.benefits.website.description",
-         ),
-         icon: Globe,
-         title: t("pages.landing.brandLearning.benefits.website.title"),
-      },
-      {
-         description: t(
-            "pages.landing.brandLearning.benefits.voice.description",
-         ),
-         icon: PenTool,
-         title: t("pages.landing.brandLearning.benefits.voice.title"),
-      },
-      {
-         description: t(
-            "pages.landing.brandLearning.benefits.knowledge.description",
-         ),
-         icon: Database,
-         title: t("pages.landing.brandLearning.benefits.knowledge.title"),
-      },
-   ];
+const benefits = [
+   {
+      description: t(
+         "pages.landing.brandLearning.benefits.website.description",
+      ),
+      icon: Globe,
+      title: t("pages.landing.brandLearning.benefits.website.title"),
+   },
+   {
+      description: t("pages.landing.brandLearning.benefits.voice.description"),
+      icon: PenTool,
+      title: t("pages.landing.brandLearning.benefits.voice.title"),
+   },
+   {
+      description: t(
+         "pages.landing.brandLearning.benefits.knowledge.description",
+      ),
+      icon: Database,
+      title: t("pages.landing.brandLearning.benefits.knowledge.title"),
+   },
+];
 ---
+
 <section id="brand-learning" class="bg-muted py-24">
    <div class="mx-auto w-full max-w-6xl px-6">
       <div class="mx-auto max-w-3xl text-center">

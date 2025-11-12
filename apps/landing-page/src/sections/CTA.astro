@@ -1,15 +1,16 @@
 ---
-   import type { SupportedLng } from "@packages/localization";
-   import { Button } from "@packages/ui/components/button";
-   import { useTranslations } from "../i18n/utils";
+import type { SupportedLng } from "@packages/localization";
+import { Button } from "@packages/ui/components/button";
+import { useTranslations } from "../i18n/utils";
 
-   interface _Props {
-      lang?: SupportedLng;
-   }
+interface _Props {
+   lang?: SupportedLng;
+}
 
-   const { lang = "en" } = Astro.props;
-   const t = useTranslations(lang);
+const { lang = "en-US" } = Astro.props;
+const t = useTranslations(lang);
 ---
+
 <section>
    <div class="py-12">
       <div class="mx-auto max-w-6xl px-6">

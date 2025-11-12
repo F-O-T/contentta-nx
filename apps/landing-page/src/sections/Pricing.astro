@@ -1,7 +1,4 @@
 ---
-
-
-
 import { Check } from "@lucide/astro";
 import type { SupportedLng } from "@packages/localization";
 import { Button } from "@packages/ui/components/button";
@@ -17,7 +14,7 @@ interface Props {
    lang?: SupportedLng;
 }
 
-const { lang = "en" } = Astro.props;
+const { lang = "en-US" } = Astro.props;
 const t = useTranslations(lang);
 
 type ButtonVariant =
@@ -89,19 +86,19 @@ const pricingPlans: PricingPlan[] = [
 ---
 
 <section id="pricing" class="min-h-screen relative py-16 md:py-24">
-  <div class="mx-auto max-w-6xl px-6">
-    <div class="mx-auto max-w-2xl text-center">
-      <h2 class="text-balance text-2xl font-bold md:text-3xl lg:text-4xl">
-        {t("pages.landing.pricing.title")}
-      </h2>
-      <p class="text-muted-foreground mx-auto mt-4 max-w-xl text-balance">
-        {t("pages.landing.pricing.subtitle")}
-      </p>
-    </div>
+   <div class="mx-auto max-w-6xl px-6">
+      <div class="mx-auto max-w-2xl text-center">
+         <h2 class="text-balance text-2xl font-bold md:text-3xl lg:text-4xl">
+            {t("pages.landing.pricing.title")}
+         </h2>
+         <p class="text-muted-foreground mx-auto mt-4 max-w-xl text-balance">
+            {t("pages.landing.pricing.subtitle")}
+         </p>
+      </div>
 
-    <div class="relative mt-12">
-      <div class="grid gap-6 md:grid-cols-3">
-        {pricingPlans.map((plan) => (
+      <div class="relative mt-12">
+         <div class="grid gap-6 md:grid-cols-3">
+            {pricingPlans.map((plan) => (
           <Card
             className={`relative flex flex-col ${plan.popular ? 'ring-2 ring-primary scale-105 shadow-xl' : 'shadow-lg'}`}
           >
@@ -142,7 +139,7 @@ const pricingPlans: PricingPlan[] = [
             </ul>
           </Card>
         ))}
+         </div>
       </div>
-    </div>
-  </div>
+   </div>
 </section>

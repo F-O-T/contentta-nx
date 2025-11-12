@@ -1,19 +1,20 @@
 ---
-   import { Image } from "astro:assets";
-   import { ChevronRight } from "@lucide/astro";
-   import type { SupportedLng } from "@packages/localization";
-   import { Button } from "@packages/ui/components/button";
-   import darkHero from "../assets/dark/dark-hero.webp";
-   import lightHero from "../assets/light/light-hero.webp";
-   import { useTranslations } from "../i18n/utils";
+import { Image } from "astro:assets";
+import { ChevronRight } from "@lucide/astro";
+import type { SupportedLng } from "@packages/localization";
+import { Button } from "@packages/ui/components/button";
+import darkHero from "../assets/dark/dark-hero.webp";
+import lightHero from "../assets/light/light-hero.webp";
+import { useTranslations } from "../i18n/utils";
 
-   interface _Props {
-      lang?: SupportedLng;
-   }
+interface _Props {
+   lang?: SupportedLng;
+}
 
-   const { lang = "en" } = Astro.props;
-   const t = useTranslations(lang);
+const { lang = "en-US" } = Astro.props;
+const t = useTranslations(lang);
 ---
+
 <main class="overflow-hidden min-h-screen  grid grid-cols-1">
    <div id="hero" class="relative py-36 ">
       <div class="relative z-10 mx-auto w-full max-w-6xl px-6">

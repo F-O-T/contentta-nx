@@ -1,10 +1,10 @@
 import type { SupportedLng } from "@packages/localization";
 
 export const languages = {
-   en: "English",
-   pt: "Português",
+   "en-US": "English",
+   "pt-BR": "Português",
 };
 
-export const defaultLang: SupportedLng = "en";
+export const defaultLang: SupportedLng = "en-US";
 
-export const supportedLanguages: SupportedLng[] = ["en", "pt"];
+export const supportedLanguages: SupportedLng[] = ["en-US", "pt-BR"];

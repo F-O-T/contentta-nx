@@ -1,34 +1,35 @@
 ---
-   export const prerender = true;
+export const prerender = true;
 
-   import type { SupportedLng } from "@packages/localization";
-   import { supportedLanguages } from "@/i18n/config";
-   import Pricing from "@/sections/Pricing.astro";
-   import StickyNavbar from "../../components/StickyNavbar.astro";
-   import Layout from "../../layouts/Landing.astro";
-   import BrandLearning from "../../sections/BrandLearning.astro";
-   import Community from "../../sections/Community.astro";
-   import CompetitorIntelligence from "../../sections/CompetitorIntelligence.astro";
-   import ContentWorkflow from "../../sections/ContentWorkflow.astro";
-   import CTA from "../../sections/CTA.astro";
-   import FAQ from "../../sections/FAQ.astro";
-   import Footer from "../../sections/Footer.astro";
-   import Hero from "../../sections/Hero.astro";
-   import HowItWorks from "../../sections/HowItWorks.astro";
-   import LogoCloud from "../../sections/LogoCloud.astro";
-   import OpenSource from "../../sections/OpenSource.astro";
-   import SDK from "../../sections/SDK.astro";
-   import SocialProof from "../../sections/SocialProof.astro";
+import type { SupportedLng } from "@packages/localization";
+import { supportedLanguages } from "@/i18n/config";
+import Pricing from "@/sections/Pricing.astro";
+import StickyNavbar from "../../components/StickyNavbar.astro";
+import Layout from "../../layouts/Landing.astro";
+import BrandLearning from "../../sections/BrandLearning.astro";
+import Community from "../../sections/Community.astro";
+import CompetitorIntelligence from "../../sections/CompetitorIntelligence.astro";
+import ContentWorkflow from "../../sections/ContentWorkflow.astro";
+import CTA from "../../sections/CTA.astro";
+import FAQ from "../../sections/FAQ.astro";
+import Footer from "../../sections/Footer.astro";
+import Hero from "../../sections/Hero.astro";
+import HowItWorks from "../../sections/HowItWorks.astro";
+import LogoCloud from "../../sections/LogoCloud.astro";
+import OpenSource from "../../sections/OpenSource.astro";
+import SDK from "../../sections/SDK.astro";
+import SocialProof from "../../sections/SocialProof.astro";
 
-   export function getStaticPaths() {
-      return supportedLanguages.map((locale) => ({
-         params: { locale: locale === "en" ? undefined : locale },
-      }));
-   }
+export function getStaticPaths() {
+   return supportedLanguages.map((locale) => ({
+      params: { locale: locale === "en-US" ? undefined : locale },
+   }));
+}
 
-   const { locale } = Astro.params;
-   const lang = (locale || "en") as SupportedLng;
+const { locale } = Astro.params;
+const lang = (locale || "en-US") as SupportedLng;
 ---
+
 <Layout lang={lang}>
    <div class="flex flex-col">
       <StickyNavbar lang={lang}/>

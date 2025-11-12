@@ -1,7 +1,4 @@
 ---
-
-
-
 export const prerender = true;
 
 import { Image } from "astro:assets";
@@ -37,7 +34,9 @@ const postsWithImages = await Promise.all(
       }
       if (post.imageUrl) {
          try {
-            const imageData = await sdk.getContentImage({ contentId: post.id });
+            const imageData = await sdk.getContentImage({
+               contentId: post.id,
+            });
             return { ...post, image: imageData };
          } catch (error) {
             console.error(`Error fetching image for post ${post.id}:`, error);
@@ -51,15 +50,15 @@ const postsWithImages = await Promise.all(
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Navbar />
-		<main class="max-w-4xl mx-auto px-4 py-12">
-			<section>
-				<ul class="grid gap-8 md:grid-cols-2 list-none m-0 p-0">
-					{
+   <head>
+      <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION}/>
+   </head>
+   <body>
+      <Navbar/>
+      <main class="max-w-4xl mx-auto px-4 py-12">
+         <section>
+            <ul class="grid gap-8 md:grid-cols-2 list-none m-0 p-0">
+               {
 						postsWithImages.map((post, index) => (
 							<li
 								class={index === 0 ? "md:col-span-2 text-center" : ""}
@@ -97,11 +96,11 @@ const postsWithImages = await Promise.all(
 							</li>
 						))
 					}
-				</ul>
-			</section>
+            </ul>
+         </section>
 
-			<!-- Pagination -->
-			{totalPages > 1 && (
+         <!-- Pagination -->
+         {totalPages > 1 && (
 				<section class="mt-12 flex justify-center">
 					<nav class="flex items-center space-x-2">
 						{Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
@@ -129,7 +128,7 @@ const postsWithImages = await Promise.all(
 					</nav>
 				</section>
 			)}
-		</main>
-		<Footer />
-	</body>
+      </main>
+      <Footer/>
+   </body>
 </html>

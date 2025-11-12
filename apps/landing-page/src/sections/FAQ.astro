@@ -1,54 +1,55 @@
 ---
-   import type { SupportedLng } from "@packages/localization";
-   import { AstroAccordion } from "../components/astro-accordion";
-   import { useTranslations } from "../i18n/utils";
+import type { SupportedLng } from "@packages/localization";
+import { AstroAccordion } from "../components/astro-accordion";
+import { useTranslations } from "../i18n/utils";
 
-   interface _Props {
-      lang?: SupportedLng;
-   }
+interface _Props {
+   lang?: SupportedLng;
+}
 
-   interface FAQItem {
-      id: string;
-      question: string;
-      answer: string;
-   }
+interface FAQItem {
+   id: string;
+   question: string;
+   answer: string;
+}
 
-   const { lang = "en" } = Astro.props;
-   const t = useTranslations(lang);
+const { lang = "en-US" } = Astro.props;
+const t = useTranslations(lang);
 
-   const faqItems: FAQItem[] = [
-      {
-         answer: t("pages.landing.faq.items.brandVoice.answer"),
-         id: "item-1",
-         question: t("pages.landing.faq.items.brandVoice.question"),
-      },
-      {
-         answer: t("pages.landing.faq.items.contentTypes.answer"),
-         id: "item-2",
-         question: t("pages.landing.faq.items.contentTypes.question"),
-      },
-      {
-         answer: t("pages.landing.faq.items.competitorIntelligence.answer"),
-         id: "item-3",
-         question: t("pages.landing.faq.items.competitorIntelligence.question"),
-      },
-      {
-         answer: t("pages.landing.faq.items.customization.answer"),
-         id: "item-4",
-         question: t("pages.landing.faq.items.customization.question"),
-      },
-      {
-         answer: t("pages.landing.faq.items.usageCredits.answer"),
-         id: "item-5",
-         question: t("pages.landing.faq.items.usageCredits.question"),
-      },
-      {
-         answer: t("pages.landing.faq.items.openSource.answer"),
-         id: "item-6",
-         question: t("pages.landing.faq.items.openSource.question"),
-      },
-   ];
+const faqItems: FAQItem[] = [
+   {
+      answer: t("pages.landing.faq.items.brandVoice.answer"),
+      id: "item-1",
+      question: t("pages.landing.faq.items.brandVoice.question"),
+   },
+   {
+      answer: t("pages.landing.faq.items.contentTypes.answer"),
+      id: "item-2",
+      question: t("pages.landing.faq.items.contentTypes.question"),
+   },
+   {
+      answer: t("pages.landing.faq.items.competitorIntelligence.answer"),
+      id: "item-3",
+      question: t("pages.landing.faq.items.competitorIntelligence.question"),
+   },
+   {
+      answer: t("pages.landing.faq.items.customization.answer"),
+      id: "item-4",
+      question: t("pages.landing.faq.items.customization.question"),
+   },
+   {
+      answer: t("pages.landing.faq.items.usageCredits.answer"),
+      id: "item-5",
+      question: t("pages.landing.faq.items.usageCredits.question"),
+   },
+   {
+      answer: t("pages.landing.faq.items.openSource.answer"),
+      id: "item-6",
+      question: t("pages.landing.faq.items.openSource.question"),
+   },
+];
 ---
+
 <section id="faq" class="py-16 md:py-24 bg-muted min-h-screen grid grid-cols-1">
    <div class="mx-auto max-w-6xl px-6 my-auto">
       <div class="grid gap-8 md:grid-cols-5 md:gap-12">
