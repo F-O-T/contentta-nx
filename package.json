@@ -81,7 +81,7 @@
          },
          "auth": {
             "@polar-sh/better-auth": "1.1.9",
-            "better-auth": "1.3.27"
+            "better-auth": "1.3.34"
          },
          "database": {
             "@types/pg": "^8.15.4",
