@@ -27,13 +27,6 @@ export interface AuthOptions {
    resendClient: ResendClient;
 }
 
-export interface AuthPluginOptions {
-   polar: ReturnType<typeof polar>;
-   emailOTP: ReturnType<typeof emailOTP>;
-   openAPI: ReturnType<typeof openAPI>;
-   organization: ReturnType<typeof organization>;
-   apiKey: ReturnType<typeof apiKey>;
-}
 export const getAuthOptions = (
    db: DatabaseInstance,
    resendClient: ResendClient,
@@ -135,6 +128,7 @@ export const getAuthOptions = (
                   additionalFields: {
                      description: {
                         defaultValue: "",
+                        input: true,
                         required: false,
                         type: "string",
                      },
@@ -144,6 +138,7 @@ export const getAuthOptions = (
                   additionalFields: {
                      description: {
                         defaultValue: "",
+                        input: true,
                         required: false,
                         type: "string",
                      },
