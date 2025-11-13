@@ -1,3 +1,26 @@
+## 0.32.0 (2025-11-13)
+
+This was a version bump only for @packages/utils to align it with other projects, there were no code changes.
+
+## 0.10.6 (2025-11-13)
+
+### 🚀 Features
+
+- **server:** Integrate TRPC and refactor auth/db ([#166](https://github.com/F-O-T/contentagen-nx/pull/166), [#167](https://github.com/F-O-T/contentagen-nx/pull/167), [#168](https://github.com/F-O-T/contentagen-nx/issues/168), [#169](https://github.com/F-O-T/contentagen-nx/issues/169), [#170](https://github.com/F-O-T/contentagen-nx/issues/170), [#171](https://github.com/F-O-T/contentagen-nx/issues/171), [#172](https://github.com/F-O-T/contentagen-nx/issues/172), [#173](https://github.com/F-O-T/contentagen-nx/issues/173), [#174](https://github.com/F-O-T/contentagen-nx/issues/174), [#175](https://github.com/F-O-T/contentagen-nx/issues/175), [#176](https://github.com/F-O-T/contentagen-nx/issues/176), [#177](https://github.com/F-O-T/contentagen-nx/issues/177), [#178](https://github.com/F-O-T/contentagen-nx/issues/178), [#180](https://github.com/F-O-T/contentagen-nx/issues/180), [#181](https://github.com/F-O-T/contentagen-nx/issues/181), [#182](https://github.com/F-O-T/contentagen-nx/issues/182), [#183](https://github.com/F-O-T/contentagen-nx/issues/183), [#184](https://github.com/F-O-T/contentagen-nx/issues/184))
+- **dashboard:** Integrate better-auth for authentication flows ([#24](https://github.com/F-O-T/contentagen-nx/pull/24))
+- **landing:** add meta tags and seo optimization ([8513535e](https://github.com/F-O-T/contentagen-nx/commit/8513535e))
+- **landing-page:** Introduce Logo component and update SVG ([8946fe57](https://github.com/F-O-T/contentagen-nx/commit/8946fe57))
+
+### 🩹 Fixes
+
+- **auth:** Set appName and baseURL, update brand name ([#36](https://github.com/F-O-T/contentagen-nx/pull/36))
+
+### ❤️ Thank You
+
+- Manoel
+- Manoel Neto @Yorizel
+- opencode
+
 ## 0.31.0 (2025-11-02)
 
 ### 🚀 Features
