@@ -9,7 +9,6 @@ export function QuickAccessCards() {
          description: "Manage organization teams and collaborate",
          icon: <Building2 className="size-5" />,
          onClick: () => router.navigate({ to: "/organization/teams" }),
-
          title: "Teams",
       },
       {
@@ -20,7 +19,6 @@ export function QuickAccessCards() {
       },
       {
          description: "View and manage all organization members",
-         disabled: true,
          icon: <Users className="size-5" />,
          onClick: () => router.navigate({ to: "/organization/members" }),
          title: "Members",
@@ -38,7 +36,6 @@ export function QuickAccessCards() {
          {quickAccessItems.map((item, index) => (
             <QuickAccessCard
                description={item.description}
-               disabled={item.disabled}
                icon={item.icon}
                key={`quick-access-${index + 1}`}
                onClick={item.onClick}
