@@ -1,39 +1,39 @@
 {
-   "dependencies": {
-      "@astrojs/check": "catalog:astro",
-      "@astrojs/mdx": "catalog:astro",
-      "@astrojs/node": "catalog:astro",
-      "@astrojs/react": "catalog:astro",
-      "@astrojs/rss": "catalog:astro",
-      "@astrojs/sitemap": "catalog:astro",
-      "@astrojs/ts-plugin": "catalog:astro",
-      "@contentagen/sdk": "^0.16.0",
-      "@lucide/astro": "catalog:astro",
-      "@packages/environment": "workspace:*",
-      "@packages/posthog": "workspace:*",
-      "@packages/ui": "workspace:*",
-      "@tailwindcss/vite": "catalog:vite",
-      "astro": "catalog:astro",
-      "marked": "^16.1.2",
-      "react": "catalog:react",
-      "react-dom": "catalog:react"
-   },
-   "devDependencies": {
-      "@tooling/typescript": "workspace:*",
-      "@types/react": "catalog:react",
-      "@types/react-dom": "catalog:react",
-      "typescript": "catalog:development"
-   },
-   "license": "Apache-2.0",
-   "name": "blog",
-   "scripts": {
-      "astro": "bunx --bun astro",
-      "build": "bunx --bun astro build",
-      "check": "bunx --bun biome check --write ./src ",
-      "dev": "bunx astro dev --port 4321",
-      "preview": "bunx --bun astro preview",
-      "typecheck": "bunx --bun astro check"
-   },
-   "type": "module",
-   "version": "0.8.1"
+  "dependencies": {
+    "@astrojs/check": "catalog:astro",
+    "@astrojs/mdx": "catalog:astro",
+    "@astrojs/node": "catalog:astro",
+    "@astrojs/react": "catalog:astro",
+    "@astrojs/rss": "catalog:astro",
+    "@astrojs/sitemap": "catalog:astro",
+    "@astrojs/ts-plugin": "catalog:astro",
+    "@contentagen/sdk": "^0.16.0",
+    "@lucide/astro": "catalog:astro",
+    "@packages/environment": "workspace:*",
+    "@packages/posthog": "workspace:*",
+    "@packages/ui": "workspace:*",
+    "@tailwindcss/vite": "catalog:vite",
+    "astro": "catalog:astro",
+    "marked": "^16.1.2",
+    "react": "catalog:react",
+    "react-dom": "catalog:react"
+  },
+  "devDependencies": {
+    "@tooling/typescript": "workspace:*",
+    "@types/react": "catalog:react",
+    "@types/react-dom": "catalog:react",
+    "typescript": "catalog:development"
+  },
+  "license": "Apache-2.0",
+  "name": "blog",
+  "scripts": {
+    "astro": "bunx --bun astro",
+    "build": "bunx --bun astro build",
+    "check": "bunx --bun biome check --write ./src ",
+    "dev": "bunx astro dev --port 4321",
+    "preview": "bunx --bun astro preview",
+    "typecheck": "bunx --bun astro check"
+  },
+  "type": "module",
+  "version": "0.8.1"
 }

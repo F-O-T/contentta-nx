@@ -1,29 +1,29 @@
 {
-   "dependencies": {
-      "@contentagen/sdk": "0.16.0",
-      "@packages/environment": "workspace:*"
-   },
-   "devDependencies": {
-      "@tooling/typescript": "workspace:*",
-      "typescript": "catalog:development"
-   },
-   "exports": {
-      ".": {
-         "default": "./src/index.ts",
-         "types": "./dist/src/index.d.ts"
-      }
-   },
-   "files": [
-      "dist"
-   ],
-   "license": "Apache-2.0",
-   "name": "@packages/contenta-sdk",
-   "private": true,
-   "scripts": {
-      "build": "tsc --build",
-      "check": "biome check --write ./src",
-      "typecheck": "bunx --bun tsc  "
-   },
-   "type": "module",
-   "version": "0.6.0"
+  "dependencies": {
+    "@contentagen/sdk": "0.16.0",
+    "@packages/environment": "workspace:*"
+  },
+  "devDependencies": {
+    "@tooling/typescript": "workspace:*",
+    "typescript": "catalog:development"
+  },
+  "exports": {
+    ".": {
+      "default": "./src/index.ts",
+      "types": "./dist/src/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "Apache-2.0",
+  "name": "@packages/contenta-sdk",
+  "private": true,
+  "scripts": {
+    "build": "tsc --build",
+    "check": "biome check --write ./src",
+    "typecheck": "bunx --bun tsc  "
+  },
+  "type": "module",
+  "version": "0.7.0"
 }

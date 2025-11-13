@@ -1,38 +1,38 @@
 {
-   "dependencies": {
-      "@packages/database": "workspace:*",
-      "@packages/environment": "workspace:*",
-      "@packages/payment": "workspace:*",
-      "@packages/transactional": "workspace:*",
-      "@polar-sh/better-auth": "catalog:auth",
-      "better-auth": "catalog:auth"
-   },
-   "devDependencies": {
-      "@tooling/typescript": "workspace:*",
-      "typescript": "catalog:development"
-   },
-   "exports": {
-      "./client": {
-         "default": "./src/client.ts",
-         "types": "./dist/src/client.d.ts"
-      },
-      "./server": {
-         "default": "./src/server.ts",
-         "types": "./dist/src/server.d.ts"
-      }
-   },
-   "files": [
-      "dist"
-   ],
-   "license": "Apache-2.0",
-   "name": "@packages/authentication",
-   "private": true,
-   "scripts": {
-      "auth-schema-generate": "npx @better-auth/cli@latest generate --config ./src/cli-config.ts --output ../database/src/schemas/auth.ts",
-      "build": "tsc --build",
-      "check": "biome check --write ./src",
-      "typecheck": "tsc "
-   },
-   "type": "module",
-   "version": "0.8.1"
+  "dependencies": {
+    "@packages/database": "workspace:*",
+    "@packages/environment": "workspace:*",
+    "@packages/payment": "workspace:*",
+    "@packages/transactional": "workspace:*",
+    "@polar-sh/better-auth": "catalog:auth",
+    "better-auth": "catalog:auth"
+  },
+  "devDependencies": {
+    "@tooling/typescript": "workspace:*",
+    "typescript": "catalog:development"
+  },
+  "exports": {
+    "./client": {
+      "default": "./src/client.ts",
+      "types": "./dist/src/client.d.ts"
+    },
+    "./server": {
+      "default": "./src/server.ts",
+      "types": "./dist/src/server.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "Apache-2.0",
+  "name": "@packages/authentication",
+  "private": true,
+  "scripts": {
+    "auth-schema-generate": "npx @better-auth/cli@latest generate --config ./src/cli-config.ts --output ../database/src/schemas/auth.ts",
+    "build": "tsc --build",
+    "check": "biome check --write ./src",
+    "typecheck": "tsc "
+  },
+  "type": "module",
+  "version": "0.8.1"
 }

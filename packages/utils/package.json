@@ -1,60 +1,60 @@
 {
-   "dependencies": {
-      "@trpc/server": "catalog:trpc",
-      "slugify": "^1.6.6",
-      "zod": "catalog:validation"
-   },
-   "devDependencies": {
-      "@tooling/typescript": "workspace:*",
-      "typescript": "catalog:development",
-      "vitest": "catalog:testing"
-   },
-   "exports": {
-      "./array": {
-         "default": "./src/array.ts",
-         "types": "./dist/src/array.d.ts"
-      },
-      "./date": {
-         "default": "./src/date.ts",
-         "types": "./dist/src/date.d.ts"
-      },
-      "./diff": {
-         "default": "./src/diff.ts",
-         "types": "./dist/src/diff.d.ts"
-      },
-      "./errors": {
-         "default": "./src/errors.ts",
-         "types": "./dist/src/errors.d.ts"
-      },
-      "./file": {
-         "default": "./src/file.ts",
-         "types": "./dist/src/file.d.ts"
-      },
-      "./markdown": {
-         "default": "./src/markdown.ts",
-         "types": "./dist/src/markdown.d.ts"
-      },
-      "./number": {
-         "default": "./src/numbers.ts",
-         "types": "./dist/src/numbers.d.ts"
-      },
-      "./text": {
-         "default": "./src/text.ts",
-         "types": "./dist/src/text.d.ts"
-      }
-   },
-   "files": [
-      "dist"
-   ],
-   "license": "Apache-2.0",
-   "name": "@packages/utils",
-   "private": true,
-   "scripts": {
-      "build": "tsc --build",
-      "check": "biome check --write ./src",
-      "test": "bun test",
-      "typecheck": "bunx --bun tsc  "
-   },
-   "type": "module",
-   "version": "0.31.0"
+  "dependencies": {
+    "@trpc/server": "catalog:trpc",
+    "slugify": "^1.6.6",
+    "zod": "catalog:validation"
+  },
+  "devDependencies": {
+    "@tooling/typescript": "workspace:*",
+    "typescript": "catalog:development",
+    "vitest": "catalog:testing"
+  },
+  "exports": {
+    "./array": {
+      "default": "./src/array.ts",
+      "types": "./dist/src/array.d.ts"
+    },
+    "./date": {
+      "default": "./src/date.ts",
+      "types": "./dist/src/date.d.ts"
+    },
+    "./diff": {
+      "default": "./src/diff.ts",
+      "types": "./dist/src/diff.d.ts"
+    },
+    "./errors": {
+      "default": "./src/errors.ts",
+      "types": "./dist/src/errors.d.ts"
+    },
+    "./file": {
+      "default": "./src/file.ts",
+      "types": "./dist/src/file.d.ts"
+    },
+    "./markdown": {
+      "default": "./src/markdown.ts",
+      "types": "./dist/src/markdown.d.ts"
+    },
+    "./number": {
+      "default": "./src/numbers.ts",
+      "types": "./dist/src/numbers.d.ts"
+    },
+    "./text": {
+      "default": "./src/text.ts",
+      "types": "./dist/src/text.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "Apache-2.0",
+  "name": "@packages/utils",
+  "private": true,
+  "scripts": {
+    "build": "tsc --build",
+    "check": "biome check --write ./src",
+    "test": "bun test",
+    "typecheck": "bunx --bun tsc  "
+  },
+  "type": "module",
+  "version": "0.32.0"
 }

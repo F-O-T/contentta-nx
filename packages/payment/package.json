@@ -1,38 +1,38 @@
 {
-   "dependencies": {
-      "@packages/environment": "workspace:*",
-      "@packages/utils": "workspace:*",
-      "@polar-sh/sdk": "catalog:payment"
-   },
-   "devDependencies": {
-      "@tooling/typescript": "workspace:*",
-      "typescript": "catalog:development"
-   },
-   "exports": {
-      "./client": {
-         "default": "./src/client.ts",
-         "types": "./dist/src/client.d.ts"
-      },
-      "./ingestion": {
-         "default": "./src/ingestion.ts",
-         "types": "./dist/src/ingestion.d.ts"
-      },
-      "./plans": {
-         "default": "./src/plans.ts",
-         "types": "./dist/src/plans.d.ts"
-      }
-   },
-   "files": [
-      "dist"
-   ],
-   "license": "Apache-2.0",
-   "name": "@packages/payment",
-   "private": true,
-   "scripts": {
-      "build": "tsc --build",
-      "check": "biome check --write ./src",
-      "typecheck": "bunx --bun tsc  "
-   },
-   "type": "module",
-   "version": "0.8.1"
+  "dependencies": {
+    "@packages/environment": "workspace:*",
+    "@packages/utils": "workspace:*",
+    "@polar-sh/sdk": "catalog:payment"
+  },
+  "devDependencies": {
+    "@tooling/typescript": "workspace:*",
+    "typescript": "catalog:development"
+  },
+  "exports": {
+    "./client": {
+      "default": "./src/client.ts",
+      "types": "./dist/src/client.d.ts"
+    },
+    "./ingestion": {
+      "default": "./src/ingestion.ts",
+      "types": "./dist/src/ingestion.d.ts"
+    },
+    "./plans": {
+      "default": "./src/plans.ts",
+      "types": "./dist/src/plans.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "Apache-2.0",
+  "name": "@packages/payment",
+  "private": true,
+  "scripts": {
+    "build": "tsc --build",
+    "check": "biome check --write ./src",
+    "typecheck": "bunx --bun tsc  "
+  },
+  "type": "module",
+  "version": "0.8.1"
 }

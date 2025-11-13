@@ -1,63 +1,63 @@
 {
-   "dependencies": {
-      "@packages/utils": "workspace:*",
-      "drizzle-orm": "catalog:database",
-      "drizzle-zod": "catalog:database",
-      "pg": "catalog:database",
-      "zod": "catalog:validation"
-   },
-   "devDependencies": {
-      "@tooling/typescript": "workspace:*",
-      "@types/pg": "catalog:database",
-      "dotenv-cli": "catalog:enviroment",
-      "drizzle-kit": "catalog:database",
-      "shx": "catalog:enviroment",
-      "typescript": "catalog:development"
-   },
-   "exports": {
-      ".": {
-         "default": "./src/index.ts",
-         "types": "./dist/src/index.d.ts"
-      },
-      "./client": {
-         "default": "./src/client.ts",
-         "types": "./dist/src/client.d.ts"
-      },
-      "./repositories/*": {
-         "default": "./src/repositories/*.ts",
-         "types": "./dist/src/repositories/*.d.ts"
-      },
-      "./schema": {
-         "default": "./src/schema.ts",
-         "types": "./dist/src/schema.d.ts"
-      },
-      "./schemas/*": {
-         "default": "./src/schemas/*.ts",
-         "types": "./dist/src/schemas/*.d.ts"
-      }
-   },
-   "files": [
-      "dist"
-   ],
-   "license": "Apache-2.0",
-   "name": "@packages/database",
-   "private": true,
-   "scripts": {
-      "build": "tsc --build",
-      "check": "biome check --write ./src",
-      "db-push-local": "dotenv -e .env.local drizzle-kit push",
-      "db-push-prod": "dotenv -e .env.production drizzle-kit push",
-      "db-studio-local": "dotenv -e .env.local drizzle-kit studio",
-      "db-studio-prod": "dotenv -e .env.production drizzle-kit studio",
-      "env:copy-example": "shx -- cp -n .env.example .env",
-      "env:remove": "shx -- rm -f .env",
-      "env:run": "dotenv --",
-      "generate": "bun run env:run drizzle-kit generate --custom",
-      "migrate": "bun run env:run drizzle-kit migrate",
-      "push": "bun run env:run drizzle-kit push",
-      "studio": "bun run env:run drizzle-kit studio",
-      "typecheck": "tsc "
-   },
-   "type": "module",
-   "version": "0.12.1"
+  "dependencies": {
+    "@packages/utils": "workspace:*",
+    "drizzle-orm": "catalog:database",
+    "drizzle-zod": "catalog:database",
+    "pg": "catalog:database",
+    "zod": "catalog:validation"
+  },
+  "devDependencies": {
+    "@tooling/typescript": "workspace:*",
+    "@types/pg": "catalog:database",
+    "dotenv-cli": "catalog:enviroment",
+    "drizzle-kit": "catalog:database",
+    "shx": "catalog:enviroment",
+    "typescript": "catalog:development"
+  },
+  "exports": {
+    ".": {
+      "default": "./src/index.ts",
+      "types": "./dist/src/index.d.ts"
+    },
+    "./client": {
+      "default": "./src/client.ts",
+      "types": "./dist/src/client.d.ts"
+    },
+    "./repositories/*": {
+      "default": "./src/repositories/*.ts",
+      "types": "./dist/src/repositories/*.d.ts"
+    },
+    "./schema": {
+      "default": "./src/schema.ts",
+      "types": "./dist/src/schema.d.ts"
+    },
+    "./schemas/*": {
+      "default": "./src/schemas/*.ts",
+      "types": "./dist/src/schemas/*.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "Apache-2.0",
+  "name": "@packages/database",
+  "private": true,
+  "scripts": {
+    "build": "tsc --build",
+    "check": "biome check --write ./src",
+    "db-push-local": "dotenv -e .env.local drizzle-kit push",
+    "db-push-prod": "dotenv -e .env.production drizzle-kit push",
+    "db-studio-local": "dotenv -e .env.local drizzle-kit studio",
+    "db-studio-prod": "dotenv -e .env.production drizzle-kit studio",
+    "env:copy-example": "shx -- cp -n .env.example .env",
+    "env:remove": "shx -- rm -f .env",
+    "env:run": "dotenv --",
+    "generate": "bun run env:run drizzle-kit generate --custom",
+    "migrate": "bun run env:run drizzle-kit migrate",
+    "push": "bun run env:run drizzle-kit push",
+    "studio": "bun run env:run drizzle-kit studio",
+    "typecheck": "tsc "
+  },
+  "type": "module",
+  "version": "0.12.1"
 }

@@ -1,36 +1,36 @@
 {
-   "dependencies": {
-      "@packages/agents": "workspace:*",
-      "@packages/database": "workspace:*",
-      "@packages/environment": "workspace:*",
-      "@packages/files": "workspace:*",
-      "@packages/payment": "workspace:*",
-      "@packages/server-events": "workspace:*",
-      "@packages/utils": "workspace:*",
-      "bullmq": "catalog:workers",
-      "ioredis": "catalog:workers"
-   },
-   "devDependencies": {
-      "@tooling/typescript": "workspace:*",
-      "typescript": "catalog:development"
-   },
-   "exports": {
-      "./queues/*": {
-         "default": "./src/queues/*.ts",
-         "types": "./dist/src/queues/*.d.ts"
-      }
-   },
-   "files": [
-      "dist"
-   ],
-   "license": "Apache-2.0",
-   "name": "@packages/workers",
-   "private": true,
-   "scripts": {
-      "build": "tsc --build",
-      "check": "biome check --write ./src",
-      "typecheck": "bunx --bun tsc  "
-   },
-   "type": "module",
-   "version": "0.15.0"
+  "dependencies": {
+    "@packages/agents": "workspace:*",
+    "@packages/database": "workspace:*",
+    "@packages/environment": "workspace:*",
+    "@packages/files": "workspace:*",
+    "@packages/payment": "workspace:*",
+    "@packages/server-events": "workspace:*",
+    "@packages/utils": "workspace:*",
+    "bullmq": "catalog:workers",
+    "ioredis": "catalog:workers"
+  },
+  "devDependencies": {
+    "@tooling/typescript": "workspace:*",
+    "typescript": "catalog:development"
+  },
+  "exports": {
+    "./queues/*": {
+      "default": "./src/queues/*.ts",
+      "types": "./dist/src/queues/*.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "Apache-2.0",
+  "name": "@packages/workers",
+  "private": true,
+  "scripts": {
+    "build": "tsc --build",
+    "check": "biome check --write ./src",
+    "typecheck": "bunx --bun tsc  "
+  },
+  "type": "module",
+  "version": "0.16.0"
 }

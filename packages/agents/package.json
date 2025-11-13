@@ -1,47 +1,47 @@
 {
-   "dependencies": {
-      "@mastra/core": "^0.24.0",
-      "@mastra/libsql": "^0.16.2",
-      "@mastra/loggers": "^0.10.19",
-      "@mastra/memory": "^0.15.11",
-      "@mastra/rag": "^1.3.4",
-      "@openrouter/ai-sdk-provider": "catalog:openrouter",
-      "@packages/database": "workspace:*",
-      "@packages/environment": "workspace:*",
-      "@packages/files": "workspace:*",
-      "@packages/localization": "workspace:*",
-      "@packages/payment": "workspace:*",
-      "@packages/rag": "workspace:*",
-      "@packages/server-events": "workspace:*",
-      "@packages/utils": "workspace:*",
-      "@tavily/core": "0.5.12",
-      "ai": "catalog:openrouter",
-      "zod": "catalog:validation"
-   },
-   "devDependencies": {
-      "@tooling/typescript": "workspace:*",
-      "dotenv-cli": "catalog:enviroment",
-      "shx": "catalog:enviroment",
-      "typescript": "catalog:development"
-   },
-   "exports": {
-      ".": {
-         "default": "./src/mastra/index.ts",
-         "types": "./dist/src/mastra/index.d.ts"
-      }
-   },
-   "files": [
-      "dist"
-   ],
-   "license": "Apache-2.0",
-   "name": "@packages/agents",
-   "private": true,
-   "scripts": {
-      "build": "tsc --build",
-      "check": "biome check --write ./src",
-      "dev": "dotenv -e .env -- bunx mastra dev",
-      "typecheck": "tsc "
-   },
-   "type": "module",
-   "version": "0.25.1"
+  "dependencies": {
+    "@mastra/core": "^0.24.0",
+    "@mastra/libsql": "^0.16.2",
+    "@mastra/loggers": "^0.10.19",
+    "@mastra/memory": "^0.15.11",
+    "@mastra/rag": "^1.3.4",
+    "@openrouter/ai-sdk-provider": "catalog:openrouter",
+    "@packages/database": "workspace:*",
+    "@packages/environment": "workspace:*",
+    "@packages/files": "workspace:*",
+    "@packages/localization": "workspace:*",
+    "@packages/payment": "workspace:*",
+    "@packages/rag": "workspace:*",
+    "@packages/server-events": "workspace:*",
+    "@packages/utils": "workspace:*",
+    "@tavily/core": "0.5.12",
+    "ai": "catalog:openrouter",
+    "zod": "catalog:validation"
+  },
+  "devDependencies": {
+    "@tooling/typescript": "workspace:*",
+    "dotenv-cli": "catalog:enviroment",
+    "shx": "catalog:enviroment",
+    "typescript": "catalog:development"
+  },
+  "exports": {
+    ".": {
+      "default": "./src/mastra/index.ts",
+      "types": "./dist/src/mastra/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "Apache-2.0",
+  "name": "@packages/agents",
+  "private": true,
+  "scripts": {
+    "build": "tsc --build",
+    "check": "biome check --write ./src",
+    "dev": "dotenv -e .env -- bunx mastra dev",
+    "typecheck": "tsc "
+  },
+  "type": "module",
+  "version": "0.25.1"
 }

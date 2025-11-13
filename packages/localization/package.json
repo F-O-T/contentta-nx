@@ -1,39 +1,39 @@
 {
-   "dependencies": {
-      "i18next": "^25.5.2",
-      "i18next-browser-languagedetector": "^8.2.0",
-      "i18next-http-backend": "^3.0.2"
-   },
-   "devDependencies": {
-      "@tooling/typescript": "workspace:*",
-      "typescript": "catalog:development",
-      "vitest": "catalog:testing"
-   },
-   "exports": {
-      ".": {
-         "default": "./src/index.ts",
-         "types": "./dist/src/index.d.ts"
-      },
-      "./locales/en-US": {
-         "default": "./src/locales/en-US/index.ts"
-      },
-      "./locales/pt-BR": {
-         "default": "./src/locales/pt-BR/index.ts"
-      }
-   },
-   "files": [
-      "dist"
-   ],
-   "license": "Apache-2.0",
-   "name": "@packages/localization",
-   "private": true,
-   "scripts": {
-      "build": "tsc --build",
-      "check": "biome check --write ./src",
-      "dev": "dotenv -e .env -- bunx --bun mastra dev",
-      "test": "bun test",
-      "typecheck": "tsc "
-   },
-   "type": "module",
-   "version": "0.8.1"
+  "dependencies": {
+    "i18next": "^25.5.2",
+    "i18next-browser-languagedetector": "^8.2.0",
+    "i18next-http-backend": "^3.0.2"
+  },
+  "devDependencies": {
+    "@tooling/typescript": "workspace:*",
+    "typescript": "catalog:development",
+    "vitest": "catalog:testing"
+  },
+  "exports": {
+    ".": {
+      "default": "./src/index.ts",
+      "types": "./dist/src/index.d.ts"
+    },
+    "./locales/en-US": {
+      "default": "./src/locales/en-US/index.ts"
+    },
+    "./locales/pt-BR": {
+      "default": "./src/locales/pt-BR/index.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "Apache-2.0",
+  "name": "@packages/localization",
+  "private": true,
+  "scripts": {
+    "build": "tsc --build",
+    "check": "biome check --write ./src",
+    "dev": "dotenv -e .env -- bunx --bun mastra dev",
+    "test": "bun test",
+    "typecheck": "tsc "
+  },
+  "type": "module",
+  "version": "0.8.1"
 }
