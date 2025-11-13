@@ -1,3 +1,4 @@
+import { OrganizationMembersPage } from "@/pages/organization-members/ui/organization-members-page";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_dashboard/organization/members")({
@@ -5,5 +6,5 @@ export const Route = createFileRoute("/_dashboard/organization/members")({
 });
 
 function RouteComponent() {
-   return "members";
+   return <OrganizationMembersPage />;
 }
