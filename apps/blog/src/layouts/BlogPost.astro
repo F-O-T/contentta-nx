@@ -30,7 +30,7 @@ const trackingScript = import.meta.env.PROD
       post_slug: '${post.meta?.slug || ""}',
       post_title: '${post.meta?.title || ""}',
       agent_id: '${post.agentId}',
-      timestamp: new Date().toISOString()
+      timestamp: '${new Date().toISOString()}'
     });
   }
 </script>
