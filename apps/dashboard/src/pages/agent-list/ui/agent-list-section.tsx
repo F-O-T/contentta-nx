@@ -50,7 +50,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { DeleteAgentDialog } from "@/features/agent-actions/ui/delete-agent-dialog";
 import { EditAgentAction } from "@/features/agent-actions/ui/edit-agent-action";
 import { useTRPC } from "@/integrations/clients";
-import { useAgentList } from "../lib/agent-list-context";
+import { useAgentList } from "../features/agent-list-context";
 
 type AgentListItemProps = {
    agent: AgentSelect;

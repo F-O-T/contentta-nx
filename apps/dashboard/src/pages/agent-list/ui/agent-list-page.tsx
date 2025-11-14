@@ -2,7 +2,10 @@ import { translate } from "@packages/localization";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useTRPC } from "@/integrations/clients";
 import { TalkingMascot } from "@/widgets/talking-mascot/ui/talking-mascot";
-import { AgentListProvider, useAgentList } from "../lib/agent-list-context";
+import {
+   AgentListProvider,
+   useAgentList,
+} from "../features/agent-list-context";
 import { AgentListToolbar } from "./agent-list-toolbar";
 import { AgentListSection } from "./agent-list-section";
 import { AgentStats } from "./agent-stats";
