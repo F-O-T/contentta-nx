@@ -1,0 +1,53 @@
+
+# Development files
+src/
+vite.config.ts
+tsconfig.json
+tsconfig.lib.json
+tsconfig.node.json
+tsconfig.app.json
+.env
+.env.example
+.env.local
+.env.development
+.env.production
+
+# Development artifacts
+node_modules/
+.vite/
+.turbo/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+coverage/
+*.test.*
+*.spec.*
+*.stories.*
+
+# Config files
+.eslintrc*
+eslint.config.*
+.prettierrc*
+.editorconfig
+biome.json
+tailwind.config.*
+postcss.config.*
+
+# Development HTML
+index.html
+public/
+
+# Documentation (except README and LICENSE)
+docs/
+.github/
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+
+# Build artifacts to exclude
+*.log
+*.tsbuildinfo

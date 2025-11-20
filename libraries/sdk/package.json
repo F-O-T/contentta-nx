@@ -1,0 +1,57 @@
+{
+	"name": "@contentagen/sdk",
+	"version": "0.16.1",
+	"private": false,
+	"type": "module",
+	"description": "Official TypeScript SDK to interact with the ContentaGen API. Provides lightweight client methods for listing and retrieving content, automatic input validation, date parsing, and robust error handling.",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/F-O-T/contentagen-sdk.git"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"default": "./dist/index.js"
+		},
+		"./posthog": {
+			"types": "./dist/posthog.d.ts",
+			"import": "./dist/posthog.js",
+			"default": "./dist/posthog.js"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsup",
+		"check": "bunx --bun biome check --write .",
+		"typecheck": "tsc --build --noEmit --emitDeclarationOnly false",
+		"publish": "npm publish --access public",
+		"test": "vitest run ",
+		"test:sdk": "bun run tests/run-all-tests.ts",
+		"test:author": "bun run tests/test-author-endpoint.ts",
+		"test:related-slugs": "bun run tests/test-related-slugs-endpoint.ts",
+		"test:assistant": "bun run tests/test-assistant-endpoint.ts",
+		"test:content-list": "bun run tests/test-content-list-endpoint.ts",
+		"test:content-slug": "bun run tests/test-content-slug-endpoint.ts",
+		"test:content-image": "bun run tests/test-content-image-endpoint.ts",
+		"release": "bun run scripts/create-release.ts"
+	},
+	"dependencies": {
+		"superjson": "2.2.2",
+		"zod": "4.0.14"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.2.0",
+		"@types/node": "^24.2.1",
+		"msw": "^2.10.4",
+		"tsup": "^8.5.0",
+		"typescript": "5.8.3",
+		"vitest": "^3.2.4"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"license": "Apache-2.0"
+}
