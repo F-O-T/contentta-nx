@@ -1,0 +1,35 @@
+{
+   "bin": {
+      "contentagen-create": "./dist/src/index.js"
+   },
+   "dependencies": {
+      "commander": "^12.1.0",
+      "execa": "^9.5.2",
+      "fs-extra": "^11.2.0",
+      "ora": "^8.1.1",
+      "picocolors": "^1.1.1",
+      "prompts": "^2.4.2"
+   },
+   "description": "CLI tool to create Astro landing pages with ContentaGen blocks",
+   "devDependencies": {
+      "@tooling/typescript": "workspace:*",
+      "@types/fs-extra": "^11.0.4",
+      "@types/node": "^20",
+      "@types/prompts": "^2.4.9",
+      "typescript": "catalog:development"
+   },
+   "files": [
+      "dist",
+      "templates"
+   ],
+   "license": "Apache-2.0",
+   "name": "@contentagen/create",
+   "private": true,
+   "scripts": {
+      "build": "tsc --build",
+      "check": "biome check --write ./src",
+      "typecheck": "bunx --bun tsc"
+   },
+   "type": "module",
+   "version": "0.1.0"
+}

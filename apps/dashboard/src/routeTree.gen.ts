@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as DashboardRouteImport } from './routes/_dashboard'
+import { Route as LpBuilderIndexRouteImport } from './routes/lp-builder/index'
 import { Route as CallbackAuthedRouteImport } from './routes/callback/_authed'
 import { Route as AuthSignUpRouteImport } from './routes/auth/sign-up'
 import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
@@ -51,6 +52,11 @@ const AuthRoute = AuthRouteImport.update({
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/_dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LpBuilderIndexRoute = LpBuilderIndexRouteImport.update({
+  id: '/lp-builder/',
+  path: '/lp-builder/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CallbackAuthedRoute = CallbackAuthedRouteImport.update({
@@ -187,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/callback': typeof CallbackAuthedRouteWithChildren
+  '/lp-builder': typeof LpBuilderIndexRoute
   '/competitors/$id': typeof DashboardCompetitorsIdRoute
   '/content/$id': typeof DashboardContentIdRoute
   '/ideas/$id': typeof DashboardIdeasIdRoute
@@ -213,6 +220,7 @@ export interface FileRoutesByTo {
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/callback': typeof CallbackAuthedRouteWithChildren
+  '/lp-builder': typeof LpBuilderIndexRoute
   '/competitors/$id': typeof DashboardCompetitorsIdRoute
   '/content/$id': typeof DashboardContentIdRoute
   '/ideas/$id': typeof DashboardIdeasIdRoute
@@ -242,6 +250,7 @@ export interface FileRoutesById {
   '/auth/sign-up': typeof AuthSignUpRoute
   '/callback': typeof CallbackRouteWithChildren
   '/callback/_authed': typeof CallbackAuthedRouteWithChildren
+  '/lp-builder/': typeof LpBuilderIndexRoute
   '/_dashboard/competitors/$id': typeof DashboardCompetitorsIdRoute
   '/_dashboard/content/$id': typeof DashboardContentIdRoute
   '/_dashboard/ideas/$id': typeof DashboardIdeasIdRoute
@@ -270,6 +279,7 @@ export interface FileRouteTypes {
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/callback'
+    | '/lp-builder'
     | '/competitors/$id'
     | '/content/$id'
     | '/ideas/$id'
@@ -296,6 +306,7 @@ export interface FileRouteTypes {
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/callback'
+    | '/lp-builder'
     | '/competitors/$id'
     | '/content/$id'
     | '/ideas/$id'
@@ -324,6 +335,7 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/callback'
     | '/callback/_authed'
+    | '/lp-builder/'
     | '/_dashboard/competitors/$id'
     | '/_dashboard/content/$id'
     | '/_dashboard/ideas/$id'
@@ -345,6 +357,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRouteWithChildren
   AuthRoute: typeof AuthRouteWithChildren
   CallbackRoute: typeof CallbackRouteWithChildren
+  LpBuilderIndexRoute: typeof LpBuilderIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -368,6 +381,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lp-builder/': {
+      id: '/lp-builder/'
+      path: '/lp-builder'
+      fullPath: '/lp-builder'
+      preLoaderRoute: typeof LpBuilderIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/callback/_authed': {
@@ -624,6 +644,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRouteWithChildren,
   AuthRoute: AuthRouteWithChildren,
   CallbackRoute: CallbackRouteWithChildren,
+  LpBuilderIndexRoute: LpBuilderIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

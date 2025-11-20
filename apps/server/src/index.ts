@@ -15,6 +15,7 @@ import { bullAuth } from "./integrations/bull-auth-guard";
 import { db, ragClient } from "./integrations/database";
 import { minioClient } from "./integrations/minio";
 import { posthogPlugin } from "./integrations/posthog";
+import { registryRoutes } from "./routes/registry";
 import { sdkRoutes } from "./routes/sdk";
 
 const serverAdapter = new ElysiaAdapter("/ui");
@@ -79,6 +80,7 @@ const app = new Elysia({
    )
    .use(posthogPlugin)
    .use(sdkRoutes)
+   .use(registryRoutes)
    .mount(auth.handler)
    .all(
       "/trpc/*",
