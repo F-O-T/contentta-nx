@@ -55,6 +55,7 @@
       "release:version": "nx release version",
       "reset": "bun run scripts/clean.ts reset",
       "test": "nx run-many -t test --parallel=3",
+      "test:lp-cli": "bun run scripts/test-lp-cli.ts",
       "typecheck": "nx run-many -t typecheck --parallel=8"
    },
    "trustedDependencies": [

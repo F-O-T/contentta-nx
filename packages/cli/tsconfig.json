@@ -1,0 +1,10 @@
+{
+  "extends": "@tooling/typescript/internal-package.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": ["src/**/*"],
+  "references": []
+}
+
