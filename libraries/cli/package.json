@@ -1,0 +1,61 @@
+{
+   "bin": {
+      "contentta": "./dist/index.js"
+   },
+   "dependencies": {
+      "commander": "^12.1.0",
+      "execa": "^9.5.2",
+      "fs-extra": "^11.2.0",
+      "ora": "^8.1.1",
+      "picocolors": "^1.1.1",
+      "prompts": "^2.4.2",
+      "zod": "^3.23.8"
+   },
+   "description": "CLI tool to add Contentta blocks to your project",
+   "devDependencies": {
+      "@types/fs-extra": "^11.0.4",
+      "@types/node": "^20",
+      "@types/prompts": "^2.4.9",
+      "bunup": "0.16.11",
+      "typescript": "catalog:development"
+   },
+   "exports": {
+      ".": {
+         "bun": "./src/index.ts",
+         "import": {
+            "default": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+         },
+         "types": "./src/index.ts"
+      }
+   },
+   "files": [
+      "dist"
+   ],
+   "license": "Apache-2.0",
+   "module": "./dist/index.js",
+   "name": "@f-o-t/contentta-cli",
+   "peerDependencies": {
+      "typescript": ">=4.5.0"
+   },
+   "peerDependenciesMeta": {
+      "typescript": {
+         "optional": true
+      }
+   },
+   "private": false,
+   "publishConfig": {
+      "access": "public"
+   },
+   "scripts": {
+      "build": "bunup",
+      "check": "biome check --write ./src",
+      "dev": "bunup --watch",
+      "test": "bun test",
+      "test:watch": "bun test --watch",
+      "typecheck": "tsc"
+   },
+   "type": "module",
+   "types": "./dist/index.d.ts",
+   "version": "0.1.0"
+}
