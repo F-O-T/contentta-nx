@@ -1,0 +1,9 @@
+{
+   "extends": "@tooling/typescript/base.json",
+   "files": [],
+   "references": [
+    {
+      "path": "./packages/rag"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+name: 📝 General Issue
+description: For questions, documentation issues, or other general topics
+title: "[GENERAL] "
+labels: ["question", "needs-triage", "type: question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## General Issue
+        For questions, documentation issues, or other topics
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Issue Type
+      description: What type of issue is this?
+      options:
+        - Question
+        - Documentation Issue
+        - Security Concern
+        - Performance Issue
+        - Configuration Problem
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What's your question or issue?
+      description: Describe your issue in detail
+      placeholder: "Please provide as much detail as possible..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What were you trying to do?
+      placeholder: "What did you expect? What happened instead?"
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional info
+      description: Screenshots, logs, etc.
+      placeholder: "Any additional information..."

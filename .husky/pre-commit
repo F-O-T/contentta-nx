@@ -1,0 +1,19 @@
+#!/bin/sh
+staged_files=$(git diff --cached --name-only)
+if [ -n "$staged_files" ]; then
+  echo "Formatting staged files..."
+  files_to_format=""
+  for file in $staged_files; do
+    if [ -f "$file" ]; then
+      files_to_format="$files_to_format $file"
+    fi
+  done
+  if [ -n "$files_to_format" ]; then
+    echo "$files_to_format" | xargs 
+    if [ -n "$(git diff --name-only $files_to_format)" ]; then
+      echo "Files were formatted. Aborting commit."
+      echo "Please stage the formatted files and commit again."
+      exit 1
+    fi
+  fi
+fi

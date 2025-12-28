@@ -1,0 +1,26 @@
+{
+   "$schema": "https://json.schemastore.org/tsconfig",
+   "compilerOptions": {
+      "allowImportingTsExtensions": true,
+      "allowJs": true,
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "isolatedModules": true,
+      "jsx": "preserve",
+      "module": "ESNext",
+      "moduleResolution": "Bundler",
+      "noEmit": true,
+      "plugins": [
+         {
+            "name": "@astrojs/ts-plugin"
+         }
+      ],
+      "resolveJsonModule": true,
+      "skipLibCheck": true,
+      "target": "ESNext",
+      "verbatimModuleSyntax": true
+   },
+   "exclude": ["${configDir}/dist"],
+   "extends": "./base.json",
+   "include": ["${configDir}/.astro/types.d.ts", "${configDir}/**/*"]
+}

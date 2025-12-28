@@ -1,0 +1,53 @@
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement
+title: "[FEATURE] "
+labels: ["enhancement", "needs-triage", "type: feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Feature Request
+        Thanks for suggesting a feature!
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: What feature do you want?
+      description: Brief summary of the feature
+      placeholder: "What's the main goal?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Why do you need it?
+      description: What problem would this solve?
+      placeholder: "Describe the problem this would solve..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: How should it work?
+      description: Describe your proposed solution
+      placeholder: "How would you like this to work?"
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this?
+      options:
+        - Nice to have
+        - Would be helpful
+        - Important for my use case
+        - Critical for my workflow
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional info
+      description: Mockups, examples, etc.
+      placeholder: "Any additional context..."

@@ -1,0 +1,27 @@
+name: Tests
+
+on:
+  pull_request:
+    branches: ["*"]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  test:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: tree:0
+
+      - name: Bun & Nx Setup
+        uses: ./.github/actions/setup-bun-nx
+        with:
+          nx-cache-server: ${{ secrets.NX_CACHE_SERVER }}
+          nx-cache-token: ${{ secrets.NX_CACHE_TOKEN }}
+
+      - name: Run Nx affected tests
+        run: bunx nx affected -t test --base=origin/master --head=HEAD
+

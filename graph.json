@@ -1,0 +1,5023 @@
+{
+  "graph": {
+    "nodes": {
+      "@f-o-t/condition-evaluator": {
+        "name": "@f-o-t/condition-evaluator",
+        "type": "lib",
+        "data": {
+          "root": "libraries/condition-evaluator",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "libraries/condition-evaluator",
+                "command": "echo \"The 'typecheck' target is disabled because one or more project references set 'noEmit: true' in their tsconfig. Remove this property to resolve this issue.\""
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default"
+              ],
+              "outputs": [
+                "{projectRoot}/**/*.js",
+                "{projectRoot}/**/*.cjs",
+                "{projectRoot}/**/*.mjs",
+                "{projectRoot}/**/*.jsx",
+                "{projectRoot}/**/*.js.map",
+                "{projectRoot}/**/*.jsx.map",
+                "{projectRoot}/**/*.d.ts",
+                "{projectRoot}/**/*.d.cts",
+                "{projectRoot}/**/*.d.mts",
+                "{projectRoot}/**/*.d.ts.map",
+                "{projectRoot}/**/*.d.cts.map",
+                "{projectRoot}/**/*.d.mts.map",
+                "{projectRoot}/tsconfig.tsbuildinfo"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "bunup",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write .",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "dev": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "dev"
+              },
+              "metadata": {
+                "scriptContent": "bunup --watch",
+                "runCommand": "bun run dev -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": false
+            },
+            "release": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "release"
+              },
+              "metadata": {
+                "scriptContent": "bumpp --commit --push --tag",
+                "runCommand": "bun run release -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "test": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test"
+              },
+              "metadata": {
+                "scriptContent": "bun test",
+                "runCommand": "bun run test -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^test"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "test:coverage": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test:coverage"
+              },
+              "metadata": {
+                "scriptContent": "bun test --coverage",
+                "runCommand": "bun run test:coverage -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "test:watch": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test:watch"
+              },
+              "metadata": {
+                "scriptContent": "bun test --watch",
+                "runCommand": "bun run test:watch -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "nx-release-publish": {
+              "executor": "@nx/js:release-publish",
+              "dependsOn": [
+                "^nx-release-publish"
+              ],
+              "options": {},
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "name": "@f-o-t/condition-evaluator",
+          "tags": [
+            "npm:public"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "dev",
+                "release",
+                "test",
+                "test:coverage",
+                "test:watch",
+                "typecheck"
+              ]
+            },
+            "description": "A flexible, typesafe condition evaluator for building rule engines",
+            "js": {
+              "packageName": "@f-o-t/condition-evaluator",
+              "packageVersion": "1.4.1",
+              "packageExports": {
+                ".": {
+                  "bun": "./src/index.ts",
+                  "import": {
+                    "default": "./dist/index.js",
+                    "types": "./dist/index.d.ts"
+                  },
+                  "require": {
+                    "default": "./dist/index.cjs",
+                    "types": "./dist/index.d.cts"
+                  },
+                  "types": "./src/index.ts"
+                },
+                "./package.json": "./package.json"
+              },
+              "packageMain": "./dist/index.cjs",
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@packages/authentication": {
+        "name": "@packages/authentication",
+        "type": "lib",
+        "data": {
+          "root": "packages/authentication",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/authentication",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "{projectRoot}/package.json",
+                "{workspaceRoot}/tooling/typescript/internal-package.json",
+                "{workspaceRoot}/tooling/typescript/base.json",
+                "{projectRoot}/tsconfig.json",
+                "{projectRoot}/src/**/*.ts",
+                "{projectRoot}/src/**/*.tsx",
+                "{projectRoot}/src/**/*.d.ts",
+                "{projectRoot}/src/**/*.js",
+                "{projectRoot}/src/**/*.jsx",
+                "{projectRoot}/src/**/*.cts",
+                "{projectRoot}/src/**/*.d.cts",
+                "{projectRoot}/src/**/*.cjs",
+                "{projectRoot}/src/**/*.mts",
+                "{projectRoot}/src/**/*.d.mts",
+                "{projectRoot}/src/**/*.mjs",
+                "{projectRoot}/src/**/*.json",
+                "!{projectRoot}/node_modules",
+                "^default"
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "auth-schema-generate": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "auth-schema-generate"
+              },
+              "metadata": {
+                "scriptContent": "npx @better-auth/cli@latest generate --config ./src/cli-config.ts --output ../database/src/schemas/auth.ts",
+                "runCommand": "bun run auth-schema-generate -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "tsc --build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write ./src",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc ",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/authentication",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "auth-schema-generate",
+                "build",
+                "check",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/authentication",
+              "packageVersion": "0.8.1",
+              "packageExports": {
+                "./client": {
+                  "default": "./src/client.ts",
+                  "types": "./dist/src/client.d.ts"
+                },
+                "./helpers": {
+                  "default": "./src/helpers/index.ts",
+                  "types": "./dist/src/helpers/index.d.ts"
+                },
+                "./server": {
+                  "default": "./src/server.ts",
+                  "types": "./dist/src/server.d.ts"
+                }
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@f-o-t/rules-engine": {
+        "name": "@f-o-t/rules-engine",
+        "type": "lib",
+        "data": {
+          "root": "libraries/rules-engine",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "libraries/rules-engine",
+                "command": "echo \"The 'typecheck' target is disabled because one or more project references set 'noEmit: true' in their tsconfig. Remove this property to resolve this issue.\""
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default"
+              ],
+              "outputs": [
+                "{projectRoot}/**/*.js",
+                "{projectRoot}/**/*.cjs",
+                "{projectRoot}/**/*.mjs",
+                "{projectRoot}/**/*.jsx",
+                "{projectRoot}/**/*.js.map",
+                "{projectRoot}/**/*.jsx.map",
+                "{projectRoot}/**/*.d.ts",
+                "{projectRoot}/**/*.d.cts",
+                "{projectRoot}/**/*.d.mts",
+                "{projectRoot}/**/*.d.ts.map",
+                "{projectRoot}/**/*.d.cts.map",
+                "{projectRoot}/**/*.d.mts.map",
+                "{projectRoot}/tsconfig.tsbuildinfo"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "bunup",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write .",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "dev": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "dev"
+              },
+              "metadata": {
+                "scriptContent": "bunup --watch",
+                "runCommand": "bun run dev -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": false
+            },
+            "release": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "release"
+              },
+              "metadata": {
+                "scriptContent": "bumpp --commit --push --tag",
+                "runCommand": "bun run release -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "test": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test"
+              },
+              "metadata": {
+                "scriptContent": "bun test",
+                "runCommand": "bun run test -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^test"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "test:coverage": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test:coverage"
+              },
+              "metadata": {
+                "scriptContent": "bun test --coverage",
+                "runCommand": "bun run test:coverage -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "test:watch": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test:watch"
+              },
+              "metadata": {
+                "scriptContent": "bun test --watch",
+                "runCommand": "bun run test:watch -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "nx-release-publish": {
+              "executor": "@nx/js:release-publish",
+              "dependsOn": [
+                "^nx-release-publish"
+              ],
+              "options": {},
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "name": "@f-o-t/rules-engine",
+          "tags": [
+            "npm:public"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "dev",
+                "release",
+                "test",
+                "test:coverage",
+                "test:watch",
+                "typecheck"
+              ]
+            },
+            "description": "Type-safe, functional rules orchestration engine for TypeScript",
+            "js": {
+              "packageName": "@f-o-t/rules-engine",
+              "packageVersion": "1.0.0",
+              "packageExports": {
+                ".": {
+                  "bun": "./src/index.ts",
+                  "import": {
+                    "default": "./dist/index.js",
+                    "types": "./dist/index.d.ts"
+                  },
+                  "require": {
+                    "default": "./dist/index.cjs",
+                    "types": "./dist/index.d.cts"
+                  },
+                  "types": "./src/index.ts"
+                },
+                "./package.json": "./package.json"
+              },
+              "packageMain": "./dist/index.cjs",
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@packages/notifications": {
+        "name": "@packages/notifications",
+        "type": "lib",
+        "data": {
+          "root": "packages/notifications",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/notifications",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                {
+                  "dependentTasksOutputFiles": "**/*.d.ts"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "tsc --build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write ./src",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc ",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/notifications",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/notifications",
+              "packageVersion": "0.1.0",
+              "packageExports": {
+                "./bill-reminders": {
+                  "default": "./src/bill-reminders.ts",
+                  "types": "./dist/src/bill-reminders.d.ts"
+                },
+                "./budget-alerts": {
+                  "default": "./src/budget-alerts.ts",
+                  "types": "./dist/src/budget-alerts.d.ts"
+                },
+                "./push": {
+                  "default": "./src/push.ts",
+                  "types": "./dist/src/push.d.ts"
+                }
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@packages/transactional": {
+        "name": "@packages/transactional",
+        "type": "lib",
+        "data": {
+          "root": "packages/transactional",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/transactional",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                {
+                  "dependentTasksOutputFiles": "**/*.d.ts"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "tsc --build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write ./src",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc ",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/transactional",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/transactional",
+              "packageVersion": "0.8.1",
+              "packageExports": {
+                "./client": {
+                  "default": "./src/client.tsx",
+                  "types": "./dist/src/client.d.ts"
+                },
+                "./utils": {
+                  "default": "./src/utils.ts",
+                  "types": "./dist/src/utils.d.ts"
+                }
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@packages/localization": {
+        "name": "@packages/localization",
+        "type": "lib",
+        "data": {
+          "root": "packages/localization",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/localization",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default"
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "tsc --build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write ./src",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "dev": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "dev"
+              },
+              "metadata": {
+                "scriptContent": "dotenv -e .env -- bunx --bun mastra dev",
+                "runCommand": "bun run dev -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": false
+            },
+            "test": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test"
+              },
+              "metadata": {
+                "scriptContent": "bun test",
+                "runCommand": "bun run test -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^test"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc ",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/localization",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "dev",
+                "test",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/localization",
+              "packageVersion": "0.8.1",
+              "packageExports": {
+                ".": {
+                  "default": "./src/index.ts",
+                  "types": "./dist/src/index.d.ts"
+                },
+                "./locales/en-US": {
+                  "default": "./src/locales/en-US/index.ts"
+                },
+                "./locales/pt-BR": {
+                  "default": "./src/locales/pt-BR/index.ts"
+                }
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@packages/environment": {
+        "name": "@packages/environment",
+        "type": "lib",
+        "data": {
+          "root": "packages/environment",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/environment",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                {
+                  "dependentTasksOutputFiles": "**/*.d.ts"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "tsc --build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write ./src",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "test": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test"
+              },
+              "metadata": {
+                "scriptContent": "bun test",
+                "runCommand": "bun run test -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^test"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/environment",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "test",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/environment",
+              "packageVersion": "0.8.1",
+              "packageExports": {
+                "./client": {
+                  "default": "./src/client.ts",
+                  "types": "./dist/src/client.d.ts"
+                },
+                "./helpers": {
+                  "default": "./src/helpers.ts",
+                  "types": "./dist/src/helpers.d.ts"
+                },
+                "./server": {
+                  "default": "./src/server.ts",
+                  "types": "./dist/src/server.d.ts"
+                },
+                "./worker": {
+                  "default": "./src/worker.ts",
+                  "types": "./dist/src/worker.d.ts"
+                }
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@packages/brasil-api": {
+        "name": "@packages/brasil-api",
+        "type": "lib",
+        "data": {
+          "root": "packages/brasil-api",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/brasil-api",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default"
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "tsc --build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write ./src",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "test": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test"
+              },
+              "metadata": {
+                "scriptContent": "bun test",
+                "runCommand": "bun run test -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^test"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc ",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/brasil-api",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "test",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/brasil-api",
+              "packageVersion": "0.3.0",
+              "packageExports": {
+                ".": {
+                  "default": "./src/index.ts",
+                  "types": "./dist/src/index.d.ts"
+                }
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@packages/workflows": {
+        "name": "@packages/workflows",
+        "type": "lib",
+        "data": {
+          "root": "packages/workflows",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/workflows",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "{projectRoot}/package.json",
+                "{workspaceRoot}/tooling/typescript/internal-package.json",
+                "{workspaceRoot}/tooling/typescript/base.json",
+                "{projectRoot}/tsconfig.json",
+                "{projectRoot}/src/**/*.ts",
+                "{projectRoot}/__tests__/**/*.ts",
+                {
+                  "dependentTasksOutputFiles": "**/*.d.ts"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/dist/**/*.d.ts.map",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "tsc --build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "test": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test"
+              },
+              "metadata": {
+                "scriptContent": "bun test",
+                "runCommand": "bun run test -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^test"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/workflows",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "test",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/workflows",
+              "packageVersion": "0.1.0",
+              "packageExports": {
+                "./actions/handlers/*": {
+                  "default": "./src/actions/handlers/*.ts",
+                  "types": "./dist/src/actions/handlers/*.d.ts"
+                },
+                "./actions/*": {
+                  "default": "./src/actions/*.ts",
+                  "types": "./dist/src/actions/*.d.ts"
+                },
+                "./analysis/*": {
+                  "default": "./src/analysis/*.ts",
+                  "types": "./dist/src/analysis/*.d.ts"
+                },
+                "./engine/*": {
+                  "default": "./src/engine/*.ts",
+                  "types": "./dist/src/engine/*.d.ts"
+                },
+                "./queue/*": {
+                  "default": "./src/queue/*.ts",
+                  "types": "./dist/src/queue/*.d.ts"
+                },
+                "./simulation/*": {
+                  "default": "./src/simulation/*.ts",
+                  "types": "./dist/src/simulation/*.d.ts"
+                },
+                "./triggers/*": {
+                  "default": "./src/triggers/*.ts",
+                  "types": "./dist/src/triggers/*.d.ts"
+                },
+                "./types/*": {
+                  "default": "./src/types/*.ts",
+                  "types": "./dist/src/types/*.d.ts"
+                },
+                "./utils/*": {
+                  "default": "./src/utils/*.ts",
+                  "types": "./dist/src/utils/*.d.ts"
+                },
+                "./validation/*": {
+                  "default": "./src/validation/*.ts",
+                  "types": "./dist/src/validation/*.d.ts"
+                },
+                "./versioning/*": {
+                  "default": "./src/versioning/*.ts",
+                  "types": "./dist/src/versioning/*.d.ts"
+                }
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@tooling/typescript": {
+        "name": "@tooling/typescript",
+        "type": "app",
+        "data": {
+          "root": "tooling/typescript",
+          "name": "@tooling/typescript",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {},
+            "js": {
+              "packageName": "@tooling/typescript",
+              "packageVersion": "0.2.0",
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "targets": {},
+          "implicitDependencies": []
+        }
+      },
+      "@packages/database": {
+        "name": "@packages/database",
+        "type": "lib",
+        "data": {
+          "root": "packages/database",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/database",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                {
+                  "dependentTasksOutputFiles": "**/*.d.ts"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "tsc --build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write ./src",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "db-push-local": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "db-push-local"
+              },
+              "metadata": {
+                "scriptContent": "dotenv -e .env.local drizzle-kit push",
+                "runCommand": "bun run db-push-local -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "db-push-prod": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "db-push-prod"
+              },
+              "metadata": {
+                "scriptContent": "dotenv -e .env.production drizzle-kit push",
+                "runCommand": "bun run db-push-prod -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "db-studio-local": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "db-studio-local"
+              },
+              "metadata": {
+                "scriptContent": "dotenv -e .env.local drizzle-kit studio",
+                "runCommand": "bun run db-studio-local -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "db-studio-prod": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "db-studio-prod"
+              },
+              "metadata": {
+                "scriptContent": "dotenv -e .env.production drizzle-kit studio",
+                "runCommand": "bun run db-studio-prod -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "env:copy-example": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "env:copy-example"
+              },
+              "metadata": {
+                "scriptContent": "shx -- cp -n .env.example .env",
+                "runCommand": "bun run env:copy-example -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "env:remove": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "env:remove"
+              },
+              "metadata": {
+                "scriptContent": "shx -- rm -f .env",
+                "runCommand": "bun run env:remove -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "env:run": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "env:run"
+              },
+              "metadata": {
+                "scriptContent": "dotenv --",
+                "runCommand": "bun run env:run -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "generate": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "generate"
+              },
+              "metadata": {
+                "scriptContent": "bun run env:run drizzle-kit generate --custom",
+                "runCommand": "bun run generate -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "migrate": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "migrate"
+              },
+              "metadata": {
+                "scriptContent": "bun run env:run drizzle-kit migrate",
+                "runCommand": "bun run migrate -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "push": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "push"
+              },
+              "metadata": {
+                "scriptContent": "bun run env:run drizzle-kit push",
+                "runCommand": "bun run push -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "studio": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "studio"
+              },
+              "metadata": {
+                "scriptContent": "bun run env:run drizzle-kit studio",
+                "runCommand": "bun run studio -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc ",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/database",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "db-push-local",
+                "db-push-prod",
+                "db-studio-local",
+                "db-studio-prod",
+                "env:copy-example",
+                "env:remove",
+                "env:run",
+                "generate",
+                "migrate",
+                "push",
+                "studio",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/database",
+              "packageVersion": "0.12.1",
+              "packageExports": {
+                ".": {
+                  "default": "./src/index.ts",
+                  "types": "./dist/src/index.d.ts"
+                },
+                "./client": {
+                  "default": "./src/client.ts",
+                  "types": "./dist/src/client.d.ts"
+                },
+                "./repositories/*": {
+                  "default": "./src/repositories/*.ts",
+                  "types": "./dist/src/repositories/*.d.ts"
+                },
+                "./schema": {
+                  "default": "./src/schema.ts",
+                  "types": "./dist/src/schema.d.ts"
+                },
+                "./schemas/*": {
+                  "default": "./src/schemas/*.ts",
+                  "types": "./dist/src/schemas/*.d.ts"
+                }
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "landing-page": {
+        "name": "landing-page",
+        "type": "app",
+        "data": {
+          "root": "apps/landing-page",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "apps/landing-page",
+                "command": "echo \"The 'typecheck' target is disabled because one or more project references set 'noEmit: true' in their tsconfig. Remove this property to resolve this issue.\""
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                {
+                  "dependentTasksOutputFiles": "**/*.d.ts"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/**/*.js",
+                "{projectRoot}/**/*.cjs",
+                "{projectRoot}/**/*.mjs",
+                "{projectRoot}/**/*.jsx",
+                "{projectRoot}/**/*.js.map",
+                "{projectRoot}/**/*.jsx.map",
+                "{projectRoot}/**/*.d.ts",
+                "{projectRoot}/**/*.d.cts",
+                "{projectRoot}/**/*.d.mts",
+                "{projectRoot}/**/*.d.ts.map",
+                "{projectRoot}/**/*.d.cts.map",
+                "{projectRoot}/**/*.d.mts.map",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "astro": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "astro"
+              },
+              "metadata": {
+                "scriptContent": "bunx --bun astro",
+                "runCommand": "bun run astro -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "bunx --bun astro build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "bunx --bun biome check --write ./src",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "dev": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "dev"
+              },
+              "metadata": {
+                "scriptContent": "bunx astro dev --port 4322",
+                "runCommand": "bun run dev -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": false
+            },
+            "preview": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "preview"
+              },
+              "metadata": {
+                "scriptContent": "bunx --bun astro preview",
+                "runCommand": "bun run preview -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "bunx --bun astro check",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "nx-release-publish": {
+              "executor": "@nx/js:release-publish",
+              "dependsOn": [
+                "^nx-release-publish"
+              ],
+              "options": {},
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "name": "landing-page",
+          "tags": [
+            "npm:public"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "astro",
+                "build",
+                "check",
+                "dev",
+                "preview",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "landing-page",
+              "packageVersion": "0.8.1",
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@packages/posthog": {
+        "name": "@packages/posthog",
+        "type": "lib",
+        "data": {
+          "root": "packages/posthog",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/posthog",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                {
+                  "dependentTasksOutputFiles": "**/*.d.ts"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "tsc --build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write ./src",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "test": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test"
+              },
+              "metadata": {
+                "scriptContent": "bun test",
+                "runCommand": "bun run test -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^test"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc ",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/posthog",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "test",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/posthog",
+              "packageVersion": "0.8.1",
+              "packageExports": {
+                "./client": {
+                  "default": "./src/client.tsx",
+                  "types": "./dist/src/client.d.ts"
+                },
+                "./server": {
+                  "default": "./src/server.ts",
+                  "types": "./dist/src/server.d.ts"
+                }
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@packages/arcjet": {
+        "name": "@packages/arcjet",
+        "type": "lib",
+        "data": {
+          "root": "packages/arcjet",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/arcjet",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "{projectRoot}/package.json",
+                "{workspaceRoot}/tooling/typescript/internal-package.json",
+                "{workspaceRoot}/tooling/typescript/base.json",
+                "{projectRoot}/tsconfig.json",
+                "{projectRoot}/src/**/*.ts",
+                "{projectRoot}/src/**/*.tsx",
+                "{projectRoot}/src/**/*.d.ts",
+                "{projectRoot}/src/**/*.js",
+                "{projectRoot}/src/**/*.jsx",
+                "{projectRoot}/src/**/*.cts",
+                "{projectRoot}/src/**/*.d.cts",
+                "{projectRoot}/src/**/*.cjs",
+                "{projectRoot}/src/**/*.mts",
+                "{projectRoot}/src/**/*.d.mts",
+                "{projectRoot}/src/**/*.mjs",
+                "{projectRoot}/src/**/*.json",
+                "!{projectRoot}/node_modules",
+                {
+                  "dependentTasksOutputFiles": "**/*.d.ts"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/dist/**/*.d.ts.map",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "tsc --build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write ./src",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/arcjet",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/arcjet",
+              "packageVersion": "0.1.0",
+              "packageExports": {
+                "./config": {
+                  "default": "./src/config.ts",
+                  "types": "./dist/src/config.d.ts"
+                },
+                "./auth-wrapper": {
+                  "default": "./src/auth-wrapper.ts",
+                  "types": "./dist/src/auth-wrapper.d.ts"
+                }
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@packages/stripe": {
+        "name": "@packages/stripe",
+        "type": "lib",
+        "data": {
+          "root": "packages/stripe",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/stripe",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                {
+                  "dependentTasksOutputFiles": "**/*.d.ts"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "tsc --build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write ./src",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc ",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/stripe",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/stripe",
+              "packageVersion": "0.3.0",
+              "packageExports": {
+                ".": {
+                  "default": "./src/index.ts",
+                  "types": "./dist/src/index.d.ts"
+                },
+                "./constants": {
+                  "default": "./src/constants.ts",
+                  "types": "./dist/src/constants.d.ts"
+                }
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@packages/files": {
+        "name": "@packages/files",
+        "type": "lib",
+        "data": {
+          "root": "packages/files",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/files",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                {
+                  "dependentTasksOutputFiles": "**/*.d.ts"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "tsc --build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write ./src",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "test": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test"
+              },
+              "metadata": {
+                "scriptContent": "bun test",
+                "runCommand": "bun run test -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^test"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/files",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "test",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/files",
+              "packageVersion": "0.12.0",
+              "packageExports": {
+                "./client": {
+                  "default": "./src/client.ts",
+                  "types": "./dist/src/client.d.ts"
+                },
+                "./text-file-helper": {
+                  "default": "./src/text-file-helpers.ts",
+                  "types": "./dist/src/text-file-helpers.d.ts"
+                }
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@packages/queue": {
+        "name": "@packages/queue",
+        "type": "lib",
+        "data": {
+          "root": "packages/queue",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/queue",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default"
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "tsc --build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/queue",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/queue",
+              "packageVersion": "0.1.0",
+              "packageExports": {
+                "./bullmq": {
+                  "default": "./src/bullmq.ts",
+                  "types": "./dist/src/bullmq.d.ts"
+                },
+                "./connection": {
+                  "default": "./src/connection.ts",
+                  "types": "./dist/src/connection.d.ts"
+                },
+                "./schemas": {
+                  "default": "./src/schemas.ts",
+                  "types": "./dist/src/schemas.d.ts"
+                }
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@packages/utils": {
+        "name": "@packages/utils",
+        "type": "lib",
+        "data": {
+          "root": "packages/utils",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/utils",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default"
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "tsc --build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write ./src",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "test": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test"
+              },
+              "metadata": {
+                "scriptContent": "bun test",
+                "runCommand": "bun run test -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^test"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/utils",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "test",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/utils",
+              "packageVersion": "0.28.0",
+              "packageExports": {
+                "./array": {
+                  "default": "./src/array.ts",
+                  "types": "./dist/src/array.d.ts"
+                },
+                "./colors": {
+                  "default": "./src/colors.ts",
+                  "types": "./dist/src/colors.d.ts"
+                },
+                "./date": {
+                  "default": "./src/date.ts",
+                  "types": "./dist/src/date.d.ts"
+                },
+                "./diff": {
+                  "default": "./src/diff.ts",
+                  "types": "./dist/src/diff.d.ts"
+                },
+                "./errors": {
+                  "default": "./src/errors.ts",
+                  "types": "./dist/src/errors.d.ts"
+                },
+                "./file": {
+                  "default": "./src/file.ts",
+                  "types": "./dist/src/file.d.ts"
+                },
+                "./interest": {
+                  "default": "./src/interest.ts",
+                  "types": "./dist/src/interest.d.ts"
+                },
+                "./markdown": {
+                  "default": "./src/markdown.ts",
+                  "types": "./dist/src/markdown.d.ts"
+                },
+                "./money": {
+                  "default": "./src/money.ts",
+                  "types": "./dist/src/money.d.ts"
+                },
+                "./number": {
+                  "default": "./src/numbers.ts",
+                  "types": "./dist/src/numbers.d.ts"
+                },
+                "./object": {
+                  "default": "./src/object.ts",
+                  "types": "./dist/src/object.d.ts"
+                },
+                "./recurrence": {
+                  "default": "./src/recurrence.ts",
+                  "types": "./dist/src/recurrence.d.ts"
+                },
+                "./sanitization": {
+                  "default": "./src/sanitization.ts",
+                  "types": "./dist/src/sanitization.d.ts"
+                },
+                "./split": {
+                  "default": "./src/split.ts",
+                  "types": "./dist/src/split.d.ts"
+                },
+                "./text": {
+                  "default": "./src/text.ts",
+                  "types": "./dist/src/text.d.ts"
+                }
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "dashboard": {
+        "name": "dashboard",
+        "type": "app",
+        "data": {
+          "root": "apps/dashboard",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "apps/dashboard",
+                "command": "echo \"The 'typecheck' target is disabled because one or more project references set 'noEmit: true' in their tsconfig. Remove this property to resolve this issue.\""
+              },
+              "cache": true,
+              "inputs": [
+                "{projectRoot}/package.json",
+                "{workspaceRoot}/tooling/typescript/vite.json",
+                "{workspaceRoot}/tooling/typescript/base.json",
+                "{projectRoot}/tsconfig.json",
+                "{projectRoot}/**/*.ts",
+                "{projectRoot}/**/*.tsx",
+                "!{workspaceRoot}/tooling/typescript/node_modules",
+                {
+                  "dependentTasksOutputFiles": "**/*.d.ts"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/**/*.js",
+                "{projectRoot}/**/*.cjs",
+                "{projectRoot}/**/*.mjs",
+                "{projectRoot}/**/*.jsx",
+                "{projectRoot}/**/*.js.map",
+                "{projectRoot}/**/*.jsx.map",
+                "{projectRoot}/**/*.d.ts",
+                "{projectRoot}/**/*.d.cts",
+                "{projectRoot}/**/*.d.mts",
+                "{projectRoot}/**/*.d.ts.map",
+                "{projectRoot}/**/*.d.cts.map",
+                "{projectRoot}/**/*.d.mts.map",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "bunx --bun biome check --write --unsafe .",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "dev": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "dev"
+              },
+              "metadata": {
+                "scriptContent": "vite dev",
+                "runCommand": "bun run dev -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": false
+            },
+            "start": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "start"
+              },
+              "metadata": {
+                "scriptContent": "vite",
+                "runCommand": "bun run start -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "vite build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "preview": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "preview"
+              },
+              "metadata": {
+                "scriptContent": "vite preview",
+                "runCommand": "bun run preview -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "name": "dashboard",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "check",
+                "typecheck",
+                "dev",
+                "start",
+                "build",
+                "preview"
+              ]
+            },
+            "js": {
+              "packageName": "dashboard",
+              "packageVersion": "0.15.0",
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@f-o-t/ofx": {
+        "name": "@f-o-t/ofx",
+        "type": "lib",
+        "data": {
+          "root": "libraries/ofx",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "libraries/ofx",
+                "command": "echo \"The 'typecheck' target is disabled because one or more project references set 'noEmit: true' in their tsconfig. Remove this property to resolve this issue.\""
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default"
+              ],
+              "outputs": [
+                "{projectRoot}/**/*.js",
+                "{projectRoot}/**/*.cjs",
+                "{projectRoot}/**/*.mjs",
+                "{projectRoot}/**/*.jsx",
+                "{projectRoot}/**/*.js.map",
+                "{projectRoot}/**/*.jsx.map",
+                "{projectRoot}/**/*.d.ts",
+                "{projectRoot}/**/*.d.cts",
+                "{projectRoot}/**/*.d.mts",
+                "{projectRoot}/**/*.d.ts.map",
+                "{projectRoot}/**/*.d.cts.map",
+                "{projectRoot}/**/*.d.mts.map",
+                "{projectRoot}/tsconfig.tsbuildinfo"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "bunup",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write .",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "dev": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "dev"
+              },
+              "metadata": {
+                "scriptContent": "bunup --watch",
+                "runCommand": "bun run dev -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": false
+            },
+            "release": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "release"
+              },
+              "metadata": {
+                "scriptContent": "bumpp --commit --push --tag",
+                "runCommand": "bun run release -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "test": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test"
+              },
+              "metadata": {
+                "scriptContent": "bun test",
+                "runCommand": "bun run test -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^test"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "test:coverage": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test:coverage"
+              },
+              "metadata": {
+                "scriptContent": "bun test --coverage",
+                "runCommand": "bun run test:coverage -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "test:watch": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test:watch"
+              },
+              "metadata": {
+                "scriptContent": "bun test --watch",
+                "runCommand": "bun run test:watch -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc ",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "nx-release-publish": {
+              "executor": "@nx/js:release-publish",
+              "dependsOn": [
+                "^nx-release-publish"
+              ],
+              "options": {},
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "name": "@f-o-t/ofx",
+          "tags": [
+            "npm:public"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "dev",
+                "release",
+                "test",
+                "test:coverage",
+                "test:watch",
+                "typecheck"
+              ]
+            },
+            "description": "Typesafe ofx handling",
+            "js": {
+              "packageName": "@f-o-t/ofx",
+              "packageVersion": "2.1.0",
+              "packageExports": {
+                ".": {
+                  "bun": "./src/index.ts",
+                  "import": {
+                    "default": "./dist/index.js",
+                    "types": "./dist/index.d.ts"
+                  },
+                  "types": "./src/index.ts"
+                },
+                "./package.json": "./package.json"
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@packages/api": {
+        "name": "@packages/api",
+        "type": "lib",
+        "data": {
+          "root": "packages/api",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/api",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "{projectRoot}/package.json",
+                "{workspaceRoot}/tooling/typescript/internal-package.json",
+                "{workspaceRoot}/tooling/typescript/base.json",
+                "{projectRoot}/tsconfig.json",
+                "{projectRoot}/src/**/*.ts",
+                "{projectRoot}/src/**/*.tsx",
+                "{projectRoot}/src/**/*.d.ts",
+                "{projectRoot}/src/**/*.js",
+                "{projectRoot}/src/**/*.jsx",
+                "{projectRoot}/src/**/*.cts",
+                "{projectRoot}/src/**/*.d.cts",
+                "{projectRoot}/src/**/*.cjs",
+                "{projectRoot}/src/**/*.mts",
+                "{projectRoot}/src/**/*.d.mts",
+                "{projectRoot}/src/**/*.mjs",
+                "{projectRoot}/src/**/*.json",
+                "{projectRoot}/__tests__/*.test.ts",
+                "!{projectRoot}/node_modules",
+                "^default"
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "tsc --build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write ./src",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc ",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/api",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/api",
+              "packageVersion": "0.9.1",
+              "packageExports": {
+                "./client": {
+                  "default": "./src/client/index.ts",
+                  "types": "./dist/src/client/index.d.ts"
+                },
+                "./schemas/*": {
+                  "default": "./src/server/schemas/*.ts",
+                  "types": "./dist/src/server/schemas/*.d.ts"
+                },
+                "./server": {
+                  "default": "./src/server/index.ts",
+                  "types": "./dist/src/server/index.d.ts"
+                }
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@packages/ofx": {
+        "name": "@packages/ofx",
+        "type": "lib",
+        "data": {
+          "root": "packages/ofx",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/ofx",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                {
+                  "dependentTasksOutputFiles": "**/*.d.ts"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "tsc --build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write ./src",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "test": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "test"
+              },
+              "metadata": {
+                "scriptContent": "bun test",
+                "runCommand": "bun run test -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^test"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc ",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/ofx",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "test",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/ofx",
+              "packageVersion": "0.3.0",
+              "packageExports": {
+                ".": {
+                  "default": "./src/index.ts",
+                  "types": "./dist/src/index.d.ts"
+                }
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@packages/pdf": {
+        "name": "@packages/pdf",
+        "type": "lib",
+        "data": {
+          "root": "packages/pdf",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/pdf",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                {
+                  "dependentTasksOutputFiles": "**/*.d.ts"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "tsc --build",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write ./src",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/pdf",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/pdf",
+              "packageVersion": "0.1.0",
+              "packageExports": {
+                ".": {
+                  "default": "./src/index.ts",
+                  "types": "./dist/src/index.d.ts"
+                }
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "@packages/ui": {
+        "name": "@packages/ui",
+        "type": "lib",
+        "data": {
+          "root": "packages/ui",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "packages/ui",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                {
+                  "dependentTasksOutputFiles": "**/*.d.ts"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "biome check --write ./src",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "@packages/ui",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "check",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "@packages/ui",
+              "packageVersion": "0.12.0",
+              "packageExports": {
+                "./components/*": {
+                  "default": "./src/components/*.{ts,tsx}",
+                  "types": "./dist/src/components/*.d.ts"
+                },
+                "./globals.css": "./src/styles/globals.css",
+                "./hooks/*": {
+                  "default": "./src/hooks/*.ts",
+                  "types": "./dist/src/hooks/*.d.ts"
+                },
+                "./lib/*": {
+                  "default": "./src/lib/*.{ts,tsx}",
+                  "types": "./dist/src/lib/*.{d.ts,tsx}"
+                },
+                "./postcss.config": "./postcss.config.mjs"
+              },
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "server": {
+        "name": "server",
+        "type": "app",
+        "data": {
+          "root": "apps/server",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "apps/server",
+                "command": "echo \"The 'typecheck' target is disabled because one or more project references set 'noEmit: true' in their tsconfig. Remove this property to resolve this issue.\""
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                {
+                  "dependentTasksOutputFiles": "**/*.d.ts"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/**/*.js",
+                "{projectRoot}/**/*.cjs",
+                "{projectRoot}/**/*.mjs",
+                "{projectRoot}/**/*.jsx",
+                "{projectRoot}/**/*.js.map",
+                "{projectRoot}/**/*.jsx.map",
+                "{projectRoot}/**/*.d.ts",
+                "{projectRoot}/**/*.d.cts",
+                "{projectRoot}/**/*.d.mts",
+                "{projectRoot}/**/*.d.ts.map",
+                "{projectRoot}/**/*.d.cts.map",
+                "{projectRoot}/**/*.d.mts.map",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile server ./src/index.ts",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "bunx --bun biome check --write .",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "container-start": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "container-start"
+              },
+              "metadata": {
+                "scriptContent": "podman-compose down && podman-compose up -d",
+                "runCommand": "bun run container-start -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "deploy": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "deploy"
+              },
+              "metadata": {
+                "scriptContent": "wrangler deploy",
+                "runCommand": "bun run deploy -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "dev": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "dev"
+              },
+              "metadata": {
+                "scriptContent": "bun run container-start && bun run --watch src/index.ts",
+                "runCommand": "bun run dev -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": false
+            },
+            "format": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "format"
+              },
+              "metadata": {
+                "scriptContent": "biome format",
+                "runCommand": "bun run format -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "start": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "start"
+              },
+              "metadata": {
+                "scriptContent": "./server",
+                "runCommand": "bun run start -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "nx-release-publish": {
+              "executor": "@nx/js:release-publish",
+              "dependsOn": [
+                "^nx-release-publish"
+              ],
+              "options": {},
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "name": "server",
+          "tags": [
+            "npm:public"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "container-start",
+                "deploy",
+                "dev",
+                "format",
+                "start",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "server",
+              "packageVersion": "0.8.1",
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "worker": {
+        "name": "worker",
+        "type": "app",
+        "data": {
+          "root": "apps/worker",
+          "targets": {
+            "tsc:typecheck": {
+              "dependsOn": [
+                "^tsc:typecheck"
+              ],
+              "options": {
+                "cwd": "apps/worker",
+                "command": "echo \"The 'typecheck' target is disabled because one or more project references set 'noEmit: true' in their tsconfig. Remove this property to resolve this issue.\""
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                {
+                  "dependentTasksOutputFiles": "**/*.d.ts"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/**/*.js",
+                "{projectRoot}/**/*.cjs",
+                "{projectRoot}/**/*.mjs",
+                "{projectRoot}/**/*.jsx",
+                "{projectRoot}/**/*.js.map",
+                "{projectRoot}/**/*.jsx.map",
+                "{projectRoot}/**/*.d.ts",
+                "{projectRoot}/**/*.d.cts",
+                "{projectRoot}/**/*.d.mts",
+                "{projectRoot}/**/*.d.ts.map",
+                "{projectRoot}/**/*.d.cts.map",
+                "{projectRoot}/**/*.d.mts.map",
+                "{projectRoot}/.cache/tsbuildinfo.json"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "bun tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "build"
+              },
+              "metadata": {
+                "scriptContent": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile worker ./src/index.ts",
+                "runCommand": "bun run build -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "check": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "check"
+              },
+              "metadata": {
+                "scriptContent": "bunx --bun biome check --write .",
+                "runCommand": "bun run check -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^check"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            },
+            "dev": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "dev"
+              },
+              "metadata": {
+                "scriptContent": "bun run --watch src/index.ts",
+                "runCommand": "bun run dev -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": false
+            },
+            "start": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "start"
+              },
+              "metadata": {
+                "scriptContent": "./worker",
+                "runCommand": "bun run start -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "typecheck"
+              },
+              "metadata": {
+                "scriptContent": "tsc",
+                "runCommand": "bun run typecheck -- undefined"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "{projectRoot}/**/*",
+                "{projectRoot}/.env*"
+              ],
+              "outputs": []
+            }
+          },
+          "name": "worker",
+          "tags": [
+            "npm:private"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "build",
+                "check",
+                "dev",
+                "start",
+                "typecheck"
+              ]
+            },
+            "js": {
+              "packageName": "worker",
+              "packageVersion": "0.1.0",
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      }
+    },
+    "dependencies": {
+      "@f-o-t/condition-evaluator": [],
+      "@packages/authentication": [
+        {
+          "source": "@packages/authentication",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "@packages/authentication",
+          "target": "@packages/database",
+          "type": "static"
+        },
+        {
+          "source": "@packages/authentication",
+          "target": "@packages/environment",
+          "type": "static"
+        },
+        {
+          "source": "@packages/authentication",
+          "target": "@packages/stripe",
+          "type": "static"
+        },
+        {
+          "source": "@packages/authentication",
+          "target": "@packages/transactional",
+          "type": "static"
+        }
+      ],
+      "@f-o-t/rules-engine": [
+        {
+          "source": "@f-o-t/rules-engine",
+          "target": "@f-o-t/condition-evaluator",
+          "type": "static"
+        }
+      ],
+      "@packages/notifications": [
+        {
+          "source": "@packages/notifications",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "@packages/notifications",
+          "target": "@packages/database",
+          "type": "static"
+        },
+        {
+          "source": "@packages/notifications",
+          "target": "@packages/utils",
+          "type": "static"
+        }
+      ],
+      "@packages/transactional": [
+        {
+          "source": "@packages/transactional",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "@packages/transactional",
+          "target": "@packages/utils",
+          "type": "static"
+        }
+      ],
+      "@packages/localization": [
+        {
+          "source": "@packages/localization",
+          "target": "@tooling/typescript",
+          "type": "static"
+        }
+      ],
+      "@packages/environment": [
+        {
+          "source": "@packages/environment",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "@packages/environment",
+          "target": "@packages/utils",
+          "type": "static"
+        }
+      ],
+      "@packages/brasil-api": [
+        {
+          "source": "@packages/brasil-api",
+          "target": "@tooling/typescript",
+          "type": "static"
+        }
+      ],
+      "@packages/workflows": [
+        {
+          "source": "@packages/workflows",
+          "target": "@packages/database",
+          "type": "static"
+        },
+        {
+          "source": "@packages/workflows",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "@packages/workflows",
+          "target": "@f-o-t/condition-evaluator",
+          "type": "static"
+        },
+        {
+          "source": "@packages/workflows",
+          "target": "@f-o-t/rules-engine",
+          "type": "static"
+        },
+        {
+          "source": "@packages/workflows",
+          "target": "@packages/queue",
+          "type": "static"
+        },
+        {
+          "source": "@packages/workflows",
+          "target": "@packages/notifications",
+          "type": "static"
+        },
+        {
+          "source": "@packages/workflows",
+          "target": "@packages/utils",
+          "type": "static"
+        }
+      ],
+      "@tooling/typescript": [],
+      "@packages/database": [
+        {
+          "source": "@packages/database",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "@packages/database",
+          "target": "@f-o-t/condition-evaluator",
+          "type": "static"
+        },
+        {
+          "source": "@packages/database",
+          "target": "@packages/utils",
+          "type": "static"
+        }
+      ],
+      "landing-page": [
+        {
+          "source": "landing-page",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "landing-page",
+          "target": "@packages/localization",
+          "type": "static"
+        },
+        {
+          "source": "landing-page",
+          "target": "@packages/posthog",
+          "type": "static"
+        },
+        {
+          "source": "landing-page",
+          "target": "@packages/ui",
+          "type": "static"
+        },
+        {
+          "source": "landing-page",
+          "target": "@packages/utils",
+          "type": "static"
+        }
+      ],
+      "@packages/posthog": [
+        {
+          "source": "@packages/posthog",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "@packages/posthog",
+          "target": "@packages/environment",
+          "type": "static"
+        }
+      ],
+      "@packages/arcjet": [
+        {
+          "source": "@packages/arcjet",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "@packages/arcjet",
+          "target": "@packages/environment",
+          "type": "static"
+        },
+        {
+          "source": "@packages/arcjet",
+          "target": "@packages/authentication",
+          "type": "static"
+        }
+      ],
+      "@packages/stripe": [
+        {
+          "source": "@packages/stripe",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "@packages/stripe",
+          "target": "@packages/environment",
+          "type": "static"
+        }
+      ],
+      "@packages/files": [
+        {
+          "source": "@packages/files",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "@packages/files",
+          "target": "@packages/environment",
+          "type": "static"
+        }
+      ],
+      "@packages/queue": [
+        {
+          "source": "@packages/queue",
+          "target": "@tooling/typescript",
+          "type": "static"
+        }
+      ],
+      "@packages/utils": [
+        {
+          "source": "@packages/utils",
+          "target": "@tooling/typescript",
+          "type": "static"
+        }
+      ],
+      "dashboard": [
+        {
+          "source": "dashboard",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "dashboard",
+          "target": "@packages/api",
+          "type": "static"
+        },
+        {
+          "source": "dashboard",
+          "target": "@packages/authentication",
+          "type": "static"
+        },
+        {
+          "source": "dashboard",
+          "target": "@packages/stripe",
+          "type": "static"
+        },
+        {
+          "source": "dashboard",
+          "target": "@packages/environment",
+          "type": "static"
+        },
+        {
+          "source": "dashboard",
+          "target": "@packages/localization",
+          "type": "static"
+        },
+        {
+          "source": "dashboard",
+          "target": "@packages/posthog",
+          "type": "static"
+        },
+        {
+          "source": "dashboard",
+          "target": "@packages/transactional",
+          "type": "static"
+        },
+        {
+          "source": "dashboard",
+          "target": "@packages/ui",
+          "type": "static"
+        },
+        {
+          "source": "dashboard",
+          "target": "@packages/utils",
+          "type": "static"
+        },
+        {
+          "source": "dashboard",
+          "target": "@packages/database",
+          "type": "static"
+        },
+        {
+          "source": "dashboard",
+          "target": "@packages/workflows",
+          "type": "static"
+        }
+      ],
+      "@f-o-t/ofx": [],
+      "@packages/api": [
+        {
+          "source": "@packages/api",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "@packages/api",
+          "target": "@f-o-t/condition-evaluator",
+          "type": "static"
+        },
+        {
+          "source": "@packages/api",
+          "target": "@packages/arcjet",
+          "type": "static"
+        },
+        {
+          "source": "@packages/api",
+          "target": "@packages/authentication",
+          "type": "static"
+        },
+        {
+          "source": "@packages/api",
+          "target": "@packages/brasil-api",
+          "type": "static"
+        },
+        {
+          "source": "@packages/api",
+          "target": "@packages/database",
+          "type": "static"
+        },
+        {
+          "source": "@packages/api",
+          "target": "@packages/files",
+          "type": "static"
+        },
+        {
+          "source": "@packages/api",
+          "target": "@packages/localization",
+          "type": "static"
+        },
+        {
+          "source": "@packages/api",
+          "target": "@packages/notifications",
+          "type": "static"
+        },
+        {
+          "source": "@packages/api",
+          "target": "@packages/ofx",
+          "type": "static"
+        },
+        {
+          "source": "@packages/api",
+          "target": "@packages/pdf",
+          "type": "static"
+        },
+        {
+          "source": "@packages/api",
+          "target": "@packages/pdf",
+          "type": "dynamic"
+        },
+        {
+          "source": "@packages/api",
+          "target": "@packages/posthog",
+          "type": "static"
+        },
+        {
+          "source": "@packages/api",
+          "target": "@packages/workflows",
+          "type": "static"
+        },
+        {
+          "source": "@packages/api",
+          "target": "@packages/utils",
+          "type": "static"
+        }
+      ],
+      "@packages/ofx": [
+        {
+          "source": "@packages/ofx",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "@packages/ofx",
+          "target": "@f-o-t/ofx",
+          "type": "static"
+        },
+        {
+          "source": "@packages/ofx",
+          "target": "@packages/utils",
+          "type": "static"
+        }
+      ],
+      "@packages/pdf": [
+        {
+          "source": "@packages/pdf",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "@packages/pdf",
+          "target": "@packages/database",
+          "type": "static"
+        }
+      ],
+      "@packages/ui": [
+        {
+          "source": "@packages/ui",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "@packages/ui",
+          "target": "@packages/utils",
+          "type": "static"
+        },
+        {
+          "source": "@packages/ui",
+          "target": "@packages/localization",
+          "type": "static"
+        }
+      ],
+      "server": [
+        {
+          "source": "server",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "server",
+          "target": "@packages/api",
+          "type": "static"
+        },
+        {
+          "source": "server",
+          "target": "@packages/arcjet",
+          "type": "static"
+        },
+        {
+          "source": "server",
+          "target": "@packages/authentication",
+          "type": "static"
+        },
+        {
+          "source": "server",
+          "target": "@packages/database",
+          "type": "static"
+        },
+        {
+          "source": "server",
+          "target": "@packages/environment",
+          "type": "static"
+        },
+        {
+          "source": "server",
+          "target": "@packages/files",
+          "type": "static"
+        },
+        {
+          "source": "server",
+          "target": "@packages/posthog",
+          "type": "static"
+        },
+        {
+          "source": "server",
+          "target": "@packages/workflows",
+          "type": "static"
+        },
+        {
+          "source": "server",
+          "target": "@packages/transactional",
+          "type": "static"
+        },
+        {
+          "source": "server",
+          "target": "@packages/utils",
+          "type": "static"
+        },
+        {
+          "source": "server",
+          "target": "@packages/queue",
+          "type": "static"
+        },
+        {
+          "source": "server",
+          "target": "@packages/stripe",
+          "type": "static"
+        }
+      ],
+      "worker": [
+        {
+          "source": "worker",
+          "target": "@tooling/typescript",
+          "type": "static"
+        },
+        {
+          "source": "worker",
+          "target": "@packages/database",
+          "type": "static"
+        },
+        {
+          "source": "worker",
+          "target": "@packages/environment",
+          "type": "static"
+        },
+        {
+          "source": "worker",
+          "target": "@packages/queue",
+          "type": "static"
+        },
+        {
+          "source": "worker",
+          "target": "@packages/workflows",
+          "type": "static"
+        },
+        {
+          "source": "worker",
+          "target": "@packages/utils",
+          "type": "static"
+        },
+        {
+          "source": "worker",
+          "target": "@packages/transactional",
+          "type": "static"
+        }
+      ]
+    }
+  }
+}

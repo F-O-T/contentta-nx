@@ -1,0 +1,90 @@
+{
+   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+   "defaultBase": "master",
+   "namedInputs": {
+      "default": ["{projectRoot}/**/*", "sharedGlobals"],
+      "sharedGlobals": [
+         "{workspaceRoot}/biome.json",
+         "{workspaceRoot}/tsconfig.json",
+         "{workspaceRoot}/tooling/typescript/*.json"
+      ],
+      "production": [
+         "default",
+         "!{projectRoot}/**/*.spec.ts",
+         "!{projectRoot}/**/*.test.ts",
+         "!{projectRoot}/**/__tests__/**/*",
+         "!{projectRoot}/.env*"
+      ]
+   },
+   "plugins": [
+      {
+         "plugin": "@nx/js/typescript",
+         "options": {
+            "build": {
+               "configName": "tsconfig.lib.json",
+               "targetName": "build"
+            },
+            "typecheck": {
+               "configName": "tsconfig.json",
+               "targetName": "typecheck"
+            }
+         }
+      }
+   ],
+   "targetDefaults": {
+      "build": {
+         "cache": true,
+         "dependsOn": ["^build"],
+         "inputs": ["production", "^production"],
+         "outputs": ["{projectRoot}/dist", "{projectRoot}/.cache"]
+      },
+      "typecheck": {
+         "cache": true,
+         "inputs": ["default", "^default"],
+         "outputs": ["{projectRoot}/.cache/tsbuildinfo.json"]
+      },
+      "check": {
+         "cache": true,
+         "inputs": ["default"]
+      },
+      "dev": {
+         "cache": false
+      },
+      "test": {
+         "cache": true,
+         "inputs": ["default", "^production"]
+      }
+   },
+   "release": {
+      "changelog": {
+         "automaticFromRef": true,
+         "projectChangelogs": {
+            "createRelease": "github",
+            "file": "CHANGELOG.md"
+         },
+         "workspaceChangelog": false
+      },
+      "git": {
+         "commit": true,
+         "tag": true
+      },
+      "projects": ["apps/*", "packages/*"],
+      "projectsRelationship": "independent",
+      "releaseTagPattern": "{projectName}@{version}",
+      "releaseTagPatternRequireSemver": true,
+      "version": {
+         "conventionalCommits": true,
+         "fallbackCurrentVersionResolver": "disk",
+         "preserveLocalDependencyProtocols": true,
+         "updateDependents": "never",
+         "versionActionsOptions": {
+            "skipLockFileUpdate": true
+         }
+      }
+   },
+   "tui": {
+      "enabled": true
+   },
+   "useDaemonProcess": true,
+   "parallel": 8
+}
