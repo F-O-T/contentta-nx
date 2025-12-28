@@ -1,0 +1,54 @@
+# .dockerignore
+# Ignore Node.js modules
+node_modules/
+
+# Ignore build output directories for all apps and packages
+apps/*/dist/
+apps/*/.next/
+apps/*/.astro/
+apps/*/build/
+apps/*/out/
+apps/*/public/.assetsignore
+apps/*/tmp/
+apps/*/test/
+packages/*/dist/
+
+# Ignore Nx specific files
+.nx/
+nx-cache/
+dist/ # Root dist directory if any
+
+# Ignore editor and IDE specific files
+.vscode/
+.idea/
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Ignore environment files
+.env
+.env.*
+.local/
+
+# Ignore logs and npm debug files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Ignore test and coverage reports
+coverage/
+.nyc_output/
+
+# Ignore Git specific files
+.git/
+.gitignore
+
+# Other common ignores
+*.pem
+*.key
+*.cert
+.pnp.js
+.pnp/
+.pnpm-store/

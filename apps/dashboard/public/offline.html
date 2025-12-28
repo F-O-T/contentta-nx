@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+   <title>Montte - Offline</title>
+   <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      
+      body {
+         min-height: 100vh;
+         min-height: 100dvh;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+         background-color: #050816;
+         color: #fff;
+         font-family: system-ui, -apple-system, sans-serif;
+         padding: env(safe-area-inset-top) env(safe-area-inset-right) 
+                  env(safe-area-inset-bottom) env(safe-area-inset-left);
+         padding-left: max(1rem, env(safe-area-inset-left));
+         padding-right: max(1rem, env(safe-area-inset-right));
+      }
+      
+      .container {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         text-align: center;
+         max-width: 320px;
+      }
+      
+      .logo {
+         width: 120px;
+         height: 80px;
+         margin-bottom: 2rem;
+         animation: pulse 2s ease-in-out infinite;
+      }
+      
+      @keyframes pulse {
+         0%, 100% { opacity: 1; transform: scale(1); }
+         50% { opacity: 0.7; transform: scale(0.98); }
+      }
+      
+      h1 {
+         font-size: 1.5rem;
+         font-weight: 600;
+         margin-bottom: 0.75rem;
+         color: #fff;
+      }
+      
+      p {
+         color: #9ca3af;
+         font-size: 0.9rem;
+         line-height: 1.5;
+         margin-bottom: 2rem;
+      }
+      
+      button {
+         background: #42B46E;
+         color: #fff;
+         border: none;
+         padding: 0.875rem 2.5rem;
+         border-radius: 0.5rem;
+         font-size: 1rem;
+         font-weight: 500;
+         cursor: pointer;
+         transition: all 0.2s ease;
+         -webkit-tap-highlight-color: transparent;
+      }
+      
+      button:hover {
+         background: #379255;
+         transform: translateY(-1px);
+      }
+      
+      button:active {
+         transform: scale(0.98);
+         background: #2d7a47;
+      }
+      
+      .icon {
+         width: 64px;
+         height: 64px;
+         margin-bottom: 1.5rem;
+         color: #6b7280;
+      }
+   </style>
+</head>
+<body>
+   <div class="container">
+      <svg class="logo" viewBox="0 0 1987 1278" fill="none" xmlns="http://www.w3.org/2000/svg">
+         <path d="M455.313 377.152L0.812988 1275.15L904.813 1276.15L455.313 377.152Z" fill="#0C5343"/>
+         <path d="M1613.81 1276.15L995.313 1276.65L681.813 656.152L682.313 655.152L994.313 1.15186L1614.81 1276.15H1613.81Z" fill="#42B46E"/>
+         <path d="M1394.81 655.152L1533.31 376.652L1985.8 1276.15H1701.81L1394.81 655.152Z" fill="#379255"/>
+      </svg>
+      
+      <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+      </svg>
+      
+      <h1>Você está offline</h1>
+      <p>Não foi possível conectar ao servidor. Verifique sua conexão com a internet e tente novamente.</p>
+      
+      <button onclick="window.location.reload()">Tentar novamente</button>
+   </div>
+</body>
+</html>

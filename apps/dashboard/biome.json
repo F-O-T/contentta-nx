@@ -1,0 +1,25 @@
+{
+   "extends": "//",
+   "files": {
+      "includes": [
+         "**/src/**/*",
+         "**/.vscode/**/*",
+         "**/index.html",
+         "**/vite.config.js",
+         "!**/src/routeTree.gen.ts"
+      ]
+   },
+   "linter": {
+      "domains": {
+         "react": "recommended"
+      },
+      "rules": {
+         "a11y": {
+            "noLabelWithoutControl": "off",
+            "noStaticElementInteractions": "off",
+            "useKeyWithClickEvents": "off"
+         }
+      }
+   },
+   "root": false
+}

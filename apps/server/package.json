@@ -1,0 +1,39 @@
+{
+   "dependencies": {
+      "@elysiajs/cors": "catalog:server",
+      "@elysiajs/openapi": "^1.4.11",
+      "@packages/agents": "workspace:*",
+      "@packages/api": "workspace:*",
+      "@packages/arcjet": "workspace:*",
+      "@packages/authentication": "workspace:*",
+      "@packages/database": "workspace:*",
+      "@packages/environment": "workspace:*",
+      "@packages/files": "workspace:*",
+      "@packages/posthog": "workspace:*",
+      "@packages/rag": "workspace:*",
+      "@packages/transactional": "workspace:*",
+      "@packages/utils": "workspace:*",
+      "@trpc/server": "catalog:trpc",
+      "elysia": "catalog:server",
+      "web-push": "^3.6.7"
+   },
+   "devDependencies": {
+      "@tooling/typescript": "workspace:*",
+      "@types/bun": "latest",
+      "@types/web-push": "^3.6.4",
+      "typescript": "catalog:development"
+   },
+   "license": "Apache-2.0",
+   "name": "server",
+   "scripts": {
+      "build": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile server ./src/index.ts",
+      "check": "bunx --bun biome check --write .",
+      "container-start": "podman-compose down && podman-compose up -d",
+      "deploy": "wrangler deploy",
+      "dev": "bun run container-start && bun run --watch src/index.ts",
+      "format": "biome format",
+      "start": "./server",
+      "typecheck": "tsc"
+   },
+   "version": "0.8.1"
+}

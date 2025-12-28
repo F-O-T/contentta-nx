@@ -1,0 +1,21 @@
+{
+   "extends": "@tooling/typescript/base.json",
+   "compilerOptions": {
+      "baseUrl": ".",
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "jsx": "react-jsx",
+      "paths": {
+         "@api/*": ["./src/*"]
+      },
+      "skipLibCheck": true,
+      "strict": true,
+      "target": "ES2021",
+      "types": ["bun-types"]
+  },
+  "references": [
+    {
+      "path": "../../packages/rag"
+    }
+  ]
+}

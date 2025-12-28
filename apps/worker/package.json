@@ -1,0 +1,27 @@
+{
+   "dependencies": {
+      "@packages/agents": "workspace:*",
+      "@packages/database": "workspace:*",
+      "@packages/environment": "workspace:*",
+      "@packages/queue": "workspace:*",
+      "@packages/workflows": "workspace:*",
+      "@packages/utils": "workspace:*"
+   },
+   "devDependencies": {
+      "@tooling/typescript": "workspace:*",
+      "@types/bun": "latest",
+      "typescript": "catalog:development"
+   },
+   "license": "Apache-2.0",
+   "name": "worker",
+   "private": true,
+   "scripts": {
+      "build": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile worker ./src/index.ts",
+      "check": "bunx --bun biome check --write .",
+      "dev": "bun run --watch src/index.ts",
+      "start": "./worker",
+      "typecheck": "tsc"
+   },
+   "type": "module",
+   "version": "0.1.0"
+}
