@@ -1,0 +1,33 @@
+{
+   "dependencies": {
+      "@packages/environment": "workspace:*",
+      "stripe": "catalog:payments"
+   },
+   "devDependencies": {
+      "@tooling/typescript": "workspace:*",
+      "typescript": "catalog:development"
+   },
+   "exports": {
+      ".": {
+         "default": "./src/index.ts",
+         "types": "./dist/src/index.d.ts"
+      },
+      "./constants": {
+         "default": "./src/constants.ts",
+         "types": "./dist/src/constants.d.ts"
+      }
+   },
+   "files": [
+      "dist"
+   ],
+   "license": "Apache-2.0",
+   "name": "@packages/stripe",
+   "private": true,
+   "scripts": {
+      "build": "tsc --build",
+      "check": "biome check --write ./src",
+      "typecheck": "tsc "
+   },
+   "type": "module",
+   "version": "0.3.0"
+}

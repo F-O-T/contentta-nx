@@ -1,0 +1,154 @@
+{
+   "account-configuration": {
+      "description": "Configure sua conta e preferências.",
+      "items": {
+         "currency": {
+            "description": "Selecione a moeda padrão para suas transações.",
+            "title": "Moeda"
+         }
+      },
+      "state": {
+         "error": {
+            "description": "Ocorreu um erro ao carregar suas configurações.",
+            "title": "Erro ao carregar"
+         }
+      },
+      "title": "Configurações da Conta"
+   },
+   "bank-accounts": {
+      "actions": {
+         "add-account": {
+            "description": "Clique para adicionar uma nova conta bancária.",
+            "title": "Adicionar conta bancária"
+         },
+         "delete": "Excluir conta",
+         "edit": "Editar conta",
+         "label": "Gerencia sua conta bancária"
+      },
+      "description": "Gerencie suas contas bancárias.",
+      "status": {
+         "active": "Ativa",
+         "inactive": "Inativa"
+      },
+      "title": "Contas Bancárias",
+      "types": {
+         "checking": "Conta corrente",
+         "investment": "Conta de investimento",
+         "savings": "Conta poupança"
+      }
+   },
+   "billing": {
+      "actions": {
+         "portal": "Abrir o portal",
+         "title": "Gerenciar assinatura"
+      },
+      "description": "Gerencie sua assinatura e informações de cobrança.",
+      "state": {
+         "error": {
+            "description": "Ocorreu um erro ao carregar suas informações de assinatura.",
+            "title": "Erro ao carregar"
+         },
+         "not-active": {
+            "description": "O aplicativo está em modo de teste e não estamos cobrando pela assinatura no momento.",
+            "title": "Modo de teste"
+         }
+      },
+      "title": "Assinatura"
+   },
+   "features": {
+      "create-bank-account": {
+         "description": "Crie sua conta bancária para começar a fazer transações.",
+         "title": "Criar conta bancária"
+      },
+      "edit-bank-account": {
+         "description": "Edite os detalhes da sua conta bancária existente.",
+         "title": "Editar conta bancária"
+      },
+      "session-details": {
+         "actions": {
+            "description": "Aqui você pode gerenciar sua sessão atual.",
+            "revoke-current": {
+               "description": "Revogar a sessão atual e sair deste dispositivo.",
+               "title": "Revogar sessão atual"
+            },
+            "title": "Gerencie sua sessão"
+         },
+         "description": "Informações sobre a sessão selecionada.",
+         "title": "Detalhes da sessão"
+      }
+   },
+   "information": {
+      "actions": {
+         "edit-email": "Editar email",
+         "edit-password": "Alterar senha",
+         "edit-profile": "Editar perfil",
+         "title": "Gerenciar informações"
+      },
+      "description": "Atualize suas informações pessoais e de conta.",
+      "state": {
+         "error": {
+            "description": "Ocorreu um erro ao carregar suas informações de perfil.",
+            "title": "Erro ao carregar"
+         }
+      },
+      "title": "Informações do perfil"
+   },
+   "preferences": {
+      "description": "Gerencie suas preferências de conta.",
+      "items": {
+         "language": {
+            "description": "Selecione o idioma preferido para a interface.",
+            "title": "Idioma"
+         },
+         "telemetry": {
+            "description": "Permita a coleta de dados de uso para melhorar o produto.",
+            "title": "Telemetria"
+         },
+         "theme": {
+            "description": "Escolha entre o modo claro, escuro ou siga o do seu sistema.",
+            "title": "Tema"
+         }
+      },
+      "title": "Preferências"
+   },
+   "quick-access": {
+      "categories": {
+         "description": "Gerencie suas categorias.",
+         "title": "Categorias"
+      },
+      "organization": {
+         "description": "Visualize a organização associada à sua conta.",
+         "title": "Organização"
+      },
+      "state": {
+         "error": {
+            "description": "Ocorreu um erro ao carregar seus atalhos.",
+            "title": "Erro ao carregar"
+         }
+      }
+   },
+   "sessions": {
+      "actions": {
+         "revoke-all": "Revogar todas as sessões",
+         "revoke-others": "Revogar outras sessões",
+         "title": "Gerenciar sessões"
+      },
+      "description": "Visualize e gerencie suas sessões de login ativas.",
+      "item": {
+         "created-at": "Iniciado em",
+         "current": "Sessão atual",
+         "details": "Detalhes da sessão",
+         "device": "Dispositivo",
+         "ip-address": "Endereço IP",
+         "last-active": "Última atividade",
+         "unknown-device": "Dispositivo desconhecido"
+      },
+      "state": {
+         "error": {
+            "description": "Ocorreu um erro ao carregar suas sessões ativas.",
+            "title": "Erro ao carregar"
+         }
+      },
+      "title": "Sessões ativas"
+   }
+}

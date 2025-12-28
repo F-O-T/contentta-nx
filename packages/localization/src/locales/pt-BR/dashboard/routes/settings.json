@@ -1,0 +1,383 @@
+{
+   "title": "Configurações",
+   "description": "Gerencie suas configurações e preferências.",
+   "nav": {
+      "back": "Voltar",
+      "back-to-settings": "Configurações",
+      "profile": "Perfil",
+      "profile.description": "Suas informações pessoais",
+      "security": "Segurança",
+      "security.description": "Sessões e configurações de segurança",
+      "preferences": "Preferências",
+      "preferences.description": "Tema, idioma e mais",
+      "encryption": "Criptografia",
+      "encryption.description": "Proteja seus dados com criptografia",
+      "notifications": "Notificações",
+      "notifications.description": "Configure notificações push",
+      "billing": "Assinatura",
+      "billing.description": "Plano e cobrança"
+   },
+   "profile": {
+      "title": "Perfil",
+      "description": "Suas informações pessoais.",
+      "card-description": "Visualize e gerencie as informações do seu perfil pessoal",
+      "items": {
+         "name": "Nome",
+         "email": "Email"
+      },
+      "name": {
+         "title": "Alterar Nome",
+         "description": "Atualize seu nome de exibição",
+         "display-name": "Nome de exibição",
+         "display-name-info": "Este é o nome que será exibido para outros usuários e em seu perfil.",
+         "label": "Nome",
+         "placeholder": "Seu nome",
+         "success": "Nome atualizado com sucesso!",
+         "error": "Erro ao atualizar nome",
+         "edit-tooltip": "Editar nome"
+      },
+      "email": {
+         "title": "Alterar Email",
+         "description": "Atualize o endereço de email da sua conta",
+         "verification-required": "Verificação necessária",
+         "verification-info": "Um email de verificação será enviado para o novo endereço. Seu email só será alterado após você clicar no link de confirmação.",
+         "current-email": "Email atual:",
+         "new-email": "Novo email",
+         "placeholder": "novo@email.com",
+         "invalid-email": "Digite um email válido",
+         "confirm-title": "Confirmar alteração de email",
+         "confirm-description": "Um email de verificação será enviado para {{email}}. Você precisará clicar no link para confirmar a alteração.",
+         "send-verification": "Enviar verificação",
+         "success": "Email de verificação enviado para o novo endereço!",
+         "error": "Erro ao alterar email",
+         "edit-tooltip": "Alterar email"
+      },
+      "avatar": {
+         "title": "Alterar Avatar",
+         "description": "Escolha uma nova imagem de perfil",
+         "choose-image": "Escolher imagem",
+         "success": "Avatar atualizado com sucesso!",
+         "error": "Erro ao atualizar avatar",
+         "upload-error": "Erro ao fazer upload do avatar"
+      },
+      "password": {
+         "title": "Alterar Senha",
+         "label": "Senha",
+         "description-has-password": "Alterar sua senha de acesso",
+         "description-no-password": "Defina uma senha para sua conta",
+         "step-verify": "Primeiro, confirme sua senha atual",
+         "step-change": "Agora, escolha sua nova senha",
+         "identity-verification": "Verificação de identidade",
+         "identity-verification-info": "Por segurança, confirme sua senha atual antes de alterá-la.",
+         "current-password": "Senha atual",
+         "current-password-placeholder": "Digite sua senha atual",
+         "incorrect-password": "Senha incorreta",
+         "incorrect-password-info": "A senha informada não está correta. Por favor, tente novamente.",
+         "account-security": "Segurança da conta",
+         "account-security-info": "Ao alterar sua senha, todas as outras sessões serão encerradas automaticamente por segurança.",
+         "new-password": "Nova senha",
+         "new-password-placeholder": "Mínimo 8 caracteres",
+         "min-length-error": "A senha deve ter no mínimo 8 caracteres",
+         "confirm-password": "Confirmar nova senha",
+         "confirm-password-placeholder": "Digite novamente",
+         "passwords-not-match": "As senhas não coincidem",
+         "verify-and-continue": "Verificar e continuar",
+         "confirm-title": "Confirmar alteração de senha",
+         "confirm-description": "Tem certeza que deseja alterar sua senha? Todas as outras sessões ativas serão encerradas por segurança.",
+         "success": "Senha alterada com sucesso!",
+         "error": "Erro ao alterar senha"
+      },
+      "set-password": {
+         "title": "Definir Senha",
+         "description": "Para ativar a autenticação em duas etapas, você precisa definir uma senha para sua conta.",
+         "oauth-info": "Você entrou usando o Google. Para usar recursos de segurança avançados como 2FA, é necessário criar uma senha.",
+         "success": "Senha definida com sucesso!",
+         "error": "Erro ao definir senha"
+      },
+      "account-summary": {
+         "title": "Resumo da Conta",
+         "description": "Informações gerais sobre sua conta",
+         "member-since": "Membro desde",
+         "account-status": "Status da conta",
+         "verified": "Verificada",
+         "not-verified": "Não verificada"
+      },
+      "two-factor": {
+         "title": "Autenticação em Duas Etapas",
+         "description": "Adicione uma camada extra de segurança à sua conta",
+         "status": "Status do 2FA",
+         "enabled-description": "Ativado - Sua conta está protegida",
+         "disabled-description": "Desativado - Recomendamos ativar",
+         "active": "Ativo",
+         "inactive": "Inativo",
+         "oauth-warning-title": "Você entrou com o Google",
+         "oauth-warning-description": "Para ativar o 2FA, você precisa definir uma senha para sua conta primeiro.",
+         "setup": {
+            "title": "Configurar Autenticação em Duas Etapas",
+            "step-password": "Digite sua senha para continuar",
+            "step-qrcode": "Escaneie o QR code com seu aplicativo autenticador",
+            "step-verify": "Digite o código do seu aplicativo autenticador",
+            "step-backup": "Guarde seus códigos de recuperação em um local seguro",
+            "password-label": "Senha",
+            "password-placeholder": "Digite sua senha",
+            "incorrect-password": "Senha incorreta",
+            "qr-instruction": "Use Google Authenticator, Authy ou outro app compatível",
+            "manual-entry": "Ou digite manualmente:",
+            "invalid-code": "Código inválido",
+            "success": "Autenticação em duas etapas ativada!",
+            "copy-codes": "Copiar códigos",
+            "codes-copied": "Códigos copiados!",
+            "codes-info": "Guarde estes códigos em um local seguro. Cada código pode ser usado apenas uma vez."
+         },
+         "configure": "Configurar 2FA",
+         "configure-description": "Use Google Authenticator ou Authy",
+         "backup-codes": {
+            "title": "Códigos de Recuperação",
+            "description": "Ver ou regenerar códigos de backup",
+            "step-password": "Digite sua senha para ver os códigos",
+            "step-codes": "Estes são seus novos códigos de recuperação",
+            "view-codes": "Ver códigos",
+            "codes-invalidated": "Guarde estes códigos em um local seguro. Os códigos anteriores foram invalidados."
+         },
+         "disable": {
+            "title": "Desativar Autenticação em Duas Etapas",
+            "description": "Isso tornará sua conta menos segura. Digite sua senha para confirmar.",
+            "warning": "Ao desativar o 2FA, sua conta ficará protegida apenas pela senha. Recomendamos manter ativo para maior segurança.",
+            "button": "Desativar 2FA",
+            "success": "Autenticação em duas etapas desativada",
+            "error": "Erro ao desativar 2FA"
+         },
+         "remove-title": "Desativar 2FA",
+         "remove-description": "Remover autenticação em duas etapas"
+      },
+      "linked-accounts": {
+         "title": "Contas Vinculadas",
+         "description": "Gerencie as formas de acesso à sua conta",
+         "password-configured": "Configurada",
+         "password-not-configured": "Não configurada",
+         "google-linked": "Vinculado",
+         "google-not-linked": "Não vinculado",
+         "active": "Ativo",
+         "unlink-success": "Conta desvinculada com sucesso",
+         "unlink-error": "Erro ao desvincular conta",
+         "link-google-error": "Erro ao vincular conta do Google",
+         "min-one-access": "Você precisa ter pelo menos uma forma de acesso configurada."
+      },
+      "data-account": {
+         "title": "Dados e Conta",
+         "description": "Exporte seus dados ou exclua sua conta",
+         "export-button": "Exportar meus dados",
+         "delete-button": "Excluir conta",
+         "export-success": "Dados exportados com sucesso!",
+         "export-error": "Erro ao exportar dados"
+      },
+      "delete-account": {
+         "title": "Excluir Conta",
+         "options-description": "Escolha como deseja excluir sua conta",
+         "confirm-description": "Confirme a exclusão da sua conta",
+         "warning": "Esta ação é irreversível. Todos os seus dados serão permanentemente excluídos.",
+         "grace-period-title": "Excluir em 30 dias (Recomendado)",
+         "grace-period-description": "Você terá 30 dias para mudar de ideia antes da exclusão permanente",
+         "immediate-title": "Excluir imediatamente",
+         "immediate-description": "Sua conta será excluída imediatamente e não poderá ser recuperada",
+         "password-prompt-immediate": "Digite sua senha para confirmar a exclusão imediata da conta.",
+         "password-prompt-grace": "Digite sua senha para agendar a exclusão da conta em 30 dias.",
+         "password-label": "Senha",
+         "password-placeholder": "Digite sua senha",
+         "cancel": "Cancelar",
+         "continue": "Continuar",
+         "back": "Voltar",
+         "delete-now": "Excluir agora",
+         "schedule-deletion": "Agendar exclusão",
+         "success-immediate": "Conta excluída com sucesso",
+         "success-scheduled": "Exclusão agendada para {date}",
+         "error-invalid-password": "Senha incorreta",
+         "error-generic": "Erro ao excluir conta"
+      }
+   },
+   "security": {
+      "title": "Segurança",
+      "description": "Gerencie suas sessões e configurações de segurança.",
+      "sessions-description": "Gerencie seus dispositivos conectados e proteja sua conta",
+      "login-methods": {
+         "email": "Email",
+         "google": "Google",
+         "otp": "Código 2FA",
+         "magic-link": "Link Mágico",
+         "anonymous": "Anônimo"
+      },
+      "sessions": {
+         "empty-title": "Nenhuma sessão ativa",
+         "empty-description": "Suas sessões aparecerão aqui quando você estiver conectado",
+         "current-device": "Este dispositivo",
+         "unknown-ip": "IP desconhecido",
+         "view-details": "Ver detalhes"
+      },
+      "overview": {
+         "title": "Visão Geral",
+         "description": "Resumo de segurança da sua conta",
+         "active-sessions": "Sessões ativas",
+         "device": "dispositivo",
+         "devices": "dispositivos"
+      },
+      "state": {
+         "error": {
+            "title": "Erro ao carregar",
+            "description": "Não foi possível carregar as informações de segurança."
+         }
+      }
+   },
+   "preferences": {
+      "title": "Preferências",
+      "description": "Personalize sua experiência no aplicativo.",
+      "appearance": {
+         "description": "Personalize sua experiência ajustando tema e idioma"
+      },
+      "privacy": {
+         "title": "Privacidade",
+         "description": "Controle como seus dados são utilizados",
+         "telemetry-status": "Status de telemetria",
+         "enabled": "Ativada",
+         "disabled": "Desativada",
+         "sharing-data": "Compartilhando dados",
+         "private-data": "Dados privados"
+      },
+      "state": {
+         "error": {
+            "title": "Erro ao carregar preferências",
+            "description": "Não foi possível carregar suas preferências. Tente novamente."
+         }
+      }
+   },
+   "notifications": {
+      "title": "Notificações Push",
+      "description": "Receba notificações em tempo real sobre suas finanças.",
+      "not-supported": "Seu navegador não suporta notificações push.",
+      "not-configured": "Notificações push não estão configuradas no servidor.",
+      "blocked": "Você bloqueou as notificações. Para receber notificações, permita nas configurações do seu navegador.",
+      "items": {
+         "enable": {
+            "title": "Ativar notificações",
+            "enabled": "Você receberá alertas sobre transações, orçamentos e lembretes.",
+            "disabled": "Ative para receber alertas importantes no seu dispositivo."
+         },
+         "budget": {
+            "title": "Alertas de orçamento",
+            "description": "Quando você atingir limites do orçamento"
+         },
+         "bills": {
+            "title": "Lembretes de contas",
+            "description": "Antes do vencimento de contas recorrentes"
+         },
+         "overdue": {
+            "title": "Contas vencidas",
+            "description": "Quando houver contas em atraso"
+         },
+         "transactions": {
+            "title": "Novas transações",
+            "description": "Quando transações forem adicionadas"
+         }
+      }
+   },
+   "encryption": {
+      "title": "Criptografia",
+      "description": "Proteja seus dados com criptografia de ponta a ponta.",
+      "status-label": "Status da criptografia",
+      "unlocked": "Desbloqueado",
+      "locked": "Bloqueado",
+      "passphrase": "Frase secreta",
+      "passphrase-placeholder": "Digite sua frase secreta",
+      "passphrase-hint": "Mínimo de 8 caracteres. Use uma frase fácil de lembrar.",
+      "confirm-passphrase": "Confirmar frase secreta",
+      "confirm-passphrase-placeholder": "Digite novamente sua frase secreta",
+      "status": {
+         "e2e-enabled": "Criptografia E2E Ativada",
+         "server-only": "Criptografia do Servidor",
+         "disabled": "Sem Criptografia"
+      },
+      "server-encryption": {
+         "title": "Criptografia do Servidor",
+         "description": "Seus dados são criptografados automaticamente no servidor."
+      },
+      "e2e-encryption": {
+         "title": "Criptografia de Ponta a Ponta",
+         "description": "Criptografia adicional onde só você pode ler seus dados."
+      },
+      "setup": {
+         "title": "Configurar Criptografia E2E",
+         "description": "Proteja seus dados financeiros com criptografia de ponta a ponta.",
+         "button": "Configurar E2E",
+         "how-it-works": "Como funciona",
+         "how-it-works-description": "Sua frase secreta será usada para criptografar seus dados no navegador antes de enviar ao servidor. O servidor nunca verá seus dados descriptografados.",
+         "warning-title": "Importante",
+         "warning-1": "Não podemos recuperar dados se você esquecer sua frase secreta",
+         "warning-2": "A pesquisa no servidor não funcionará para dados criptografados",
+         "warning-3": "Automações não poderão ler dados criptografados",
+         "create-passphrase": "Criar Frase Secreta",
+         "create-passphrase-description": "Escolha uma frase secreta forte que você vai lembrar.",
+         "confirm-title": "Confirmar Configuração",
+         "confirm-description": "Revise antes de ativar a criptografia.",
+         "final-warning-title": "Última chance",
+         "final-warning-description": "Depois de ativar, você precisará da frase secreta para acessar seus dados. Não há como recuperar se esquecê-la.",
+         "enable-button": "Ativar Criptografia E2E",
+         "success-title": "Criptografia Ativada!",
+         "success-description": "Seus dados agora estão protegidos com criptografia de ponta a ponta.",
+         "next-steps-title": "Próximos passos",
+         "next-step-1": "Anote sua frase secreta em um local seguro",
+         "next-step-2": "Você precisará dela para desbloquear seus dados em novos dispositivos"
+      },
+      "unlock": {
+         "title": "Desbloquear Criptografia",
+         "description": "Digite sua frase secreta para acessar seus dados criptografados.",
+         "button": "Desbloquear",
+         "remember-device": "Lembrar neste dispositivo (30 dias)",
+         "success": "Dados desbloqueados com sucesso",
+         "invalid-passphrase": "Frase secreta incorreta",
+         "error": "Erro ao desbloquear"
+      },
+      "lock": {
+         "button": "Bloquear"
+      },
+      "limitations": {
+         "title": "Limitações da criptografia E2E:",
+         "item-1": "Pesquisa no servidor não funciona para dados criptografados",
+         "item-2": "Relatórios mostram valores criptografados até desbloquear",
+         "item-3": "Automações não podem ler campos criptografados"
+      },
+      "errors": {
+         "passphrase-mismatch": "As frases secretas não coincidem",
+         "passphrase-too-short": "A frase secreta deve ter pelo menos 8 caracteres",
+         "setup-failed": "Falha ao configurar criptografia"
+      },
+      "state": {
+         "error": {
+            "title": "Erro ao carregar",
+            "description": "Não foi possível carregar as configurações de criptografia."
+         }
+      }
+   },
+   "billing": {
+      "title": "Assinatura",
+      "description": "Gerencie sua assinatura e informações de cobrança.",
+      "items": {
+         "price": "Preço",
+         "per-month": "/mês"
+      },
+      "upgrade": "Fazer upgrade",
+      "manage-plan": "Gerenciar plano",
+      "status": {
+         "active": "Ativo",
+         "trialing": "Período de teste",
+         "past-due": "Pagamento pendente",
+         "canceled": "Cancelado",
+         "canceling": "Cancelando"
+      },
+      "invoice-status": {
+         "paid": "Pago",
+         "open": "Em aberto",
+         "void": "Anulado",
+         "uncollectible": "Não cobrável",
+         "unknown": "Desconhecido"
+      }
+   }
+}

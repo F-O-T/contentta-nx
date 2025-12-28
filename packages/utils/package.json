@@ -1,0 +1,87 @@
+{
+   "dependencies": {
+      "@trpc/server": "catalog:trpc",
+      "slugify": "^1.6.6",
+      "zod": "catalog:validation"
+   },
+   "devDependencies": {
+      "@tooling/typescript": "workspace:*",
+      "typescript": "catalog:development"
+   },
+   "exports": {
+      "./array": {
+         "default": "./src/array.ts",
+         "types": "./dist/src/array.d.ts"
+      },
+      "./colors": {
+         "default": "./src/colors.ts",
+         "types": "./dist/src/colors.d.ts"
+      },
+      "./date": {
+         "default": "./src/date.ts",
+         "types": "./dist/src/date.d.ts"
+      },
+      "./diff": {
+         "default": "./src/diff.ts",
+         "types": "./dist/src/diff.d.ts"
+      },
+      "./duplicate-detection": {
+         "default": "./src/duplicate-detection.ts",
+         "types": "./dist/src/duplicate-detection.d.ts"
+      },
+      "./errors": {
+         "default": "./src/errors.ts",
+         "types": "./dist/src/errors.d.ts"
+      },
+      "./file": {
+         "default": "./src/file.ts",
+         "types": "./dist/src/file.d.ts"
+      },
+      "./interest": {
+         "default": "./src/interest.ts",
+         "types": "./dist/src/interest.d.ts"
+      },
+      "./markdown": {
+         "default": "./src/markdown.ts",
+         "types": "./dist/src/markdown.d.ts"
+      },
+      "./number": {
+         "default": "./src/numbers.ts",
+         "types": "./dist/src/numbers.d.ts"
+      },
+      "./object": {
+         "default": "./src/object.ts",
+         "types": "./dist/src/object.d.ts"
+      },
+      "./recurrence": {
+         "default": "./src/recurrence.ts",
+         "types": "./dist/src/recurrence.d.ts"
+      },
+      "./sanitization": {
+         "default": "./src/sanitization.ts",
+         "types": "./dist/src/sanitization.d.ts"
+      },
+      "./split": {
+         "default": "./src/split.ts",
+         "types": "./dist/src/split.d.ts"
+      },
+      "./text": {
+         "default": "./src/text.ts",
+         "types": "./dist/src/text.d.ts"
+      }
+   },
+   "files": [
+      "dist"
+   ],
+   "license": "Apache-2.0",
+   "name": "@packages/utils",
+   "private": true,
+   "scripts": {
+      "build": "tsc --build",
+      "check": "biome check --write ./src",
+      "test": "bun test",
+      "typecheck": "tsc"
+   },
+   "type": "module",
+   "version": "0.28.0"
+}

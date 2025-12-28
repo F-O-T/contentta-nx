@@ -1,0 +1,7 @@
+{
+   "email": "Insira um endereço de email válido.",
+   "max-length": "O campo deve ter no máximo {max} caracteres.",
+   "min-length": "O campo deve ter no mínimo {min} caracteres.",
+   "password-mismatch": "As senhas não coincidem.",
+   "required": "Este campo é obrigatório."
+}

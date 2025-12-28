@@ -1,0 +1,31 @@
+{
+   "name": "@packages/arcjet",
+   "version": "0.1.0",
+   "private": true,
+   "type": "module",
+   "license": "Apache-2.0",
+   "exports": {
+      "./config": {
+         "default": "./src/config.ts",
+         "types": "./dist/src/config.d.ts"
+      },
+      "./auth-wrapper": {
+         "default": "./src/auth-wrapper.ts",
+         "types": "./dist/src/auth-wrapper.d.ts"
+      }
+   },
+   "files": ["dist"],
+   "scripts": {
+      "build": "tsc --build",
+      "check": "biome check --write ./src",
+      "typecheck": "tsc"
+   },
+   "dependencies": {
+      "@arcjet/bun": "^1.0.0-beta.15",
+      "@packages/environment": "workspace:*"
+   },
+   "devDependencies": {
+      "@tooling/typescript": "workspace:*",
+      "typescript": "catalog:development"
+   }
+}

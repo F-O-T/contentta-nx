@@ -1,0 +1,187 @@
+{
+   "actions": {
+      "complete": "Concluir Onboarding",
+      "next": "Próximo Passo",
+      "previous": "Passo Anterior"
+   },
+   "bank-account": {
+      "create-default": "Criar conta padrão",
+      "create-default-prompt": "Vamos criar uma conta padrão para você começar a registrar suas transações.",
+      "description": "Vamos começar configurando sua conta bancária principal.",
+      "form": {
+         "bank": {
+            "label": "Banco"
+         },
+         "name": {
+            "label": "Nome da Conta",
+            "placeholder": "Ex: Conta Principal"
+         },
+         "type": {
+            "label": "Tipo de Conta",
+            "options": {
+               "checking": "Corrente",
+               "investment": "Investimento",
+               "savings": "Poupança"
+            },
+            "placeholder": "Selecione o tipo de conta"
+         }
+      },
+      "title": "Criar Conta Bancária",
+      "toast": {
+         "success": "Conta bancária criada com sucesso"
+      }
+   },
+   "category": {
+      "defaults": {
+         "food": "Alimentação",
+         "health": "Saúde",
+         "housing": "Moradia",
+         "leisure": "Lazer",
+         "shopping": "Compras gerais",
+         "transport": "Transporte"
+      },
+      "description": "Selecione algumas categorias padrão para começar.",
+      "form": {
+         "budget": {
+            "label": "Orçamento Mensal"
+         },
+         "color": {
+            "label": "Cor"
+         },
+         "defaults": {
+            "label": "Categorias sugeridas"
+         },
+         "name": {
+            "label": "Nome da Categoria",
+            "placeholder": "Ex: Alimentação"
+         }
+      },
+      "title": "Categorias iniciais",
+      "toast": {
+         "success": "Categorias criadas com sucesso"
+      }
+   },
+   "context-selection": {
+      "business": {
+         "description": "Gerencie as finanças do seu negócio com Caixa",
+         "title": "Finanças Empresariais"
+      },
+      "description": "Escolha o contexto financeiro que melhor descreve suas necessidades.",
+      "personal": {
+         "description": "Acompanhe suas finanças pessoais com Carteira",
+         "title": "Finanças Pessoais"
+      },
+      "title": "Escolha seu Contexto Financeiro"
+   },
+   "default-account": {
+      "business": {
+         "name": "Caixa",
+         "bank": "Caixa"
+      },
+      "personal": {
+         "name": "Carteira",
+         "bank": "Padrão"
+      }
+   },
+   "default-account-created": {
+      "add-additional-account": "Desejo criar uma conta adicional",
+      "business": {
+         "description": "A conta 'Caixa' foi criada e está pronta para uso. Você pode adicionar mais contas a qualquer momento.",
+         "title": "Conta 'Caixa' criada com sucesso"
+      },
+      "description": "Sua conta padrão foi criada com sucesso.",
+      "personal": {
+         "description": "A conta 'Carteira' foi criada e está pronta para uso. Você pode adicionar mais contas a qualquer momento.",
+         "title": "Conta 'Carteira' criada com sucesso"
+      },
+      "title": "Conta Criada"
+   },
+   "optional-bank-account": {
+      "description": "Você pode adicionar outra conta bancária agora ou pular esta etapa.",
+      "form": {
+         "bank": {
+            "label": "Banco"
+         },
+         "name": {
+            "description": "Um nome para identificar esta conta. Se não informado, usaremos o nome do banco.",
+            "label": "Nome da Conta",
+            "placeholder": "Ex: Conta Principal"
+         },
+         "nickname": {
+            "label": "Apelido",
+            "placeholder": "Opcional"
+         },
+         "type": {
+            "label": "Tipo de Conta",
+            "options": {
+               "checking": "Corrente",
+               "investment": "Investimento",
+               "savings": "Poupança"
+            },
+            "placeholder": "Selecione o tipo de conta"
+         }
+      },
+      "skip": "Pular",
+      "title": "Adicionar Outra Conta Bancária"
+   },
+   "organization-setup": {
+      "account-creation-failed": "Falha ao criar conta padrão",
+      "description": "Configure sua organização empresarial.",
+      "form": {
+         "name": {
+            "label": "Nome da Empresa",
+            "placeholder": "Ex: Minha Empresa"
+         }
+      },
+      "limit-reached": {
+         "description": "Você atingiu o limite de organizações permitidas pelo seu plano.",
+         "title": "Limite Atingido"
+      },
+      "title": "Configurar Organização"
+   },
+   "step-indicator": "Passo {{current}} de {{total}}",
+   "validation": {
+      "account-name-required": "Nome da conta é obrigatório",
+      "account-type-required": "Tipo de conta é obrigatório",
+      "bank-required": "Banco é obrigatório",
+      "category-name-required": "Nome da categoria é obrigatório",
+      "organization-name-required": "Nome da empresa é obrigatório"
+   },
+   "profile": {
+      "title": "Como podemos te chamar?",
+      "description": "Nos diga seu nome para personalizar sua experiência.",
+      "form": {
+         "description": "Este nome será usado para identificá-lo na plataforma.",
+         "name": {
+            "label": "Seu nome",
+            "placeholder": "Digite seu nome",
+            "description": "Você pode alterar isso depois nas configurações."
+         }
+      },
+      "toast": {
+         "error": "Erro ao salvar o nome. Tente novamente."
+      }
+   },
+   "welcome": {
+      "description": "Gerencie suas finanças pessoais de forma simples e eficiente.",
+      "features": {
+         "budgets": {
+            "description": "Defina orçamentos mensais e acompanhe seus gastos.",
+            "title": "Orçamentos"
+         },
+         "insights": {
+            "description": "Visualize relatórios detalhados das suas finanças.",
+            "title": "Relatórios"
+         },
+         "security": {
+            "description": "Seus dados protegidos com criptografia de ponta.",
+            "title": "Segurança"
+         },
+         "wallet": {
+            "description": "Organize suas contas e transações em um só lugar.",
+            "title": "Carteira Digital"
+         }
+      },
+      "title": "Bem-vindo ao Montte"
+   }
+}

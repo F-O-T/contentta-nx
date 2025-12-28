@@ -1,0 +1,37 @@
+{
+   "dependencies": {
+      "@packages/utils": "workspace:*",
+      "@react-email/components": "catalog:transactional",
+      "react": "catalog:react",
+      "react-dom": "catalog:react",
+      "resend": "catalog:transactional"
+   },
+   "devDependencies": {
+      "@tooling/typescript": "workspace:*",
+      "react-email": "catalog:transactional",
+      "typescript": "catalog:development"
+   },
+   "exports": {
+      "./client": {
+         "default": "./src/client.tsx",
+         "types": "./dist/src/client.d.ts"
+      },
+      "./utils": {
+         "default": "./src/utils.ts",
+         "types": "./dist/src/utils.d.ts"
+      }
+   },
+   "files": [
+      "dist"
+   ],
+   "license": "Apache-2.0",
+   "name": "@packages/transactional",
+   "private": true,
+   "scripts": {
+      "build": "tsc --build",
+      "check": "biome check --write ./src",
+      "typecheck": "tsc "
+   },
+   "type": "module",
+   "version": "0.8.1"
+}

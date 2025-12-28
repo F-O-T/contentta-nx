@@ -1,0 +1,7 @@
+{
+   "extends": "@tooling/typescript/typecheck.json",
+   "compilerOptions": {
+      "jsx": "react-jsx"
+   },
+   "include": ["src"]
+}

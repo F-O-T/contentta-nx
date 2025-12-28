@@ -1,0 +1,10 @@
+{
+   "extends": "@tooling/typescript/typecheck.json",
+   "compilerOptions": {
+      "jsx": "react-jsx",
+      "lib": ["dom", "ES2022"],
+      "types": ["vite/client"]
+   },
+   "include": ["src", "__tests__/*.test.ts"],
+   "exclude": ["node_modules"]
+}

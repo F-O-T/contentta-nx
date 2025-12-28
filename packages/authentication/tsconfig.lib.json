@@ -1,0 +1,26 @@
+{
+   "extends": "@tooling/typescript/internal-package.json",
+   "compilerOptions": {
+      "baseUrl": ".",
+      "jsx": "react-jsx"
+   },
+   "include": ["src"],
+   "exclude": ["**/*.test.ts", "**/__tests__/**", "node_modules"],
+   "references": [
+    {
+      "path": "../transactional/tsconfig.lib.json"
+    },
+    {
+      "path": "../stripe/tsconfig.lib.json"
+    },
+    {
+      "path": "../environment/tsconfig.lib.json"
+    },
+    {
+      "path": "../database/tsconfig.lib.json"
+    },
+    {
+      "path": "../cache/tsconfig.lib.json"
+    }
+  ]
+}

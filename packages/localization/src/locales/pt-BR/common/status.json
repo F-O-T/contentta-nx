@@ -1,0 +1,13 @@
+{
+   "active": "Ativo",
+   "archived": "Arquivado",
+   "completed": "Concluído",
+   "disabled": "Desativado",
+   "draft": "Rascunho",
+   "enabled": "Ativado",
+   "failed": "Falhou",
+   "inactive": "Inativo",
+   "loading": "Carregando",
+   "pending": "Pendente",
+   "published": "Publicado"
+}

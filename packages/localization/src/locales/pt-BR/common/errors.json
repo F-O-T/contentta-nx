@@ -1,0 +1,8 @@
+{
+   "default": "Ocorreu um erro. Por favor, tente novamente.",
+   "network": "Erro de conexão. Verifique sua internet.",
+   "validation": "Por favor, corrija os erros abaixo.",
+   "unauthorized": "Você não tem permissão para realizar esta ação.",
+   "not-found": "Recurso não encontrado.",
+   "server": "Erro no servidor. Tente novamente mais tarde."
+}

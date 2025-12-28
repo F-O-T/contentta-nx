@@ -1,0 +1,24 @@
+{
+   "$schema": "https://ui.shadcn.com/schema.json",
+   "aliases": {
+      "components": "@packages/ui/components",
+      "hooks": "@packages/ui/hooks",
+      "lib": "@packages/ui/lib",
+      "ui": "@packages/ui/components",
+      "utils": "@packages/ui/lib/utils"
+   },
+   "iconLibrary": "lucide",
+   "registries": {
+      "@billingsdk": "https://billingsdk.com/r/{name}.json",
+      "@kibo-ui": "https://www.kibo-ui.com/r/{name}.json"
+   },
+   "rsc": true,
+   "style": "new-york",
+   "tailwind": {
+      "baseColor": "neutral",
+      "config": "",
+      "css": "src/styles/globals.css",
+      "cssVariables": true
+   },
+   "tsx": true
+}

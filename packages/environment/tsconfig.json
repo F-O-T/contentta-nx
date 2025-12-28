@@ -1,0 +1,4 @@
+{
+   "extends": "@tooling/typescript/typecheck.json",
+   "include": ["src"]
+}

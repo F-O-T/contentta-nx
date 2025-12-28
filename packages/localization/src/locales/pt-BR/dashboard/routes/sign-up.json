@@ -1,0 +1,16 @@
+{
+   "actions": {
+      "google-sign-up": "Cadastrar com Google",
+      "sign-in": "Entre aqui"
+   },
+   "description": "Crie sua conta para começar a usar o aplicativo.",
+   "messages": {
+      "requesting": "Criando sua conta...",
+      "success": "Conta criada com sucesso!"
+   },
+   "texts": {
+      "have-account": "Já tem uma conta? ",
+      "terms-and-privacy": "Ao clicar em enviar, você concorda com nossos {split} e {split}."
+   },
+   "title": "Cadastrar"
+}

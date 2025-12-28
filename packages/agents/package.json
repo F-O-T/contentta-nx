@@ -1,0 +1,64 @@
+{
+  "dependencies": {
+    "@mastra/core": "^1.0.0-beta.18",
+    "@packages/queue": "workspace:*",
+    "@mastra/evals": "^1.0.0-beta.3",
+    "@mastra/libsql": "^1.0.0-beta.10",
+    "@mastra/loggers": "^1.0.0-beta.3",
+    "@mastra/memory": "^1.0.0-beta.9",
+    "@mastra/observability": "^1.0.0-beta.9",
+    "@openrouter/ai-sdk-provider": "catalog:openrouter",
+    "@packages/database": "workspace:*",
+    "@packages/environment": "workspace:*",
+    "@packages/files": "workspace:*",
+    "@packages/localization": "workspace:*",
+    "@packages/rag": "workspace:*",
+    "@packages/server-events": "workspace:*",
+    "@packages/utils": "workspace:*",
+    "@tavily/core": "0.6.3",
+    "ai": "catalog:openrouter",
+    "zod": "catalog:validation"
+  },
+  "devDependencies": {
+    "@tooling/typescript": "workspace:*",
+    "dotenv-cli": "catalog:enviroment",
+    "shx": "catalog:enviroment",
+    "typescript": "catalog:development"
+  },
+  "exports": {
+    ".": {
+      "default": "./src/mastra/index.ts",
+      "types": "./dist/src/mastra/index.d.ts"
+    },
+    "./queue/consumer": {
+      "default": "./src/queue/consumer.ts",
+      "types": "./dist/src/queue/consumer.d.ts"
+    },
+    "./queue/producer": {
+      "default": "./src/queue/producer.ts",
+      "types": "./dist/src/queue/producer.d.ts"
+    },
+    "./queue/queues": {
+      "default": "./src/queue/queues.ts",
+      "types": "./dist/src/queue/queues.d.ts"
+    },
+    "./queue/schemas": {
+      "default": "./src/queue/schemas.ts",
+      "types": "./dist/src/queue/schemas.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "Apache-2.0",
+  "name": "@packages/agents",
+  "private": true,
+  "scripts": {
+    "build": "tsc --build",
+    "check": "biome check --write ./src",
+    "dev": "dotenv -e .env -- bunx mastra dev",
+    "typecheck": "tsc "
+  },
+  "type": "module",
+  "version": "0.25.1"
+}

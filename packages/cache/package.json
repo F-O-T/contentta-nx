@@ -1,0 +1,36 @@
+{
+   "dependencies": {
+      "@packages/environment": "workspace:*",
+      "ioredis": "catalog:workers"
+   },
+   "devDependencies": {
+      "@tooling/typescript": "workspace:*",
+      "typescript": "catalog:development"
+   },
+   "exports": {
+      "./better-auth": {
+         "default": "./src/better-auth.ts",
+         "types": "./dist/src/better-auth.d.ts"
+      },
+      "./client": {
+         "default": "./src/client.ts",
+         "types": "./dist/src/client.d.ts"
+      },
+      "./connection": {
+         "default": "./src/connection.ts",
+         "types": "./dist/src/connection.d.ts"
+      }
+   },
+   "files": [
+      "dist"
+   ],
+   "license": "Apache-2.0",
+   "name": "@packages/cache",
+   "private": true,
+   "scripts": {
+      "build": "tsc --build",
+      "typecheck": "tsc"
+   },
+   "type": "module",
+   "version": "0.1.0"
+}

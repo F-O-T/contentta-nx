@@ -1,0 +1,149 @@
+{
+   "balance-card": {
+      "expenses": "Despesas Totais",
+      "income": "Receita Total",
+      "state": {
+         "error": {
+            "description": "Não foi possível carregar seu saldo.",
+            "title": "Erro ao carregar saldo"
+         }
+      },
+      "title": "Saldo Líquido"
+   },
+   "bank-accounts": {
+      "description": "Gerencie suas contas bancárias",
+      "title": "Suas Contas Bancárias"
+   },
+   "charts": {
+      "cash-flow": {
+         "description": "Fluxo de caixa líquido ao longo do tempo",
+         "title": "Fluxo de Caixa"
+      },
+      "financial-evolution": {
+         "description": "Receitas e despesas no período selecionado",
+         "title": "Evolução Financeira"
+      },
+      "planned-vs-actual": {
+         "description": "Conformidade orçamentária",
+         "title": "Planejado vs Real"
+      }
+   },
+   "description": "Seu espaço de criação de conteúdo com IA",
+   "financial-summary": {
+      "net-balance": {
+         "description": "Receitas - Despesas",
+         "title": "Saldo Líquido"
+      },
+      "payment-rate": {
+         "bills-paid": "contas pagas",
+         "description": "de",
+         "title": "Taxa de Pagamento"
+      },
+      "total-expenses": {
+         "description": "Despesas do período",
+         "title": "Despesas Totais"
+      },
+      "total-income": {
+         "description": "Receita do período",
+         "title": "Receita Total"
+      }
+   },
+   "quick-actions": {
+      "add-writer": {
+         "description": "Criar um novo escritor IA",
+         "title": "Adicionar Escritor"
+      },
+      "brand-settings": {
+         "description": "Personalizar sua marca",
+         "title": "Configurar Marca"
+      },
+      "create-content": {
+         "description": "Gerar novo conteúdo com IA",
+         "title": "Criar Conteúdo"
+      },
+      "new-transaction": {
+         "description": "Registre uma nova transação",
+         "title": "Nova Transação"
+      },
+      "payables": {
+         "description": "Gerencie suas contas a pagar",
+         "title": "Contas a Pagar"
+      },
+      "receivables": {
+         "description": "Gerencie suas contas a receber",
+         "title": "Contas a Receber"
+      },
+      "reports": {
+         "description": "Visualize seus relatórios financeiros",
+         "title": "Ver Relatórios"
+      },
+      "view-content": {
+         "description": "Explorar sua biblioteca",
+         "title": "Ver Conteúdos"
+      }
+   },
+   "recent-content": {
+      "description": "Sua atividade recente de conteúdo",
+      "state": {
+         "empty": {
+            "description": "Comece criando seu primeiro conteúdo.",
+            "title": "Nenhum conteúdo ainda"
+         },
+         "error": {
+            "description": "Não foi possível carregar seus conteúdos recentes.",
+            "title": "Erro ao carregar conteúdos"
+         }
+      },
+      "title": "Conteúdos Recentes"
+   },
+   "recent-transactions": {
+      "description": "Sua atividade recente na conta",
+      "state": {
+         "empty": {
+            "description": "Comece adicionando sua primeira transação.",
+            "title": "Nenhuma transação ainda"
+         },
+         "error": {
+            "description": "Não foi possível carregar suas transações recentes.",
+            "title": "Erro ao carregar transações"
+         }
+      },
+      "title": "Transações Recentes"
+   },
+   "state": {
+      "error": {
+         "description": "Não foi possível carregar a visão geral.",
+         "title": "Erro ao carregar painel"
+      }
+   },
+   "stats-card": {
+      "archived": "Arquivados",
+      "drafts": "Rascunhos",
+      "published": "Publicados",
+      "state": {
+         "error": {
+            "description": "Não foi possível carregar as estatísticas.",
+            "title": "Erro ao carregar estatísticas"
+         }
+      },
+      "title": "Visão Geral do Conteúdo",
+      "total": "Total de Conteúdos"
+   },
+   "title": "Painel",
+   "view-detailed-reports": "Ver Relatórios Detalhados",
+   "writers": {
+      "description": "Escritores IA prontos para criar conteúdo",
+      "empty": {
+         "action": "Criar Escritor",
+         "description": "Crie seu primeiro escritor IA para começar a gerar conteúdo",
+         "title": "Nenhum escritor ainda"
+      },
+      "state": {
+         "error": {
+            "description": "Não foi possível carregar seus escritores.",
+            "title": "Erro ao carregar escritores"
+         }
+      },
+      "title": "Seus Escritores"
+   }
+}

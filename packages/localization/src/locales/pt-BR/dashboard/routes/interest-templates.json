@@ -1,0 +1,170 @@
+{
+   "actions": {
+      "add-new": "Adicionar Template",
+      "add-template": "Adicionar Template"
+   },
+   "bulk-actions": {
+      "delete": "Excluir",
+      "delete-confirm-description": "Esta acao nao pode ser desfeita. Isso excluira permanentemente {count, plural, one {# template de juros} other {# templates de juros}}.",
+      "delete-confirm-title": "Excluir {count, plural, one {# template de juros} other {# templates de juros}}?",
+      "deleted-error": "Falha ao excluir templates de juros",
+      "deleted-success": "{count, plural, one {# template de juros excluido} other {# templates de juros excluidos}} com sucesso"
+   },
+   "delete": {
+      "confirm-description": "Esta acao nao pode ser desfeita. Isso excluira permanentemente este template de juros.",
+      "confirm-title": "Excluir template de juros?",
+      "error": "Falha ao excluir template de juros",
+      "success": "Template de juros excluido com sucesso"
+   },
+   "description": "Gerencie templates de juros e multas para suas contas",
+   "features": {
+      "create-template": {
+         "description": "Adicione um novo template de juros e multas.",
+         "title": "Criar Template"
+      },
+      "edit-template": {
+         "description": "Atualize os detalhes de {name}.",
+         "title": "Editar Template"
+      },
+      "filter": {
+         "actions": {
+            "advanced-filters": "Filtros Avancados",
+            "advanced-filters-description": "Configure filtros adicionais para refinar sua busca",
+            "clear-advanced-filters": "Limpar Filtros Avancados",
+            "clear-filters": "Limpar Filtros",
+            "filters": "Filtros",
+            "more-filters": "Mais Filtros"
+         },
+         "date-range": {
+            "label": "Periodo",
+            "placeholder": "Selecione um periodo"
+         },
+         "description": "Refine a lista de templates com base em criterios especificos.",
+         "interest-type": {
+            "all": "Todos",
+            "label": "Tipo de Juros"
+         },
+         "is-default": {
+            "label": "Template Padrao"
+         },
+         "monetary-correction": {
+            "all": "Todos",
+            "label": "Correcao Monetaria",
+            "none": "Nenhuma"
+         },
+         "penalty-type": {
+            "all": "Todos",
+            "label": "Tipo de Multa"
+         },
+         "status": {
+            "active": "Ativos",
+            "all": "Todos",
+            "inactive": "Inativos",
+            "label": "Status"
+         },
+         "title": "Filtrar Templates"
+      },
+      "stepper": {
+         "steps": {
+            "advanced": {
+               "description": "Configure correcao monetaria e carencia",
+               "title": "Configuracoes Avancadas"
+            },
+            "basic-info": {
+               "description": "Defina o nome e configuracoes basicas",
+               "title": "Informacoes Basicas"
+            },
+            "interest-penalty": {
+               "description": "Configure juros e multa",
+               "title": "Juros e Multa"
+            }
+         }
+      }
+   },
+   "form": {
+      "grace-period": {
+         "days": "dias",
+         "description": "Numero de dias antes de iniciar a cobranca de juros",
+         "label": "Periodo de Carencia"
+      },
+      "interest-type": {
+         "daily": "Diario",
+         "label": "Tipo de Juros",
+         "monthly": "Mensal",
+         "none": "Nenhum"
+      },
+      "interest-value": {
+         "label": "Valor dos Juros (%)"
+      },
+      "is-default": {
+         "description": "Este template sera aplicado automaticamente a novas contas",
+         "label": "Template Padrao"
+      },
+      "monetary-correction": {
+         "description": "Indice utilizado para correcao monetaria do valor",
+         "label": "Indice de Correcao Monetaria",
+         "none": "Nenhum"
+      },
+      "name": {
+         "label": "Nome",
+         "placeholder": "Digite o nome do template"
+      },
+      "penalty-type": {
+         "fixed": "Valor Fixo",
+         "label": "Tipo de Multa",
+         "none": "Nenhuma",
+         "percentage": "Percentual"
+      },
+      "penalty-value": {
+         "label": "Valor da Multa"
+      }
+   },
+   "list-section": {
+      "actions": {
+         "delete-template": "Excluir template",
+         "edit-template": "Editar template",
+         "view-details": "Ver detalhes"
+      },
+      "state": {
+         "empty": {
+            "description": "Crie seu primeiro template de juros usando o botao acima para comecar a configurar multas e juros.",
+            "title": "Nenhum template ainda"
+         },
+         "error": {
+            "description": "Falha ao carregar templates de juros. Tente novamente mais tarde.",
+            "title": "Erro ao carregar templates"
+         }
+      }
+   },
+   "stats": {
+      "active": {
+         "description": "Templates ativos no sistema",
+         "title": "Ativos"
+      },
+      "error": {
+         "description": "Falha ao carregar estatisticas",
+         "title": "Erro"
+      },
+      "total": {
+         "description": "Numero total de templates cadastrados",
+         "title": "Total de Templates"
+      },
+      "with-correction": {
+         "description": "Templates com correcao monetaria",
+         "title": "Com Correcao"
+      },
+      "with-penalty": {
+         "description": "Templates com multa configurada",
+         "title": "Com Multa"
+      }
+   },
+   "table": {
+      "columns": {
+         "created-at": "Criado em",
+         "interest": "Juros",
+         "name": "Nome",
+         "penalty": "Multa"
+      }
+   },
+   "title": "Templates de Juros"
+}

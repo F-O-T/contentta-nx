@@ -1,0 +1,13 @@
+{
+   "actions": {
+      "resend": "Reenviar Código"
+   },
+   "description": "Digite o código de verificação enviado para seu email.",
+   "messages": {
+      "requesting": "Enviando código...",
+      "resend-success": "Código reenviado com sucesso!",
+      "success": "Email verificado com sucesso!",
+      "verifying": "Verificando código..."
+   },
+   "title": "Verificação de Email"
+}

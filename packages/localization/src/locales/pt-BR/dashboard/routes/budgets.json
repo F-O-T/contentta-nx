@@ -1,0 +1,282 @@
+{
+   "actions-toolbar": {
+      "actions": {
+         "add-new": "Novo orçamento"
+      }
+   },
+   "alerts": {
+      "near-limit": "Você gastou {percentage}% do orçamento de {name}",
+      "over-limit": "Orçamento de {name} foi excedido!",
+      "suggestion": "Considere remanejar R$ {amount} de outro orçamento"
+   },
+   "bulk-actions": {
+      "activate": "Ativar",
+      "activate-confirm-description": "Os orçamentos selecionados serão ativados e passarão a ser considerados no controle de gastos.",
+      "activate-confirm-title": "Ativar {count} orçamentos",
+      "activated-error": "Erro ao ativar orçamentos",
+      "activated-success": "{count, plural, one {# orçamento ativado} other {# orçamentos ativados}}",
+      "confirm": "Confirmar",
+      "deactivate": "Desativar",
+      "deactivate-confirm-description": "Os orçamentos selecionados serão desativados e não serão mais considerados no controle de gastos.",
+      "deactivate-confirm-title": "Desativar {count} orçamentos",
+      "deactivated-error": "Erro ao desativar orçamentos",
+      "deactivated-success": "{count, plural, one {# orçamento desativado} other {# orçamentos desativados}}",
+      "delete": "Excluir",
+      "delete-confirm-description": "Os orçamentos selecionados serão excluídos permanentemente. Esta ação não pode ser desfeita.",
+      "delete-confirm-title": "Excluir {count} orçamentos",
+      "deleted-error": "Erro ao excluir orçamentos",
+      "deleted-success": "{count, plural, one {# orçamento excluído} other {# orçamentos excluídos}}",
+      "selected": "{count} selecionados"
+   },
+   "details": {
+      "actions": {
+         "delete": "Excluir",
+         "edit": "Editar"
+      },
+      "error": {
+         "back": "Voltar para Orçamentos",
+         "title": "Erro ao carregar orçamento"
+      },
+      "information": {
+         "active": "Ativo",
+         "created-at": "Criado em",
+         "description": "Configurações e detalhes do orçamento",
+         "inactive": "Inativo",
+         "mode": "Modo",
+         "period": "Período",
+         "regime": "Regime",
+         "rollover": "Acumulação",
+         "rollover-cap": "Limite de acumulação",
+         "rollover-disabled": "Desativado",
+         "rollover-enabled": "Ativado",
+         "status": "Status",
+         "target": "Alvo",
+         "title": "Informações do Orçamento",
+         "updated-at": "Atualizado em"
+      },
+      "page": {
+         "description": "Acompanhe o progresso e detalhes deste orçamento"
+      },
+      "progress": {
+         "description": "Acompanhe quanto foi gasto em relação ao limite definido",
+         "empty": "Nenhum período encontrado para este orçamento",
+         "of-budget": "do orçamento",
+         "remaining": "restante",
+         "title": "Progresso do Período"
+      },
+      "stats": {
+         "daily-budget": "Orçamento diário",
+         "days-remaining": "Dias restantes",
+         "description": "Métricas detalhadas do seu orçamento",
+         "forecast": "Previsão",
+         "including-scheduled": "incluindo agendados",
+         "on-track": "No caminho certo",
+         "per-day": "por dia disponível",
+         "title": "Estatísticas"
+      },
+      "transactions": {
+         "description": "Transações que afetam este orçamento no período selecionado",
+         "empty": {
+            "description": "Não há transações que afetam este orçamento no período selecionado",
+            "title": "Nenhuma transação encontrada"
+         },
+         "error": {
+            "title": "Erro ao carregar transações"
+         },
+         "title": "Transações do Orçamento"
+      }
+   },
+   "features": {
+      "create-budget": {
+         "description": "Crie um novo orçamento para controlar seus gastos",
+         "title": "Novo orçamento"
+      },
+      "delete-budget": {
+         "cancel": "Cancelar",
+         "confirm": "Excluir",
+         "description": "Tem certeza que deseja excluir este orçamento? Esta ação não pode ser desfeita.",
+         "title": "Excluir orçamento"
+      },
+      "edit-budget": {
+         "description": "Editando o orçamento {name}",
+         "title": "Editar orçamento"
+      },
+      "filter": {
+         "description": "Filtre os orçamentos por diferentes critérios",
+         "title": "Filtrar orçamentos"
+      }
+   },
+   "filters": {
+      "all": "Todos",
+      "mode": "Modo",
+      "period": "Período",
+      "status": "Status"
+   },
+   "form": {
+      "alerts": {
+         "enabled": "Ativar alertas",
+         "label": "Alertas",
+         "thresholds": "Limites de alerta"
+      },
+      "amount": {
+         "label": "Valor limite",
+         "placeholder": "0,00"
+      },
+      "blockOnExceed": {
+         "description": "Impede criação de despesas quando o orçamento for excedido",
+         "label": "Bloquear ao exceder"
+      },
+      "description": {
+         "label": "Descrição",
+         "placeholder": "Descrição opcional do orçamento"
+      },
+      "mode": {
+         "business": "Empresarial",
+         "business-description": "Controle rigoroso com previsão vs realizado",
+         "label": "Modo",
+         "personal": "Pessoal",
+         "personal-description": "Foco em economia e gamificação"
+      },
+      "name": {
+         "label": "Nome",
+         "placeholder": "Ex: Alimentação, Lazer, Marketing..."
+      },
+      "period": {
+         "custom": "Personalizado",
+         "daily": "Diário",
+         "label": "Período",
+         "monthly": "Mensal",
+         "quarterly": "Trimestral",
+         "weekly": "Semanal",
+         "yearly": "Anual"
+      },
+      "periodStartDay": {
+         "label": "Dia de início do período",
+         "placeholder": "1"
+      },
+      "regime": {
+         "accrual": "Regime de competência",
+         "accrual-description": "Consome o orçamento na data da emissão/compra",
+         "cash": "Regime de caixa",
+         "cash-description": "Consome o orçamento na data do pagamento",
+         "label": "Regime de visualização"
+      },
+      "rollover": {
+         "description": "O saldo não utilizado será acumulado para o próximo período",
+         "label": "Acumular saldo (Rollover)"
+      },
+      "rolloverCap": {
+         "label": "Limite de acumulação",
+         "placeholder": "Sem limite"
+      },
+      "target": {
+         "categories": "Múltiplas categorias",
+         "category": "Categoria única",
+         "cost_center": "Centro de custo",
+         "label": "Alvo do orçamento",
+         "tag": "Tag"
+      }
+   },
+   "list-section": {
+      "actions": {
+         "delete": "Excluir",
+         "edit": "Editar",
+         "edit-budget": "Editar",
+         "label": "Ações",
+         "view-details": "Ver detalhes"
+      },
+      "description": "Gerencie seus orçamentos e acompanhe seus gastos",
+      "state": {
+         "empty": {
+            "description": "Crie seu primeiro orçamento para começar a controlar seus gastos",
+            "title": "Nenhum orçamento encontrado"
+         },
+         "error": {
+            "description": "Não foi possível carregar os orçamentos. Tente novamente.",
+            "title": "Erro ao carregar orçamentos"
+         }
+      },
+      "title": "Orçamentos"
+   },
+   "notifications": {
+      "activated": "Orçamento ativado com sucesso",
+      "deactivated": "Orçamento desativado com sucesso",
+      "error": "Erro ao atualizar orçamento"
+   },
+   "page": {
+      "description": "Gerencie seus orçamentos e acompanhe a evolução dos seus gastos",
+      "title": "Orçamentos"
+   },
+   "progress": {
+      "available": "Disponível",
+      "over-budget": "Acima do limite",
+      "rollover": "Acumulado do período anterior",
+      "scheduled": "Agendado",
+      "spent": "Gasto"
+   },
+   "regime-tooltip": {
+      "accrual": "Regime de competência: o orçamento é consumido na data da emissão/compra. Configurado a nível da organização.",
+      "cash": "Regime de caixa: o orçamento é consumido na data do pagamento. Configurado a nível da organização."
+   },
+   "rollover-toggle": {
+      "cancel": "Cancelar",
+      "confirm": "Confirmar",
+      "disable-description": "O saldo não utilizado não será mais acumulado para o próximo período. O orçamento será reiniciado a cada período.",
+      "disable-title": "Desativar acumulação",
+      "enable-description": "O saldo não utilizado será acumulado para o próximo período. Isso permite que você economize para usar depois.",
+      "enable-title": "Ativar acumulação"
+   },
+   "stats": {
+      "available": "Disponível",
+      "average-utilization": {
+         "description": "Percentual médio de uso dos orçamentos",
+         "title": "Utilização média"
+      },
+      "budgets-near-limit": {
+         "description": "Orçamentos com mais de 80% utilizados",
+         "title": "Próximos do limite"
+      },
+      "budgets-over-limit": {
+         "description": "Orçamentos que ultrapassaram o limite",
+         "title": "Orçamentos estourados"
+      },
+      "spent": "Gasto",
+      "total": "Total",
+      "total-available": {
+         "description": "Quanto ainda pode ser gasto",
+         "title": "Total disponível"
+      },
+      "total-budgeted": {
+         "description": "Soma de todos os limites",
+         "title": "Total orçado"
+      },
+      "total-budgets": {
+         "description": "Número de orçamentos ativos",
+         "title": "Total de orçamentos"
+      },
+      "total-spent": {
+         "description": "Soma de todos os gastos realizados",
+         "title": "Total gasto"
+      }
+   },
+   "status": {
+      "active": "Ativo",
+      "inactive": "Inativo"
+   },
+   "status-toggle": {
+      "activate-description": "Ao ativar, este orçamento voltará a ser considerado no controle de gastos.",
+      "activate-title": "Ativar orçamento",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar",
+      "deactivate-description": "Ao desativar, este orçamento não será mais considerado no controle de gastos.",
+      "deactivate-title": "Desativar orçamento"
+   },
+   "table": {
+      "amount": "Valor",
+      "mode": "Modo",
+      "name": "Nome",
+      "period": "Período",
+      "progress": "Progresso",
+      "status": "Status"
+   }
+}

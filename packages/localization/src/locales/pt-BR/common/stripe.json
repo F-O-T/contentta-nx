@@ -1,0 +1,11 @@
+{
+   "disclosure": {
+      "title": "Pagamentos Seguros com Stripe",
+      "description": "Seus dados de pagamento são processados com segurança pela Stripe, nossa provedora de pagamentos.",
+      "pci-dss": "Certificado PCI-DSS Nível 1 (mais alto padrão de segurança)",
+      "no-card-storage": "Montte não armazena números de cartão de crédito",
+      "encrypted": "Todos os dados de pagamento são criptografados",
+      "privacy-policy-prefix": "Consulte a",
+      "privacy-policy-link": "Política de Privacidade da Stripe"
+   }
+}

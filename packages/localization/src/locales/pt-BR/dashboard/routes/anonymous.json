@@ -1,0 +1,17 @@
+{
+   "actions": {
+      "back-to-sign-in": "Voltar para o login",
+      "sign-in": "Começar agora"
+   },
+   "benefits": {
+      "convert-later": "Adicione seu e-mail depois para não perder seus dados",
+      "instant": "Acesso imediato, sem cadastro",
+      "no-email": "Sem precisar de e-mail ou senha"
+   },
+   "description": "Experimente o Montte agora mesmo. Você pode criar uma conta completa depois.",
+   "messages": {
+      "success": "Pronto! Sua conta foi criada."
+   },
+   "note": "Seus dados ficam salvos. Você pode adicionar um e-mail a qualquer momento nas configurações.",
+   "title": "Acesso rápido"
+}

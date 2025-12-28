@@ -1,0 +1,73 @@
+{
+   "actions": {
+      "add-cost-center": "Adicionar Centro de Custo"
+   },
+   "actions-toolbar": {
+      "actions": {
+         "add-new": "Adicionar novo centro de custo",
+         "delete-selected": "Excluir selecionados"
+      }
+   },
+   "bulk-actions": {
+      "delete": "Excluir",
+      "delete-confirm-description": "Esta ação não pode ser desfeita. Isso excluirá permanentemente {count, plural, one {# centro de custo} other {# centros de custo}} e removerá a associação de todas as transações vinculadas.",
+      "delete-confirm-title": "Excluir {count, plural, one {# centro de custo} other {# centros de custo}}?",
+      "deleted-error": "Falha ao excluir centros de custo",
+      "deleted-success": "{count, plural, one {# centro de custo excluído} other {# centros de custo excluídos}} com sucesso"
+   },
+   "features": {
+      "create-cost-center": {
+         "description": "Adicione um novo centro de custo para organizar suas transações.",
+         "title": "Criar Novo Centro de Custo"
+      },
+      "edit-cost-center": {
+         "description": "Atualize os detalhes do seu centro de custo.",
+         "title": "Editar Centro de Custo"
+      },
+      "filter": {
+         "actions": {
+            "clear-filters": "Limpar Filtros"
+         },
+         "description": "Refine a lista de centros de custo com base em critérios específicos.",
+         "title": "Filtrar Centros de Custo"
+      }
+   },
+   "list-section": {
+      "actions": {
+         "delete": "Excluir centro de custo",
+         "delete-cost-center": "Excluir centro de custo",
+         "edit-cost-center": "Editar centro de custo",
+         "label": "Gerencie seu centro de custo",
+         "view": "Ver detalhes",
+         "view-details": "Ver detalhes"
+      },
+      "description": "Visualize e gerencie seus centros de custo aqui.",
+      "state": {
+         "empty": {
+            "description": "Crie seu primeiro centro de custo usando a barra de ações rápidas acima para começar a organizar suas transações.",
+            "title": "Nenhum centro de custo ainda"
+         },
+         "error": {
+            "description": "Falha ao carregar centros de custo. Tente novamente mais tarde.",
+            "title": "Erro ao carregar centros de custo"
+         }
+      },
+      "title": "Seus centros de custo"
+   },
+   "stats": {
+      "most-used": {
+         "description": "O centro de custo com mais transações este mês.",
+         "title": "Centro de custo mais utilizado"
+      },
+      "total-cost-centers": {
+         "description": "Número total de centros de custo que você criou.",
+         "title": "Total de centros de custo"
+      }
+   },
+   "table": {
+      "columns": {
+         "code": "Código",
+         "name": "Nome"
+      }
+   }
+}

@@ -1,0 +1,58 @@
+{
+   "extends": "@tooling/typescript/internal-package-nocomposite.json",
+   "compilerOptions": {
+      "jsx": "react-jsx",
+      "lib": ["dom", "ES2022"],
+      "types": ["vite/client"]
+   },
+   "include": ["src"],
+  "exclude": [
+    "**/*.test.ts",
+    "**/__tests__/**",
+    "node_modules"
+  ],
+  "references": [
+    {
+      "path": "../logging"
+    },
+    {
+      "path": "../environment/tsconfig.lib.json"
+    },
+    {
+      "path": "../transactional/tsconfig.lib.json"
+    },
+    {
+      "path": "../stripe/tsconfig.lib.json"
+    },
+    {
+      "path": "../utils/tsconfig.lib.json"
+    },
+    {
+      "path": "../server-events"
+    },
+    {
+      "path": "../posthog/tsconfig.lib.json"
+    },
+    {
+      "path": "../notifications/tsconfig.lib.json"
+    },
+    {
+      "path": "../localization/tsconfig.lib.json"
+    },
+    {
+      "path": "../files/tsconfig.lib.json"
+    },
+    {
+      "path": "../database/tsconfig.lib.json"
+    },
+    {
+      "path": "../cache/tsconfig.lib.json"
+    },
+    {
+      "path": "../authentication/tsconfig.lib.json"
+    },
+    {
+      "path": "../arcjet/tsconfig.lib.json"
+    }
+  ]
+}

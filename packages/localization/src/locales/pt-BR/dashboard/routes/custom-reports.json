@@ -1,0 +1,129 @@
+{
+   "actions": {
+      "clear-filters": "Limpar Filtros",
+      "create-report": "Criar Relatório",
+      "delete": "Excluir",
+      "edit": "Editar",
+      "export-pdf": "Exportar PDF",
+      "less-info": "Menos Informações",
+      "more-info": "Mais Informações",
+      "retry": "Tentar novamente",
+      "save-changes": "Salvar Alterações",
+      "view-details": "Ver Detalhes"
+   },
+   "bulk-delete": {
+      "action-label": "Excluir",
+      "cancel-label": "Cancelar",
+      "description": "Tem certeza que deseja excluir {{count}} relatório(s)?",
+      "title": "Excluir Relatórios"
+   },
+   "category-breakdown": {
+      "description": "Distribuição de receitas e despesas por categoria",
+      "expenses": "Despesas",
+      "income": "Receitas",
+      "title": "Breakdown por Categoria"
+   },
+   "description": "Gerencie relatórios DRE Gerencial e Fiscal",
+   "details": {
+      "created-at": "Criado em",
+      "dre-table": {
+         "code": "Código",
+         "description": "Descrição",
+         "planned": "Planejado",
+         "realized": "Realizado",
+         "title": "DRE - Demonstração do Resultado do Exercício",
+         "value": "Valor",
+         "variance": "Variação"
+      },
+      "generated-at": "Gerado em {{date}}",
+      "net-result": "Resultado Líquido",
+      "period": "Período",
+      "total-expenses": "Total Despesas",
+      "total-income": "Total Receitas"
+   },
+   "empty": {
+      "description": "Crie seu primeiro relatório DRE para análise financeira.",
+      "title": "Nenhum relatório encontrado"
+   },
+   "errors": {
+      "load-report": {
+         "description": "Falha ao carregar relatório. Tente novamente mais tarde.",
+         "title": "Erro ao carregar relatório"
+      },
+      "load-reports": {
+         "description": "Falha ao carregar relatórios. Tente novamente mais tarde.",
+         "title": "Erro ao carregar relatórios"
+      }
+   },
+   "filters": {
+      "all": "Todos",
+      "fiscal": "Fiscal",
+      "gerencial": "Gerencial",
+      "search-placeholder": "Buscar relatórios...",
+      "type": "Tipo"
+   },
+   "form": {
+      "create": {
+         "description": "Crie um novo relatório DRE para análise financeira",
+         "title": "Criar Relatório"
+      },
+      "edit": {
+         "description": "Edite o relatório \"{{name}}\"",
+         "title": "Editar Relatório"
+      },
+      "fields": {
+         "description": {
+            "label": "Descrição (opcional)",
+            "placeholder": "Descrição do relatório..."
+         },
+         "end-date": {
+            "label": "Data Fim",
+            "placeholder": "Selecione a data"
+         },
+         "name": {
+            "label": "Nome",
+            "placeholder": "Ex: DRE Janeiro 2024"
+         },
+         "start-date": {
+            "label": "Data Início",
+            "placeholder": "Selecione a data"
+         },
+         "type": {
+            "label": "Tipo de Relatório",
+            "placeholder": "Selecione o tipo"
+         }
+      }
+   },
+   "stats": {
+      "dre-fiscal": {
+         "description": "Relatórios com planejado vs real",
+         "title": "DRE Fiscal"
+      },
+      "dre-gerencial": {
+         "description": "Relatórios com dados reais",
+         "title": "DRE Gerencial"
+      },
+      "total": {
+         "description": "Todos os relatórios DRE criados",
+         "title": "Total de Relatórios"
+      }
+   },
+   "table": {
+      "columns": {
+         "created-at": "Criado em",
+         "name": "Nome",
+         "period": "Período",
+         "type": "Tipo"
+      }
+   },
+   "title": "Relatórios Personalizados",
+   "transactions": {
+      "and-more": "E mais {{count}} transações...",
+      "description": "{{count}} transações incluídas neste relatório",
+      "title": "Transações do Período"
+   },
+   "types": {
+      "dre-fiscal": "DRE Fiscal",
+      "dre-gerencial": "DRE Gerencial"
+   }
+}

@@ -1,0 +1,53 @@
+{
+   "dependencies": {
+      "@packages/agents": "workspace:*",
+      "@packages/arcjet": "workspace:*",
+      "@packages/authentication": "workspace:*",
+      "@packages/cache": "workspace:*",
+      "@packages/database": "workspace:*",
+      "@packages/files": "workspace:*",
+      "@packages/localization": "workspace:*",
+      "@packages/notifications": "workspace:*",
+      "@packages/posthog": "workspace:*",
+      "@packages/server-events": "workspace:*",
+      "@packages/utils": "workspace:*",
+
+      "@trpc/client": "catalog:trpc",
+      "@trpc/server": "catalog:trpc",
+      "superjson": "catalog:trpc",
+      "url-join": "catalog:trpc",
+      "zod": "catalog:validation"
+   },
+   "devDependencies": {
+      "@tooling/typescript": "workspace:*",
+      "typescript": "catalog:development",
+      "vite": "catalog:vite"
+   },
+   "exports": {
+      "./client": {
+         "default": "./src/client/index.ts",
+         "types": "./dist/src/client/index.d.ts"
+      },
+      "./schemas/*": {
+         "default": "./src/server/schemas/*.ts",
+         "types": "./dist/src/server/schemas/*.d.ts"
+      },
+      "./server": {
+         "default": "./src/server/index.ts",
+         "types": "./dist/src/server/index.d.ts"
+      }
+   },
+   "files": [
+      "dist"
+   ],
+   "license": "Apache-2.0",
+   "name": "@packages/api",
+   "private": true,
+   "scripts": {
+      "build": "tsc --build",
+      "check": "biome check --write ./src",
+      "typecheck": "tsc "
+   },
+   "type": "module",
+   "version": "0.9.1"
+}

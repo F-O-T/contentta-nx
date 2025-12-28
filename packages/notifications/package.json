@@ -1,0 +1,31 @@
+{
+   "dependencies": {
+      "@packages/database": "workspace:*",
+      "@packages/utils": "workspace:*",
+      "web-push": "^3.6.7"
+   },
+   "devDependencies": {
+      "@tooling/typescript": "workspace:*",
+      "@types/web-push": "^3.6.4",
+      "typescript": "catalog:development"
+   },
+   "exports": {
+      "./push": {
+         "default": "./src/push.ts",
+         "types": "./dist/src/push.d.ts"
+      }
+   },
+   "files": [
+      "dist"
+   ],
+   "license": "Apache-2.0",
+   "name": "@packages/notifications",
+   "private": true,
+   "scripts": {
+      "build": "tsc --build",
+      "check": "biome check --write ./src",
+      "typecheck": "tsc "
+   },
+   "type": "module",
+   "version": "0.1.0"
+}

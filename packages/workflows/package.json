@@ -1,0 +1,37 @@
+{
+   "name": "@packages/workflows",
+   "version": "0.1.0",
+   "private": true,
+   "type": "module",
+   "license": "Apache-2.0",
+   "scripts": {
+      "build": "tsc --build",
+      "test": "bun test",
+      "typecheck": "tsc"
+   },
+   "dependencies": {
+      "@packages/database": "workspace:*",
+      "@packages/queue": "workspace:*"
+   },
+   "devDependencies": {
+      "@tooling/typescript": "workspace:*",
+      "typescript": "catalog:development"
+   },
+   "exports": {
+      "./queue/*": {
+         "default": "./src/queue/*.ts",
+         "types": "./dist/src/queue/*.d.ts"
+      },
+      "./types/*": {
+         "default": "./src/types/*.ts",
+         "types": "./dist/src/types/*.d.ts"
+      },
+      "./utils/*": {
+         "default": "./src/utils/*.ts",
+         "types": "./dist/src/utils/*.d.ts"
+      }
+   },
+   "files": [
+      "dist"
+   ]
+}

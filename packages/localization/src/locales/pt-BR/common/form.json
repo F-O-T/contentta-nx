@@ -1,0 +1,173 @@
+{
+   "_time-period": {
+      "all-time": "Todo Período",
+      "custom": "Personalizado",
+      "last-month": "Mês Passado",
+      "this-month": "Este Mês",
+      "this-week": "Esta Semana",
+      "this-year": "Este Ano",
+      "today": "Hoje",
+      "yesterday": "Ontem"
+   },
+   "account-type": {
+      "label": "Tipo de Conta",
+      "placeholder": "Selecione o tipo de conta"
+   },
+   "advanced-options": {
+      "label": "Opções Avançadas"
+   },
+   "all": {
+      "label": "Todos"
+   },
+   "amount": {
+      "label": "Valor",
+      "placeholder": "Digite o valor"
+   },
+   "bank": {
+      "label": "Banco",
+      "placeholder": "Selecione seu banco"
+   },
+   "bank-account": {
+      "label": "Conta Bancária",
+      "placeholder": "Selecione uma conta"
+   },
+   "bank-account-nickname": {
+      "description": "Opcional. Use para identificar facilmente esta conta, como 'Conta Salário' ou 'Banco Principal'",
+      "label": "Apelido da Conta",
+      "placeholder": "Ex: Conta Salário, Banco Principal"
+   },
+   "category": {
+      "create": "Criar categoria",
+      "description": "Agrupe suas transações por tipo de gasto ou receita para análises detalhadas",
+      "label": "Categoria",
+      "placeholder": "Selecione uma categoria"
+   },
+   "color": {
+      "label": "Cor",
+      "placeholder": "Selecione uma cor"
+   },
+   "confirm-password": {
+      "label": "Confirmar Senha",
+      "placeholder": "Confirme sua senha"
+   },
+   "cost-center": {
+      "create": "Criar centro de custo ",
+      "description": "Associe a departamentos, projetos ou áreas para controle orçamentário",
+      "label": "Centro de Custo",
+      "none": "Nenhum",
+      "placeholder": "Selecione um centro de custo"
+   },
+   "created-at": {
+      "label": "Data de Criação"
+   },
+   "date": {
+      "label": "Data",
+      "placeholder": "Selecione uma data"
+   },
+   "date-range": {
+      "apply": "Aplicar",
+      "clear": "Limpar",
+      "custom": "Personalizado",
+      "end": "Data Final",
+      "start": "Data Inicial"
+   },
+   "description": {
+      "label": "Descrição",
+      "placeholder": "Digite a descrição"
+   },
+   "email": {
+      "label": "Email",
+      "placeholder": "Digite seu email"
+   },
+   "filter": {
+      "active-count": "{{count}} filtro(s) ativo(s)",
+      "clear-all": "Limpar Filtros",
+      "description": "Refine os resultados com filtros",
+      "more": "Mais Filtros",
+      "title": "Filtros"
+   },
+   "from-account": {
+      "label": "Conta de Origem",
+      "placeholder": "Selecione a conta de origem"
+   },
+   "icon": {
+      "label": "Ícone ",
+      "placeholder": "Selecione um ícone"
+   },
+   "items-per-page": {
+      "label": "Itens por página"
+   },
+   "pagination": {
+      "page": "Página {{current}} de {{total}}"
+   },
+   "metadata": {
+      "description": "Informações da categoria",
+      "title": "Metadados"
+   },
+   "name": {
+      "description": "Este campo é opcional",
+      "label": "Nome",
+      "placeholder": "Digite seu nome completo"
+   },
+   "notes": {
+      "label": "Observações",
+      "placeholder": "Digite suas observações"
+   },
+   "optional": "Opcional",
+   "order-direction": {
+      "label": "Direção da Ordenação",
+      "placeholder": "Selecione a direção"
+   },
+   "otp": {
+      "label": "Código OTP",
+      "placeholder": "Digite o código OTP"
+   },
+   "password": {
+      "label": "Senha",
+      "placeholder": "Digite sua senha"
+   },
+   "period": {
+      "label": "Período"
+   },
+   "search": {
+      "label": "Pesquisar",
+      "no-results": "Nenhum resultado encontrado",
+      "placeholder": "Digite para pesquisar"
+   },
+   "sort-ascending": {
+      "label": "Crescente"
+   },
+   "sort-by": {
+      "label": "Ordenar por",
+      "placeholder": "Selecione o campo"
+   },
+   "sort-descending": {
+      "label": "Decrescente"
+   },
+   "status": {
+      "label": "Status",
+      "placeholder": "Selecione o status"
+   },
+   "tags": {
+      "create": "Criar tag ",
+      "description": "Adicione marcadores personalizados para filtrar e organizar suas transações",
+      "label": "Tags",
+      "placeholder": "Selecione as tags"
+   },
+   "to-account": {
+      "label": "Conta de Destino",
+      "placeholder": "Selecione a conta de destino"
+   },
+   "transaction-types": {
+      "description": "Selecione quais tipos de transação esta categoria se aplica",
+      "label": "Tipos de Transação",
+      "placeholder": "Selecione os tipos de transação"
+   },
+   "type": {
+      "label": "Tipo",
+      "placeholder": "Selecione o tipo"
+   },
+   "updated-at": {
+      "label": "Data de Atualização"
+   }
+}

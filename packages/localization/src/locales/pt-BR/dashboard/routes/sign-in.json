@@ -1,0 +1,38 @@
+{
+   "actions": {
+      "anonymous": "Acesso Rápido",
+      "back-to-options": "Voltar para opções de login",
+      "forgot-password": "Esqueceu sua senha?",
+      "google-sign-in": "Continuar com Google",
+      "magic-link": "Link Mágico",
+      "sign-in": "Entrar",
+      "sign-up": "Criar conta",
+      "try-without-account": "Experimentar sem conta"
+   },
+   "description": "Bom te ver de novo! Entre na sua conta para continuar.",
+   "email": {
+      "description": "Use seu email e senha para acessar sua conta.",
+      "title": "Entrar com Email"
+   },
+   "last-used": "Último usado",
+   "messages": {
+      "google-requesting": "Conectando com o Google...",
+      "requesting": "Entrando na sua conta...",
+      "success": "Bem-vindo de volta!"
+   },
+   "methods": {
+      "email": "Email e Senha",
+      "email-description": "Login tradicional",
+      "magic-link": "Link Mágico",
+      "magic-link-description": "Sem senha"
+   },
+   "texts": {
+      "no-account": "Primeira vez aqui? ",
+      "or-continue-with": "ou continue com",
+      "other-options": "outras formas de entrar",
+      "privacy-policy": "Política de Privacidade",
+      "terms-and-privacy": "Ao continuar, você concorda com nossos {split} e {split}.",
+      "terms-of-service": "Termos de Serviço"
+   },
+   "title": "Entrar"
+}

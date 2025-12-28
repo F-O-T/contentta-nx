@@ -1,0 +1,145 @@
+{
+   "actions": {
+      "add-category": "Adicionar Categoria"
+   },
+   "actions-toolbar": {
+      "actions": {
+         "add-new": "Adicionar nova categoria",
+         "delete-selected": "Excluir selecionados"
+      }
+   },
+   "bulk-actions": {
+      "delete": "Excluir",
+      "delete-confirm-description": "Esta ação não pode ser desfeita. Isso excluirá permanentemente {count, plural, one {# categoria} other {# categorias}} e removerá a associação de todas as transações vinculadas.",
+      "delete-confirm-title": "Excluir {count, plural, one {# categoria} other {# categorias}}?",
+      "deleted-error": "Falha ao excluir categorias",
+      "deleted-success": "{count, plural, one {# categoria excluída} other {# categorias excluídas}} com sucesso"
+   },
+   "details-section": {
+      "budget": {
+         "exceeded": "Excedido",
+         "not-set": "Nenhuma meta definida",
+         "remaining": "Restante",
+         "spent": "Gasto",
+         "title": "Meta de Gastos"
+      },
+      "description": "Detalhes da categoria",
+      "transactions": {
+         "description": "Todas as transações desta categoria",
+         "title": "Transações"
+      }
+   },
+   "features": {
+      "create-category": {
+         "description": "Adicione uma nova categoria para organizar suas transações.",
+         "title": "Criar Nova Categoria"
+      },
+      "edit-category": {
+         "description": "Atualize os detalhes da sua categoria.",
+         "title": "Editar Categoria"
+      },
+      "filter": {
+         "actions": {
+            "clear-filters": "Limpar Filtros"
+         },
+         "description": "Refine a lista de categorias com base em critérios específicos.",
+         "title": "Filtrar Categorias"
+      },
+      "set-budget": {
+         "description": "Defina uma meta de gastos mensal para esta categoria.",
+         "title": "Definir Meta"
+      }
+   },
+   "list-section": {
+      "actions": {
+         "delete": "Excluir categoria",
+         "delete-category": "Excluir categoria",
+         "edit-category": "Editar categoria",
+         "label": "Gerencie sua categoria",
+         "view": "Ver detalhes",
+         "view-details": "Ver detalhes"
+      },
+      "description": "Visualize e gerencie suas categorias aqui.",
+      "state": {
+         "empty": {
+            "description": "Crie sua primeira categoria usando a barra de ações rápidas acima para começar a organizar suas transações.",
+            "title": "Nenhuma categoria ainda"
+         },
+         "error": {
+            "description": "Falha ao carregar categorias. Tente novamente mais tarde.",
+            "title": "Erro ao carregar categorias"
+         }
+      },
+      "title": "Suas categorias"
+   },
+   "stats": {
+      "breakdown": {
+         "description": "Despesas mensais por categoria",
+         "expenses": {
+            "description": "Distribuição de despesas por categoria",
+            "empty": "Nenhuma despesa registrada",
+            "title": "Despesas por Categoria"
+         },
+         "income": {
+            "description": "Distribuição de receitas por categoria",
+            "empty": "Nenhuma receita registrada",
+            "title": "Receitas por Categoria"
+         },
+         "state": {
+            "no-data": "Nenhuma despesa disponível para este mês"
+         },
+         "text": {
+            "categories-count": "{count} categorias este mês",
+            "showing-expenses": "Mostrando total de despesas para {month}",
+            "total-expenses": "Total de Despesas"
+         },
+         "title": "Análise por Categoria"
+      },
+      "charts": {
+         "monthly-trend": {
+            "description": "Evolução das despesas por categoria nos últimos 6 meses",
+            "empty": "Nenhum dado disponível para o período",
+            "title": "Tendência Mensal"
+         },
+         "top-categories": {
+            "description": "Categorias com maior volume de despesas",
+            "empty": "Nenhuma categoria com transações",
+            "title": "Top 5 Categorias"
+         },
+         "type-distribution": {
+            "description": "Quantidade de transações por tipo",
+            "empty": "Nenhuma transação registrada",
+            "title": "Distribuição por Tipo",
+            "total-label": "transações"
+         },
+         "usage-frequency": {
+            "description": "Quantidade de transações por categoria",
+            "empty": "Nenhuma categoria utilizada",
+            "title": "Frequência de Uso"
+         }
+      },
+      "most-spending": {
+         "description": "A categoria onde você mais gastou dinheiro este mês.",
+         "title": "Categoria com maiores gastos"
+      },
+      "total-categories": {
+         "description": "Número total de categorias que você criou.",
+         "title": "Total de categorias"
+      },
+      "total-expenses": {
+         "description": "Total de despesas em todas as categorias.",
+         "title": "Total de Despesas"
+      },
+      "total-income": {
+         "description": "Total de receitas em todas as categorias.",
+         "title": "Total de Receitas"
+      }
+   },
+   "table": {
+      "columns": {
+         "budget": "Orçamento",
+         "created-at": "Criado em",
+         "name": "Nome"
+      }
+   }
+}

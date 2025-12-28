@@ -1,0 +1,275 @@
+{
+   "title": "Organização",
+   "description": "Gerencie sua organização",
+   "state": {
+      "error": {
+         "title": "Erro ao Carregar Organização",
+         "description": "Não foi possível carregar as informações da organização. Tente novamente."
+      },
+      "empty": {
+         "title": "Nenhuma organização ainda",
+         "description": "Crie sua primeira organização para começar a colaborar com sua equipe e gerenciar suas finanças juntos.",
+         "action": "Criar Organização"
+      },
+      "limit-reached": "Você atingiu o limite de organizações"
+   },
+   "stats-card": {
+      "title": "Estatísticas da Organização",
+      "members": "Membros",
+      "admins": "Admins",
+      "teams": "Equipes",
+      "pending-invites": "Pendentes",
+      "state": {
+         "error": {
+            "title": "Erro ao Carregar Estatísticas",
+            "description": "Não foi possível carregar as estatísticas da organização."
+         }
+      }
+   },
+   "quick-actions": {
+      "invite-member": {
+         "title": "Convidar Membro",
+         "description": "Envie um convite para um novo membro"
+      },
+      "manage-members": {
+         "title": "Gerenciar Membros",
+         "description": "Visualize e gerencie todos os membros"
+      },
+      "view-invites": {
+         "title": "Ver Convites",
+         "description": "Visualize convites pendentes e enviados"
+      },
+      "settings": {
+         "title": "Configurações",
+         "description": "Edite as configurações da organização"
+      }
+   },
+   "recent-members": {
+      "title": "Membros Recentes",
+      "description": "Os membros mais recentes da organização",
+      "joined": "Entrou em",
+      "view-all": "Ver todos os membros",
+      "state": {
+         "empty": {
+            "title": "Nenhum membro",
+            "description": "Convide membros para sua organização"
+         },
+         "error": {
+            "title": "Erro ao Carregar Membros",
+            "description": "Não foi possível carregar os membros recentes."
+         }
+      }
+   },
+   "recent-invites": {
+      "title": "Convites Recentes",
+      "description": "Os convites mais recentes enviados",
+      "view-all": "Ver todos os convites",
+      "state": {
+         "empty": {
+            "title": "Nenhum convite",
+            "description": "Envie convites para novos membros"
+         },
+         "error": {
+            "title": "Erro ao Carregar Convites",
+            "description": "Não foi possível carregar os convites recentes."
+         }
+      }
+   },
+   "nav": {
+      "back-to-organization": "Voltar para Organização",
+      "overview": "Visão Geral",
+      "overview.description": "Informações e estatísticas da organização",
+      "members": "Membros",
+      "members.description": "Gerencie os membros da organização",
+      "teams": "Equipes",
+      "teams.description": "Gerencie as equipes da organização",
+      "invites": "Convites",
+      "invites.description": "Gerencie os convites pendentes"
+   },
+   "members-table": {
+      "title": "Membros",
+      "description": "Gerencie os membros da sua organização",
+      "columns": {
+         "name": "Nome",
+         "email": "Email",
+         "role": "Função",
+         "joined": "Desde",
+         "actions": "Ações"
+      },
+      "filters": {
+         "search": "Buscar membros...",
+         "role": "Função",
+         "all-roles": "Todas as funções",
+         "clear": "Limpar filtros"
+      },
+      "bulk-actions": {
+         "change-role": "Alterar Função",
+         "remove": "Remover"
+      },
+      "actions": {
+         "view": "Ver detalhes",
+         "change-role": "Alterar função",
+         "remove": "Remover membro",
+         "invite": "Convidar Membro"
+      },
+      "empty": "Nenhum membro encontrado"
+   },
+   "teams-table": {
+      "title": "Equipes",
+      "description": "Gerencie as equipes da sua organização",
+      "columns": {
+         "name": "Nome",
+         "description": "Descrição",
+         "members": "Membros",
+         "created": "Criada em",
+         "actions": "Ações"
+      },
+      "filters": {
+         "search": "Buscar equipes...",
+         "clear": "Limpar filtros"
+      },
+      "bulk-actions": {
+         "delete": "Excluir"
+      },
+      "actions": {
+         "view": "Ver detalhes",
+         "edit": "Editar",
+         "delete": "Excluir equipe",
+         "create": "Criar Equipe"
+      },
+      "empty": "Nenhuma equipe encontrada"
+   },
+   "invites-table": {
+      "title": "Convites",
+      "description": "Gerencie os convites da sua organização",
+      "columns": {
+         "email": "Email",
+         "role": "Função",
+         "status": "Status",
+         "sent": "Enviado em",
+         "expires": "Expira em",
+         "actions": "Ações"
+      },
+      "filters": {
+         "search": "Buscar convites...",
+         "status": "Status",
+         "all-status": "Todos os status",
+         "role": "Função",
+         "all-roles": "Todas as funções",
+         "clear": "Limpar filtros"
+      },
+      "status": {
+         "pending": "Pendente",
+         "accepted": "Aceito",
+         "expired": "Expirado",
+         "canceled": "Cancelado"
+      },
+      "bulk-actions": {
+         "resend": "Reenviar",
+         "revoke": "Revogar"
+      },
+      "actions": {
+         "resend": "Reenviar convite",
+         "revoke": "Revogar convite",
+         "send": "Enviar Convite"
+      },
+      "empty": "Nenhum convite encontrado"
+   },
+   "roles": {
+      "owner": "Dono",
+      "admin": "Administrador",
+      "member": "Membro"
+   },
+   "information-section": {
+      "state": {
+         "error": {
+            "description": "Ocorreu um erro ao carregar as informações da organização. Tente novamente mais tarde.",
+            "title": "Erro ao Carregar Informações"
+         }
+      }
+   },
+   "quick-access-section": {
+      "invitations": {
+         "description": "Envie e gerencie convites para ingressar na organização.",
+         "title": "Convites"
+      },
+      "members": {
+         "description": "Gerencie os membros da sua organização.",
+         "title": "Membros"
+      },
+      "teams": {
+         "description": "Gerencie as equipes da sua organização.",
+         "title": "Equipes"
+      },
+      "transactions": {
+         "description": "Visualize e gerencie as transações da sua organização.",
+         "title": "Transações"
+      }
+   },
+   "recent-invites-section": {
+      "description": "Uma lista dos convites mais recentes enviados para ingressar na organização.",
+      "state": {
+         "error": {
+            "description": "Não foi possível carregar os convites recentes.",
+            "title": "Erro ao Carregar Convites"
+         }
+      },
+      "title": "Convites Recentes"
+   },
+   "roles-section": {
+      "description": "Cargos e permissões de controle de acesso para gestão da organização",
+      "dialog": {
+         "permissions-description": "Permissões e capacidades detalhadas para este cargo",
+         "permissions-title": "Permissões"
+      },
+      "roles": {
+         "admin": {
+            "description": "Controle total sobre a organização, exceto excluir a organização ou alterar o dono.",
+            "permissions.0": "Organização: atualizar",
+            "permissions.1": "Membro: criar, atualizar, excluir",
+            "permissions.2": "Convite: criar, cancelar",
+            "permissions.3": "Não pode excluir organização",
+            "permissions.4": "Não pode alterar dono",
+            "title": "Administrador"
+         },
+         "member": {
+            "description": "Controle limitado sobre a organização. Pode criar projetos, convidar usuários e gerenciar projetos que criou.",
+            "permissions.0": "Ler dados da organização",
+            "permissions.1": "Criar projetos",
+            "permissions.2": "Convidar usuários",
+            "permissions.3": "Gerenciar próprios projetos",
+            "permissions.4": "Sem controle sobre ações de organização/membro/convite",
+            "title": "Membro"
+         },
+         "owner": {
+            "description": "O usuário que criou a organização. Tem controle total sobre a organização e pode executar qualquer ação.",
+            "permissions.0": "Organização: atualizar, excluir",
+            "permissions.1": "Membro: criar, atualizar, excluir",
+            "permissions.2": "Convite: criar, cancelar",
+            "permissions.3": "Transferir propriedade",
+            "permissions.4": "Controle total sobre todos os recursos",
+            "title": "Dono"
+         }
+      },
+      "title": "Cargos da Organização"
+   },
+   "stats-section": {
+      "members-count": {
+         "description": "O número total de membros na organização.",
+         "title": "Total de Membros"
+      },
+      "teams-count": {
+         "description": "O número total de equipes dentro da organização.",
+         "title": "Total de Equipes"
+      }
+   },
+   "toolbar-section": {
+      "actions": {
+         "create-team": "Criar Equipe",
+         "delete-organization": "Excluir Organização",
+         "edit-organization": "Editar Organização",
+         "invite-member": "Convidar Membro",
+         "invite-new-member": "Convidar Novo Membro"
+      }
+   }
+}

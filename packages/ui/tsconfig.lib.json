@@ -1,0 +1,16 @@
+{
+   "extends": "@tooling/typescript/internal-package.json",
+   "compilerOptions": {
+      "baseUrl": ".",
+      "jsx": "preserve",
+      "paths": {
+         "@packages/ui/*": ["./src/*"]
+      }
+   },
+   "include": ["src"],
+   "exclude": ["**/*.test.ts", "**/__tests__/**", "node_modules"],
+   "references": [
+      { "path": "../localization/tsconfig.lib.json" },
+      { "path": "../utils/tsconfig.lib.json" }
+   ]
+}

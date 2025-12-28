@@ -1,0 +1,95 @@
+{
+   "breadcrumbs": {
+      "bills": "Contas a Pagar",
+      "budgets": "Orçamentos",
+      "categories": "Categorias",
+      "cost-centers": "Centros de Custo",
+      "counterparties": "Cadastros",
+      "interest-templates": "Modelos de Juros",
+      "profile": "Perfil",
+      "tags": "Tags",
+      "transactions": "Transações"
+   },
+   "language-command": {
+      "empty": "Nenhum idioma encontrado.",
+      "search": "Pesquisar idiomas..."
+   },
+   "nav-main": {
+      "bills": {
+         "counterparties": "Cadastros",
+         "interest-templates": "Modelos de Juros",
+         "overview": "Gestão de Contas",
+         "payables": "Contas a Pagar",
+         "receivables": "Contas a Receber",
+         "title": "Contas"
+      },
+      "categorization": {
+         "categories": "Categorias",
+         "cost-centers": "Centros de Custo",
+         "tags": "Tags",
+         "title": "Categorização"
+      },
+      "content": {
+         "brand": "Marca",
+         "library": "Conteúdos",
+         "title": "Criação de Conteúdo",
+         "writers": "Escritores"
+      },
+      "create-content": "Criar Conteúdo",
+      "finance": {
+         "budgets": "Orçamentos",
+         "categories": "Categorias",
+         "overview": "Fluxo de caixa",
+         "payables": "Contas a pagar",
+         "receivables": "Contas a receber",
+         "reports": "Relatórios",
+         "title": "Suas finanças"
+      },
+      "main": {
+         "content": "Conteúdos",
+         "home": "Início",
+         "title": "Principal",
+         "writers": "Escritores"
+      }
+   },
+   "nav-user": {
+      "actions": {
+         "logout": "Sair"
+      },
+      "greeting": "Olá, {{name}}",
+      "logout-confirmation": {
+         "description": "Tem certeza que deseja sair da sua conta?",
+         "title": "Confirmar saída"
+      },
+      "main": {
+         "account": "Conta",
+         "billing": "Cobrança",
+         "notifications": "Notificações",
+         "upgrade": "Atualizar para Pro"
+      },
+      "messages": {
+         "logging-out": "Saindo...",
+         "logout-success": "Você saiu com sucesso!"
+      },
+      "preferences": {
+         "label": "Preferencias",
+         "language": "Idioma",
+         "theme": "Tema"
+      }
+   },
+   "organization-switcher": {
+      "add-organization": "Adicionar organização",
+      "create-team": "Criar equipe",
+      "error": {
+         "failed-to-load-active": "Erro ao carregar organização ativa",
+         "failed-to-load-teams": "Erro ao carregar equipes"
+      },
+      "label": "Organizações",
+      "limit-reached": "Você não pode criar mais organizações",
+      "no-teams": "Nenhuma equipe"
+   },
+   "sidebar": {
+      "collapse": "Ocultar",
+      "expand": "Abrir"
+   }
+}

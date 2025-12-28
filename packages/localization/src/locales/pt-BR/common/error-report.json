@@ -1,0 +1,13 @@
+{
+   "additional-details": "Detalhes adicionais",
+   "additional-details-placeholder": "Descreva o que estava fazendo quando o erro ocorreu...",
+   "code": "Codigo",
+   "description": "Ajude-nos a melhorar relatando este erro. Suas informacoes serao enviadas anonimamente.",
+   "error-id": "ID do erro",
+   "message": "Mensagem",
+   "path": "Caminho",
+   "send-report": "Enviar relatorio",
+   "submitted-description": "Obrigado por nos ajudar a melhorar!",
+   "submitted-title": "Relatorio enviado",
+   "title": "Relatar erro"
+}

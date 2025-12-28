@@ -1,0 +1,375 @@
+{
+   "actions": {
+      "add-counterparty": "Adicionar Contraparte",
+      "add-new": "Adicionar Contraparte",
+      "create-bill": "Criar Conta",
+      "edit": "Editar",
+      "activate": "Ativar",
+      "deactivate": "Desativar",
+      "delete": "Excluir"
+   },
+   "bulk-actions": {
+      "delete": "Excluir",
+      "delete-confirm-description": "Esta ação não pode ser desfeita. Isso excluirá permanentemente {count, plural, one {# contraparte} other {# contrapartes}} e removerá a associação de todas as contas vinculadas.",
+      "delete-confirm-title": "Excluir {count, plural, one {# contraparte} other {# contrapartes}}?",
+      "deleted-error": "Falha ao excluir contrapartes",
+      "deleted-success": "{count, plural, one {# contraparte excluída} other {# contrapartes excluídas}} com sucesso",
+      "toggle-active": "Alterar Status",
+      "activated-success": "{count, plural, one {# contraparte ativada} other {# contrapartes ativadas}} com sucesso",
+      "deactivated-success": "{count, plural, one {# contraparte inativada} other {# contrapartes inativadas}} com sucesso",
+      "toggle-active-error": "Falha ao alterar status",
+      "update-type": "Alterar Tipo",
+      "update-type-success": "{count, plural, one {# contraparte atualizada} other {# contrapartes atualizadas}} com sucesso",
+      "update-type-error": "Falha ao alterar tipo"
+   },
+   "delete": {
+      "confirm-description": "Esta ação não pode ser desfeita. Isso excluirá permanentemente esta contraparte e removerá a associação de todas as contas vinculadas.",
+      "confirm-title": "Excluir contraparte?",
+      "error": "Falha ao excluir contraparte",
+      "success": "Contraparte excluída com sucesso"
+   },
+   "description": "Gerencie seus clientes, fornecedores e parceiros comerciais",
+   "features": {
+      "create-counterparty": {
+         "description": "Adicione um novo cliente ou fornecedor.",
+         "title": "Criar Contraparte"
+      },
+      "edit-counterparty": {
+         "description": "Atualize os detalhes de {name}.",
+         "title": "Editar Contraparte"
+      },
+      "filter": {
+         "actions": {
+            "clear-filters": "Limpar Filtros"
+         },
+         "description": "Refine a lista de contrapartes com base em critérios específicos.",
+         "title": "Filtrar Contrapartes"
+      }
+   },
+   "filter": {
+      "status": {
+         "label": "Status",
+         "active": "Ativos",
+         "inactive": "Inativos",
+         "all": "Todos"
+      },
+      "type": {
+         "label": "Tipo",
+         "all": "Todos",
+         "client": "Clientes",
+         "supplier": "Fornecedores",
+         "both": "Ambos"
+      },
+      "industry": {
+         "label": "Setor",
+         "placeholder": "Selecionar setor"
+      },
+      "date-range": {
+         "label": "Período",
+         "start": "Data inicial",
+         "end": "Data final"
+      },
+      "more-filters": "Mais filtros",
+      "clear-all": "Limpar filtros"
+   },
+   "form": {
+      "document": {
+         "label": "CPF/CNPJ",
+         "placeholder": "Digite o documento"
+      },
+      "document-type": {
+         "label": "Tipo de Documento",
+         "cpf": "CPF",
+         "cnpj": "CNPJ",
+         "foreign": "Estrangeiro"
+      },
+      "email": {
+         "label": "E-mail",
+         "placeholder": "Digite o e-mail"
+      },
+      "name": {
+         "label": "Nome",
+         "placeholder": "Digite o nome"
+      },
+      "trade-name": {
+         "label": "Nome Fantasia",
+         "placeholder": "Digite o nome fantasia"
+      },
+      "legal-name": {
+         "label": "Razão Social",
+         "placeholder": "Digite a razão social"
+      },
+      "state-registration": {
+         "label": "Inscrição Estadual",
+         "placeholder": "Digite a inscrição estadual"
+      },
+      "municipal-registration": {
+         "label": "Inscrição Municipal",
+         "placeholder": "Digite a inscrição municipal"
+      },
+      "notes": {
+         "label": "Observações",
+         "placeholder": "Digite observações"
+      },
+      "phone": {
+         "label": "Telefone",
+         "placeholder": "Digite o telefone"
+      },
+      "website": {
+         "label": "Website",
+         "placeholder": "https://exemplo.com.br"
+      },
+      "industry": {
+         "label": "Setor",
+         "placeholder": "Digite o setor de atuação"
+      },
+      "tax-regime": {
+         "label": "Regime Tributário",
+         "placeholder": "Selecione o regime",
+         "simples": "Simples Nacional",
+         "lucro-presumido": "Lucro Presumido",
+         "lucro-real": "Lucro Real",
+         "mei": "MEI"
+      },
+      "payment-terms-days": {
+         "label": "Prazo de Pagamento (dias)",
+         "placeholder": "Ex: 30"
+      },
+      "credit-limit": {
+         "label": "Limite de Crédito",
+         "placeholder": "0,00"
+      },
+      "default-bank-account": {
+         "label": "Conta Bancária Padrão",
+         "placeholder": "Selecione uma conta"
+      },
+      "default-category": {
+         "label": "Categoria Padrão",
+         "placeholder": "Selecione uma categoria"
+      },
+      "address": {
+         "zip-code": {
+            "label": "CEP",
+            "placeholder": "00000-000"
+         },
+         "street": {
+            "label": "Logradouro",
+            "placeholder": "Rua, Avenida, etc."
+         },
+         "number": {
+            "label": "Número",
+            "placeholder": "Nº"
+         },
+         "complement": {
+            "label": "Complemento",
+            "placeholder": "Apto, Sala, etc."
+         },
+         "neighborhood": {
+            "label": "Bairro",
+            "placeholder": "Digite o bairro"
+         },
+         "city": {
+            "label": "Cidade",
+            "placeholder": "Digite a cidade"
+         },
+         "state": {
+            "label": "Estado",
+            "placeholder": "Selecione o estado"
+         },
+         "country": {
+            "label": "País",
+            "placeholder": "Brasil"
+         }
+      },
+      "type": {
+         "both": "Ambos",
+         "client": "Cliente",
+         "label": "Tipo",
+         "supplier": "Fornecedor"
+      },
+      "steps": {
+         "type": {
+            "title": "Tipo de Parceiro",
+            "description": "Selecione o tipo de parceiro comercial"
+         },
+         "basic-info": {
+            "title": "Informações Básicas",
+            "description": "Dados de identificação do parceiro"
+         },
+         "contact": {
+            "title": "Contato",
+            "description": "Informações de contato"
+         },
+         "address": {
+            "title": "Endereço",
+            "description": "Localização do parceiro"
+         },
+         "financial": {
+            "title": "Financeiro",
+            "description": "Configurações financeiras"
+         }
+      }
+   },
+   "list-section": {
+      "actions": {
+         "delete-counterparty": "Excluir contraparte",
+         "edit-counterparty": "Editar contraparte",
+         "view-details": "Ver detalhes"
+      },
+      "state": {
+         "empty": {
+            "description": "Crie sua primeira contraparte usando o botão acima para começar a organizar seus clientes e fornecedores.",
+            "title": "Nenhuma contraparte ainda"
+         },
+         "error": {
+            "description": "Falha ao carregar contrapartes. Tente novamente mais tarde.",
+            "title": "Erro ao carregar contrapartes"
+         }
+      }
+   },
+   "stats": {
+      "active": {
+         "description": "Contrapartes ativas no sistema",
+         "title": "Ativos"
+      },
+      "clients": {
+         "description": "Número de clientes cadastrados",
+         "title": "Clientes"
+      },
+      "error": {
+         "description": "Falha ao carregar estatísticas",
+         "title": "Erro"
+      },
+      "suppliers": {
+         "description": "Número de fornecedores cadastrados",
+         "title": "Fornecedores"
+      },
+      "total": {
+         "description": "Número total de contrapartes cadastradas",
+         "title": "Total de Contrapartes"
+      }
+   },
+   "table": {
+      "columns": {
+         "created-at": "Criado em",
+         "document": "Documento",
+         "email": "E-mail",
+         "name": "Nome",
+         "phone": "Telefone",
+         "type": "Tipo",
+         "status": "Status"
+      }
+   },
+   "title": "Cadastros",
+   "type-filter": {
+      "all": "Todos",
+      "both": "Ambos",
+      "client": "Clientes",
+      "supplier": "Fornecedores"
+   },
+   "details": {
+      "back-to-list": "Voltar para lista",
+      "inactive-badge": "Inativo",
+      "metadata": {
+         "title": "Metadados",
+         "description": "Informações do parceiro",
+         "type": "Tipo",
+         "status": "Status",
+         "active": "Ativo",
+         "inactive": "Inativo",
+         "document": "Documento",
+         "created-at": "Cadastrado em",
+         "trade-name": "Nome Fantasia",
+         "legal-name": "Razão Social",
+         "industry": "Setor",
+         "state-registration": "Inscrição Estadual",
+         "municipal-registration": "Inscrição Municipal",
+         "tax-regime": {
+            "label": "Regime Tributário",
+            "simples": "Simples Nacional",
+            "lucro-presumido": "Lucro Presumido",
+            "lucro-real": "Lucro Real",
+            "mei": "MEI"
+         }
+      },
+      "contact": {
+         "title": "Contato",
+         "description": "Informações de contato",
+         "email": "E-mail",
+         "phone": "Telefone",
+         "website": "Website",
+         "copy-email": "Copiar e-mail",
+         "copy-phone": "Copiar telefone",
+         "open-website": "Abrir website",
+         "empty": "Adicionar informações de contato"
+      },
+      "address": {
+         "title": "Endereço",
+         "description": "Localização do parceiro",
+         "copy-address": "Copiar endereço",
+         "open-maps": "Abrir no Maps",
+         "empty": "Adicionar endereço"
+      },
+      "notes": {
+         "title": "Observações",
+         "description": "Observações sobre o parceiro",
+         "empty": "Nenhuma observação"
+      },
+      "financial-summary": {
+         "title": "Resumo Financeiro",
+         "description": "Dados financeiros do parceiro",
+         "total-billed": "Total Faturado",
+         "total-paid": "Total Pago",
+         "pending-amount": "Valor Pendente",
+         "average-payment-time": "Tempo Médio de Pagamento",
+         "credit-utilization": "Utilização de Crédito",
+         "empty": "Nenhuma conta vinculada"
+      },
+      "related-bills": {
+         "title": "Contas Relacionadas",
+         "description": "Contas vinculadas a este parceiro",
+         "view-all": "Ver todas as {count} contas",
+         "empty": "Nenhuma conta vinculada",
+         "create-bill": "Criar Conta"
+      },
+      "related-transactions": {
+         "title": "Transações Relacionadas",
+         "description": "Transações vinculadas a este parceiro",
+         "view-all": "Ver todas as {count} transações",
+         "empty": "Nenhuma transação vinculada"
+      },
+      "attachments": {
+         "title": "Anexos",
+         "description": "Arquivos vinculados",
+         "upload": "Enviar arquivo",
+         "empty": "Nenhum arquivo anexado"
+      },
+      "activity": {
+         "title": "Atividade",
+         "description": "Histórico de atividades",
+         "created": "Parceiro criado",
+         "edited": "Parceiro editado",
+         "status-changed": "Status alterado para {status}",
+         "empty": "Nenhuma atividade registrada"
+      },
+      "error": {
+         "load-actions": "Falha ao carregar ações",
+         "load-metadata": "Falha ao carregar metadados",
+         "load-contact": "Falha ao carregar contato",
+         "load-address": "Falha ao carregar endereço",
+         "load-notes": "Falha ao carregar observações",
+         "toggle-status": "Erro ao atualizar status",
+         "delete": "Erro ao excluir parceiro"
+      },
+      "success": {
+         "activated": "Parceiro ativado com sucesso",
+         "deactivated": "Parceiro inativado com sucesso",
+         "deleted": "Parceiro excluído com sucesso",
+         "copied": "Copiado para a área de transferência"
+      },
+      "confirm-delete": {
+         "title": "Excluir parceiro comercial",
+         "description": "Tem certeza que deseja excluir este parceiro comercial? Esta ação não pode ser desfeita."
+      }
+   }
+}

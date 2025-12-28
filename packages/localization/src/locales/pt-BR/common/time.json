@@ -1,0 +1,8 @@
+{
+   "now": "Agora",
+   "minutes-ago": "{{count}} min atrás",
+   "hours-ago": "{{count}}h atrás",
+   "days-ago": "{{count}}d atrás",
+   "seconds-ago": "{{count}}s atrás",
+   "just-now": "Agora mesmo"
+}

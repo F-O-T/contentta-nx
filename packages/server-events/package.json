@@ -1,0 +1,41 @@
+{
+   "dependencies": {
+      "@packages/cache": "workspace:*",
+      "@packages/environment": "workspace:*",
+      "zod": "catalog:validation"
+   },
+   "devDependencies": {
+      "@tooling/typescript": "workspace:*",
+      "typescript": "catalog:development"
+   },
+   "exports": {
+      ".": {
+         "default": "./src/index.ts",
+         "types": "./dist/src/index.d.ts"
+      },
+      "./publisher": {
+         "default": "./src/publisher.ts",
+         "types": "./dist/src/publisher.d.ts"
+      },
+      "./subscriber": {
+         "default": "./src/subscriber.ts",
+         "types": "./dist/src/subscriber.d.ts"
+      },
+      "./events": {
+         "default": "./src/events.ts",
+         "types": "./dist/src/events.d.ts"
+      }
+   },
+   "files": [
+      "dist"
+   ],
+   "license": "Apache-2.0",
+   "name": "@packages/server-events",
+   "private": true,
+   "scripts": {
+      "build": "tsc --build",
+      "typecheck": "tsc"
+   },
+   "type": "module",
+   "version": "0.1.0"
+}

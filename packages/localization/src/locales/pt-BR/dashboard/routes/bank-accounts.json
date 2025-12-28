@@ -1,0 +1,104 @@
+{
+   "bulk-actions": {
+      "activate": "Ativar",
+      "activate-confirm-description": "Ao ativar {{count}} conta(s), elas voltarão a ser exibidas nos relatórios e estatísticas.",
+      "activate-confirm-title": "Ativar {{count}} conta(s)?",
+      "activated-error": "Erro ao ativar contas",
+      "activated-success": "{{count}} conta(s) ativada(s) com sucesso",
+      "confirm": "Confirmar",
+      "deactivate": "Desativar",
+      "deactivate-confirm-description": "Ao desativar {{count}} conta(s), elas não serão mais exibidas nos relatórios e estatísticas.",
+      "deactivate-confirm-title": "Desativar {{count}} conta(s)?",
+      "delete": "Excluir",
+      "delete-confirm-description": "Esta ação não pode ser desfeita. {{count}} conta(s) e todas as suas transações serão excluídas permanentemente.",
+      "delete-confirm-title": "Excluir {{count}} conta(s)?",
+      "delete-tooltip-cannot-delete-all": "Você não pode excluir todas as contas bancárias. É necessário manter pelo menos uma conta.",
+      "deleted-error": "Erro ao excluir contas",
+      "deleted-success": "{{count}} conta(s) excluída(s) com sucesso",
+      "inactivated-error": "Erro ao desativar contas",
+      "inactivated-success": "{{count}} conta(s) desativada(s) com sucesso"
+   },
+   "delete": {
+      "error-last-account": "Você deve ter pelo menos uma conta bancária."
+   },
+   "list-section": {
+      "actions": {
+         "add-new": "Nova Conta Bancária",
+         "delete": "Excluir",
+         "edit": "Editar",
+         "label": "Gerencie sua conta bancária",
+         "view-details": "Ver Detalhes"
+      },
+      "description": "Veja todas as suas contas bancárias aqui.",
+      "state": {
+         "empty": {
+            "description": "Tente ajustar seus filtros ou adicionar uma nova conta bancária.",
+            "title": "Nenhuma Conta Bancária Encontrada"
+         }
+      },
+      "title": "Contas Bancárias"
+   },
+   "notifications": {
+      "activated": "Conta bancária ativada com sucesso",
+      "deactivated": "Conta bancária desativada com sucesso",
+      "error": "Erro ao atualizar conta bancária"
+   },
+   "stats-section": {
+      "active-accounts": {
+         "description": "Contas bancárias ativas",
+         "title": "Contas Ativas"
+      },
+      "current-balance": {
+         "description": "Saldo calculado atual",
+         "title": "Saldo"
+      },
+      "total-accounts": {
+         "description": "Número total de contas bancárias",
+         "title": "Total de Contas"
+      },
+      "total-balance": {
+         "description": "Saldo total em todas as contas",
+         "title": "Saldo Total"
+      },
+      "total-expenses": {
+         "description": "Despesas totais",
+         "title": "Despesas"
+      },
+      "total-income": {
+         "description": "Receita total",
+         "title": "Receita"
+      }
+   },
+   "status": {
+      "active": "Ativa",
+      "inactive": "Inativa"
+   },
+   "status-toggle": {
+      "activate-description": "Ao ativar esta conta, ela voltará a ser exibida nos relatórios e estatísticas.",
+      "activate-title": "Ativar conta bancária?",
+      "active": "Conta ativa",
+      "confirm": "Confirmar",
+      "deactivate-description": "Ao desativar esta conta, ela não será mais exibida nos relatórios e estatísticas.",
+      "deactivate-title": "Desativar conta bancária?",
+      "inactive": "Conta inativa"
+   },
+   "table": {
+      "bank": "Banco",
+      "columns": {
+         "bank": "Banco",
+         "createdAt": "Criado em",
+         "name": "Nome",
+         "status": "Status",
+         "type": "Tipo"
+      },
+      "created-at": "Criado em",
+      "status": "Status",
+      "type": "Tipo",
+      "updated-at": "Atualizado em"
+   },
+   "types": {
+      "checking": "Conta corrente",
+      "investment": "Conta de investimento",
+      "savings": "Conta poupança"
+   }
+}

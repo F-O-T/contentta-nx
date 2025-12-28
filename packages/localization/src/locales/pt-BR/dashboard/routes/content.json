@@ -1,0 +1,70 @@
+{
+   "actions": {
+      "create": "Novo Conteúdo"
+   },
+   "archive-success": "Conteúdo arquivado com sucesso",
+   "delete-success": "Conteúdo excluído com sucesso",
+   "description": "Gerencie seus conteúdos",
+   "details": {
+      "created": "Criado em",
+      "editor-description": "Use markdown para formatar seu conteúdo",
+      "editor-placeholder": "Comece a escrever...",
+      "editor-title": "Editor",
+      "error-title": "Conteúdo não encontrado",
+      "keywords": "Palavras-chave",
+      "quality-score": "Pontuação de Qualidade",
+      "read-time": "min de leitura",
+      "saving": "Salvando...",
+      "slug": "Slug",
+      "sources": "Fontes",
+      "stats-description": "Métricas do conteúdo",
+      "stats-title": "Estatísticas",
+      "subtitle": "Detalhes do conteúdo",
+      "words": "palavras"
+   },
+   "empty": {
+      "description": "Crie seu primeiro conteúdo para começar",
+      "title": "Nenhum conteúdo ainda"
+   },
+   "filter": {
+      "all-status": "Todos os status",
+      "search": "Buscar conteúdos...",
+      "status": "Status"
+   },
+   "form": {
+      "create": "Criar Conteúdo",
+      "create-description": "Crie um novo conteúdo",
+      "create-success": "Conteúdo criado com sucesso",
+      "create-title": "Novo Conteúdo",
+      "creating": "Criando...",
+      "description": "Descrição",
+      "description-max": "A descrição deve ter no máximo 500 caracteres",
+      "description-placeholder": "Uma breve descrição do conteúdo",
+      "description-required": "A descrição é obrigatória",
+      "edit-description": "Atualize as informações do conteúdo",
+      "edit-title": "Editar Conteúdo",
+      "save": "Salvar Alterações",
+      "saving": "Salvando...",
+      "slug": "Slug",
+      "slug-invalid": "O slug deve conter apenas letras minúsculas, números e hífens",
+      "slug-placeholder": "url-do-conteudo",
+      "slug-required": "O slug é obrigatório",
+      "title": "Título",
+      "title-max": "O título deve ter no máximo 200 caracteres",
+      "title-placeholder": "Título do conteúdo",
+      "title-required": "O título é obrigatório",
+      "update-success": "Conteúdo atualizado com sucesso",
+      "writer": "Escritor",
+      "writer-placeholder": "Selecione um escritor",
+      "writer-required": "O escritor é obrigatório"
+   },
+   "no-results": "Nenhum conteúdo encontrado",
+   "publish-success": "Conteúdo publicado com sucesso",
+   "table": {
+      "created": "Criado em",
+      "status": "Status",
+      "title": "Título",
+      "writer": "Escritor"
+   },
+   "title": "Conteúdos"
+}

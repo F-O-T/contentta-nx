@@ -1,0 +1,44 @@
+{
+   "dependencies": {
+      "@better-auth/stripe": "catalog:auth",
+      "@packages/cache": "workspace:*",
+      "@packages/database": "workspace:*",
+      "@packages/environment": "workspace:*",
+      "@packages/stripe": "workspace:*",
+      "@packages/transactional": "workspace:*",
+      "better-auth": "catalog:auth",
+      "better-auth-localization": "catalog:auth"
+   },
+   "devDependencies": {
+      "@tooling/typescript": "workspace:*",
+      "typescript": "catalog:development"
+   },
+   "exports": {
+      "./client": {
+         "default": "./src/client.ts",
+         "types": "./dist/src/client.d.ts"
+      },
+      "./helpers": {
+         "default": "./src/helpers/index.ts",
+         "types": "./dist/src/helpers/index.d.ts"
+      },
+      "./server": {
+         "default": "./src/server.ts",
+         "types": "./dist/src/server.d.ts"
+      }
+   },
+   "files": [
+      "dist"
+   ],
+   "license": "Apache-2.0",
+   "name": "@packages/authentication",
+   "private": true,
+   "scripts": {
+      "auth-schema-generate": "npx @better-auth/cli@latest generate --config ./src/cli-config.ts --output ../database/src/schemas/auth.ts",
+      "build": "tsc --build",
+      "check": "biome check --write ./src",
+      "typecheck": "tsc "
+   },
+   "type": "module",
+   "version": "0.8.1"
+}

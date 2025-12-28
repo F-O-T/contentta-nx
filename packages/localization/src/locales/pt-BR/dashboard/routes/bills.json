@@ -1,0 +1,478 @@
+{
+   "actions": {
+      "change-category": "Alterar Categoria",
+      "create-installments": "Criar Parcelas",
+      "delete": "Excluir",
+      "duplicate": "Duplicar",
+      "edit": "Editar",
+      "label": "Ações",
+      "link-file": "Anexar Arquivo",
+      "mark-as-recurrent": "Tornar Recorrente",
+      "pay": "Pagar",
+      "receive": "Receber"
+   },
+   "actions-toolbar": {
+      "actions": {
+         "add-new": "Nova Conta",
+         "delete-selected": "Excluir selecionados"
+      }
+   },
+   "bulk-actions": {
+      "complete": "Pagar/Receber",
+      "complete-confirm-description": "Deseja marcar {{count}} conta(s) como paga(s)? Serão criadas transações para cada conta.",
+      "complete-confirm-title": "Confirmar pagamento de {{count}} conta(s)",
+      "completed-error": "Erro ao marcar contas como pagas",
+      "completed-success": "{{count}} conta(s) marcada(s) como paga(s)",
+      "confirm": "Confirmar",
+      "delete": "Excluir",
+      "delete-confirm-description": "Tem certeza que deseja excluir {{count}} conta(s)? Esta ação não pode ser desfeita.",
+      "delete-confirm-title": "Excluir {{count}} conta(s)",
+      "deleted-error": "Erro ao excluir contas",
+      "deleted-success": "{{count}} conta(s) excluída(s) com sucesso"
+   },
+   "completedOn": "Concluído em",
+   "copy": {
+      "tooltip": "Copiar informações"
+   },
+   "details": {
+      "attachments": {
+         "delete": "Remover",
+         "deleting": "Removendo...",
+         "download": "Baixar",
+         "empty": "Nenhum anexo",
+         "error": "Erro ao processar arquivo",
+         "title": "Anexos",
+         "upload": "Anexar arquivo",
+         "uploading": "Enviando..."
+      },
+      "description": "Visualize e gerencie os detalhes desta conta",
+      "error": {
+         "back": "Voltar para Contas",
+         "retry": "Tentar novamente",
+         "title": "Erro ao carregar conta"
+      },
+      "info": {
+         "title": "Informações"
+      },
+      "installments": {
+         "current": "Atual",
+         "paid": "Paga",
+         "pending": "Pendente",
+         "title": "Parcelas",
+         "viewAll": "Ver todas as parcelas"
+      },
+      "interest": {
+         "apply": "Aplicar Juros",
+         "correction": "Correção",
+         "daysOverdue": "Dias em atraso",
+         "interest": "Juros",
+         "lastUpdate": "Atualizado em",
+         "noTemplate": "Sem modelo de juros",
+         "originalAmount": "Valor Original",
+         "penalty": "Multa",
+         "template": "Modelo",
+         "title": "Juros e Correção",
+         "updatedAmount": "Valor Atualizado"
+      },
+      "related-transaction": {
+         "title": "Transação Vinculada"
+      },
+      "title": "Detalhes da Conta"
+   },
+   "features": {
+      "change-category": {
+         "description": "Altere a categoria desta conta",
+         "title": "Alterar Categoria"
+      },
+      "duplicate-bill": {
+         "date-options": {
+            "custom": "Data personalizada",
+            "same-day": "Mesmo dia do original",
+            "today": "Hoje"
+         },
+         "description": "Crie uma cópia desta conta com uma nova data de vencimento",
+         "submit": "Duplicar Conta",
+         "title": "Duplicar Conta"
+      },
+      "mark-as-recurrent": {
+         "by-count": "Por quantidade",
+         "by-date": "Por data",
+         "description": "Configure a recorrência para criar contas automaticamente",
+         "end-date": "Data final",
+         "end-date-description": "A recorrência termina nesta data",
+         "end-date-placeholder": "Selecione a data final",
+         "end-type": "Término da recorrência",
+         "occurrence-count": "Número de ocorrências",
+         "occurrence-count-description": "Quantas vezes a conta será criada",
+         "pattern-description": "Escolha com que frequência a conta se repete",
+         "submit": "Criar Recorrência",
+         "success": "Recorrência criada com sucesso",
+         "title": "Tornar Recorrente"
+      },
+      "complete-bill": {
+         "bank-account": "Conta Bancária",
+         "bank-account-description": "Selecione a conta onde foi realizado o pagamento (opcional)",
+         "completion-date-expense": "Data do Pagamento",
+         "completion-date-income": "Data do Recebimento",
+         "confirm-payment": "Confirmar Pagamento",
+         "confirm-receipt": "Confirmar Recebimento",
+         "description": "Marque a conta como paga ou recebida",
+         "description-expense": "Marque esta conta como paga",
+         "description-income": "Marque este recebível como recebido",
+         "error": "Falha ao completar conta",
+         "success-payment": "Pagamento registrado com sucesso",
+         "success-receipt": "Recebimento registrado com sucesso",
+         "summary": "Resumo da Conta",
+         "title": "Concluir Conta",
+         "title-expense": "Pagar Conta",
+         "title-income": "Receber Pagamento"
+      },
+      "create-installments": {
+         "description": "Divida esta conta em parcelas mensais",
+         "installment-count": "Número de parcelas",
+         "installment-count-description": "Mínimo de 2 parcelas",
+         "start-date": "Data da primeira parcela",
+         "start-date-description": "As demais parcelas serão criadas mensalmente a partir desta data",
+         "start-date-placeholder": "Selecione a data",
+         "submit": "Criar Parcelas",
+         "success": "Parcelas criadas com sucesso",
+         "title": "Criar Parcelas"
+      },
+      "create-bill": {
+         "creating": "Criando...",
+         "description": "Adicione uma nova conta a pagar ou a receber",
+         "steps": {
+            "bill-type": {
+               "title": "Tipo",
+               "description": "Selecione o tipo de conta",
+               "question": "Que tipo de conta você deseja criar?",
+               "options": {
+                  "payable": {
+                     "title": "A Pagar",
+                     "description": "Despesas e contas que você precisa pagar"
+                  },
+                  "receivable": {
+                     "title": "A Receber",
+                     "description": "Receitas e valores que você vai receber"
+                  }
+               }
+            },
+            "bill-mode": {
+               "title": "Modalidade",
+               "description": "Como esta conta será paga/recebida?",
+               "question": "Como esta conta será paga/recebida?",
+               "options": {
+                  "onetime": {
+                     "title": "Única",
+                     "description": "Pagamento ou recebimento único"
+                  },
+                  "recurring": {
+                     "title": "Recorrente",
+                     "description": "Conta fixa que se repete (mensal, trimestral, etc.)"
+                  },
+                  "installment": {
+                     "title": "Parcelada",
+                     "description": "Dividida em várias parcelas com datas específicas"
+                  }
+               }
+            },
+            "details": {
+               "title": "Detalhes",
+               "description": "Informe os dados principais da conta"
+            },
+            "recurrence": {
+               "title": "Recorrência",
+               "description": "Configure a periodicidade ou parcelamento"
+            },
+            "categorization": {
+               "title": "Categorização",
+               "description": "Associe uma categoria e conta bancária",
+               "optional-hint": "Todos os campos abaixo são opcionais. Você pode pular esta etapa se preferir."
+            }
+         },
+         "recurrence-step": {
+            "frequency": {
+               "title": "Frequência",
+               "description": "Escolha com que frequência a conta se repete",
+               "options": {
+                  "monthly": {
+                     "title": "Mensal",
+                     "description": "Repete todo mês"
+                  },
+                  "quarterly": {
+                     "title": "Trimestral",
+                     "description": "Repete a cada 3 meses"
+                  },
+                  "semiannual": {
+                     "title": "Semestral",
+                     "description": "Repete a cada 6 meses"
+                  },
+                  "annual": {
+                     "title": "Anual",
+                     "description": "Repete todo ano"
+                  }
+               }
+            },
+            "occurrence": {
+               "title": "Quantidade",
+               "description": "Defina quantas vezes a conta será criada",
+               "options": {
+                  "auto": {
+                     "title": "Automático",
+                     "description": "Usa padrão baseado na frequência"
+                  },
+                  "count": {
+                     "title": "Número de vezes",
+                     "description": "Define quantidade específica",
+                     "input-label": "Quantidade de repetições"
+                  },
+                  "until-date": {
+                     "title": "Até uma data",
+                     "description": "Repete até a data escolhida"
+                  }
+               }
+            },
+            "preview": {
+               "title": "Resumo",
+               "message": "{{frequency}} - {{type}}"
+            },
+            "installment": {
+               "count": {
+                  "description": "Defina em quantas parcelas será dividido"
+               },
+               "interval": {
+                  "description": "Escolha o intervalo entre as parcelas"
+               },
+               "amounts": {
+                  "description": "Como os valores serão distribuídos",
+                  "equal-description": "Divide o valor total em parcelas iguais",
+                  "custom-description": "Define um valor diferente para cada parcela"
+               }
+            }
+         },
+         "error": "Erro ao criar conta",
+         "fields": {
+            "amount": "Valor",
+            "bankAccount": "Conta Bancária (Opcional)",
+            "category": "Categoria",
+            "counterparty": "Fornecedor/Cliente",
+            "description": "Descrição",
+            "dueDate": "Data de Vencimento",
+            "interestTemplate": "Modelo de Juros",
+            "isRecurring": "Conta recorrente",
+            "issueDate": "Data de Emissão",
+            "notes": "Observações",
+            "recurrencePattern": "Padrão de recorrência",
+            "type": "Tipo"
+         },
+         "installments": {
+            "amountCustom": "Personalizados",
+            "amountEqual": "Iguais",
+            "amountType": "Valores das parcelas",
+            "badge": "Parcela {{current}}/{{total}}",
+            "count": "Número de parcelas",
+            "customDays": "Dias personalizados",
+            "eachAmount": "({{amount}} cada)",
+            "enable": "Parcelar esta conta",
+            "installmentLabel": "Parcela {{number}}",
+            "interval": "Intervalo entre parcelas",
+            "intervalOptions": {
+               "biweekly": "Quinzenal (15 dias)",
+               "custom": "Personalizado",
+               "monthly": "Mensal (30 dias)",
+               "weekly": "Semanal (7 dias)"
+            },
+            "preview": "{{count}} parcelas de {{value}}",
+            "title": "Parcelamento",
+            "totalAmount": "Total: {{amount}}"
+         },
+         "noCategoryFound": "Nenhuma categoria encontrada",
+         "placeholders": {
+            "bankAccount": "Selecione uma conta",
+            "category": "Selecione uma categoria",
+            "counterparty": "Nome do fornecedor ou cliente",
+            "description": "Digite a descrição da conta...",
+            "dueDate": "Selecione uma data",
+            "interestTemplate": "Selecione um modelo de juros",
+            "issueDate": "Selecione uma data",
+            "notes": "Observações adicionais...",
+            "recurrencePattern": "Selecione o período",
+            "searchCategory": "Buscar categorias..."
+         },
+         "quick-create-counterparty": "Criar",
+         "recurrence": {
+            "annual": "Anual",
+            "monthly": "Mensal",
+            "quarterly": "Trimestral",
+            "semiannual": "Semestral"
+         },
+         "submit": "Criar Conta",
+         "success": "Conta criada com sucesso",
+         "title": "Nova Conta",
+         "types": {
+            "expense": "Despesa (A Pagar)",
+            "income": "Receita (A Receber)"
+         }
+      },
+      "delete-bill": {
+         "cancel": "Cancelar",
+         "confirm": "Excluir",
+         "deleting": "Excluindo...",
+         "description": "Tem certeza que deseja excluir \"{{description}}\"? Esta ação não pode ser desfeita.",
+         "error": "Erro ao excluir conta",
+         "success": "Conta excluída com sucesso",
+         "title": "Excluir Conta"
+      },
+      "edit-bill": {
+         "description": "Atualize os detalhes da conta",
+         "error": "Erro ao atualizar conta",
+         "submit": "Salvar Alterações",
+         "success": "Conta atualizada com sucesso",
+         "title": "Editar Conta",
+         "updating": "Atualizando..."
+      },
+      "from-transaction": {
+         "description": "Crie uma conta a pagar/receber recorrente baseada nesta transação",
+         "title": "Criar Conta a partir de Transação"
+      },
+      "filter": {
+         "actions": {
+            "clear-filters": "Limpar Filtros"
+         },
+         "description": "Refine a lista de contas com base em critérios específicos.",
+         "items": {
+            "all-categories": "Todas as Categorias",
+            "all-statuses": "Todos os Status",
+            "all-types": "Todos os Tipos",
+            "status-completed": "Concluída",
+            "status-overdue": "Vencida",
+            "status-pending": "Pendente",
+            "type-payable": "A Pagar",
+            "type-receivable": "A Receber"
+         },
+         "month": {
+            "label": "Mês",
+            "placeholder": "Selecione o mês"
+         },
+         "title": "Filtrar Contas"
+      }
+   },
+   "filter": {
+      "tooltip": "Filtrar contas"
+   },
+   "link-file": {
+      "select-file": "Selecione um arquivo",
+      "sheet": {
+         "description": "Anexe documentos relacionados a esta conta",
+         "title": "Anexar Arquivo"
+      },
+      "upload": "Enviar",
+      "uploading": "Enviando..."
+   },
+   "list-section": {
+      "actions": {
+         "add-new": "Nova Conta",
+         "cancel": "Cancelar",
+         "delete": "Excluir",
+         "edit": "Editar",
+         "label": "Gerencie sua conta",
+         "markAsPaid": "Marcar como Paga",
+         "markAsReceived": "Marcar como Recebida",
+         "pay": "Pagar",
+         "receive": "Receber",
+         "view-details": "Ver Detalhes"
+      },
+      "description": "Gerencie suas contas futuras e planejadas",
+      "state": {
+         "empty": {
+            "description": "Crie sua primeira conta usando a barra de ações rápidas acima para começar a gerenciar suas contas.",
+            "title": "Nenhuma conta encontrada"
+         },
+         "error": {
+            "description": "Falha ao carregar contas. Tente novamente mais tarde.",
+            "title": "Erro ao carregar contas"
+         }
+      },
+      "title": "Contas a Pagar e Receber"
+   },
+   "stats": {
+      "description": "Resumo das suas contas",
+      "error": {
+         "description": "Erro ao carregar estatísticas",
+         "title": "Erro ao carregar estatísticas"
+      },
+      "overdue": {
+         "description": "Total de contas a pagar vencidas",
+         "title": "Vencidas"
+      },
+      "overdueBills": {
+         "title": "Contas Vencidas"
+      },
+      "overduePayables": {
+         "count": "0",
+         "description": "Contas a pagar vencidas",
+         "title": "Vencidas a Pagar"
+      },
+      "overdueReceivables": {
+         "description": "Contas a receber vencidas",
+         "title": "Vencidas a Receber"
+      },
+      "pendingReceivables": {
+         "description": "Total de contas a receber pendentes",
+         "title": "A Receber"
+      },
+      "title": "Estatísticas",
+      "totalBills": {
+         "description": "Total de contas cadastradas",
+         "title": "Total de Contas"
+      },
+      "totalOverdue": {
+         "description": "Total de contas vencidas",
+         "title": "Total Vencido"
+      },
+      "totalPayables": {
+         "description": "Total de contas a pagar",
+         "title": "A Pagar"
+      },
+      "totalReceivables": {
+         "description": "Total de contas a receber",
+         "title": "A Receber"
+      }
+   },
+   "status": {
+      "overdue": "Vencida",
+      "paid": "Paga",
+      "pending": "Pendente"
+   },
+   "table": {
+      "columns": {
+         "amount": "Valor",
+         "description": "Descrição",
+         "dueDate": "Vencimento",
+         "status": "Status",
+         "type": "Tipo"
+      }
+   },
+   "type": {
+      "payable": "Despesa",
+      "receivable": "Receita"
+   },
+   "views": {
+      "allBills": {
+         "description": "Gerencie suas contas a pagar e a receber",
+         "title": "Contas a Pagar e Receber"
+      },
+      "payables": {
+         "description": "Gerencie suas despesas futuras",
+         "emptyState": {
+            "description": "Crie sua primeira conta usando a barra de ações rápidas acima para começar a gerenciar suas contas.",
+            "title": "Nenhuma conta encontrada"
+         },
+         "title": "Contas a Pagar"
+      },
+      "receivables": {
+         "description": "Gerencie suas receitas futuras",
+         "title": "Contas a Receber"
+      }
+   }
+}

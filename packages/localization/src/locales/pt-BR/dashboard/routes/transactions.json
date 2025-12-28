@@ -1,0 +1,247 @@
+{
+   "actions-toolbar": {
+      "actions": {
+         "add-new": "Nova transação",
+         "delete-selected": "Excluir selecionados"
+      }
+   },
+   "details": {
+      "breadcrumb": "Detalhes da Transação",
+      "categories": {
+         "empty": "Nenhuma categoria associada",
+         "split": "Dividido",
+         "title": "Categorias",
+         "total": "Total"
+      },
+      "error": {
+         "back": "Voltar para Transações",
+         "load-categories": "Falha ao carregar categorias",
+         "load-info": "Falha ao carregar informações da transação",
+         "load-stats": "Falha ao carregar estatísticas",
+         "title": "Falha ao carregar transação"
+      },
+      "stats": {
+         "amount": {
+            "description": "Valor total da transação",
+            "title": "Valor"
+         },
+         "bank-account": {
+            "title": "Conta Bancária"
+         },
+         "categories": {
+            "description": "Categorias associadas",
+            "title": "Categorias"
+         },
+         "created": {
+            "description": "Data de registro no sistema",
+            "title": "Criado em"
+         },
+         "description": "Informações detalhadas da transação",
+         "title": "Detalhes",
+         "type": {
+            "title": "Tipo"
+         },
+         "updated": {
+            "description": "Atualizado em"
+         }
+      },
+      "toolbar": {
+         "description": "Ações e operações comuns",
+         "title": "Barra de Ações"
+      }
+   },
+   "features": {
+      "add-new": {
+         "description": "Adicione uma nova transação ao seu registro financeiro.",
+         "title": "Adicionar Nova Transação"
+      },
+      "duplicate": {
+         "date-options": {
+            "custom": {
+               "description": "Escolha uma data específica para a duplicação",
+               "title": "Data específica"
+            },
+            "same-day": {
+               "description": "Usar a mesma data da transação original",
+               "title": "Mesmo dia da transação"
+            },
+            "today": {
+               "description": "Usar a data de hoje para a duplicação",
+               "title": "Hoje"
+            }
+         },
+         "description": "Crie uma cópia desta transação com os mesmos dados.",
+         "submit": "Duplicar Transação",
+         "title": "Duplicar Transação"
+      },
+      "edit": {
+         "description": "Modifique os detalhes da transação selecionada.",
+         "title": "Editar Transação"
+      },
+      "filter": {
+         "actions": {
+            "clear-filters": "Limpar Filtros"
+         },
+         "description": "Refine a lista de transações com base em critérios específicos.",
+         "end-date": {
+            "label": "Data Final",
+            "placeholder": "Selecione a data final"
+         },
+         "items": {
+            "all-accounts": "Todas as Contas",
+            "all-categories": "Todas as Categorias",
+            "all-types": "Todos os Tipos"
+         },
+         "page-size": {
+            "label": "Itens por Página"
+         },
+         "start-date": {
+            "label": "Data Inicial",
+            "placeholder": "Selecione a data inicial"
+         },
+         "title": "Filtrar Transações"
+      },
+      "recurrence": {
+         "description": "Configure uma conta recorrente a partir desta transação.",
+         "frequency": {
+            "biweekly": {
+               "description": "Cria uma conta a cada 15 dias",
+               "title": "Quinzenal"
+            },
+            "daily": {
+               "description": "Cria uma conta para cada dia",
+               "title": "Diario"
+            },
+            "monthly": {
+               "description": "Cria uma conta todo mes",
+               "title": "Mensal"
+            },
+            "title": "Frequencia",
+            "weekly": {
+               "description": "Cria uma conta toda semana",
+               "title": "Semanal"
+            },
+            "yearly": {
+               "description": "Cria uma conta todo ano",
+               "title": "Anual"
+            }
+         },
+         "occurrence": {
+            "auto": {
+               "description": "Quantidade baseada na frequencia selecionada",
+               "title": "Automatico"
+            },
+            "count": {
+               "description": "Especifique quantas vezes repetir",
+               "input-label": "Numero de repeticoes",
+               "title": "Numero de vezes"
+            },
+            "title": "Quantidade",
+            "until-date": {
+               "description": "Repete ate a data escolhida",
+               "title": "Ate uma data"
+            }
+         },
+         "preview": "Serao criadas {{count}} contas",
+         "start-date": "Data de inicio",
+         "submit": "Criar Recorrencia",
+         "success": "Recorrencia criada com sucesso",
+         "title": "Criar Recorrencia"
+      },
+      "refund": {
+         "date-options": {
+            "custom": {
+               "description": "Escolha uma data específica para o estorno",
+               "title": "Data específica"
+            },
+            "same-day": {
+               "description": "Usar a mesma data da transação original",
+               "title": "Mesmo dia da transação"
+            },
+            "today": {
+               "description": "Usar a data de hoje para o estorno",
+               "title": "Hoje"
+            }
+         },
+         "description": "Crie uma transação de estorno para reverter esta transação.",
+         "submit": "Criar Estorno",
+         "title": "Estornar Transação"
+      }
+   },
+   "link-file": {
+      "button": "Anexar Arquivo",
+      "clear-selection": "Limpar seleção",
+      "click-to-change": "Clique para alterar",
+      "current-file": "Arquivo atual",
+      "new-file": "Novo arquivo",
+      "replace-hint": "Envie um novo arquivo para substituir o atual",
+      "select-file": "Selecione um arquivo",
+      "sheet": {
+         "description": "Anexe um arquivo à transação, como uma nota fiscal ou comprovante.",
+         "title": "Anexar Arquivo"
+      },
+      "upload": "Enviar arquivo",
+      "uploading": "Enviando..."
+   },
+   "list-section": {
+      "actions": {
+         "create-bill": "Criar Recorrencia",
+         "delete": "Excluir transação",
+         "duplicate": "Duplicar",
+         "edit": "Editar transação",
+         "label": "Gerencie sua transação",
+         "refund": "Estornar",
+         "view-details": "Ver detalhes"
+      },
+      "description": "Veja todas as suas transações financeiras aqui.",
+      "page": "Página {{current}} de {{total}}",
+      "rows-per-page": "Linhas por página",
+      "showing": "Mostrando {{count}} de {{total}} transações",
+      "state": {
+         "empty": {
+            "description": "Tente ajustar seus filtros ou adicionar uma nova transação.",
+            "title": "Nenhuma Transação Encontrada"
+         }
+      },
+      "title": "Lista de Transações",
+      "types": {
+         "expense": "Despesa",
+         "income": "Receita",
+         "transfer": "Transferência"
+      }
+   },
+   "notifications": {
+      "create-error": "Falha ao criar transação",
+      "create-success": "Transação criada com sucesso",
+      "update-error": "Falha ao atualizar transação",
+      "update-success": "Transação atualizada com sucesso"
+   },
+   "stats-section": {
+      "expense": {
+         "description": "Veja o total acumulado de todas as suas despesas.",
+         "title": "Total de Despesas"
+      },
+      "income": {
+         "description": "Veja o total acumulado de todas as suas receitas.",
+         "title": "Total de Receitas"
+      },
+      "total": {
+         "description": "Veja o total acumulado de todas as suas transações.",
+         "title": "Total de Transações"
+      },
+      "transfer": {
+         "description": "Veja o total acumulado de todas as suas transferências.",
+         "title": "Total de Transferências"
+      }
+   },
+   "table": {
+      "columns": {
+         "amount": "Valor",
+         "category": "Categoria",
+         "date": "Data",
+         "description": "Descrição",
+         "tags": "Tags",
+         "type": "Tipo"
+      }
+   }
+}

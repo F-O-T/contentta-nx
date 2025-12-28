@@ -1,0 +1,16 @@
+{
+   "actions": {
+      "back-to-sign-in": "Voltar para o login",
+      "send-link": "Enviar link de acesso",
+      "try-different-email": "Usar outro e-mail"
+   },
+   "description": "Receba um link no seu e-mail para acessar sua conta sem precisar de senha.",
+   "messages": {
+      "sending": "Enviando link de acesso...",
+      "sent": "Link enviado! Verifique seu e-mail."
+   },
+   "note": "O link expira em 15 minutos. Verifique sua caixa de spam se não encontrar o e-mail.",
+   "sent-description": "Enviamos um link para seu e-mail. Clique nele para acessar sua conta instantaneamente.",
+   "sent-title": "Verifique seu e-mail",
+   "title": "Acesso sem senha"
+}

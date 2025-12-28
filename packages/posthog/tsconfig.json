@@ -1,0 +1,8 @@
+{
+   "extends": "@tooling/typescript/typecheck.json",
+   "compilerOptions": {
+      "jsx": "react-jsx",
+      "lib": ["dom", "ES2022"]
+   },
+   "include": ["src"]
+}

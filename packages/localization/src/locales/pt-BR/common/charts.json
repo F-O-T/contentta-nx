@@ -1,0 +1,11 @@
+{
+   "labels": {
+      "actual": "Realizado",
+      "actual-net": "Líquido Realizado",
+      "expenses": "Despesas",
+      "income": "Receita",
+      "net": "Líquido",
+      "planned": "Planejado",
+      "planned-net": "Líquido Planejado"
+   }
+}

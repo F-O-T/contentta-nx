@@ -1,0 +1,26 @@
+{
+   "extends": "@tooling/typescript/internal-package.json",
+   "compilerOptions": {
+      "rootDir": "./src",
+      "outDir": "./dist"
+   },
+   "include": ["src"],
+   "exclude": ["**/*.test.ts", "**/__tests__/**"],
+   "references": [
+    {
+      "path": "../transactional/tsconfig.lib.json"
+    },
+    {
+      "path": "../utils/tsconfig.lib.json"
+    },
+    {
+      "path": "../notifications/tsconfig.lib.json"
+    },
+    {
+      "path": "../queue/tsconfig.lib.json"
+    },
+    {
+      "path": "../database/tsconfig.lib.json"
+    }
+  ]
+}

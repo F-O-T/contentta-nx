@@ -1,0 +1,38 @@
+{
+   "dependencies": {
+      "@packages/cache": "workspace:*",
+      "bullmq": "catalog:workers",
+      "ioredis": "catalog:workers",
+      "zod": "catalog:validation"
+   },
+   "devDependencies": {
+      "@tooling/typescript": "workspace:*",
+      "typescript": "catalog:development"
+   },
+   "exports": {
+      "./bullmq": {
+         "default": "./src/bullmq.ts",
+         "types": "./dist/src/bullmq.d.ts"
+      },
+      "./connection": {
+         "default": "./src/connection.ts",
+         "types": "./dist/src/connection.d.ts"
+      },
+      "./schemas": {
+         "default": "./src/schemas.ts",
+         "types": "./dist/src/schemas.d.ts"
+      }
+   },
+   "files": [
+      "dist"
+   ],
+   "license": "Apache-2.0",
+   "name": "@packages/queue",
+   "private": true,
+   "scripts": {
+      "build": "tsc --build",
+      "typecheck": "tsc"
+   },
+   "type": "module",
+   "version": "0.1.0"
+}

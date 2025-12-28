@@ -1,0 +1,9 @@
+{
+   "extends": "@tooling/typescript/typecheck.json",
+   "compilerOptions": {
+      "lib": ["dom", "ES2022"]
+   },
+   "include": ["src", "src/locales/**/*.json"],
+   "exclude": ["node_modules"],
+   "references": []
+}

@@ -1,0 +1,11 @@
+{
+   "banner": {
+      "title": "Cookies e Privacidade",
+      "description": "Usamos cookies essenciais para funcionamento e telemetria opcional para melhorar sua experiência.",
+      "accept": "Aceitar todos",
+      "decline": "Apenas essenciais",
+      "privacy-policy": "Política de Privacidade",
+      "accepted": "Preferências de cookies salvas",
+      "declined": "Apenas cookies essenciais ativados"
+   }
+}
