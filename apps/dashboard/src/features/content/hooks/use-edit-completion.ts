@@ -1,23 +1,23 @@
 import { useCallback, useRef, useState, useEffect } from "react";
 import { clientEnv } from "@packages/environment/client";
-import type { FIMRequest, FIMChunkEnhanced, FIMChunkMetadata } from "@packages/fim/schemas";
+import type { EditRequest, EditChunk } from "@packages/edit/schemas";
 
-export interface UseFIMCompletionOptions {
+export interface UseEditCompletionOptions {
 	onChunk: (text: string) => void;
-	onComplete: (fullText: string, metadata?: FIMChunkMetadata) => void;
+	onComplete: (fullText: string) => void;
 	onError: (error: Error) => void;
 }
 
-export function useFIMCompletion({
+export function useEditCompletion({
 	onChunk,
 	onComplete,
 	onError,
-}: UseFIMCompletionOptions) {
+}: UseEditCompletionOptions) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<Error | null>(null);
 	const abortControllerRef = useRef<AbortController | null>(null);
 
-	// Use refs for callbacks to avoid recreating requestCompletion
+	// Use refs for callbacks to avoid recreating requestEdit
 	const onChunkRef = useRef(onChunk);
 	const onCompleteRef = useRef(onComplete);
 	const onErrorRef = useRef(onError);
@@ -29,7 +29,7 @@ export function useFIMCompletion({
 		onErrorRef.current = onError;
 	}, [onChunk, onComplete, onError]);
 
-	const cancelCompletion = useCallback(() => {
+	const cancelEdit = useCallback(() => {
 		if (abortControllerRef.current) {
 			abortControllerRef.current.abort();
 			abortControllerRef.current = null;
@@ -37,21 +37,20 @@ export function useFIMCompletion({
 		setIsLoading(false);
 	}, []);
 
-	const requestCompletion = useCallback(
-		async (request: FIMRequest) => {
-			cancelCompletion();
+	const requestEdit = useCallback(
+		async (request: EditRequest) => {
+			cancelEdit();
 			abortControllerRef.current = new AbortController();
 			const signal = abortControllerRef.current.signal;
 
 			setIsLoading(true);
 			setError(null);
 			let fullText = "";
-			let finalMetadata: FIMChunkMetadata | undefined;
 
 			try {
 				// Use native fetch for true streaming
 				const response = await fetch(
-					`${clientEnv.VITE_SERVER_URL}/api/fim/stream`,
+					`${clientEnv.VITE_SERVER_URL}/api/edit/stream`,
 					{
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
@@ -62,7 +61,7 @@ export function useFIMCompletion({
 				);
 
 				if (!response.ok) {
-					throw new Error(`FIM request failed: ${response.status}`);
+					throw new Error(`Edit request failed: ${response.status}`);
 				}
 
 				if (!response.body) {
@@ -86,11 +85,8 @@ export function useFIMCompletion({
 						for (const line of lines) {
 							if (!line.trim()) continue;
 							try {
-								const chunk: FIMChunkEnhanced = JSON.parse(line);
-								if (chunk.done) {
-									// Final chunk - extract metadata
-									finalMetadata = chunk.metadata;
-								} else if (chunk.text) {
+								const chunk: EditChunk = JSON.parse(line);
+								if (!chunk.done && chunk.text) {
 									fullText += chunk.text;
 									onChunkRef.current(chunk.text);
 								}
@@ -104,7 +100,7 @@ export function useFIMCompletion({
 				}
 
 				if (!signal.aborted) {
-					onCompleteRef.current(fullText, finalMetadata);
+					onCompleteRef.current(fullText);
 				}
 			} catch (err) {
 				if (!signal.aborted) {
@@ -117,8 +113,8 @@ export function useFIMCompletion({
 				abortControllerRef.current = null;
 			}
 		},
-		[cancelCompletion],
+		[cancelEdit],
 	);
 
-	return { requestCompletion, cancelCompletion, isLoading, error };
+	return { requestEdit, cancelEdit, isLoading, error };
 }

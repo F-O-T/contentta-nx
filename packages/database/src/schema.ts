@@ -13,3 +13,6 @@ export * from "./schemas/agent";
 export * from "./schemas/content";
 export * from "./schemas/content-version";
 export * from "./schemas/export-log";
+
+// Chat schemas
+export * from "./schemas/chat";

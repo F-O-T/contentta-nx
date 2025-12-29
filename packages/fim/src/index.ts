@@ -3,10 +3,31 @@ export {
 	FIMRequestSchema,
 	FIMResponseSchema,
 	FIMChunkSchema,
+	FIMChunkEnhancedSchema,
+	FIMChunkMetadataSchema,
+	FIMTriggerTypeSchema,
+	FIMConfidenceFactorsSchema,
+	FIMConfidenceResultSchema,
+	FIMDiffSuggestionSchema,
+	FIMStopReasonSchema,
 	type FIMRequest,
 	type FIMResponse,
 	type FIMChunk,
+	type FIMChunkEnhanced,
+	type FIMChunkMetadata,
+	type FIMTriggerType,
+	type FIMConfidenceFactors,
+	type FIMConfidenceResult,
+	type FIMDiffSuggestion,
+	type FIMStopReason,
 } from "./schemas";
+
+// Re-export confidence scoring
+export {
+	calculateConfidence,
+	CONFIDENCE_THRESHOLD,
+	type ConfidenceInput,
+} from "./confidence";
 
 // Re-export errors
 export { FIMError } from "./errors";

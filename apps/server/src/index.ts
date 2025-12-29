@@ -8,6 +8,8 @@ import { Elysia } from "elysia";
 import { auth, resendClient, stripeClient } from "./integrations/auth";
 import { db, ragClient } from "./integrations/database";
 import { fimRoutes } from "./routes/fim";
+import { editRoutes } from "./routes/edit";
+import { chatRoutes } from "./routes/chat";
 import { registryRoutes } from "./routes/registry";
 import { sdkRoutes } from "./routes/sdk";
 import { logger } from "./integrations/logging";
@@ -67,6 +69,8 @@ const app = new Elysia({
    .use(sdkRoutes)
    .use(registryRoutes)
    .use(fimRoutes)
+   .use(editRoutes)
+   .use(chatRoutes)
    .mount(auth.handler)
    .all(
       "/trpc/*",

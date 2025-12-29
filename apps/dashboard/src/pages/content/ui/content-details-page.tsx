@@ -18,6 +18,7 @@ import { ContentEditor } from "@/features/content/ui/content-editor";
 import { ContentInfoCard } from "@/features/content/ui/content-info-card";
 import { ContentStatsCard } from "@/features/content/ui/content-stats-card";
 import { ManageContentForm } from "@/features/content/ui/manage-content-form";
+import { ChatSidebar } from "@/features/content/ui/chat-sidebar";
 import { useActiveOrganization } from "@/hooks/use-active-organization";
 import { useAlertDialog } from "@/hooks/use-alert-dialog";
 import { useSheet } from "@/hooks/use-sheet";
@@ -298,6 +299,9 @@ function ContentDetailsPageContent({ contentId }: ContentDetailsPageProps) {
 					/>
 				</div>
 			</div>
+
+			{/* Chat Sidebar */}
+			<ChatSidebar contentId={contentId} />
 		</main>
 	);
 }

@@ -80,9 +80,12 @@
         "@packages/api": "workspace:*",
         "@packages/arcjet": "workspace:*",
         "@packages/authentication": "workspace:*",
+        "@packages/chat": "workspace:*",
         "@packages/database": "workspace:*",
+        "@packages/edit": "workspace:*",
         "@packages/environment": "workspace:*",
         "@packages/files": "workspace:*",
+        "@packages/fim": "workspace:*",
         "@packages/posthog": "workspace:*",
         "@packages/rag": "workspace:*",
         "@packages/transactional": "workspace:*",
@@ -264,6 +267,21 @@
         "typescript": "catalog:development",
       },
     },
+    "packages/chat": {
+      "name": "@packages/chat",
+      "version": "0.1.0",
+      "dependencies": {
+        "@openrouter/ai-sdk-provider": "catalog:openrouter",
+        "@packages/environment": "workspace:*",
+        "@packages/utils": "workspace:*",
+        "ai": "catalog:openrouter",
+        "zod": "catalog:validation",
+      },
+      "devDependencies": {
+        "@tooling/typescript": "workspace:*",
+        "typescript": "catalog:development",
+      },
+    },
     "packages/database": {
       "name": "@packages/database",
       "version": "0.12.1",
@@ -280,6 +298,21 @@
         "dotenv-cli": "catalog:enviroment",
         "drizzle-kit": "catalog:database",
         "shx": "catalog:enviroment",
+        "typescript": "catalog:development",
+      },
+    },
+    "packages/edit": {
+      "name": "@packages/edit",
+      "version": "0.1.0",
+      "dependencies": {
+        "@openrouter/ai-sdk-provider": "catalog:openrouter",
+        "@packages/environment": "workspace:*",
+        "@packages/utils": "workspace:*",
+        "ai": "catalog:openrouter",
+        "zod": "catalog:validation",
+      },
+      "devDependencies": {
+        "@tooling/typescript": "workspace:*",
         "typescript": "catalog:development",
       },
     },
@@ -1404,7 +1437,11 @@
 
     "@packages/cache": ["@packages/cache@workspace:packages/cache"],
 
+    "@packages/chat": ["@packages/chat@workspace:packages/chat"],
+
     "@packages/database": ["@packages/database@workspace:packages/database"],
+
+    "@packages/edit": ["@packages/edit@workspace:packages/edit"],
 
     "@packages/encryption": ["@packages/encryption@workspace:packages/encryption"],
 

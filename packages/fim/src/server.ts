@@ -1,8 +1,9 @@
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { streamText } from "ai";
 import { serverEnv } from "@packages/environment/server";
-import type { FIMRequest } from "./schemas";
+import type { FIMRequest, FIMChunkEnhanced, FIMStopReason } from "./schemas";
 import { FIMError } from "./errors";
+import { calculateConfidence } from "./confidence";
 
 const openrouter = createOpenRouter({
 	apiKey: serverEnv.OPENROUTER_API_KEY,
@@ -38,13 +39,30 @@ Continue (be concise):`;
 }
 
 /**
+ * Map AI SDK finish reason to our stop reason enum
+ */
+function mapFinishReason(reason: string | undefined): FIMStopReason {
+	switch (reason) {
+		case "stop":
+			return "natural";
+		case "length":
+			return "token_limit";
+		case "content-filter":
+			return "natural"; // Treat as natural stop
+		default:
+			return "stop_sequence";
+	}
+}
+
+/**
  * Create an async generator for streaming document completions.
+ * Yields chunks during streaming and a final chunk with confidence metadata.
  */
 export async function* createFIMStream(
 	request: FIMRequest,
 	signal?: AbortSignal,
-): AsyncGenerator<{ text: string; done: boolean }> {
-	const { prefix, suffix, maxTokens, temperature, stopSequences } = request;
+): AsyncGenerator<FIMChunkEnhanced> {
+	const { prefix, suffix, maxTokens, temperature, stopSequences, recentText } = request;
 
 	if (prefix.length + suffix.length > MAX_CONTEXT_CHARS) {
 		throw FIMError.contextTooLong(
@@ -53,6 +71,8 @@ export async function* createFIMStream(
 	}
 
 	const prompt = buildDocumentCompletionPrompt(prefix, suffix);
+	const startTime = Date.now();
+	let fullText = "";
 
 	try {
 		const result = streamText({
@@ -64,14 +84,41 @@ export async function* createFIMStream(
 			abortSignal: signal,
 		});
 
+		// Stream text chunks
 		for await (const chunk of result.textStream) {
 			if (signal?.aborted) {
 				return;
 			}
+			fullText += chunk;
 			yield { text: chunk, done: false };
 		}
 
-		yield { text: "", done: true };
+		// Get finish reason and calculate metrics
+		const finishReason = await result.finishReason;
+		const stopReason = mapFinishReason(finishReason);
+		const latencyMs = Date.now() - startTime;
+
+		// Calculate confidence score
+		const confidenceResult = calculateConfidence({
+			suggestion: fullText,
+			prefix,
+			recentText,
+			stopReason,
+			latencyMs,
+		});
+
+		// Yield final chunk with metadata
+		yield {
+			text: "",
+			done: true,
+			metadata: {
+				stopReason,
+				latencyMs,
+				confidence: confidenceResult.score,
+				shouldShow: confidenceResult.shouldShow,
+				factors: confidenceResult.factors,
+			},
+		};
 	} catch (error) {
 		if (signal?.aborted) {
 			throw FIMError.streamAborted();

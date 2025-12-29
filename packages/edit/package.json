@@ -1,0 +1,42 @@
+{
+	"name": "@packages/edit",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": {
+			"default": "./src/index.ts",
+			"types": "./dist/src/index.d.ts"
+		},
+		"./server": {
+			"default": "./src/server.ts",
+			"types": "./dist/src/server.d.ts"
+		},
+		"./client": {
+			"default": "./src/client.ts",
+			"types": "./dist/src/client.d.ts"
+		},
+		"./schemas": {
+			"default": "./src/schemas.ts",
+			"types": "./dist/src/schemas.d.ts"
+		}
+	},
+	"files": ["dist"],
+	"scripts": {
+		"build": "tsc --build",
+		"typecheck": "tsc",
+		"check": "biome check --write ./src"
+	},
+	"dependencies": {
+		"@openrouter/ai-sdk-provider": "catalog:openrouter",
+		"@packages/environment": "workspace:*",
+		"@packages/utils": "workspace:*",
+		"ai": "catalog:openrouter",
+		"zod": "catalog:validation"
+	},
+	"devDependencies": {
+		"@tooling/typescript": "workspace:*",
+		"typescript": "catalog:development"
+	},
+	"license": "Apache-2.0"
+}

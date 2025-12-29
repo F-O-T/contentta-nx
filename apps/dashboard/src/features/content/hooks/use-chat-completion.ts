@@ -1,23 +1,37 @@
 import { useCallback, useRef, useState, useEffect } from "react";
 import { clientEnv } from "@packages/environment/client";
-import type { FIMRequest, FIMChunkEnhanced, FIMChunkMetadata } from "@packages/fim/schemas";
+import type { ChatChunk } from "@packages/chat/schemas";
 
-export interface UseFIMCompletionOptions {
+export interface ChatCompletionRequest {
+	sessionId: string;
+	contentId: string;
+	messages: Array<{ role: "user" | "assistant"; content: string }>;
+	selectionContext?: {
+		text: string;
+		contextBefore?: string;
+		contextAfter?: string;
+	};
+	documentContext?: string;
+	maxTokens?: number;
+	temperature?: number;
+}
+
+export interface UseChatCompletionOptions {
 	onChunk: (text: string) => void;
-	onComplete: (fullText: string, metadata?: FIMChunkMetadata) => void;
+	onComplete: (fullText: string) => void;
 	onError: (error: Error) => void;
 }
 
-export function useFIMCompletion({
+export function useChatCompletion({
 	onChunk,
 	onComplete,
 	onError,
-}: UseFIMCompletionOptions) {
+}: UseChatCompletionOptions) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<Error | null>(null);
 	const abortControllerRef = useRef<AbortController | null>(null);
 
-	// Use refs for callbacks to avoid recreating requestCompletion
+	// Use refs for callbacks to avoid recreating sendMessage
 	const onChunkRef = useRef(onChunk);
 	const onCompleteRef = useRef(onComplete);
 	const onErrorRef = useRef(onError);
@@ -29,7 +43,7 @@ export function useFIMCompletion({
 		onErrorRef.current = onError;
 	}, [onChunk, onComplete, onError]);
 
-	const cancelCompletion = useCallback(() => {
+	const cancelChat = useCallback(() => {
 		if (abortControllerRef.current) {
 			abortControllerRef.current.abort();
 			abortControllerRef.current = null;
@@ -37,21 +51,20 @@ export function useFIMCompletion({
 		setIsLoading(false);
 	}, []);
 
-	const requestCompletion = useCallback(
-		async (request: FIMRequest) => {
-			cancelCompletion();
+	const sendMessage = useCallback(
+		async (request: ChatCompletionRequest) => {
+			cancelChat();
 			abortControllerRef.current = new AbortController();
 			const signal = abortControllerRef.current.signal;
 
 			setIsLoading(true);
 			setError(null);
 			let fullText = "";
-			let finalMetadata: FIMChunkMetadata | undefined;
 
 			try {
 				// Use native fetch for true streaming
 				const response = await fetch(
-					`${clientEnv.VITE_SERVER_URL}/api/fim/stream`,
+					`${clientEnv.VITE_SERVER_URL}/api/chat/stream`,
 					{
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
@@ -62,7 +75,7 @@ export function useFIMCompletion({
 				);
 
 				if (!response.ok) {
-					throw new Error(`FIM request failed: ${response.status}`);
+					throw new Error(`Chat request failed: ${response.status}`);
 				}
 
 				if (!response.body) {
@@ -86,11 +99,8 @@ export function useFIMCompletion({
 						for (const line of lines) {
 							if (!line.trim()) continue;
 							try {
-								const chunk: FIMChunkEnhanced = JSON.parse(line);
-								if (chunk.done) {
-									// Final chunk - extract metadata
-									finalMetadata = chunk.metadata;
-								} else if (chunk.text) {
+								const chunk: ChatChunk = JSON.parse(line);
+								if (!chunk.done && chunk.text) {
 									fullText += chunk.text;
 									onChunkRef.current(chunk.text);
 								}
@@ -104,7 +114,7 @@ export function useFIMCompletion({
 				}
 
 				if (!signal.aborted) {
-					onCompleteRef.current(fullText, finalMetadata);
+					onCompleteRef.current(fullText);
 				}
 			} catch (err) {
 				if (!signal.aborted) {
@@ -117,8 +127,8 @@ export function useFIMCompletion({
 				abortControllerRef.current = null;
 			}
 		},
-		[cancelCompletion],
+		[cancelChat],
 	);
 
-	return { requestCompletion, cancelCompletion, isLoading, error };
+	return { sendMessage, cancelChat, isLoading, error };
 }

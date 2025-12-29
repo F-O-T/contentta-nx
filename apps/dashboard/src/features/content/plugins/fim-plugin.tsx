@@ -14,10 +14,14 @@ import {
 } from "lexical";
 import { useCallback, useEffect, useRef } from "react";
 import { useFIMCompletion } from "../hooks/use-fim-completion";
+import { useFIMTriggers, type TriggerContext } from "../hooks/use-fim-triggers";
 import { detectFIMMode } from "../hooks/use-fim-mode";
+import { detectDiffType } from "../hooks/use-fim-diff";
 import { buildFIMContext } from "@packages/fim/client";
+import type { FIMTriggerType, FIMChunkMetadata } from "@packages/fim";
 import { FIMStatusLine } from "../ui/fim-status-line";
 import { FIMFloatingPanel } from "../ui/fim-floating-panel";
+import { FIMDiffPanel } from "../ui/fim-diff-panel";
 import {
 	$createGhostTextNode,
 	$isGhostTextNode,
@@ -31,23 +35,34 @@ import {
 	completeFIMSession,
 	appendGhostText,
 	setFIMPosition,
+	setConfidence,
+	setFIMMetrics,
+	setDiffSuggestion,
+	incrementChainDepth,
+	resetChain,
 	type FIMMode,
 } from "../context/fim-context";
 
-const DEBOUNCE_MS = 500;
+// Max chain depth to prevent infinite loops
+const MAX_CHAIN_DEPTH = 5;
 
 interface FIMPluginProps {
 	containerRef: React.RefObject<HTMLDivElement | null>;
 }
 
 /**
- * Unified FIM Plugin supporting both Copilot and Cursor Tab modes.
+ * Unified FIM Plugin supporting Copilot, Cursor Tab, and Diff modes.
  *
  * Copilot Mode: Inline ghost text using GhostTextNode
  * Cursor Tab Mode: Floating panel for multi-line suggestions
+ * Diff Mode: Side-by-side replacement preview
  *
- * Trigger:
- * - Auto: After 500ms of typing pause
+ * Triggers:
+ * - Auto: After 500ms of typing pause (debounce)
+ * - Cursor move: On selection change
+ * - Punctuation: After . ! ?
+ * - Newline: After Enter key
+ * - Chain: After accepting a suggestion
  * - Manual: Ctrl+Space for Cursor Tab mode
  *
  * Accept: Tab key
@@ -55,16 +70,26 @@ interface FIMPluginProps {
  */
 export function FIMPlugin({ containerRef }: FIMPluginProps) {
 	const [editor] = useLexicalComposerContext();
-	const { mode, ghostText, isVisible, isLoading, position } = useFIMContext();
+	const {
+		mode,
+		ghostText,
+		isVisible,
+		isLoading,
+		position,
+		diffSuggestion,
+		confidenceScore,
+		chainDepth,
+		shouldShow,
+	} = useFIMContext();
 
-	const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const lastTextRef = useRef<string>("");
+	const lastPrefixRef = useRef<string>("");
+	const lastSuffixRef = useRef<string>("");
 	const isManualTriggerRef = useRef(false);
 	const completionIdRef = useRef<string | null>(null);
-	// Use ref to track current mode for streaming callbacks (avoids stale closure)
 	const currentModeRef = useRef<FIMMode>("idle");
-	// Flag to skip update listener right after completion (to avoid clearing from getRelativePosition DOM changes)
 	const justCompletedRef = useRef(false);
+	const currentTriggerTypeRef = useRef<FIMTriggerType | null>(null);
 
 	// Calculate position relative to container
 	const getRelativePosition = useCallback(() => {
@@ -77,15 +102,13 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 		const range = selection.getRangeAt(0);
 		const containerRect = container.getBoundingClientRect();
 
-		// For collapsed selection, create a temp span to get position
 		if (range.collapsed) {
 			const span = document.createElement("span");
-			span.textContent = "\u200B"; // Zero-width space
+			span.textContent = "\u200B";
 			range.insertNode(span);
 			const rangeRect = span.getBoundingClientRect();
 			span.parentNode?.removeChild(span);
 
-			// Restore selection
 			selection.removeAllRanges();
 			selection.addRange(range);
 
@@ -132,27 +155,19 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 	const $acceptGhostText = useCallback(() => {
 		const root = $getRoot();
 		let accepted = false;
-		console.log("[FIM] $acceptGhostText - searching for ghost nodes");
 
 		const findAndAcceptGhostNodes = (node: LexicalNode) => {
-			console.log("[FIM] Checking node:", node.getType());
 			if ($isGhostTextNode(node)) {
-				console.log("[FIM] Found ghost node:", node.getTextContent().slice(0, 30));
 				const textContent = node.getTextContent();
 				const parent = node.getParent();
-				console.log("[FIM] Parent:", parent?.getType());
 
 				if (parent) {
 					const textNode = $createTextNode(textContent);
-					// Insert text node before ghost, then remove ghost
-					// (using insertBefore + remove instead of replace for token-mode compatibility)
 					node.insertBefore(textNode);
 					node.remove();
-					// Position cursor at end of inserted text
 					const textLength = textNode.getTextContentSize();
 					textNode.select(textLength, textLength);
 					accepted = true;
-					console.log("[FIM] Ghost node accepted successfully");
 				}
 				return;
 			}
@@ -166,7 +181,6 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 		};
 
 		findAndAcceptGhostNodes(root);
-		console.log("[FIM] $acceptGhostText returning:", accepted);
 		return accepted;
 	}, []);
 
@@ -176,164 +190,14 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 			$clearGhostTextNodes();
 		});
 		clearFIM();
+		resetChain();
 		completionIdRef.current = null;
 		isManualTriggerRef.current = false;
 		currentModeRef.current = "idle";
+		currentTriggerTypeRef.current = null;
 	}, [editor, $clearGhostTextNodes]);
 
-	// Handle accepting the suggestion
-	const handleAcceptSuggestion = useCallback(() => {
-		console.log("[FIM] handleAcceptSuggestion called", { isVisible, ghostText: ghostText?.slice(0, 30) });
-		if (!isVisible || !ghostText) {
-			console.log("[FIM] Early return - isVisible:", isVisible, "ghostText:", !!ghostText);
-			return false;
-		}
-
-		// First, try to accept inline ghost nodes
-		let accepted = false;
-		editor.update(() => {
-			console.log("[FIM] Running $acceptGhostText");
-			accepted = $acceptGhostText();
-			console.log("[FIM] $acceptGhostText returned:", accepted);
-		});
-
-		// If no ghost nodes found, insert from state at cursor (fallback)
-		if (!accepted && ghostText) {
-			console.log("[FIM] Trying fallback insertion");
-			editor.update(() => {
-				const selection = $getSelection();
-				console.log("[FIM] Selection type:", selection?.constructor.name, "$isRangeSelection:", $isRangeSelection(selection));
-				if ($isRangeSelection(selection)) {
-					const textNode = $createTextNode(ghostText);
-					selection.insertNodes([textNode]);
-					accepted = true;
-					console.log("[FIM] Fallback insertion successful");
-				}
-			});
-		}
-
-		console.log("[FIM] Final accepted:", accepted);
-		if (accepted) {
-			clearFIM();
-			completionIdRef.current = null;
-			currentModeRef.current = "idle";
-			return true;
-		}
-
-		return false;
-	}, [editor, ghostText, isVisible, $acceptGhostText]);
-
-	// Stable callbacks for useFIMCompletion
-	const handleChunk = useCallback(
-		(chunk: string) => {
-			appendGhostText(chunk);
-
-			// For copilot mode, update the ghost text node in the editor
-			// Use ref to avoid stale closure - always insert during streaming for non-manual triggers
-			const shouldInsertInline = currentModeRef.current === "copilot" || !isManualTriggerRef.current;
-			
-			if (shouldInsertInline) {
-				// Use tag to prevent update listener from clearing the ghost text
-				editor.update(() => {
-					const currentId = completionIdRef.current;
-					if (!currentId) return;
-
-					// Find existing ghost node and update it, or insert new one
-					const root = $getRoot();
-					let foundGhost = false;
-
-					const findGhostNode = (node: LexicalNode): GhostTextNode | null => {
-						if ($isGhostTextNode(node) && node.getUUID() === currentId) {
-							return node;
-						}
-						if ("getChildren" in node) {
-							const children = (node as { getChildren: () => LexicalNode[] }).getChildren();
-							for (const child of children) {
-								const found = findGhostNode(child);
-								if (found) return found;
-							}
-						}
-						return null;
-					};
-
-					const existingGhost = findGhostNode(root);
-
-					if (existingGhost) {
-						// Update existing ghost node with new text
-						const newText = existingGhost.getTextContent() + chunk;
-						const newGhost = $createGhostTextNode(newText, currentId);
-						existingGhost.replace(newGhost as LexicalNode);
-						newGhost.selectPrevious();
-						foundGhost = true;
-					}
-
-					// If no ghost node exists yet, insert one
-					if (!foundGhost) {
-						const selection = $getSelection();
-						if ($isRangeSelection(selection) && selection.isCollapsed()) {
-							const ghostNode = $createGhostTextNode(chunk, currentId);
-							selection.insertNodes([ghostNode as LexicalNode]);
-							ghostNode.selectPrevious();
-						}
-					}
-				}, { tag: "fim-ghost-insert" });
-			}
-		},
-		[editor],
-	);
-
-	const handleComplete = useCallback(
-		(fullText: string) => {
-			console.log("[FIM] handleComplete called, fullText length:", fullText.length);
-			
-			// Set flag to prevent update listener from clearing FIM during position calculation
-			justCompletedRef.current = true;
-			
-			completeFIMSession();
-
-			// Detect mode based on completion content
-			const detectedMode = detectFIMMode(fullText, {
-				isManualTrigger: isManualTriggerRef.current,
-			});
-
-			console.log("[FIM] Detected mode:", detectedMode.mode, "reason:", detectedMode.reason);
-			currentModeRef.current = detectedMode.mode; // Update ref
-			setFIMMode(detectedMode.mode);
-
-			// Set position for floating panel (for cursor-tab mode)
-			// Note: getRelativePosition modifies DOM which can trigger updates
-			if (detectedMode.mode === "cursor-tab") {
-				console.log("[FIM] Getting relative position for cursor-tab mode");
-				const pos = getRelativePosition();
-				if (pos) {
-					setFIMPosition(pos);
-				}
-			}
-			
-			// Clear flag after a short delay to allow DOM updates to settle
-			setTimeout(() => {
-				justCompletedRef.current = false;
-			}, 50);
-			// Note: Do NOT clear ghost nodes here - let Tab or Escape handle it
-		},
-		[getRelativePosition],
-	);
-
-	const handleError = useCallback(
-		(error: Error) => {
-			console.error("FIM error:", error);
-			handleClearFIM();
-		},
-		[handleClearFIM],
-	);
-
-	const { requestCompletion, cancelCompletion } = useFIMCompletion({
-		onChunk: handleChunk,
-		onComplete: handleComplete,
-		onError: handleError,
-	});
-
-	// Get cursor offset in document
+	// Get cursor offset for chaining
 	const getCursorOffset = useCallback((): number => {
 		let offset = 0;
 
@@ -345,13 +209,9 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 			const anchorNode = anchor.getNode();
 			const anchorOffset = anchor.offset;
 
-			// Walk through all text nodes to calculate true offset
 			let currentOffset = 0;
 			const walkNode = (node: LexicalNode): boolean => {
-				if ($isGhostTextNode(node)) {
-					// Skip ghost text nodes in offset calculation
-					return false;
-				}
+				if ($isGhostTextNode(node)) return false;
 				if ($isTextNode(node)) {
 					if (node.is(anchorNode)) {
 						offset = currentOffset + anchorOffset;
@@ -375,27 +235,190 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 		return offset;
 	}, [editor]);
 
+	// Handle accepting the suggestion (with chain support)
+	const handleAcceptSuggestion = useCallback(() => {
+		if (!isVisible || !ghostText) return false;
+
+		let accepted = false;
+		let cursorPosition = 0;
+
+		// Handle diff/replacement accept
+		if (mode === "diff" && diffSuggestion?.type === "replace" && diffSuggestion.replaceRange) {
+			editor.update(() => {
+				// For replacement, we need to delete the original and insert the new
+				// The ghost text already contains only the replacement content
+				accepted = $acceptGhostText();
+			});
+		} else {
+			// Normal insertion accept
+			editor.update(() => {
+				accepted = $acceptGhostText();
+			});
+		}
+
+		// Fallback insertion if no ghost nodes
+		if (!accepted && ghostText) {
+			editor.update(() => {
+				const selection = $getSelection();
+				if ($isRangeSelection(selection)) {
+					const textNode = $createTextNode(ghostText);
+					selection.insertNodes([textNode]);
+					accepted = true;
+				}
+			});
+		}
+
+		if (accepted) {
+			cursorPosition = getCursorOffset();
+			
+			// Track chain depth
+			if (chainDepth < MAX_CHAIN_DEPTH) {
+				incrementChainDepth(cursorPosition);
+			}
+
+			clearFIM();
+			completionIdRef.current = null;
+			currentModeRef.current = "idle";
+			return true;
+		}
+
+		return false;
+	}, [editor, ghostText, isVisible, mode, diffSuggestion, chainDepth, getCursorOffset, $acceptGhostText]);
+
+	// Stable callbacks for useFIMCompletion
+	const handleChunk = useCallback(
+		(chunk: string) => {
+			appendGhostText(chunk);
+
+			const shouldInsertInline = currentModeRef.current === "copilot" || !isManualTriggerRef.current;
+			
+			if (shouldInsertInline) {
+				editor.update(() => {
+					const currentId = completionIdRef.current;
+					if (!currentId) return;
+
+					const root = $getRoot();
+
+					const findGhostNode = (node: LexicalNode): GhostTextNode | null => {
+						if ($isGhostTextNode(node) && node.getUUID() === currentId) {
+							return node;
+						}
+						if ("getChildren" in node) {
+							const children = (node as { getChildren: () => LexicalNode[] }).getChildren();
+							for (const child of children) {
+								const found = findGhostNode(child);
+								if (found) return found;
+							}
+						}
+						return null;
+					};
+
+					const existingGhost = findGhostNode(root);
+
+					if (existingGhost) {
+						const newText = existingGhost.getTextContent() + chunk;
+						const newGhost = $createGhostTextNode(newText, currentId);
+						existingGhost.replace(newGhost as LexicalNode);
+						newGhost.selectPrevious();
+					} else {
+						const selection = $getSelection();
+						if ($isRangeSelection(selection) && selection.isCollapsed()) {
+							const ghostNode = $createGhostTextNode(chunk, currentId);
+							selection.insertNodes([ghostNode as LexicalNode]);
+							ghostNode.selectPrevious();
+						}
+					}
+				}, { tag: "fim-ghost-insert" });
+			}
+		},
+		[editor],
+	);
+
+	const handleComplete = useCallback(
+		(fullText: string, metadata?: FIMChunkMetadata) => {
+			justCompletedRef.current = true;
+
+			// Check confidence - hide if below threshold
+			if (metadata && !metadata.shouldShow) {
+				console.log("[FIM] Hiding suggestion due to low confidence:", metadata.confidence);
+				handleClearFIM();
+				return;
+			}
+
+			// Store confidence metrics
+			if (metadata) {
+				if (metadata.confidence !== undefined && metadata.factors) {
+					setConfidence(metadata.confidence, metadata.factors, metadata.shouldShow ?? true);
+				}
+				if (metadata.latencyMs !== undefined && metadata.stopReason) {
+					setFIMMetrics(metadata.latencyMs, metadata.stopReason);
+				}
+			}
+
+			completeFIMSession();
+
+			// Detect diff type (insert vs replace)
+			const diff = detectDiffType(lastPrefixRef.current, lastSuffixRef.current, fullText);
+			
+			if (diff.type === "replace") {
+				setDiffSuggestion(diff);
+				currentModeRef.current = "diff";
+				setFIMMode("diff");
+			} else {
+				setDiffSuggestion(null);
+				// Detect regular mode based on content
+				const detectedMode = detectFIMMode(fullText, {
+					isManualTrigger: isManualTriggerRef.current,
+				});
+				currentModeRef.current = detectedMode.mode;
+				setFIMMode(detectedMode.mode);
+			}
+
+			// Set position for floating panel
+			if (currentModeRef.current === "cursor-tab" || currentModeRef.current === "diff") {
+				const pos = getRelativePosition();
+				if (pos) setFIMPosition(pos);
+			}
+			
+			setTimeout(() => {
+				justCompletedRef.current = false;
+			}, 50);
+		},
+		[getRelativePosition, handleClearFIM],
+	);
+
+	const handleError = useCallback(
+		(error: Error) => {
+			console.error("FIM error:", error);
+			handleClearFIM();
+		},
+		[handleClearFIM],
+	);
+
+	const { requestCompletion, cancelCompletion } = useFIMCompletion({
+		onChunk: handleChunk,
+		onComplete: handleComplete,
+		onError: handleError,
+	});
+
 	// Trigger completion request
 	const triggerCompletion = useCallback(
-		(options: { isManualTrigger?: boolean } = {}) => {
+		(options: { isManualTrigger?: boolean; triggerType?: FIMTriggerType } = {}) => {
 			isManualTriggerRef.current = options.isManualTrigger ?? false;
+			currentTriggerTypeRef.current = options.triggerType ?? "debounce";
 
-			// Generate new completion ID
 			const newCompletionId = crypto.randomUUID();
 			completionIdRef.current = newCompletionId;
 
-			// Start FIM session
-			startFIMSession(newCompletionId);
+			startFIMSession(newCompletionId, options.triggerType);
 
-			// Set initial mode based on trigger type
 			const initialMode = options.isManualTrigger ? "cursor-tab" : "copilot";
-			currentModeRef.current = initialMode; // Update ref immediately for streaming callbacks
+			currentModeRef.current = initialMode;
 			setFIMMode(initialMode);
 
 			editor.getEditorState().read(() => {
 				const root = $getRoot();
 
-				// Get text content excluding ghost text nodes
 				let textContent = "";
 				const getTextWithoutGhost = (node: LexicalNode) => {
 					if ($isGhostTextNode(node)) return;
@@ -412,32 +435,32 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 				};
 				getTextWithoutGhost(root);
 
-				// Don't trigger if no content
 				if (!textContent.trim()) {
 					clearFIM();
 					return;
 				}
 
-				// Don't trigger if content hasn't changed (unless manual)
-				if (!options.isManualTrigger && textContent === lastTextRef.current) {
+				// For chain triggers, always continue
+				if (options.triggerType !== "chain" && textContent === lastTextRef.current) {
 					clearFIM();
 					return;
 				}
 				lastTextRef.current = textContent;
 
 				const cursorOffset = getCursorOffset();
-
-				// Build context for FIM
 				const { prefix, suffix } = buildFIMContext(textContent, cursorOffset);
 
-				// Don't trigger if prefix is too short
+				// Store for diff detection
+				lastPrefixRef.current = prefix;
+				lastSuffixRef.current = suffix;
+
 				if (prefix.length < 10) {
 					clearFIM();
 					return;
 				}
 
-				// Context detection is available for future use
-				// const context = detectCompletionContext(prefix);
+				// Get recent text for repetition detection
+				const recentText = prefix.slice(-100);
 
 				requestCompletion({
 					prefix,
@@ -448,99 +471,87 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 					stopSequences: options.isManualTrigger
 						? ["\n\n\n"]
 						: ["\n\n", ".", "!", "?"],
+					triggerType: options.triggerType,
+					recentText,
 				});
 			});
 		},
 		[editor, requestCompletion, getCursorOffset],
 	);
 
-	// Handle text changes with debounce
-	useEffect(() => {
-		return editor.registerUpdateListener(({ tags, dirtyElements }) => {
-			console.log("[FIM] Update listener fired", {
-				tags: Array.from(tags),
-				dirtyCount: dirtyElements.size,
-				isVisible,
-				justCompleted: justCompletedRef.current,
+	// Handle trigger events from the trigger system
+	const handleTrigger = useCallback(
+		(type: FIMTriggerType, _context: TriggerContext) => {
+			// Don't trigger if already showing (except for chain)
+			if (isVisible && type !== "chain") return;
+
+			// For chain triggers, check depth limit
+			if (type === "chain" && chainDepth >= MAX_CHAIN_DEPTH) {
+				resetChain();
+				return;
+			}
+
+			triggerCompletion({
+				isManualTrigger: false,
+				triggerType: type,
 			});
+		},
+		[isVisible, chainDepth, triggerCompletion],
+	);
 
-			// Skip history merges
-			if (tags.has("history-merge")) return;
+	// Use the new trigger system
+	const { triggerChain, cancelTriggers } = useFIMTriggers({
+		onTrigger: handleTrigger,
+		enabled: mode === "idle" || !isLoading,
+	});
 
-			// Skip FIM ghost text insertions
-			if (tags.has("fim-ghost-insert")) {
-				console.log("[FIM] Skipping update - fim-ghost-insert tag");
-				return;
-			}
-
-			// Skip updates right after completion (from getRelativePosition DOM changes)
-			if (justCompletedRef.current) {
-				console.log("[FIM] Skipping update - just completed");
-				return;
-			}
-
-			// Only react to actual content changes
-			if (dirtyElements.size > 0) {
-				// Clear any existing debounce timer
-				if (debounceTimerRef.current) {
-					clearTimeout(debounceTimerRef.current);
-				}
-
-				// Clear existing suggestion when user types
-				if (isVisible) {
-					console.log("[FIM] Clearing FIM - user typed, tags:", Array.from(tags));
-					handleClearFIM();
-				}
-
-				// Debounce the completion request
-				debounceTimerRef.current = setTimeout(() => {
-					triggerCompletion();
-				}, DEBOUNCE_MS);
-			}
-		});
-	}, [editor, triggerCompletion, isVisible, handleClearFIM]);
-
-	// Tab to accept ghost text
+	// Tab to accept ghost text (with chaining)
 	useEffect(() => {
 		return editor.registerCommand(
 			KEY_TAB_COMMAND,
 			(event) => {
-				console.log("[FIM] Tab pressed", { isVisible, ghostText: ghostText?.slice(0, 30) });
-				if (isVisible && ghostText) {
+				if (isVisible && ghostText && shouldShow) {
 					event.preventDefault();
 					const result = handleAcceptSuggestion();
-					console.log("[FIM] Tab handler result:", result);
+					
+					// Trigger chain after accepting
+					if (result && chainDepth < MAX_CHAIN_DEPTH) {
+						setTimeout(() => {
+							triggerChain();
+						}, 50);
+					}
+					
 					return result;
 				}
-				console.log("[FIM] Tab not handled - conditions not met");
 				return false;
 			},
 			COMMAND_PRIORITY_HIGH,
 		);
-	}, [editor, isVisible, ghostText, handleAcceptSuggestion]);
+	}, [editor, isVisible, ghostText, shouldShow, handleAcceptSuggestion, chainDepth, triggerChain]);
 
-	// Escape to dismiss ghost text
+	// Escape to dismiss
 	useEffect(() => {
 		return editor.registerCommand(
 			KEY_ESCAPE_COMMAND,
 			() => {
 				if (isVisible) {
 					handleClearFIM();
+					cancelTriggers();
 					return true;
 				}
 				return false;
 			},
 			COMMAND_PRIORITY_HIGH,
 		);
-	}, [editor, isVisible, handleClearFIM]);
+	}, [editor, isVisible, handleClearFIM, cancelTriggers]);
 
-	// Ctrl+Space to manually trigger cursor-tab mode
+	// Ctrl+Space for manual trigger
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.ctrlKey && e.code === "Space") {
 				e.preventDefault();
-				handleClearFIM(); // Clear any existing suggestion
-				triggerCompletion({ isManualTrigger: true });
+				handleClearFIM();
+				triggerCompletion({ isManualTrigger: true, triggerType: "debounce" });
 			}
 		};
 
@@ -551,33 +562,43 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 	// Cleanup on unmount
 	useEffect(() => {
 		return () => {
-			if (debounceTimerRef.current) {
-				clearTimeout(debounceTimerRef.current);
-			}
+			cancelTriggers();
 			cancelCompletion();
 			clearFIM();
 		};
-	}, [cancelCompletion]);
+	}, [cancelTriggers, cancelCompletion]);
 
-	const hasSuggestion = isVisible && !!ghostText;
+	const hasSuggestion = isVisible && !!ghostText && shouldShow;
 
 	return (
 		<>
+			{/* Diff panel for replacement mode */}
+			{mode === "diff" && position && diffSuggestion && (
+				<FIMDiffPanel
+					diff={diffSuggestion}
+					position={position}
+					isVisible={hasSuggestion && !isLoading}
+					containerRef={containerRef}
+				/>
+			)}
+
 			{/* Floating panel for cursor-tab mode */}
 			{mode === "cursor-tab" && position && (
 				<FIMFloatingPanel
 					suggestion={ghostText}
 					position={position}
-					isVisible={isVisible && !isLoading}
+					isVisible={hasSuggestion && !isLoading}
 					containerRef={containerRef}
 				/>
 			)}
 
-			{/* Status line at bottom of editor */}
+			{/* Status line with confidence and chain indicators */}
 			<FIMStatusLine
 				isLoading={isLoading}
 				hasSuggestion={hasSuggestion}
 				mode={mode}
+				confidenceScore={confidenceScore}
+				chainDepth={chainDepth}
 			/>
 		</>
 	);

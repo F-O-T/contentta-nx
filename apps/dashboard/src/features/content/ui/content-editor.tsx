@@ -21,6 +21,8 @@ import type { EditorState, LexicalEditor } from "lexical";
 import { $createParagraphNode, $createTextNode, $getRoot } from "lexical";
 import { useCallback, useEffect, useRef } from "react";
 import { FIMPlugin } from "../plugins/fim-plugin";
+import { EditPlugin } from "../plugins/edit-plugin";
+import { ChatPlugin } from "../plugins/chat-plugin";
 import { GhostTextNode } from "../nodes/ghost-text-node";
 
 type ContentEditorProps = {
@@ -180,6 +182,8 @@ export function ContentEditor({
 				<OnChangePlugin onChange={handleChange} />
 				<EditorRefPlugin editorRef={editorRef} />
 				<FIMPlugin containerRef={containerRef} />
+				<EditPlugin containerRef={containerRef} />
+				<ChatPlugin />
 			</div>
 		</LexicalComposer>
 	);

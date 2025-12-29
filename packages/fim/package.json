@@ -19,6 +19,10 @@
       "./schemas": {
          "default": "./src/schemas.ts",
          "types": "./dist/src/schemas.d.ts"
+      },
+      "./confidence": {
+         "default": "./src/confidence.ts",
+         "types": "./dist/src/confidence.d.ts"
       }
    },
    "files": ["dist"],
