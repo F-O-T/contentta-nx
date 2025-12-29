@@ -22,6 +22,25 @@ export const SelectionContextSchema = z.object({
 export type SelectionContext = z.infer<typeof SelectionContextSchema>;
 
 /**
+ * Content metadata - information about the content being edited
+ */
+export const ContentMetadataSchema = z.object({
+	title: z.string(),
+	description: z.string(),
+	slug: z.string(),
+	keywords: z.array(z.string()).optional(),
+	status: z.string(),
+});
+
+export type ContentMetadata = z.infer<typeof ContentMetadataSchema>;
+
+/**
+ * Chat mode - determines the AI's behavior and response format
+ */
+export const ChatModeSchema = z.enum(["chat", "plan", "agent"]);
+export type ChatMode = z.infer<typeof ChatModeSchema>;
+
+/**
  * Chat request for streaming endpoint
  */
 export const ChatRequestSchema = z.object({
@@ -30,6 +49,8 @@ export const ChatRequestSchema = z.object({
 	messages: z.array(ChatMessageSchema),
 	selectionContext: SelectionContextSchema.optional(),
 	documentContext: z.string().optional(),
+	contentMetadata: ContentMetadataSchema.optional(),
+	mode: ChatModeSchema.default("chat"),
 	maxTokens: z.number().min(1).max(4096).default(1024),
 	temperature: z.number().min(0).max(1).default(0.7),
 });

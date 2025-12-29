@@ -1,11 +1,32 @@
 import { Store, useStore } from "@tanstack/react-store";
 
 export type ChatPhase = "idle" | "loading" | "streaming" | "error";
+export type ChatMode = "chat" | "plan" | "agent";
 
 export interface SelectionContext {
 	text: string;
 	contextBefore: string;
 	contextAfter: string;
+}
+
+export interface ContentMetadata {
+	title: string;
+	description: string;
+	slug: string;
+	keywords?: string[];
+	status: string;
+}
+
+export interface PlanStep {
+	id: string;
+	step: string;
+	status: "pending" | "approved" | "skipped" | "completed";
+}
+
+export interface EditSuggestion {
+	original: string;
+	suggested: string;
+	location?: { start: number; end: number };
 }
 
 export interface ChatMessage {
@@ -14,27 +35,37 @@ export interface ChatMessage {
 	content: string;
 	timestamp: number;
 	selectionContext?: SelectionContext;
+	// Mode-specific data
+	type?: "text" | "plan" | "edit-suggestion";
+	planSteps?: PlanStep[];
+	editSuggestion?: EditSuggestion;
 }
 
 interface ChatState {
 	phase: ChatPhase;
+	mode: ChatMode;
 	isOpen: boolean;
 	sessionId: string | null;
 	contentId: string | null;
 	messages: ChatMessage[];
 	currentStreamingMessage: string;
 	selectionContext: SelectionContext | null;
+	documentContent: string;
+	contentMetadata: ContentMetadata | null;
 	error: Error | null;
 }
 
 const initialState: ChatState = {
 	phase: "idle",
+	mode: "chat",
 	isOpen: false,
 	sessionId: null,
 	contentId: null,
 	messages: [],
 	currentStreamingMessage: "",
 	selectionContext: null,
+	documentContent: "",
+	contentMetadata: null,
 	error: null,
 };
 
@@ -208,12 +239,107 @@ export const clearChat = () =>
 	}));
 
 /**
+ * Update document content (called by ChatPlugin on editor changes)
+ */
+export const setDocumentContent = (content: string) =>
+	chatStore.setState((state) => ({
+		...state,
+		documentContent: content,
+	}));
+
+/**
+ * Update content metadata
+ */
+export const setContentMetadata = (metadata: ContentMetadata) =>
+	chatStore.setState((state) => ({
+		...state,
+		contentMetadata: metadata,
+	}));
+
+/**
  * Reset chat state completely
  */
 export const resetChatState = () =>
 	chatStore.setState(() => ({
 		...initialState,
 	}));
+
+/**
+ * Set chat mode (chat, plan, agent)
+ */
+export const setChatMode = (mode: ChatMode) =>
+	chatStore.setState((state) => ({
+		...state,
+		mode,
+	}));
+
+/**
+ * Update a plan step status
+ */
+export const updatePlanStep = (
+	messageId: string,
+	stepId: string,
+	status: PlanStep["status"],
+) =>
+	chatStore.setState((state) => ({
+		...state,
+		messages: state.messages.map((msg) =>
+			msg.id === messageId && msg.planSteps
+				? {
+						...msg,
+						planSteps: msg.planSteps.map((step) =>
+							step.id === stepId ? { ...step, status } : step,
+						),
+					}
+				: msg,
+		),
+	}));
+
+/**
+ * Add an assistant message with edit suggestion
+ */
+export const addEditSuggestionMessage = (editSuggestion: EditSuggestion) =>
+	chatStore.setState((state) => {
+		const newMessage: ChatMessage = {
+			id: crypto.randomUUID(),
+			role: "assistant",
+			content: "",
+			timestamp: Date.now(),
+			type: "edit-suggestion",
+			editSuggestion,
+		};
+
+		return {
+			...state,
+			messages: [...state.messages, newMessage],
+		};
+	});
+
+/**
+ * Add an assistant message with plan steps
+ */
+export const addPlanMessage = (content: string, steps: string[]) =>
+	chatStore.setState((state) => {
+		const planSteps: PlanStep[] = steps.map((step, index) => ({
+			id: `step-${index + 1}`,
+			step,
+			status: "pending",
+		}));
+
+		const newMessage: ChatMessage = {
+			id: crypto.randomUUID(),
+			role: "assistant",
+			content,
+			timestamp: Date.now(),
+			type: "plan",
+			planSteps,
+		};
+
+		return {
+			...state,
+			messages: [...state.messages, newMessage],
+		};
+	});
 
 /**
  * Hook to access chat state and actions
@@ -238,6 +364,12 @@ export const useChatContext = () => {
 		setChatError,
 		clearChat,
 		resetChatState,
+		setDocumentContent,
+		setContentMetadata,
+		setChatMode,
+		updatePlanStep,
+		addEditSuggestionMessage,
+		addPlanMessage,
 	};
 };
 

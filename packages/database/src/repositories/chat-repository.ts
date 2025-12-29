@@ -1,5 +1,5 @@
 import { AppError, propagateError } from "@packages/utils/errors";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import type { DatabaseInstance } from "../client";
 import {
 	chatSession,
@@ -19,8 +19,10 @@ export async function getOrCreateChatSession(
 	try {
 		// Try to find existing session
 		const existing = await dbClient.query.chatSession.findFirst({
-			where: (session, { eq }) =>
-				eq(session.contentId, contentId).and(eq(session.organizationId, organizationId)),
+			where: and(
+				eq(chatSession.contentId, contentId),
+				eq(chatSession.organizationId, organizationId),
+			),
 		});
 
 		if (existing) {
@@ -54,7 +56,7 @@ export async function getChatSessionById(
 ) {
 	try {
 		const result = await dbClient.query.chatSession.findFirst({
-			where: (session, { eq }) => eq(session.id, sessionId),
+			where: eq(chatSession.id, sessionId),
 		});
 		return result;
 	} catch (err) {
@@ -75,8 +77,10 @@ export async function getChatSessionByContentId(
 ) {
 	try {
 		const result = await dbClient.query.chatSession.findFirst({
-			where: (session, { eq }) =>
-				eq(session.contentId, contentId).and(eq(session.organizationId, organizationId)),
+			where: and(
+				eq(chatSession.contentId, contentId),
+				eq(chatSession.organizationId, organizationId),
+			),
 		});
 		return result;
 	} catch (err) {
@@ -96,7 +100,7 @@ export async function getChatSessionMessages(
 ) {
 	try {
 		const result = await dbClient.query.chatMessage.findMany({
-			where: (message, { eq }) => eq(message.sessionId, sessionId),
+			where: eq(chatMessage.sessionId, sessionId),
 			orderBy: (message, { asc }) => asc(message.createdAt),
 		});
 		return result;
@@ -197,8 +201,10 @@ export async function getChatSessionWithMessages(
 ) {
 	try {
 		const session = await dbClient.query.chatSession.findFirst({
-			where: (s, { eq }) =>
-				eq(s.contentId, contentId).and(eq(s.organizationId, organizationId)),
+			where: and(
+				eq(chatSession.contentId, contentId),
+				eq(chatSession.organizationId, organizationId),
+			),
 			with: {
 				messages: {
 					orderBy: (message, { asc }) => asc(message.createdAt),

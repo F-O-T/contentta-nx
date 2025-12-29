@@ -13,6 +13,7 @@ import {
 	useChatState,
 	openChatSidebar,
 	setSelectionContext,
+	setDocumentContent,
 } from "../context/chat-context";
 import { $isGhostTextNode } from "../nodes/ghost-text-node";
 
@@ -31,6 +32,30 @@ export function ChatPlugin() {
 	const [editor] = useLexicalComposerContext();
 	const { isOpen } = useChatState();
 
+	// Get text content without ghost nodes
+	const getTextWithoutGhost = useCallback((node: LexicalNode): string => {
+		if ($isGhostTextNode(node)) return "";
+		if ($isTextNode(node)) return node.getTextContent();
+		if ("getChildren" in node) {
+			const children = (
+				node as { getChildren: () => LexicalNode[] }
+			).getChildren();
+			return children.map(getTextWithoutGhost).join("");
+		}
+		return "";
+	}, []);
+
+	// Sync document content to chat state on every change
+	useEffect(() => {
+		return editor.registerUpdateListener(({ editorState }) => {
+			editorState.read(() => {
+				const root = $getRoot();
+				const fullText = getTextWithoutGhost(root);
+				setDocumentContent(fullText);
+			});
+		});
+	}, [editor, getTextWithoutGhost]);
+
 	// Get document text and selection context
 	const getDocumentContext = useCallback(() => {
 		let fullText = "";
@@ -42,18 +67,6 @@ export function ChatPlugin() {
 			const root = $getRoot();
 			const selection = $getSelection();
 
-			// Get all text content (excluding ghost nodes)
-			const getTextWithoutGhost = (node: LexicalNode): string => {
-				if ($isGhostTextNode(node)) return "";
-				if ($isTextNode(node)) return node.getTextContent();
-				if ("getChildren" in node) {
-					const children = (
-						node as { getChildren: () => LexicalNode[] }
-					).getChildren();
-					return children.map(getTextWithoutGhost).join("");
-				}
-				return "";
-			};
 			fullText = getTextWithoutGhost(root);
 
 			// Get selected text if any
@@ -110,7 +123,7 @@ export function ChatPlugin() {
 			contextBefore: fullText.slice(0, selectionStart),
 			contextAfter: fullText.slice(selectionEnd),
 		};
-	}, [editor]);
+	}, [editor, getTextWithoutGhost]);
 
 	// Ctrl+L handler - toggle sidebar and send selection to chat
 	useEffect(() => {

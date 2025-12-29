@@ -15,6 +15,7 @@ export const FIMTriggerTypeSchema = z.enum([
 	"punctuation", // After . ! ?
 	"newline", // After Enter/paragraph
 	"chain", // After accepting previous suggestion
+	"edit-prediction", // Smart edit prediction based on context
 ]);
 
 export type FIMTriggerType = z.infer<typeof FIMTriggerTypeSchema>;
@@ -84,6 +85,37 @@ export const FIMStopReasonSchema = z.enum([
 export type FIMStopReason = z.infer<typeof FIMStopReasonSchema>;
 
 // ============================================================================
+// Edit Intent Types
+// ============================================================================
+
+/**
+ * Edit Intent Type Schema
+ * Classifies the user's editing intention
+ */
+export const EditIntentTypeSchema = z.enum([
+	"continuation", // User is continuing to write at end
+	"insertion", // User is inserting text mid-document
+	"correction", // User is correcting/fixing text
+	"completion", // User is completing an incomplete thought
+]);
+
+export type EditIntentType = z.infer<typeof EditIntentTypeSchema>;
+
+/**
+ * Edit Context Schema
+ * Additional context for edit predictions
+ */
+export const EditContextSchema = z.object({
+	intent: EditIntentTypeSchema,
+	cursorDistanceFromEnd: z.number().min(0).max(1),
+	isInEditingMode: z.boolean(),
+	isAfterIncomplete: z.boolean().optional(),
+	hasSentencePattern: z.boolean().optional(),
+});
+
+export type EditContext = z.infer<typeof EditContextSchema>;
+
+// ============================================================================
 // FIM Request
 // ============================================================================
 
@@ -108,6 +140,8 @@ export const FIMRequestSchema = z.object({
 			isAfterPunctuation: z.boolean(),
 		})
 		.optional(),
+	// Edit prediction context
+	editContext: EditContextSchema.optional(),
 });
 
 export type FIMRequest = z.infer<typeof FIMRequestSchema>;

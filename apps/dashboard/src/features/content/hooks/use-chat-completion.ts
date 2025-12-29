@@ -12,6 +12,14 @@ export interface ChatCompletionRequest {
 		contextAfter?: string;
 	};
 	documentContext?: string;
+	contentMetadata?: {
+		title: string;
+		description: string;
+		slug: string;
+		keywords?: string[];
+		status: string;
+	};
+	mode?: "chat" | "plan" | "agent";
 	maxTokens?: number;
 	temperature?: number;
 }

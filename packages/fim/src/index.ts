@@ -10,6 +10,8 @@ export {
 	FIMConfidenceResultSchema,
 	FIMDiffSuggestionSchema,
 	FIMStopReasonSchema,
+	EditIntentTypeSchema,
+	EditContextSchema,
 	type FIMRequest,
 	type FIMResponse,
 	type FIMChunk,
@@ -20,6 +22,8 @@ export {
 	type FIMConfidenceResult,
 	type FIMDiffSuggestion,
 	type FIMStopReason,
+	type EditIntentType,
+	type EditContext,
 } from "./schemas";
 
 // Re-export confidence scoring

@@ -33,6 +33,9 @@ interface TriggerConfig {
 	enableNewline: boolean;
 	newlineDelayMs: number;
 	enableChain: boolean;
+	// Edit prediction settings
+	enableEditPrediction: boolean;
+	editPredictionDelayMs: number;
 }
 
 const DEFAULT_CONFIG: TriggerConfig = {
@@ -44,6 +47,9 @@ const DEFAULT_CONFIG: TriggerConfig = {
 	enableNewline: true,
 	newlineDelayMs: 50,
 	enableChain: true,
+	// Edit prediction defaults
+	enableEditPrediction: true,
+	editPredictionDelayMs: 600, // Slightly longer than debounce
 };
 
 interface UseFIMTriggersOptions {
@@ -104,7 +110,9 @@ export function useFIMTriggers({
 	// Refs for debouncing
 	const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const cursorMoveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const editPredictionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const lastSelectionRef = useRef<string>("");
+	const lastCursorPositionRef = useRef<number>(-1);
 
 	// Clear debounce timer
 	const clearDebounce = useCallback(() => {
@@ -208,12 +216,20 @@ export function useFIMTriggers({
 		return editor.registerCommand(
 			SELECTION_CHANGE_COMMAND,
 			() => {
-				// Get current selection key for comparison
+				// Get current selection key and cursor offset
 				let selectionKey = "";
+				let cursorOffset = 0;
+				let textLength = 0;
+
 				editor.getEditorState().read(() => {
 					const selection = $getSelection();
 					if ($isRangeSelection(selection)) {
 						selectionKey = `${selection.anchor.key}:${selection.anchor.offset}`;
+						cursorOffset = selection.anchor.offset;
+						
+						// Get text length for mid-text detection
+						const node = selection.anchor.getNode();
+						textLength = node.getTextContent().length;
 					}
 				});
 
@@ -231,17 +247,38 @@ export function useFIMTriggers({
 					onTrigger("cursor-move", context);
 				}, config.cursorMoveDebounceMs);
 
+				// Check for edit prediction trigger (cursor moved to mid-text)
+				if (config.enableEditPrediction) {
+					const isMidText = textLength > 0 && cursorOffset < textLength * 0.85;
+					const cursorMoved = lastCursorPositionRef.current !== cursorOffset;
+					lastCursorPositionRef.current = cursorOffset;
+
+					if (isMidText && cursorMoved) {
+						// Clear existing edit prediction timer
+						if (editPredictionTimerRef.current) {
+							clearTimeout(editPredictionTimerRef.current);
+						}
+
+						// Schedule edit prediction trigger
+						editPredictionTimerRef.current = setTimeout(() => {
+							const context = getContextFromEditor(editor);
+							onTrigger("edit-prediction", context);
+						}, config.editPredictionDelayMs);
+					}
+				}
+
 				return false;
 			},
 			COMMAND_PRIORITY_LOW,
 		);
-	}, [editor, enabled, config.enableCursorMove, config.cursorMoveDebounceMs, onTrigger]);
+	}, [editor, enabled, config.enableCursorMove, config.enableEditPrediction, config.cursorMoveDebounceMs, config.editPredictionDelayMs, onTrigger]);
 
 	// Cleanup on unmount
 	useEffect(() => {
 		return () => {
 			if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
 			if (cursorMoveTimerRef.current) clearTimeout(cursorMoveTimerRef.current);
+			if (editPredictionTimerRef.current) clearTimeout(editPredictionTimerRef.current);
 		};
 	}, []);
 
@@ -253,6 +290,14 @@ export function useFIMTriggers({
 		onTrigger("chain", context);
 	}, [editor, config.enableChain, onTrigger]);
 
+	// Manual edit prediction trigger
+	const triggerEditPrediction = useCallback(() => {
+		if (!config.enableEditPrediction) return;
+
+		const context = getContextFromEditor(editor);
+		onTrigger("edit-prediction", context);
+	}, [editor, config.enableEditPrediction, onTrigger]);
+
 	// Cancel all pending triggers
 	const cancelTriggers = useCallback(() => {
 		clearDebounce();
@@ -260,10 +305,15 @@ export function useFIMTriggers({
 			clearTimeout(cursorMoveTimerRef.current);
 			cursorMoveTimerRef.current = null;
 		}
+		if (editPredictionTimerRef.current) {
+			clearTimeout(editPredictionTimerRef.current);
+			editPredictionTimerRef.current = null;
+		}
 	}, [clearDebounce]);
 
 	return {
 		triggerChain,
+		triggerEditPrediction,
 		cancelTriggers,
 		scheduleDebounceTrigger: (context: TriggerContext) => scheduleDebounceTrigger(context),
 	};

@@ -1,7 +1,7 @@
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { streamText } from "ai";
 import { serverEnv } from "@packages/environment/server";
-import type { ChatRequest } from "./schemas";
+import type { ChatRequest, ContentMetadata, ChatMode } from "./schemas";
 import { ChatError } from "./errors";
 
 const openrouter = createOpenRouter({
@@ -15,14 +15,65 @@ const MAX_CONTEXT_CHARS = 4000;
 const MAX_SELECTION_CHARS = 4000;
 
 /**
+ * Get mode-specific instructions for the AI.
+ */
+function getModeInstructions(mode: ChatMode): string {
+	switch (mode) {
+		case "plan":
+			return `
+MODE: PLAN MODE
+In this mode, you should create a detailed plan before suggesting any changes.
+
+When responding:
+1. First, analyze the user's request
+2. Create a numbered list of steps to accomplish the goal
+3. Each step should be clear and actionable
+4. Ask for confirmation before proceeding with implementation
+
+Format your response as:
+**Plan:**
+1. [First step]
+2. [Second step]
+3. [etc.]
+
+Wait for user approval before suggesting specific changes.`;
+
+		case "agent":
+			return `
+MODE: AGENT MODE
+In this mode, you should provide specific edit suggestions for the document.
+
+When responding:
+1. Identify the exact text that should be changed
+2. Provide the suggested replacement text
+3. Explain briefly why this change improves the content
+
+Format your edit suggestions clearly with:
+- ORIGINAL: [exact text to be replaced]
+- SUGGESTED: [new text]
+- REASON: [brief explanation]
+
+Make one suggestion at a time for the user to review and accept/reject.`;
+
+		default:
+			return `
+MODE: CHAT MODE
+In this mode, have a natural conversation about the content.
+Answer questions, discuss ideas, and provide guidance without making direct edits.`;
+	}
+}
+
+/**
  * Build system prompt for the chat assistant.
- * Includes selection context and document context if provided.
+ * Includes content metadata, selection context, and document context if provided.
  */
 function buildSystemPrompt(
 	selectionContext?: ChatRequest["selectionContext"],
 	documentContext?: string,
+	contentMetadata?: ContentMetadata,
+	mode: ChatMode = "chat",
 ): string {
-	let prompt = `You are a helpful AI writing assistant for a blog post editor. Your role is to help users write, edit, and improve their content.
+	let prompt = `You are a helpful AI writing assistant integrated into a blog post editor. Your role is to help users write, edit, and improve their content.
 
 You can help with:
 - Brainstorming ideas and outlines
@@ -39,7 +90,22 @@ Guidelines:
 - When suggesting edits, explain your reasoning briefly
 - Match the user's writing style when possible
 - If asked to write content, maintain consistency with existing content
-- Use markdown formatting in your responses when appropriate`;
+- Use markdown formatting in your responses when appropriate
+- Reference specific parts of the document when giving feedback`;
+
+	// Add mode-specific instructions
+	prompt += getModeInstructions(mode);
+
+	// Add content metadata context
+	if (contentMetadata) {
+		prompt += `\n\n---\nCONTENT BEING EDITED:`;
+		prompt += `\n- Title: "${contentMetadata.title}"`;
+		prompt += `\n- Description: "${contentMetadata.description}"`;
+		prompt += `\n- Status: ${contentMetadata.status}`;
+		if (contentMetadata.keywords?.length) {
+			prompt += `\n- Target keywords: ${contentMetadata.keywords.join(", ")}`;
+		}
+	}
 
 	if (selectionContext?.text) {
 		const trimmedText = selectionContext.text.slice(0, MAX_SELECTION_CHARS);
@@ -58,7 +124,7 @@ Guidelines:
 
 	if (documentContext) {
 		const trimmedDoc = documentContext.slice(0, MAX_CONTEXT_CHARS);
-		prompt += `\n\n---\nFULL DOCUMENT CONTEXT:\n${trimmedDoc}`;
+		prompt += `\n\n---\nCURRENT DOCUMENT CONTENT:\n${trimmedDoc}`;
 	}
 
 	return prompt;
@@ -75,6 +141,8 @@ export async function* createChatStream(
 		messages,
 		selectionContext,
 		documentContext,
+		contentMetadata,
+		mode = "chat",
 		maxTokens,
 		temperature,
 	} = request;
@@ -90,7 +158,7 @@ export async function* createChatStream(
 		);
 	}
 
-	const systemPrompt = buildSystemPrompt(selectionContext, documentContext);
+	const systemPrompt = buildSystemPrompt(selectionContext, documentContext, contentMetadata, mode);
 
 	const formattedMessages: Array<{
 		role: "system" | "user" | "assistant";

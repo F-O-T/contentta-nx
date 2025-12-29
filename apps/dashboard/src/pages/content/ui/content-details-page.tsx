@@ -1,22 +1,15 @@
 import { translate } from "@packages/localization";
+import { Badge } from "@packages/ui/components/badge";
 import { Button } from "@packages/ui/components/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@packages/ui/components/card";
 import { Skeleton } from "@packages/ui/components/skeleton";
 import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Archive, ArrowLeft, Edit, PenLine, Send, Trash2 } from "lucide-react";
+import { Archive, ArrowLeft, Edit, Send, Trash2 } from "lucide-react";
 import { Suspense, useCallback, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { toast } from "sonner";
 import { ContentEditor } from "@/features/content/ui/content-editor";
-import { ContentInfoCard } from "@/features/content/ui/content-info-card";
-import { ContentStatsCard } from "@/features/content/ui/content-stats-card";
+import { ContentMetadataBar } from "@/features/content/ui/content-metadata-bar";
 import { ManageContentForm } from "@/features/content/ui/manage-content-form";
 import { ChatSidebar } from "@/features/content/ui/chat-sidebar";
 import { useActiveOrganization } from "@/hooks/use-active-organization";
@@ -31,26 +24,48 @@ type ContentDetailsPageProps = {
 
 function ContentDetailsPageSkeleton() {
 	return (
-		<main className="flex flex-col gap-6">
-			<div className="flex items-center gap-4">
-				<Skeleton className="size-9" />
+		<div className="flex h-[calc(100vh-4rem)] -m-4">
+			<main className="flex flex-1 flex-col overflow-hidden p-4">
+				{/* Header */}
+				<div className="flex items-center justify-between mb-2">
+					<div className="flex items-center gap-3">
+						<Skeleton className="size-9" />
+						<div>
+							<Skeleton className="h-7 w-48" />
+							<Skeleton className="h-4 w-64 mt-1" />
+						</div>
+					</div>
+					<Skeleton className="h-6 w-20" />
+				</div>
+
+				{/* Actions */}
+				<div className="flex items-center gap-2 mb-4">
+					<Skeleton className="h-8 w-20" />
+					<Skeleton className="h-8 w-20" />
+					<Skeleton className="h-8 w-20" />
+				</div>
+
+				{/* Metadata Bar */}
+				<div className="flex items-center gap-4 border-b pb-3 mb-4">
+					<Skeleton className="h-5 w-32" />
+					<Skeleton className="h-4 w-24" />
+					<Skeleton className="h-4 w-20" />
+					<Skeleton className="h-4 w-16" />
+				</div>
+
+				{/* Editor */}
 				<div className="flex-1">
-					<Skeleton className="h-7 w-48" />
-					<Skeleton className="h-4 w-32 mt-1" />
+					<Skeleton className="h-full w-full" />
 				</div>
-				<Skeleton className="h-9 w-20" />
-				<Skeleton className="h-9 w-20" />
+			</main>
+
+			{/* Chat Sidebar */}
+			<div className="w-80 shrink-0 border-l p-4">
+				<Skeleton className="h-8 w-full mb-4" />
+				<Skeleton className="h-[calc(100%-8rem)] w-full" />
+				<Skeleton className="h-20 w-full mt-4" />
 			</div>
-			<div className="grid gap-6 lg:grid-cols-3">
-				<div className="lg:col-span-2">
-					<Skeleton className="h-[500px]" />
-				</div>
-				<div className="space-y-6">
-					<Skeleton className="h-64" />
-					<Skeleton className="h-40" />
-				</div>
-			</div>
-		</main>
+		</div>
 	);
 }
 
@@ -204,31 +219,48 @@ function ContentDetailsPageContent({ contentId }: ContentDetailsPageProps) {
 		archiveMutation.mutate({ id: contentId });
 	};
 
+	const STATUS_COLORS: Record<string, string> = {
+		archived: "bg-slate-500/10 text-slate-600 border-slate-200",
+		draft: "bg-amber-500/10 text-amber-600 border-amber-200",
+		published: "bg-green-500/10 text-green-600 border-green-200",
+	};
+
 	return (
-		<main className="flex flex-col gap-6">
-			<div className="flex items-center gap-4 flex-wrap">
-				<Button asChild size="icon" variant="ghost">
-					<Link
-						to="/$slug/content"
-						params={{ slug: activeOrganization.slug }}
-					>
-						<ArrowLeft className="size-4" />
-					</Link>
-				</Button>
-				<div className="flex-1 min-w-0">
-					<h1 className="text-2xl font-bold truncate">
-						{content.meta.title || translate("common.labels.untitled")}
-					</h1>
-					<p className="text-muted-foreground flex items-center gap-2">
-						{translate("dashboard.routes.content.details.subtitle")}
-						{isSaving && (
-							<span className="text-xs text-amber-600">
-								{translate("dashboard.routes.content.details.saving")}
-							</span>
-						)}
-					</p>
+		<div className="flex h-[calc(100vh-4rem)] -m-4">
+			{/* Main Content */}
+			<main className="flex flex-1 flex-col overflow-hidden p-4">
+				{/* Header */}
+				<div className="flex items-center justify-between mb-2">
+					<div className="flex items-center gap-3">
+						<Button asChild size="icon" variant="ghost">
+							<Link
+								to="/$slug/content"
+								params={{ slug: activeOrganization.slug }}
+							>
+								<ArrowLeft className="size-4" />
+							</Link>
+						</Button>
+						<div>
+							<h1 className="text-2xl font-bold">
+								{content.meta.title || translate("common.labels.untitled")}
+							</h1>
+							<p className="text-muted-foreground text-sm flex items-center gap-2">
+								{content.meta.description || translate("dashboard.routes.content.details.subtitle")}
+								{isSaving && (
+									<span className="text-xs text-amber-600">
+										{translate("dashboard.routes.content.details.saving")}
+									</span>
+								)}
+							</p>
+						</div>
+					</div>
+					<Badge className={STATUS_COLORS[content.status]} variant="outline">
+						{content.status}
+					</Badge>
 				</div>
-				<div className="flex items-center gap-2 flex-wrap">
+
+				{/* Actions */}
+				<div className="flex items-center gap-2 mb-4">
 					<Button onClick={handleEdit} variant="outline" size="sm">
 						<Edit className="size-4 mr-2" />
 						{translate("common.actions.edit")}
@@ -265,44 +297,38 @@ function ContentDetailsPageContent({ contentId }: ContentDetailsPageProps) {
 						{translate("common.actions.delete")}
 					</Button>
 				</div>
-			</div>
 
-			<div className="grid gap-6 lg:grid-cols-3">
-				<Card className="lg:col-span-2">
-					<CardHeader>
-						<CardTitle className="flex items-center gap-2">
-							<PenLine className="size-5" />
-							{translate("dashboard.routes.content.details.editor-title")}
-						</CardTitle>
-						<CardDescription>
-							{translate("dashboard.routes.content.details.editor-description")}
-						</CardDescription>
-					</CardHeader>
-					<CardContent>
-						<ContentEditor
-							initialContent={content.body || ""}
-							onChange={handleContentChange}
-							placeholder={translate("dashboard.routes.content.details.editor-placeholder")}
-							disabled={content.status === "archived"}
-						/>
-					</CardContent>
-				</Card>
+				{/* Metadata Bar */}
+				<ContentMetadataBar
+					content={content}
+					slug={activeOrganization.slug}
+					className="mb-4"
+				/>
 
-				<div className="space-y-6">
-					<ContentInfoCard
-						content={content}
-						slug={activeOrganization.slug}
-					/>
-					<ContentStatsCard
-						stats={content.stats}
-						body={content.body || ""}
+				{/* Editor - fills remaining space */}
+				<div className="flex-1 overflow-hidden min-h-0">
+					<ContentEditor
+						initialContent={content.body || ""}
+						onChange={handleContentChange}
+						placeholder={translate("dashboard.routes.content.details.editor-placeholder")}
+						disabled={content.status === "archived"}
+						className="h-full"
 					/>
 				</div>
-			</div>
+			</main>
 
 			{/* Chat Sidebar */}
-			<ChatSidebar contentId={contentId} />
-		</main>
+			<ChatSidebar
+				contentId={contentId}
+				contentMeta={{
+					title: content.meta.title,
+					description: content.meta.description,
+					slug: content.meta.slug,
+					keywords: content.meta.keywords,
+					status: content.status,
+				}}
+			/>
+		</div>
 	);
 }
 

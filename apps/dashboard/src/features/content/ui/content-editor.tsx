@@ -12,26 +12,73 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
+import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
+import { HorizontalRulePlugin } from "@lexical/react/LexicalHorizontalRulePlugin";
+import { TablePlugin } from "@lexical/react/LexicalTablePlugin";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { ListNode, ListItemNode } from "@lexical/list";
 import { LinkNode, AutoLinkNode } from "@lexical/link";
 import { CodeNode, CodeHighlightNode } from "@lexical/code";
-import { TRANSFORMERS } from "@lexical/markdown";
+import { TableNode, TableCellNode, TableRowNode } from "@lexical/table";
+import {
+	$convertFromMarkdownString,
+	$convertToMarkdownString,
+	CHECK_LIST,
+	ELEMENT_TRANSFORMERS,
+	MULTILINE_ELEMENT_TRANSFORMERS,
+	TEXT_FORMAT_TRANSFORMERS,
+	TEXT_MATCH_TRANSFORMERS,
+	type ElementTransformer,
+} from "@lexical/markdown";
+import {
+	$createHorizontalRuleNode,
+	$isHorizontalRuleNode,
+	HorizontalRuleNode,
+} from "@lexical/react/LexicalHorizontalRuleNode";
 import type { EditorState, LexicalEditor } from "lexical";
-import { $createParagraphNode, $createTextNode, $getRoot } from "lexical";
 import { useCallback, useEffect, useRef } from "react";
 import { FIMPlugin } from "../plugins/fim-plugin";
 import { EditPlugin } from "../plugins/edit-plugin";
 import { ChatPlugin } from "../plugins/chat-plugin";
+import { FloatingToolbarPlugin } from "../plugins/floating-toolbar-plugin";
+import { MarkdownPastePlugin } from "../plugins/markdown-paste-plugin";
+import { VimPlugin } from "../plugins/vim-plugin";
 import { GhostTextNode } from "../nodes/ghost-text-node";
+import { TooltipProvider } from "@packages/ui/components/tooltip";
 
 type ContentEditorProps = {
 	initialContent?: string;
 	onChange?: (content: string) => void;
 	onBlur?: () => void;
+	onSave?: () => void;
+	onQuit?: () => void;
 	placeholder?: string;
 	disabled?: boolean;
+	className?: string;
 };
+
+// Custom transformer for horizontal rule
+const HR_TRANSFORMER: ElementTransformer = {
+	dependencies: [HorizontalRuleNode],
+	export: (node) => {
+		return $isHorizontalRuleNode(node) ? "---" : null;
+	},
+	regExp: /^(---|___|\*\*\*)$/,
+	replace: (parentNode) => {
+		const node = $createHorizontalRuleNode();
+		parentNode.replace(node);
+	},
+	type: "element",
+};
+
+export const EXTENDED_TRANSFORMERS = [
+	HR_TRANSFORMER,
+	CHECK_LIST,
+	...ELEMENT_TRANSFORMERS,
+	...MULTILINE_ELEMENT_TRANSFORMERS,
+	...TEXT_FORMAT_TRANSFORMERS,
+	...TEXT_MATCH_TRANSFORMERS,
+];
 
 const theme = {
 	paragraph: "mb-2",
@@ -53,6 +100,11 @@ const theme = {
 		ol: "list-decimal list-inside mb-2",
 		ul: "list-disc list-inside mb-2",
 		listitem: "ml-4",
+		checklist: "list-none pl-0",
+		listitemChecked:
+			"relative ml-6 line-through text-muted-foreground before:absolute before:-left-6 before:content-['✓'] before:text-green-500",
+		listitemUnchecked:
+			"relative ml-6 before:absolute before:-left-6 before:content-['☐']",
 	},
 	quote: "border-l-4 border-muted-foreground/30 pl-4 italic text-muted-foreground mb-2",
 	code: "block bg-muted p-4 rounded-md font-mono text-sm mb-2 overflow-x-auto",
@@ -89,6 +141,11 @@ const theme = {
 		variable: "text-orange-500",
 	},
 	link: "text-primary underline cursor-pointer",
+	horizontalRule: "border-t border-border my-4",
+	table: "border-collapse border border-border w-full my-2",
+	tableCell: "border border-border p-2",
+	tableCellHeader: "bg-muted font-bold border border-border p-2",
+	tableRow: "",
 };
 
 function onError(error: Error) {
@@ -99,12 +156,14 @@ export function ContentEditor({
 	initialContent,
 	onChange,
 	onBlur,
+	onSave,
+	onQuit,
 	placeholder = "Start writing...",
 	disabled = false,
+	className,
 }: ContentEditorProps) {
 	const editorRef = useRef<LexicalEditor | null>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
-	const isInitializedRef = useRef(false);
 
 	const initialConfig = {
 		namespace: "ContentEditor",
@@ -119,9 +178,16 @@ export function ContentEditor({
 			AutoLinkNode,
 			CodeNode,
 			CodeHighlightNode,
+			HorizontalRuleNode,
+			TableNode,
+			TableCellNode,
+			TableRowNode,
 			GhostTextNode,
 		],
 		editable: !disabled,
+		editorState: initialContent
+			? () => $convertFromMarkdownString(initialContent, EXTENDED_TRANSFORMERS)
+			: undefined,
 	};
 
 	const handleChange = useCallback(
@@ -129,62 +195,60 @@ export function ContentEditor({
 			if (!onChange) return;
 
 			editorState.read(() => {
-				const root = $getRoot();
-				const textContent = root.getTextContent();
-				onChange(textContent);
+				const markdown = $convertToMarkdownString(EXTENDED_TRANSFORMERS);
+				onChange(markdown);
 			});
 		},
 		[onChange],
 	);
 
-	// Initialize content
-	useEffect(() => {
-		if (editorRef.current && initialContent && !isInitializedRef.current) {
-			isInitializedRef.current = true;
-			editorRef.current.update(() => {
-				const root = $getRoot();
-				root.clear();
-				const paragraph = $createParagraphNode();
-				paragraph.append($createTextNode(initialContent));
-				root.append(paragraph);
-			});
-		}
-	}, [initialContent]);
-
 	return (
 		<LexicalComposer initialConfig={initialConfig}>
-			<div
-				ref={containerRef}
-				className={cn(
-					"relative min-h-[400px] border rounded-md bg-background",
-					disabled && "opacity-50 pointer-events-none",
-				)}
-			>
-				<RichTextPlugin
-					contentEditable={
-						<ContentEditable
-							className="min-h-[400px] p-4 outline-none prose prose-sm dark:prose-invert max-w-none"
-							onBlur={onBlur}
-						/>
-					}
-					placeholder={
-						<div className="absolute top-4 left-4 text-muted-foreground pointer-events-none">
-							{placeholder}
-						</div>
-					}
-					ErrorBoundary={LexicalErrorBoundary}
-				/>
-				<HistoryPlugin />
-				<AutoFocusPlugin />
-				<ListPlugin />
-				<LinkPlugin />
-				<MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-				<OnChangePlugin onChange={handleChange} />
-				<EditorRefPlugin editorRef={editorRef} />
-				<FIMPlugin containerRef={containerRef} />
-				<EditPlugin containerRef={containerRef} />
-				<ChatPlugin />
-			</div>
+			<TooltipProvider>
+				<div
+					ref={containerRef}
+					className={cn(
+						"relative flex flex-col border rounded-md bg-background",
+						disabled && "opacity-50 pointer-events-none",
+						className,
+					)}
+				>
+					<RichTextPlugin
+						contentEditable={
+							<ContentEditable
+								className="flex-1 p-4 outline-none prose prose-sm dark:prose-invert max-w-none overflow-y-auto"
+								onBlur={onBlur}
+							/>
+						}
+						placeholder={
+							<div className="absolute top-4 left-4 text-muted-foreground pointer-events-none">
+								{placeholder}
+							</div>
+						}
+						ErrorBoundary={LexicalErrorBoundary}
+					/>
+					<HistoryPlugin />
+					<AutoFocusPlugin />
+					<ListPlugin />
+					<CheckListPlugin />
+					<LinkPlugin />
+					<HorizontalRulePlugin />
+					<TablePlugin />
+					<MarkdownShortcutPlugin transformers={EXTENDED_TRANSFORMERS} />
+					<MarkdownPastePlugin />
+					<OnChangePlugin onChange={handleChange} />
+					<EditorRefPlugin editorRef={editorRef} />
+					<FloatingToolbarPlugin containerRef={containerRef} />
+					<FIMPlugin containerRef={containerRef} />
+					<EditPlugin containerRef={containerRef} />
+					<ChatPlugin />
+					<VimPlugin
+						containerRef={containerRef}
+						onSave={onSave}
+						onQuit={onQuit}
+					/>
+				</div>
+			</TooltipProvider>
 		</LexicalComposer>
 	);
 }

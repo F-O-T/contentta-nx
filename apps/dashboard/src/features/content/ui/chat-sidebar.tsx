@@ -1,23 +1,32 @@
 import { Button } from "@packages/ui/components/button";
 import { ScrollArea } from "@packages/ui/components/scroll-area";
 import { cn } from "@packages/ui/lib/utils";
-import { MessageSquare, Trash2, X } from "lucide-react";
+import { MessageSquare, Trash2 } from "lucide-react";
+import { useEffect } from "react";
 import { useChatSession } from "../hooks/use-chat-session";
-import { closeChatSidebar, useChatState } from "../context/chat-context";
+import {
+	useChatState,
+	setContentMetadata,
+	type ContentMetadata,
+} from "../context/chat-context";
 import { ChatInput } from "./chat-input";
 import { ChatKeyboardHints } from "./chat-keyboard-hints";
 import { ChatMessageList } from "./chat-message-list";
 import { ChatSelectionContext } from "./chat-selection-context";
+import { ChatModeToggle } from "./chat-mode-toggle";
 
 interface ChatSidebarProps {
 	contentId: string;
+	contentMeta?: ContentMetadata;
 	className?: string;
 }
 
-const SIDEBAR_WIDTH = "20rem"; // 320px
-
-export function ChatSidebar({ contentId, className }: ChatSidebarProps) {
-	const { isOpen, selectionContext } = useChatState();
+export function ChatSidebar({
+	contentId,
+	contentMeta,
+	className,
+}: ChatSidebarProps) {
+	const { selectionContext, documentContent, contentMetadata } = useChatState();
 
 	const {
 		messages,
@@ -28,29 +37,37 @@ export function ChatSidebar({ contentId, className }: ChatSidebarProps) {
 		clearConversation,
 	} = useChatSession(contentId);
 
-	// Handle sending a message
+	// Update content metadata when prop changes
+	useEffect(() => {
+		if (contentMeta) {
+			setContentMetadata(contentMeta);
+		}
+	}, [contentMeta]);
+
 	const handleSend = (content: string) => {
-		sendMessage(content);
+		// Pass document content with the message
+		sendMessage(content, documentContent);
 	};
 
-	if (!isOpen) return null;
+	// Build context summary for display
+	const contextSummary = contentMetadata
+		? `Writing: "${contentMetadata.title}"`
+		: null;
 
 	return (
 		<div
 			className={cn(
-				"fixed right-0 top-0 z-40 flex h-full flex-col border-l bg-background shadow-lg",
-				"animate-in slide-in-from-right duration-200",
+				"flex h-full w-80 shrink-0 flex-col border-l bg-background overflow-hidden",
 				className,
 			)}
-			style={{ width: SIDEBAR_WIDTH }}
 		>
 			{/* Header */}
-			<div className="flex shrink-0 items-center justify-between border-b px-3 py-2">
-				<div className="flex items-center gap-2">
-					<MessageSquare className="size-4 text-primary" />
-					<span className="text-sm font-medium">AI Assistant</span>
-				</div>
-				<div className="flex items-center gap-1">
+			<div className="flex shrink-0 flex-col border-b px-3 py-2">
+				<div className="flex items-center justify-between">
+					<div className="flex items-center gap-2">
+						<MessageSquare className="size-4 text-primary" />
+						<span className="text-sm font-medium">AI Assistant</span>
+					</div>
 					<Button
 						variant="ghost"
 						size="icon"
@@ -61,20 +78,21 @@ export function ChatSidebar({ contentId, className }: ChatSidebarProps) {
 					>
 						<Trash2 className="size-4" />
 					</Button>
-					<Button
-						variant="ghost"
-						size="icon"
-						className="size-7"
-						onClick={() => closeChatSidebar()}
-						title="Close sidebar"
-					>
-						<X className="size-4" />
-					</Button>
 				</div>
+				{contextSummary && (
+					<p className="text-xs text-muted-foreground mt-1 truncate">
+						{contextSummary}
+					</p>
+				)}
+			</div>
+
+			{/* Mode Toggle */}
+			<div className="shrink-0 border-b px-3 py-2">
+				<ChatModeToggle />
 			</div>
 
 			{/* Messages */}
-			<ScrollArea className="flex-1 px-3">
+			<ScrollArea className="flex-1 min-h-0 px-3">
 				<ChatMessageList
 					messages={messages}
 					streamingContent={currentStreamingMessage}

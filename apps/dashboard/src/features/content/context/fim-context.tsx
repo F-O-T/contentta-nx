@@ -24,6 +24,7 @@ interface FIMState {
 
 	// Trigger tracking
 	triggerType: FIMTriggerType | null;
+	isManualTrigger: boolean;
 
 	// Confidence scoring
 	confidenceScore: number | null;
@@ -55,6 +56,7 @@ const initialState: FIMState = {
 
 	// Trigger tracking
 	triggerType: null,
+	isManualTrigger: false,
 
 	// Confidence
 	confidenceScore: null,
@@ -136,7 +138,11 @@ export const clearFIM = () =>
 /**
  * Start a new FIM completion session
  */
-export const startFIMSession = (completionId: string, triggerType?: FIMTriggerType) =>
+export const startFIMSession = (
+	completionId: string,
+	triggerType?: FIMTriggerType,
+	isManualTrigger = false,
+) =>
 	fimStore.setState((state) => ({
 		...state,
 		ghostText: "",
@@ -144,6 +150,7 @@ export const startFIMSession = (completionId: string, triggerType?: FIMTriggerTy
 		isLoading: true,
 		completionId,
 		triggerType: triggerType ?? null,
+		isManualTrigger,
 		// Reset confidence/diff for new session
 		confidenceScore: null,
 		confidenceFactors: null,

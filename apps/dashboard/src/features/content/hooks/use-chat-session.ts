@@ -36,11 +36,13 @@ interface ChatSessionResponse {
 export function useChatSession(contentId: string) {
 	const {
 		phase,
+		mode,
 		isOpen,
 		sessionId,
 		messages,
 		currentStreamingMessage,
 		selectionContext,
+		contentMetadata,
 		error,
 	} = useChatContext();
 
@@ -114,16 +116,18 @@ export function useChatSession(contentId: string) {
 				{ role: "user" as const, content },
 			];
 
-			// Send to API
+			// Send to API with full context
 			await sendChatMessage({
 				sessionId,
 				contentId,
 				messages: allMessages,
 				selectionContext: selectionContext || undefined,
 				documentContext,
+				contentMetadata: contentMetadata || undefined,
+				mode,
 			});
 		},
-		[sessionId, contentId, messages, selectionContext, sendChatMessage],
+		[sessionId, contentId, messages, selectionContext, contentMetadata, mode, sendChatMessage],
 	);
 
 	// Clear the conversation

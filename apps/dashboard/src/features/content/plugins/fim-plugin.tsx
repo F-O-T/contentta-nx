@@ -17,8 +17,9 @@ import { useFIMCompletion } from "../hooks/use-fim-completion";
 import { useFIMTriggers, type TriggerContext } from "../hooks/use-fim-triggers";
 import { detectFIMMode } from "../hooks/use-fim-mode";
 import { detectDiffType } from "../hooks/use-fim-diff";
+import { useEditIntent } from "../hooks/use-edit-intent";
 import { buildFIMContext } from "@packages/fim/client";
-import type { FIMTriggerType, FIMChunkMetadata } from "@packages/fim";
+import type { FIMTriggerType, FIMChunkMetadata, EditContext } from "@packages/fim";
 import { FIMStatusLine } from "../ui/fim-status-line";
 import { FIMFloatingPanel } from "../ui/fim-floating-panel";
 import { FIMDiffPanel } from "../ui/fim-diff-panel";
@@ -80,7 +81,11 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 		confidenceScore,
 		chainDepth,
 		shouldShow,
+		isManualTrigger,
 	} = useFIMContext();
+
+	// Edit intent detection for smart predictions
+	const { getIntent } = useEditIntent({ enabled: mode === "idle" || !isLoading });
 
 	const lastTextRef = useRef<string>("");
 	const lastPrefixRef = useRef<string>("");
@@ -89,6 +94,7 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 	const completionIdRef = useRef<string | null>(null);
 	const currentModeRef = useRef<FIMMode>("idle");
 	const justCompletedRef = useRef(false);
+	const justAcceptedRef = useRef(false);
 	const currentTriggerTypeRef = useRef<FIMTriggerType | null>(null);
 
 	// Calculate position relative to container
@@ -276,6 +282,15 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 				incrementChainDepth(cursorPosition);
 			}
 
+			// Reset manual trigger flag and set accepted flag
+			isManualTriggerRef.current = false;
+			justAcceptedRef.current = true;
+
+			// Reset accepted flag after a short delay to prevent immediate re-triggers
+			setTimeout(() => {
+				justAcceptedRef.current = false;
+			}, 100);
+
 			clearFIM();
 			completionIdRef.current = null;
 			currentModeRef.current = "idle";
@@ -403,14 +418,18 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 
 	// Trigger completion request
 	const triggerCompletion = useCallback(
-		(options: { isManualTrigger?: boolean; triggerType?: FIMTriggerType } = {}) => {
+		(options: { 
+			isManualTrigger?: boolean; 
+			triggerType?: FIMTriggerType;
+			editContext?: EditContext;
+		} = {}) => {
 			isManualTriggerRef.current = options.isManualTrigger ?? false;
 			currentTriggerTypeRef.current = options.triggerType ?? "debounce";
 
 			const newCompletionId = crypto.randomUUID();
 			completionIdRef.current = newCompletionId;
 
-			startFIMSession(newCompletionId, options.triggerType);
+			startFIMSession(newCompletionId, options.triggerType, options.isManualTrigger ?? false);
 
 			const initialMode = options.isManualTrigger ? "cursor-tab" : "copilot";
 			currentModeRef.current = initialMode;
@@ -473,6 +492,7 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 						: ["\n\n", ".", "!", "?"],
 					triggerType: options.triggerType,
 					recentText,
+					editContext: options.editContext,
 				});
 			});
 		},
@@ -482,6 +502,9 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 	// Handle trigger events from the trigger system
 	const handleTrigger = useCallback(
 		(type: FIMTriggerType, _context: TriggerContext) => {
+			// Skip triggers immediately after accepting to prevent re-triggering
+			if (justAcceptedRef.current) return;
+
 			// Don't trigger if already showing (except for chain)
 			if (isVisible && type !== "chain") return;
 
@@ -491,12 +514,31 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 				return;
 			}
 
+			// For edit-prediction triggers, get intent and check confidence
+			if (type === "edit-prediction") {
+				const intent = getIntent();
+				if (!intent.shouldTrigger) return;
+
+				triggerCompletion({
+					isManualTrigger: false,
+					triggerType: type,
+					editContext: {
+						intent: intent.type,
+						cursorDistanceFromEnd: intent.signals.cursor.distanceFromEnd,
+						isInEditingMode: intent.signals.momentum.isInEditingMode,
+						isAfterIncomplete: intent.signals.cursor.isAfterIncomplete,
+						hasSentencePattern: intent.signals.pattern.hasSentencePattern,
+					},
+				});
+				return;
+			}
+
 			triggerCompletion({
 				isManualTrigger: false,
 				triggerType: type,
 			});
 		},
-		[isVisible, chainDepth, triggerCompletion],
+		[isVisible, chainDepth, triggerCompletion, getIntent],
 	);
 
 	// Use the new trigger system
@@ -514,8 +556,8 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 					event.preventDefault();
 					const result = handleAcceptSuggestion();
 					
-					// Trigger chain after accepting
-					if (result && chainDepth < MAX_CHAIN_DEPTH) {
+					// Only trigger chain for automatic completions, not manual Ctrl+Space
+					if (result && chainDepth < MAX_CHAIN_DEPTH && !isManualTriggerRef.current) {
 						setTimeout(() => {
 							triggerChain();
 						}, 50);
@@ -582,8 +624,8 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 				/>
 			)}
 
-			{/* Floating panel for cursor-tab mode */}
-			{mode === "cursor-tab" && position && (
+			{/* Floating panel for cursor-tab mode - only for manual Ctrl+Space triggers */}
+			{mode === "cursor-tab" && position && isManualTrigger && (
 				<FIMFloatingPanel
 					suggestion={ghostText}
 					position={position}

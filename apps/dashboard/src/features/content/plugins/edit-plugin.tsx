@@ -10,14 +10,11 @@ import {
 	$getNodeByKey,
 	COMMAND_PRIORITY_HIGH,
 	KEY_ESCAPE_COMMAND,
-	SELECTION_CHANGE_COMMAND,
-	COMMAND_PRIORITY_LOW,
 	type LexicalNode,
 } from "lexical";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useEditCompletion } from "../hooks/use-edit-completion";
 import { EditPromptPanel } from "../ui/edit-prompt-panel";
-import { EditSelectionHint } from "../ui/edit-selection-hint";
 import {
 	useEditContext,
 	openEditPrompt,
@@ -52,12 +49,6 @@ export function EditPlugin({ containerRef }: EditPluginProps) {
 	const [editor] = useLexicalComposerContext();
 	const { phase, position, selectedText, placeholderNodeKey } =
 		useEditContext();
-
-	// Track selection for showing hint
-	const [selectionHint, setSelectionHint] = useState<{
-		hasSelection: boolean;
-		position: { top: number; left: number } | null;
-	}>({ hasSelection: false, position: null });
 
 	// originalSelection is stored in context but not used directly here
 	// It's available for potential undo/restore functionality
@@ -359,41 +350,6 @@ export function EditPlugin({ containerRef }: EditPluginProps) {
 		});
 	}, [editor, phase, handleCancel]);
 
-	// Selection change listener to show/hide hint
-	useEffect(() => {
-		return editor.registerCommand(
-			SELECTION_CHANGE_COMMAND,
-			() => {
-				// Don't show hint if we're in edit mode
-				if (phase !== "idle") {
-					setSelectionHint({ hasSelection: false, position: null });
-					return false;
-				}
-
-				editor.getEditorState().read(() => {
-					const selection = $getSelection();
-
-					if ($isRangeSelection(selection) && !selection.isCollapsed()) {
-						const text = selection.getTextContent();
-						// Only show hint for meaningful selections
-						if (text.trim().length >= 3) {
-							const pos = getSelectionPosition();
-							if (pos) {
-								setSelectionHint({ hasSelection: true, position: pos });
-								return;
-							}
-						}
-					}
-
-					setSelectionHint({ hasSelection: false, position: null });
-				});
-
-				return false;
-			},
-			COMMAND_PRIORITY_LOW,
-		);
-	}, [editor, phase, getSelectionPosition]);
-
 	// Render the prompt panel when in prompting or streaming phase
 	if ((phase === "prompting" || phase === "streaming") && position) {
 		return (
@@ -403,16 +359,6 @@ export function EditPlugin({ containerRef }: EditPluginProps) {
 				onCancel={handleCancel}
 				isStreaming={phase === "streaming"}
 				containerRef={containerRef}
-			/>
-		);
-	}
-
-	// Show selection hint when text is selected in idle phase
-	if (phase === "idle" && selectionHint.hasSelection && selectionHint.position) {
-		return (
-			<EditSelectionHint
-				position={selectionHint.position}
-				isVisible={true}
 			/>
 		);
 	}

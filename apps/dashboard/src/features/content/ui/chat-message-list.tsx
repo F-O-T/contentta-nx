@@ -1,17 +1,37 @@
 import { useEffect, useRef } from "react";
 import type { ChatMessage as ChatMessageType } from "../context/chat-context";
 import { ChatMessage } from "./chat-message";
+import { ChatPlanMessage } from "./chat-plan-message";
+import { ChatEditSuggestion } from "./chat-edit-suggestion";
 
 interface ChatMessageListProps {
 	messages: ChatMessageType[];
 	streamingContent: string;
 	isStreaming: boolean;
+	onAcceptEdit?: (suggestion: NonNullable<ChatMessageType["editSuggestion"]>) => void;
+}
+
+function ChatMessageItem({
+	message,
+	onAcceptEdit,
+}: {
+	message: ChatMessageType;
+	onAcceptEdit?: (suggestion: NonNullable<ChatMessageType["editSuggestion"]>) => void;
+}) {
+	if (message.type === "plan") {
+		return <ChatPlanMessage message={message} />;
+	}
+	if (message.type === "edit-suggestion") {
+		return <ChatEditSuggestion message={message} onAccept={onAcceptEdit} />;
+	}
+	return <ChatMessage message={message} />;
 }
 
 export function ChatMessageList({
 	messages,
 	streamingContent,
 	isStreaming,
+	onAcceptEdit,
 }: ChatMessageListProps) {
 	const scrollRef = useRef<HTMLDivElement>(null);
 	const bottomRef = useRef<HTMLDivElement>(null);
@@ -46,7 +66,11 @@ export function ChatMessageList({
 	return (
 		<div ref={scrollRef} className="flex flex-col">
 			{messages.map((message) => (
-				<ChatMessage key={message.id} message={message} />
+				<ChatMessageItem
+					key={message.id}
+					message={message}
+					onAcceptEdit={onAcceptEdit}
+				/>
 			))}
 
 			{/* Streaming message placeholder */}

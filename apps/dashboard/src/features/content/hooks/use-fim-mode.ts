@@ -2,61 +2,33 @@ import type { FIMMode } from "../context/fim-context";
 
 interface ModeDetectionContext {
 	isManualTrigger: boolean;
-	isEndOfParagraph?: boolean;
-	isEndOfSentence?: boolean;
 }
 
 interface ModeDetectionResult {
 	mode: Exclude<FIMMode, "idle">;
-	reason:
-		| "manual-trigger"
-		| "has-newlines"
-		| "content-length"
-		| "context"
-		| "default";
+	reason: "manual-trigger" | "default";
 }
 
-const COPILOT_MAX_LENGTH = 50;
-const CONTEXT_AWARE_LENGTH = 30;
-
 /**
- * Detect which FIM mode should be used based on completion content and context.
+ * Detect which FIM mode should be used based on trigger type.
  *
  * Rules:
- * 1. Manual trigger (Ctrl+Space) → always cursor-tab
- * 2. Multi-line content (has newlines) → cursor-tab
- * 3. Long completions (>50 chars) → cursor-tab
- * 4. End of paragraph/sentence + >30 chars → cursor-tab
- * 5. Default → copilot (inline ghost text)
+ * 1. Manual trigger (Ctrl+Space) → cursor-tab (floating panel)
+ * 2. All other triggers → copilot (inline ghost text only)
+ *
+ * The popover should ONLY appear for manual Ctrl+Space triggers.
+ * Automatic completions always use inline ghost text.
  */
 export function detectFIMMode(
-	completion: string,
+	_completion: string,
 	context: ModeDetectionContext,
 ): ModeDetectionResult {
-	// Manual trigger always uses cursor-tab mode
+	// Manual trigger uses cursor-tab mode (floating panel)
 	if (context.isManualTrigger) {
 		return { mode: "cursor-tab", reason: "manual-trigger" };
 	}
 
-	// Multi-line content uses cursor-tab
-	if (completion.includes("\n")) {
-		return { mode: "cursor-tab", reason: "has-newlines" };
-	}
-
-	// Long completions use cursor-tab
-	if (completion.length > COPILOT_MAX_LENGTH) {
-		return { mode: "cursor-tab", reason: "content-length" };
-	}
-
-	// Context-based: end of paragraph/sentence with moderate length
-	if (
-		(context.isEndOfParagraph || context.isEndOfSentence) &&
-		completion.length > CONTEXT_AWARE_LENGTH
-	) {
-		return { mode: "cursor-tab", reason: "context" };
-	}
-
-	// Default to copilot mode for short inline completions
+	// All automatic triggers use copilot mode (inline ghost text only)
 	return { mode: "copilot", reason: "default" };
 }
 
