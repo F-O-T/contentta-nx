@@ -61,7 +61,7 @@ export const onboardingRouter = router({
       return {
          hasAgents,
          hasBrand,
-         needsOnboarding: !organization.onboardingCompleted,
+         needsOnboarding: !organization.onboardingCompleted || !hasAgents,
          organizationSlug: organization.slug,
          organizationContext: organization.context,
       };

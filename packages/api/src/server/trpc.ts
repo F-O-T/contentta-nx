@@ -7,7 +7,10 @@ import type { AuthInstance } from "@packages/authentication/server";
 import { createCacheClient, TTL } from "@packages/cache/client";
 import { getRedisConnection } from "@packages/cache/connection";
 import type { DatabaseInstance } from "@packages/database/client";
-import { getOrganizationMembership } from "@packages/database/repositories/auth-repository";
+import {
+   findMemberByUserIdAndOrganizationId,
+   getOrganizationMembership,
+} from "@packages/database/repositories/auth-repository";
 import { serverEnv } from "@packages/environment/server";
 import type { MinioClient } from "@packages/files/client";
 import { changeLanguage, type SupportedLng } from "@packages/localization";
@@ -20,6 +23,8 @@ import { sanitizeData } from "@packages/utils/sanitization";
 import { initTRPC } from "@trpc/server";
 import type { PostHog } from "posthog-node";
 import SuperJSON from "superjson";
+
+export type MemberRole = "owner" | "admin" | "member";
 
 const logger = getServerLogger(serverEnv);
 
@@ -87,6 +92,8 @@ export const createTRPCContext = async ({
       db,
       headers,
       language,
+      memberId: undefined as string | undefined,
+      memberRole: "member" as MemberRole,
       minioBucket,
       minioClient,
       organizationId,
@@ -227,8 +234,6 @@ const loggerMiddleware = t.middleware(async ({ path, type, next }) => {
    return result;
 });
 
-export type MemberRole = "owner" | "admin" | "member";
-
 const isAuthed = t.middleware(async ({ ctx, next }) => {
    const resolvedCtx = await ctx;
 
@@ -240,6 +245,7 @@ const isAuthed = t.middleware(async ({ ctx, next }) => {
    const organizationSlug = resolvedCtx.headers.get("x-organization-slug");
    let organizationId = resolvedCtx.session.session.activeOrganizationId;
    let memberRole: MemberRole = "member";
+   let memberId: string | undefined;
 
    if (organizationSlug) {
       const { organization, membership } = await getOrganizationMembership(
@@ -260,11 +266,23 @@ const isAuthed = t.middleware(async ({ ctx, next }) => {
 
       organizationId = organization.id;
       memberRole = (membership.role as MemberRole) || "member";
+      memberId = membership.id;
+   } else if (organizationId) {
+      const membership = await findMemberByUserIdAndOrganizationId(
+         resolvedCtx.db,
+         userId,
+         organizationId,
+      );
+      if (membership) {
+         memberRole = (membership.role as MemberRole) || "member";
+         memberId = membership.id;
+      }
    }
 
    return next({
       ctx: {
          ...resolvedCtx,
+         memberId,
          memberRole,
          organizationId,
          session: { ...resolvedCtx.session },

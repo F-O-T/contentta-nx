@@ -4,6 +4,7 @@
       "@commitlint/cli": "20.2.0",
       "@commitlint/config-conventional": "20.2.0",
       "@dagrejs/dagre": "^1.1.8",
+      "@elysiajs/eden": "^1.4.6",
       "@nx/js": "22.3.1",
       "@swc-node/register": "1.11.1",
       "@swc/core": "1.15.7",

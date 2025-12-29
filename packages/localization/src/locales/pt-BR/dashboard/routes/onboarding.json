@@ -183,5 +183,10 @@
          }
       },
       "title": "Bem-vindo ao Montte"
+   },
+   "writer": {
+      "title": "Crie seu primeiro escritor",
+      "description": "Escritores são personas de IA que geram conteúdo com seu tom e estilo preferidos.",
+      "action": "Criar e continuar"
    }
 }

@@ -9,6 +9,7 @@
         "@commitlint/cli": "20.2.0",
         "@commitlint/config-conventional": "20.2.0",
         "@dagrejs/dagre": "^1.1.8",
+        "@elysiajs/eden": "^1.4.6",
         "@nx/js": "22.3.1",
         "@swc-node/register": "1.11.1",
         "@swc/core": "1.15.7",
@@ -314,6 +315,21 @@
         "@packages/environment": "workspace:*",
         "fflate": "catalog:files",
         "minio": "catalog:files",
+      },
+      "devDependencies": {
+        "@tooling/typescript": "workspace:*",
+        "typescript": "catalog:development",
+      },
+    },
+    "packages/fim": {
+      "name": "@packages/fim",
+      "version": "0.1.0",
+      "dependencies": {
+        "@openrouter/ai-sdk-provider": "catalog:openrouter",
+        "@packages/environment": "workspace:*",
+        "@packages/utils": "workspace:*",
+        "ai": "catalog:openrouter",
+        "zod": "catalog:validation",
       },
       "devDependencies": {
         "@tooling/typescript": "workspace:*",
@@ -1004,6 +1020,8 @@
 
     "@elysiajs/cors": ["@elysiajs/cors@1.4.0", "", { "peerDependencies": { "elysia": ">= 1.4.0" } }, "sha512-pb0SCzBfFbFSYA/U40HHO7R+YrcXBJXOWgL20eSViK33ol1e20ru2/KUaZYo5IMUn63yaTJI/bQERuQ+77ND8g=="],
 
+    "@elysiajs/eden": ["@elysiajs/eden@1.4.6", "", { "peerDependencies": { "elysia": ">=1.4.19" } }, "sha512-Tsa4NwXEWg/u73vWiYZQ3L5/ecgZSxqiEjYwpS+4qBKXeTZqZKl2hcgHJSVBL+InEDMi35Xugct7qyAXE5oM4Q=="],
+
     "@elysiajs/openapi": ["@elysiajs/openapi@1.4.13", "", { "peerDependencies": { "elysia": ">= 1.4.0" } }, "sha512-5BNI7yuFo8zjacTWA8a/wYE0tNZ4ecD7PAkeUDEU7lj6Iep0t2i5Rml6q4/+roM5oZFdtvvzoX4DH8zGKFEo0w=="],
 
     "@emnapi/core": ["@emnapi/core@1.7.1", "", { "dependencies": { "@emnapi/wasi-threads": "1.1.0", "tslib": "^2.4.0" } }, "sha512-o1uhUASyo921r2XtHYOHy7gdkGLge8ghBEQHMWmyJFoXlpU58kIrhhN3w26lpQb6dspetweapMn2CSNwQ8I4wg=="],
@@ -1393,6 +1411,8 @@
     "@packages/environment": ["@packages/environment@workspace:packages/environment"],
 
     "@packages/files": ["@packages/files@workspace:packages/files"],
+
+    "@packages/fim": ["@packages/fim@workspace:packages/fim"],
 
     "@packages/localization": ["@packages/localization@workspace:packages/localization"],
 

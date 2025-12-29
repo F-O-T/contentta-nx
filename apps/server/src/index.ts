@@ -7,6 +7,7 @@ import { sql } from "drizzle-orm";
 import { Elysia } from "elysia";
 import { auth, resendClient, stripeClient } from "./integrations/auth";
 import { db, ragClient } from "./integrations/database";
+import { fimRoutes } from "./routes/fim";
 import { registryRoutes } from "./routes/registry";
 import { sdkRoutes } from "./routes/sdk";
 import { logger } from "./integrations/logging";
@@ -65,6 +66,7 @@ const app = new Elysia({
    .use(posthogPlugin)
    .use(sdkRoutes)
    .use(registryRoutes)
+   .use(fimRoutes)
    .mount(auth.handler)
    .all(
       "/trpc/*",

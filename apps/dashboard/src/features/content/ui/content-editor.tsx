@@ -3,6 +3,7 @@
 import { cn } from "@packages/ui/lib/utils";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
@@ -19,6 +20,8 @@ import { TRANSFORMERS } from "@lexical/markdown";
 import type { EditorState, LexicalEditor } from "lexical";
 import { $createParagraphNode, $createTextNode, $getRoot } from "lexical";
 import { useCallback, useEffect, useRef } from "react";
+import { FIMPlugin } from "../plugins/fim-plugin";
+import { GhostTextNode } from "../nodes/ghost-text-node";
 
 type ContentEditorProps = {
 	initialContent?: string;
@@ -98,6 +101,7 @@ export function ContentEditor({
 	disabled = false,
 }: ContentEditorProps) {
 	const editorRef = useRef<LexicalEditor | null>(null);
+	const containerRef = useRef<HTMLDivElement>(null);
 	const isInitializedRef = useRef(false);
 
 	const initialConfig = {
@@ -113,6 +117,7 @@ export function ContentEditor({
 			AutoLinkNode,
 			CodeNode,
 			CodeHighlightNode,
+			GhostTextNode,
 		],
 		editable: !disabled,
 	};
@@ -147,6 +152,7 @@ export function ContentEditor({
 	return (
 		<LexicalComposer initialConfig={initialConfig}>
 			<div
+				ref={containerRef}
 				className={cn(
 					"relative min-h-[400px] border rounded-md bg-background",
 					disabled && "opacity-50 pointer-events-none",
@@ -173,6 +179,7 @@ export function ContentEditor({
 				<MarkdownShortcutPlugin transformers={TRANSFORMERS} />
 				<OnChangePlugin onChange={handleChange} />
 				<EditorRefPlugin editorRef={editorRef} />
+				<FIMPlugin containerRef={containerRef} />
 			</div>
 		</LexicalComposer>
 	);
@@ -184,7 +191,6 @@ function EditorRefPlugin({
 }: {
 	editorRef: React.MutableRefObject<LexicalEditor | null>;
 }) {
-	const { useLexicalComposerContext } = require("@lexical/react/LexicalComposerContext");
 	const [editor] = useLexicalComposerContext();
 
 	useEffect(() => {

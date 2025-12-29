@@ -19,7 +19,7 @@ function AuthLayout() {
             <div className="lg:hidden mb-8">
                <div className="flex items-center gap-2">
                   <img alt="Montte" className="w-10 h-10" src="/favicon.svg" />
-                  <span className="text-xl font-semibold">Montte</span>
+                  <span className="text-xl font-semibold">Contentta</span>
                </div>
             </div>
 
@@ -50,14 +50,14 @@ function AuthLayout() {
                      src="/favicon.svg"
                   />
                   <span className="text-xl font-semibold text-white">
-                     Montte
+                     Contentta
                   </span>
                </div>
             </div>
 
             {/* Center Content - Illustration & Tagline */}
             <div className="relative z-10 space-y-8">
-               {/* Abstract Finance Illustration */}
+               {/* AI Content Creation Illustration */}
                <div className="relative">
                   <svg
                      className="w-full max-w-md mx-auto opacity-90"
@@ -65,126 +65,95 @@ function AuthLayout() {
                      viewBox="0 0 400 300"
                      xmlns="http://www.w3.org/2000/svg"
                   >
-                     <title>Dashboard mockup illustration</title>
-                     {/* Dashboard mockup illustration */}
+                     <title>AI-powered content creation illustration</title>
+                     
+                     {/* Main editor window */}
                      <rect
                         height="180"
                         rx="8"
                         stroke="rgba(255,255,255,0.3)"
                         strokeWidth="2"
-                        width="280"
-                        x="60"
+                        width="240"
+                        x="80"
                         y="60"
                      />
+                     
+                     {/* Editor title bar */}
                      <rect
                         fill="rgba(255,255,255,0.1)"
-                        height="20"
-                        rx="4"
-                        width="260"
-                        x="70"
-                        y="70"
-                     />
-                     <circle
-                        cx="85"
-                        cy="80"
-                        fill="rgba(255,255,255,0.3)"
-                        r="5"
-                     />
-                     <circle
-                        cx="100"
-                        cy="80"
-                        fill="rgba(255,255,255,0.2)"
-                        r="5"
-                     />
-                     <circle
-                        cx="115"
-                        cy="80"
-                        fill="rgba(255,255,255,0.15)"
-                        r="5"
-                     />
-
-                     {/* Chart bars */}
-                     <rect
-                        fill="rgba(255,255,255,0.2)"
-                        height="60"
-                        rx="4"
-                        width="30"
+                        height="24"
+                        rx="8"
+                        width="240"
                         x="80"
-                        y="130"
+                        y="60"
                      />
-                     <rect
-                        fill="rgba(255,255,255,0.35)"
-                        height="90"
-                        rx="4"
-                        width="30"
-                        x="120"
-                        y="100"
+                     <circle cx="95" cy="72" fill="rgba(255,255,255,0.3)" r="4" />
+                     <circle cx="108" cy="72" fill="rgba(255,255,255,0.2)" r="4" />
+                     <circle cx="121" cy="72" fill="rgba(255,255,255,0.15)" r="4" />
+                     
+                     {/* Text lines representing blog content */}
+                     <rect fill="rgba(255,255,255,0.4)" height="6" rx="3" width="140" x="95" y="100" />
+                     <rect fill="rgba(255,255,255,0.25)" height="4" rx="2" width="180" x="95" y="116" />
+                     <rect fill="rgba(255,255,255,0.25)" height="4" rx="2" width="160" x="95" y="126" />
+                     <rect fill="rgba(255,255,255,0.25)" height="4" rx="2" width="170" x="95" y="136" />
+                     <rect fill="rgba(255,255,255,0.2)" height="4" rx="2" width="120" x="95" y="146" />
+                     
+                     {/* Paragraph break */}
+                     <rect fill="rgba(255,255,255,0.25)" height="4" rx="2" width="175" x="95" y="162" />
+                     <rect fill="rgba(255,255,255,0.25)" height="4" rx="2" width="155" x="95" y="172" />
+                     <rect fill="rgba(255,255,255,0.2)" height="4" rx="2" width="90" x="95" y="182" />
+                     
+                     {/* AI suggestion cursor/highlight */}
+                     <rect fill="rgba(255,255,255,0.15)" height="16" rx="2" width="85" x="185" y="178" />
+                     
+                     {/* AI sparkle icon floating near editor */}
+                     <g transform="translate(335, 100)">
+                        <circle cx="0" cy="0" fill="rgba(255,255,255,0.25)" r="22" />
+                        {/* Sparkle/AI star shape */}
+                        <path
+                           d="M0 -12 L2 -2 L12 0 L2 2 L0 12 L-2 2 L-12 0 L-2 -2 Z"
+                           fill="rgba(255,255,255,0.7)"
+                        />
+                     </g>
+                     
+                     {/* Secondary AI sparkle */}
+                     <g transform="translate(355, 180)">
+                        <circle cx="0" cy="0" fill="rgba(255,255,255,0.15)" r="14" />
+                        <path
+                           d="M0 -7 L1.2 -1.2 L7 0 L1.2 1.2 L0 7 L-1.2 1.2 L-7 0 L-1.2 -1.2 Z"
+                           fill="rgba(255,255,255,0.5)"
+                        />
+                     </g>
+                     
+                     {/* Floating document/post cards */}
+                     <g transform="translate(30, 90)">
+                        <rect fill="rgba(255,255,255,0.12)" height="60" rx="6" width="45" x="0" y="0" />
+                        <rect fill="rgba(255,255,255,0.25)" height="3" rx="1.5" width="30" x="7" y="12" />
+                        <rect fill="rgba(255,255,255,0.15)" height="2" rx="1" width="35" x="7" y="22" />
+                        <rect fill="rgba(255,255,255,0.15)" height="2" rx="1" width="28" x="7" y="28" />
+                        <rect fill="rgba(255,255,255,0.1)" height="2" rx="1" width="32" x="7" y="34" />
+                     </g>
+                     
+                     <g transform="translate(40, 170)">
+                        <rect fill="rgba(255,255,255,0.1)" height="55" rx="6" width="40" x="0" y="0" />
+                        <rect fill="rgba(255,255,255,0.2)" height="3" rx="1.5" width="26" x="7" y="10" />
+                        <rect fill="rgba(255,255,255,0.12)" height="2" rx="1" width="30" x="7" y="20" />
+                        <rect fill="rgba(255,255,255,0.12)" height="2" rx="1" width="24" x="7" y="26" />
+                     </g>
+                     
+                     {/* Connection lines from AI to editor */}
+                     <path
+                        d="M335 122 Q 340 150, 320 170"
+                        stroke="rgba(255,255,255,0.2)"
+                        strokeDasharray="4 4"
+                        strokeWidth="1.5"
+                        fill="none"
                      />
-                     <rect
-                        fill="rgba(255,255,255,0.25)"
-                        height="70"
-                        rx="4"
-                        width="30"
-                        x="160"
-                        y="120"
-                     />
-                     <rect
-                        fill="rgba(255,255,255,0.4)"
-                        height="100"
-                        rx="4"
-                        width="30"
-                        x="200"
-                        y="90"
-                     />
-                     <rect
-                        fill="rgba(255,255,255,0.3)"
-                        height="80"
-                        rx="4"
-                        width="30"
-                        x="240"
-                        y="110"
-                     />
-
-                     {/* Card elements */}
-                     <rect
-                        fill="rgba(255,255,255,0.15)"
-                        height="50"
-                        rx="6"
-                        width="100"
-                        x="280"
-                        y="100"
-                     />
-                     <rect
-                        fill="rgba(255,255,255,0.1)"
-                        height="50"
-                        rx="6"
-                        width="100"
-                        x="280"
-                        y="160"
-                     />
-
-                     {/* Floating elements */}
-                     <circle
-                        cx="50"
-                        cy="150"
-                        fill="rgba(255,255,255,0.2)"
-                        r="20"
-                     />
-                     <circle
-                        cx="370"
-                        cy="250"
-                        fill="rgba(255,255,255,0.15)"
-                        r="15"
-                     />
-                     <rect
-                        fill="rgba(255,255,255,0.1)"
-                        height="8"
-                        rx="4"
-                        transform="rotate(-15 20 250)"
-                        width="60"
-                        x="20"
-                        y="250"
-                     />
+                     
+                     {/* Small floating sparkles */}
+                     <circle cx="60" cy="260" fill="rgba(255,255,255,0.2)" r="8" />
+                     <circle cx="350" cy="260" fill="rgba(255,255,255,0.15)" r="10" />
+                     <circle cx="180" cy="260" fill="rgba(255,255,255,0.1)" r="6" />
                   </svg>
                </div>
 

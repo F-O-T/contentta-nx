@@ -20,6 +20,7 @@ import bankAccountsPtBr from "./dashboard/routes/bank-accounts.json";
 import billsPtBr from "./dashboard/routes/bills.json";
 import budgetsPtBr from "./dashboard/routes/budgets.json";
 import categoriesPtBr from "./dashboard/routes/categories.json";
+import contentPtBr from "./dashboard/routes/content.json";
 import costCentersPtBr from "./dashboard/routes/cost-centers.json";
 import counterpartiesPtBr from "./dashboard/routes/counterparties.json";
 import customReportsPtBr from "./dashboard/routes/custom-reports.json";
@@ -36,6 +37,7 @@ import signInPtBr from "./dashboard/routes/sign-in.json";
 import signUpPtBr from "./dashboard/routes/sign-up.json";
 import tagsPtBr from "./dashboard/routes/tags.json";
 import transactionsPtBr from "./dashboard/routes/transactions.json";
+import writersPtBr from "./dashboard/routes/writers.json";
 import serverAuthPtBr from "./server/auth.json";
 
 const resources = {
@@ -66,6 +68,7 @@ const resources = {
             bills: billsPtBr,
             budgets: budgetsPtBr,
             categories: categoriesPtBr,
+            content: contentPtBr,
             "cost-centers": costCentersPtBr,
             counterparties: counterpartiesPtBr,
             "custom-reports": customReportsPtBr,
@@ -82,6 +85,7 @@ const resources = {
             "sign-up": signUpPtBr,
             tags: tagsPtBr,
             transactions: transactionsPtBr,
+            writers: writersPtBr,
          },
       },
       server: {
