@@ -42,7 +42,6 @@ import { EditPlugin } from "../plugins/edit-plugin";
 import { ChatPlugin } from "../plugins/chat-plugin";
 import { FloatingToolbarPlugin } from "../plugins/floating-toolbar-plugin";
 import { MarkdownPastePlugin } from "../plugins/markdown-paste-plugin";
-import { VimPlugin } from "../plugins/vim-plugin";
 import { GhostTextNode } from "../nodes/ghost-text-node";
 import { TooltipProvider } from "@packages/ui/components/tooltip";
 
@@ -50,8 +49,6 @@ type ContentEditorProps = {
 	initialContent?: string;
 	onChange?: (content: string) => void;
 	onBlur?: () => void;
-	onSave?: () => void;
-	onQuit?: () => void;
 	placeholder?: string;
 	disabled?: boolean;
 	className?: string;
@@ -156,8 +153,6 @@ export function ContentEditor({
 	initialContent,
 	onChange,
 	onBlur,
-	onSave,
-	onQuit,
 	placeholder = "Start writing...",
 	disabled = false,
 	className,
@@ -242,11 +237,6 @@ export function ContentEditor({
 					<FIMPlugin containerRef={containerRef} />
 					<EditPlugin containerRef={containerRef} />
 					<ChatPlugin />
-					<VimPlugin
-						containerRef={containerRef}
-						onSave={onSave}
-						onQuit={onQuit}
-					/>
 				</div>
 			</TooltipProvider>
 		</LexicalComposer>

@@ -1,99 +1,117 @@
-# Montte
+# Contentta
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](CONTRIBUTING.md)
 
-**Montte** is a modern, open-source finance tracker designed to help you manage your personal and shared expenses with ease. Built on a powerful and scalable monorepo architecture, it features a fast, reactive dashboard and a robust backend.
+**Contentta** is a modern, open-source CMS with AI-powered editing capabilities—think Cursor, but for content creation. Built on a scalable monorepo architecture, it features an intelligent Lexical-based editor with inline completions, agentic text editing, and a chat assistant to help you write, refine, and publish content faster.
 
 ---
 
 ## ✨ Key Features
 
-### 💳 Core Financial Management
--   **Transaction Management**:
-    -   Complete CRUD operations for income, expenses, and transfers
-    -   **Split Categorization**: Divide single transactions across multiple categories
-    -   **File Attachments**: Upload receipts and documents (PDF, Images)
-    -   **Bulk Operations**: Bulk delete, categorize, and transfer linking
-    -   **Smart Transfer Matching**: Automatic linking of outgoing/incoming transfers
--   **Bank Accounts**:
-    -   Manage checking, savings, and investment accounts
-    -   **OFX Integration**: Import/export OFX files with deduplication
-    -   **BrasilAPI**: Fetch Brazilian bank data automatically
-    -   Account archiving without data loss
--   **Bills & Receivables**:
-    -   Track payable and receivable bills (Pending, Paid, Overdue)
-    -   **Flexible Recurrence**: Monthly, quarterly, semiannual, annual patterns
-    -   **Installment Plans**: Equal or custom installment amounts
-    -   **Interest & Penalties**: Automated calculation with configurable templates
-    -   **Monetary Correction**: Support for IPCA, SELIC, CDI indices
+### ✍️ AI-Powered Content Editor
 
-### 📊 Planning & Control
--   **Budget Management**:
-    -   Set targets by categories, tags, or cost centers
-    -   **Personal vs Business Modes**: Gamified/simple vs strict budgeting
-    -   **Budget Rollover**: Carry balances between periods
-    -   **Smart Alerts**: Configurable notification thresholds
-    -   **Visual Progress**: Progress bars and spending forecasts
--   **Organization Tools**:
-    -   Hierarchical categories with custom colors and icons
-    -   Flexible tagging system
-    -   Cost centers for business expense allocation
+Built on Lexical with deeply integrated AI assistance at multiple levels:
 
-### 🤖 Automation & Intelligence
--   **Rules Engine**:
-    -   **Visual Builder**: React Flow-based rule creation interface
-    -   **Triggers**: Transaction created/updated events
-    -   **Complex Conditions**: AND/OR logic groups with multiple criteria
-    -   **Automated Actions**: Categorize, tag, set cost centers, modify descriptions
-    -   **Notifications**: Send push notifications and emails
-    -   **Execution Logs**: Detailed history of automation runs
+-   **FIM (Fill-in-the-Middle) Completions**:
+    -   **Copilot Mode**: Inline ghost text suggestions as you type
+    -   **Cursor Tab Mode**: Multi-line floating panel suggestions
+    -   **Diff Mode**: Side-by-side replacement previews
+    -   Auto-triggers on typing pauses, cursor movement, punctuation, and newlines
+    -   Accept with `Tab`, dismiss with `Escape`, manual invoke with `Ctrl+Space`
 
-### 📈 Analytics & Reporting
--   **Dashboard**: Net balance overview, income vs expenses, recent activity
--   **Financial Reports**:
-    -   **DRE Gerencial**: Managerial income statements
-    -   **DRE Fiscal**: Fiscal statements with planned vs realized analysis
-    -   **PDF Export**: Generate downloadable report versions
--   **Interactive Charts**:
-    -   Cash flow evolution
-    -   Category breakdown (pie/bar charts)
-    -   Monthly trends
-    -   Payment performance analysis
+-   **Inline Edit (Ctrl+K)**:
+    -   Select text and press `Ctrl+K` to open a floating prompt
+    -   Enter natural language instructions to transform selected text
+    -   Streaming AI responses replace the original selection
+    -   Full document context awareness for coherent edits
+
+-   **Chat Assistant (Ctrl+L)**:
+    -   Opens a right-side chat panel for interactive content discussion
+    -   Send selected text as context to the AI
+    -   Full document and selection context tracking
+    -   Real-time streaming responses
+
+
+### 📝 Rich Content Management
+
+-   **Block-Based Editor**:
+    -   Tables, code blocks, horizontal rules, links, and checklists
+    -   Drag-and-drop content organization
+    -   Markdown shortcuts with extended transformers
+    -   Smart paste handling for format preservation
+
+-   **Content Lifecycle**:
+    -   Draft, published, and archived states
+    -   Auto-save with debouncing
+    -   Bulk operations (delete, publish, archive)
+
+-   **SEO & Metadata**:
+    -   Title, description, slug, and keyword management
+    -   SEO optimization built into the workflow
+
+### 🤖 AI Writers & Agents
+
+-   **Writer Personas**:
+    -   Create custom AI writing personas with profile photos
+    -   Define writing guidelines, audience profiles, tone, and style preferences
+    -   Associate writers with content for consistent voice
+
+-   **Multi-Agent Orchestration** (Mastra-powered):
+    -   **Content Agents**: Editor, Writer, and Reader agents
+    -   **Specialized Agents**: Researcher (Tavily web search), Strategist, Document Generator
+    -   **Workflows**: Automated article and changelog creation pipelines
+    -   **Knowledge Base**: Brand knowledge, competitor analysis, writing guidelines
+
+### 📊 Dashboard & Analytics
+
+-   **Home Dashboard**: Content statistics, quick actions, recent content
+-   **Content List**: Data table with search, filtering, sorting, and bulk operations
+-   **Writer Management**: Statistics, analytics, and detailed writer pages
 
 ### 🔐 Administration & Security
+
 -   **Authentication**:
     -   Email/password and Google OAuth via Better Auth
-    -   Email verification and password recovery
     -   Magic link authentication
+    -   Two-factor authentication (2FA)
     -   Session management with device tracking
+
 -   **Multi-tenant Architecture**:
     -   Organization workspaces
     -   Team management and member invitations
     -   Role-based access control (Owner, Admin, Member)
--   **Billing Integration**: Stripe-powered subscription management
--   **Settings & Preferences**:
+
+-   **Settings**:
+    -   Profile and security management
     -   Theme switching (Light/Dark/System)
-    -   Language support (pt-BR)
-    -   Telemetry opt-in/out (PostHog)
-    -   Web push notification controls
+    -   Language support (en-US, pt-BR)
+    -   API keys management
+    -   Notification preferences
+    -   Billing integration (Stripe)
+
+---
 
 ## 🚀 Tech Stack
 
-The Montte project is a full-stack application built within an **Nx** monorepo using **Bun**.
+Contentta is a full-stack application built within an **Nx** monorepo using **Bun**.
 
 | Category       | Technology                                                                                                      |
 | :------------- | :-------------------------------------------------------------------------------------------------------------- |
 | **Frontend**   | **React**, **Vite**, **TypeScript**, **TanStack Router**, **TanStack Query**, **shadcn/ui**, **Tailwind CSS**   |
+| **Editor**     | **Lexical** (Rich text editor framework)                                                                        |
+| **AI**         | **Vercel AI SDK**, **Mastra** (Agent orchestration)                                                             |
 | **Backend**    | **ElysiaJS**, **Bun**, **tRPC**, **Drizzle ORM**, **PostgreSQL**                                                |
 | **Auth**       | **Better Auth**                                                                                                 |
 | **Jobs**       | **BullMQ**, **Redis**                                                                                           |
-| **Storage**    | **MinIO** (S3 compatible for file/logo storage)                                                                 |
+| **Storage**    | **MinIO** (S3 compatible for file/media storage)                                                                |
 | **Security**   | **Arcjet** (Rate limiting & DDoS protection)                                                                    |
 | **Analytics**  | **PostHog**                                                                                                     |
 | **Email**      | **Resend** (Transactional emails)                                                                               |
 | **Landing**    | **Astro** (Static marketing site)                                                                               |
 | **Tooling**    | **Nx**, **Biome**, **Docker**, **Husky**                                                                        |
+
+---
 
 ## 📂 Project Structure
 
@@ -105,15 +123,15 @@ The deployable applications and websites.
 
 ```
 apps/
-├── dashboard/     # React/Vite SPA - main user interface
+├── dashboard/     # React/Vite SPA - main content editor interface
 ├── server/        # Elysia backend API server
 ├── worker/        # BullMQ background job processor
 └── landing-page/  # Astro marketing website
 ```
 
--   **`dashboard`**: The core finance tracking single-page application (SPA) built with React, featuring file-based routing with TanStack Router and PWA support.
--   **`server`**: The ElysiaJS backend server providing the tRPC API, authentication endpoints, and file storage integration.
--   **`worker`**: Background job processor using BullMQ for handling async tasks like email delivery, notifications, and data processing.
+-   **`dashboard`**: The core CMS single-page application (SPA) built with React, featuring the AI-powered content editor with file-based routing via TanStack Router.
+-   **`server`**: The ElysiaJS backend server providing the tRPC API, authentication endpoints, AI integrations, and file storage.
+-   **`worker`**: Background job processor using BullMQ for handling async tasks like AI processing, email delivery, and content scheduling.
 -   **`landing-page`**: Astro-based static marketing site with i18n support (Portuguese/English).
 
 ### Packages (`packages/`)
@@ -135,7 +153,6 @@ Shared internal libraries organized by concern. All packages use explicit export
 | Package        | Purpose                                |
 | -------------- | -------------------------------------- |
 | `arcjet`       | Rate limiting and DDoS protection      |
-| `brasil-api`   | Brazilian bank data API integration    |
 | `cache`        | Redis caching layer                    |
 | `files`        | MinIO S3-compatible file storage       |
 | `posthog`      | Analytics tracking (client & server)   |
@@ -147,12 +164,9 @@ Shared internal libraries organized by concern. All packages use explicit export
 
 | Package        | Purpose                                |
 | -------------- | -------------------------------------- |
-| `csv`          | CSV parsing and batch processing       |
 | `encryption`   | E2E encryption with NaCl (TweetNaCl)   |
 | `notifications`| Push notifications and alerts          |
-| `ofx`          | OFX file parsing and processing        |
-| `pdf`          | PDF report generation                  |
-| `workflows`    | Visual automation rule engine          |
+| `workflows`    | Content workflow automation            |
 
 #### Frontend
 
@@ -165,31 +179,9 @@ Shared internal libraries organized by concern. All packages use explicit export
 
 | Package | Purpose                                     |
 | ------- | ------------------------------------------- |
-| `utils` | Shared utilities (dates, money, errors)     |
+| `utils` | Shared utilities (dates, formatting, errors)|
 
-### Dashboard Features (`apps/dashboard/src/features/`)
-
-The dashboard organizes functionality into feature modules, each with its own hooks, UI components, and utilities.
-
-| Feature           | Purpose                                      |
-| ----------------- | -------------------------------------------- |
-| `bank-account`    | Bank account CRUD and selection              |
-| `bill`            | Bill tracking with recurrence and installments |
-| `category`        | Transaction type and category selection      |
-| `cookie-consent`  | GDPR cookie consent banner                   |
-| `custom-report`   | Custom financial report builder              |
-| `encryption`      | E2E encryption setup and unlock UI           |
-| `error-report`    | User error feedback modal                    |
-| `expense-split`   | Team expense splitting and settlements       |
-| `export`          | Multi-format data export wizard              |
-| `file-upload`     | File uploads with compression                |
-| `icon-selector`   | Icon picker for categories/accounts          |
-| `import`          | CSV/OFX import with duplicate detection      |
-| `notifications`   | Push notification preferences                |
-| `organization`    | Team and member management                   |
-| `permissions`     | Bank account access control                  |
-| `stripe-disclosure` | Stripe payment disclaimer                  |
-| `transaction`     | Transaction CRUD with categorization         |
+---
 
 ## 🤝 Contributing
 
