@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "@mastra/core": "^1.0.0-beta.18",
-    "@packages/queue": "workspace:*",
     "@mastra/evals": "^1.0.0-beta.3",
     "@mastra/libsql": "^1.0.0-beta.10",
     "@mastra/loggers": "^1.0.0-beta.3",
@@ -13,9 +12,9 @@
     "@packages/files": "workspace:*",
     "@packages/localization": "workspace:*",
     "@packages/rag": "workspace:*",
+    "@packages/search": "workspace:*",
     "@packages/server-events": "workspace:*",
     "@packages/utils": "workspace:*",
-    "@tavily/core": "0.6.3",
     "ai": "catalog:openrouter",
     "zod": "catalog:validation"
   },
@@ -29,27 +28,9 @@
     ".": {
       "default": "./src/mastra/index.ts",
       "types": "./dist/src/mastra/index.d.ts"
-    },
-    "./queue/consumer": {
-      "default": "./src/queue/consumer.ts",
-      "types": "./dist/src/queue/consumer.d.ts"
-    },
-    "./queue/producer": {
-      "default": "./src/queue/producer.ts",
-      "types": "./dist/src/queue/producer.d.ts"
-    },
-    "./queue/queues": {
-      "default": "./src/queue/queues.ts",
-      "types": "./dist/src/queue/queues.d.ts"
-    },
-    "./queue/schemas": {
-      "default": "./src/queue/schemas.ts",
-      "types": "./dist/src/queue/schemas.d.ts"
     }
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "license": "Apache-2.0",
   "name": "@packages/agents",
   "private": true,

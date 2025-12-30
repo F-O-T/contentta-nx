@@ -1,5 +1,6 @@
 {
    "dependencies": {
+      "@packages/markdown": "workspace:*",
       "@trpc/server": "catalog:trpc",
       "slugify": "^1.6.6",
       "zod": "catalog:validation"

@@ -14,6 +14,7 @@ import {
 	openChatSidebar,
 	setSelectionContext,
 	setDocumentContent,
+	setEditor,
 } from "../context/chat-context";
 import { $isGhostTextNode } from "../nodes/ghost-text-node";
 
@@ -31,6 +32,12 @@ import { $isGhostTextNode } from "../nodes/ghost-text-node";
 export function ChatPlugin() {
 	const [editor] = useLexicalComposerContext();
 	const { isOpen } = useChatState();
+
+	// Register editor reference for tool execution
+	useEffect(() => {
+		setEditor(editor);
+		return () => setEditor(null);
+	}, [editor]);
 
 	// Get text content without ghost nodes
 	const getTextWithoutGhost = useCallback((node: LexicalNode): string => {

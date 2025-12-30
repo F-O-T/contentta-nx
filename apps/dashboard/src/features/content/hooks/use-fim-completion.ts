@@ -1,6 +1,10 @@
 import { useCallback, useRef, useState, useEffect } from "react";
 import { clientEnv } from "@packages/environment/client";
-import type { FIMRequest, FIMChunkEnhanced, FIMChunkMetadata } from "@packages/fim/schemas";
+import type {
+	FIMRequest,
+	FIMChunkEnhanced,
+	FIMChunkMetadata,
+} from "../types/streaming-schemas";
 
 export interface UseFIMCompletionOptions {
 	onChunk: (text: string) => void;

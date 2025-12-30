@@ -1,5 +1,6 @@
 import { Button } from "@packages/ui/components/button";
 import { Textarea } from "@packages/ui/components/textarea";
+import { cn } from "@packages/ui/lib/utils";
 import { Send, Square } from "lucide-react";
 import { useCallback, useRef, useState, type KeyboardEvent } from "react";
 import {
@@ -16,6 +17,8 @@ import {
 	ChatCommandSuggestions,
 	type ChatCommandSuggestionsRef,
 } from "./chat-command-suggestions";
+import { ChatModeSelect } from "./chat-mode-select";
+import { ChatModelSelect } from "./chat-model-select";
 
 interface ChatInputProps {
 	onSend: (message: string) => void;
@@ -143,6 +146,8 @@ export function ChatInput({
 		[handleInput],
 	);
 
+	const hasValue = value.trim().length > 0;
+
 	return (
 		<div className="relative">
 			{/* Command suggestions popover */}
@@ -158,7 +163,7 @@ export function ChatInput({
 				/>
 			)}
 
-			<div className="flex items-end gap-2">
+			<div className="flex flex-col gap-2 rounded-lg border bg-muted/30 p-2">
 				<Textarea
 					ref={textareaRef}
 					value={value}
@@ -168,31 +173,41 @@ export function ChatInput({
 					onClick={handleSelect}
 					placeholder={placeholder}
 					disabled={disabled}
-					className="min-h-[40px] max-h-[150px] resize-none text-sm"
-					rows={1}
+					className="min-h-[60px] max-h-[150px] resize-none border-0 bg-transparent p-0 text-sm shadow-none focus-visible:ring-0"
+					rows={2}
 				/>
 
-				{isLoading ? (
-					<Button
-						size="icon"
-						variant="outline"
-						onClick={onCancel}
-						className="shrink-0"
-						title="Stop generating"
-					>
-						<Square className="size-4" />
-					</Button>
-				) : (
-					<Button
-						size="icon"
-						onClick={handleSubmit}
-						disabled={!value.trim() || disabled}
-						className="shrink-0"
-						title="Send message"
-					>
-						<Send className="size-4" />
-					</Button>
-				)}
+				<div className="flex items-center justify-between">
+					<div className="flex items-center gap-2">
+						<ChatModeSelect />
+						<ChatModelSelect />
+					</div>
+
+					{isLoading ? (
+						<Button
+							size="sm"
+							variant="ghost"
+							onClick={onCancel}
+							className="h-7 gap-1.5 text-xs"
+						>
+							<Square className="size-3" />
+							Stop
+						</Button>
+					) : (
+						<Button
+							size="sm"
+							onClick={handleSubmit}
+							disabled={!hasValue || disabled}
+							className={cn(
+								"h-7 gap-1.5 text-xs transition-opacity",
+								!hasValue && "opacity-50",
+							)}
+						>
+							<Send className="size-3" />
+							Send
+						</Button>
+					)}
+				</div>
 			</div>
 		</div>
 	);

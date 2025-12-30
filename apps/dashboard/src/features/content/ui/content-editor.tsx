@@ -181,7 +181,10 @@ export function ContentEditor({
 		],
 		editable: !disabled,
 		editorState: initialContent
-			? () => $convertFromMarkdownString(initialContent, EXTENDED_TRANSFORMERS)
+			? () => {
+					console.log("[DEBUG] Initial markdown content:", initialContent.slice(0, 500));
+					$convertFromMarkdownString(initialContent, EXTENDED_TRANSFORMERS);
+			  }
 			: undefined,
 	};
 
@@ -191,6 +194,7 @@ export function ContentEditor({
 
 			editorState.read(() => {
 				const markdown = $convertToMarkdownString(EXTENDED_TRANSFORMERS);
+				console.log("[DEBUG] Exported markdown:", markdown.slice(0, 500));
 				onChange(markdown);
 			});
 		},

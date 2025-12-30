@@ -1,4 +1,3 @@
-import { enqueueCreateKnowledgeWorkflow } from "@packages/agents/queue/producer";
 import {
 	createBrand,
 	deleteBrand,
@@ -24,10 +23,9 @@ export const brandRouter = router({
 		.mutation(async ({ ctx, input }) => {
 			try {
 				const resolvedCtx = await ctx;
-				const userId = resolvedCtx.session?.user.id;
 				const organizationId = resolvedCtx.organizationId;
 
-				if (!userId || !organizationId) {
+				if (!organizationId) {
 					throw APIError.unauthorized(
 						"User must be authenticated and belong to an organization to analyze brands.",
 					);
@@ -50,16 +48,10 @@ export const brandRouter = router({
 					);
 				}
 
-				await updateBrand(resolvedCtx.db, brand.id, { status: "analyzing" });
+				// TODO: Implement brand analysis with new agent architecture
+				await updateBrand(resolvedCtx.db, brand.id, { status: "active" });
 
-				const jobId = await enqueueCreateKnowledgeWorkflow({
-					brandId: brand.id,
-					organizationId,
-					userId,
-					websiteUrl: brand.websiteUrl,
-				});
-
-				return { jobId, success: true };
+				return { success: true };
 			} catch (err) {
 				console.error("Error analyzing brand:", err);
 				propagateError(err);
@@ -78,10 +70,9 @@ export const brandRouter = router({
 		.mutation(async ({ ctx, input }) => {
 			try {
 				const resolvedCtx = await ctx;
-				const userId = resolvedCtx.session?.user.id;
 				const organizationId = resolvedCtx.organizationId;
 
-				if (!userId || !organizationId) {
+				if (!organizationId) {
 					throw APIError.unauthorized(
 						"User must be authenticated and belong to an organization to create brands.",
 					);
@@ -101,15 +92,6 @@ export const brandRouter = router({
 				if (!created) {
 					throw APIError.internal("Failed to create brand.");
 				}
-
-				await updateBrand(resolvedCtx.db, created.id, { status: "analyzing" });
-
-				await enqueueCreateKnowledgeWorkflow({
-					brandId: created.id,
-					organizationId,
-					userId,
-					websiteUrl: input.websiteUrl,
-				});
 
 				return created;
 			} catch (err) {

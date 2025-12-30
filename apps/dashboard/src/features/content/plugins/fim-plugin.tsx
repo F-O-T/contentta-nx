@@ -18,8 +18,12 @@ import { useFIMTriggers, type TriggerContext } from "../hooks/use-fim-triggers";
 import { detectFIMMode } from "../hooks/use-fim-mode";
 import { detectDiffType } from "../hooks/use-fim-diff";
 import { useEditIntent } from "../hooks/use-edit-intent";
-import { buildFIMContext } from "@packages/fim/client";
-import type { FIMTriggerType, FIMChunkMetadata, EditContext } from "@packages/fim";
+import {
+	buildFIMContext,
+	type FIMTriggerType,
+	type FIMChunkMetadata,
+	type EditContext,
+} from "../types/streaming-schemas";
 import { FIMStatusLine } from "../ui/fim-status-line";
 import { FIMFloatingPanel } from "../ui/fim-floating-panel";
 import { FIMDiffPanel } from "../ui/fim-diff-panel";

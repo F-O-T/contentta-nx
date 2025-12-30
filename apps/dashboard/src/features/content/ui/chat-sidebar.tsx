@@ -1,19 +1,16 @@
-import { Button } from "@packages/ui/components/button";
 import { ScrollArea } from "@packages/ui/components/scroll-area";
 import { cn } from "@packages/ui/lib/utils";
-import { MessageSquare, Trash2 } from "lucide-react";
 import { useEffect } from "react";
 import { useChatSession } from "../hooks/use-chat-session";
 import {
 	useChatState,
 	setContentMetadata,
 	type ContentMetadata,
+	type PlanStep,
 } from "../context/chat-context";
 import { ChatInput } from "./chat-input";
-import { ChatKeyboardHints } from "./chat-keyboard-hints";
 import { ChatMessageList } from "./chat-message-list";
 import { ChatSelectionContext } from "./chat-selection-context";
-import { ChatModeToggle } from "./chat-mode-toggle";
 
 interface ChatSidebarProps {
 	contentId: string;
@@ -26,15 +23,16 @@ export function ChatSidebar({
 	contentMeta,
 	className,
 }: ChatSidebarProps) {
-	const { selectionContext, documentContent, contentMetadata } = useChatState();
+	const { selectionContext, documentContent, activeToolCalls, mode } =
+		useChatState();
 
 	const {
 		messages,
 		currentStreamingMessage,
+		streamingSteps,
 		isStreaming,
 		sendMessage,
 		cancelChat,
-		clearConversation,
 	} = useChatSession(contentId);
 
 	// Update content metadata when prop changes
@@ -49,54 +47,27 @@ export function ChatSidebar({
 		sendMessage(content, documentContent);
 	};
 
-	// Build context summary for display
-	const contextSummary = contentMetadata
-		? `Writing: "${contentMetadata.title}"`
-		: null;
+	const handleExecutePlan = (_approvedSteps: PlanStep[], executionPrompt: string) => {
+		// Send the execution prompt to the agent in writer mode
+		sendMessage(executionPrompt, documentContent);
+	};
 
 	return (
 		<div
 			className={cn(
-				"flex h-full w-80 shrink-0 flex-col border-l bg-background overflow-hidden",
+				"flex h-full w-4/12 shrink-0 flex-col border-l bg-background overflow-hidden",
 				className,
 			)}
 		>
-			{/* Header */}
-			<div className="flex shrink-0 flex-col border-b px-3 py-2">
-				<div className="flex items-center justify-between">
-					<div className="flex items-center gap-2">
-						<MessageSquare className="size-4 text-primary" />
-						<span className="text-sm font-medium">AI Assistant</span>
-					</div>
-					<Button
-						variant="ghost"
-						size="icon"
-						className="size-7"
-						onClick={clearConversation}
-						title="Clear conversation"
-						disabled={messages.length === 0 || isStreaming}
-					>
-						<Trash2 className="size-4" />
-					</Button>
-				</div>
-				{contextSummary && (
-					<p className="text-xs text-muted-foreground mt-1 truncate">
-						{contextSummary}
-					</p>
-				)}
-			</div>
-
-			{/* Mode Toggle */}
-			<div className="shrink-0 border-b px-3 py-2">
-				<ChatModeToggle />
-			</div>
-
 			{/* Messages */}
-			<ScrollArea className="flex-1 min-h-0 px-3">
+			<ScrollArea className="flex-1 min-h-0 ">
 				<ChatMessageList
 					messages={messages}
 					streamingContent={currentStreamingMessage}
 					isStreaming={isStreaming}
+					activeToolCalls={activeToolCalls}
+					streamingSteps={streamingSteps}
+					onExecutePlan={handleExecutePlan}
 				/>
 			</ScrollArea>
 
@@ -111,9 +82,12 @@ export function ChatSidebar({
 					onSend={handleSend}
 					onCancel={cancelChat}
 					isLoading={isStreaming}
-					placeholder="Ask about your content..."
+					placeholder={
+						mode === "plan"
+							? "What would you like to plan?"
+							: "What should I write or edit?"
+					}
 				/>
-				<ChatKeyboardHints className="mt-2" />
 			</div>
 		</div>
 	);

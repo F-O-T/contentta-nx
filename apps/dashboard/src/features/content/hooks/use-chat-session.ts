@@ -4,15 +4,22 @@ import {
 	useChatContext,
 	initializeChatSession,
 	addUserMessage,
-	startStreaming,
-	appendStreamingContent,
-	completeStreaming,
 	setChatError,
 	clearChat,
 	setLoading,
+	addPlanMessage,
 	type ChatMessage,
+	type ToolCallStatus,
+	// Step actions
+	startStreamingWithSteps,
+	startNewStep,
+	appendToCurrentStep,
+	addToolCallToCurrentStep,
+	updateToolCallInStep,
+	completeCurrentStep,
+	finalizeStreaming,
 } from "../context/chat-context";
-import { useChatCompletion } from "./use-chat-completion";
+import { useAgentChat, type AgentChatRequest } from "./use-agent-chat";
 
 interface ChatSessionResponse {
 	session: {
@@ -30,6 +37,13 @@ interface ChatSessionResponse {
 			contextBefore: string;
 			contextAfter: string;
 		};
+		toolCalls?: Array<{
+			id: string;
+			name: string;
+			args: Record<string, unknown>;
+			result?: unknown;
+			status: string;
+		}>;
 	}>;
 }
 
@@ -37,25 +51,53 @@ export function useChatSession(contentId: string) {
 	const {
 		phase,
 		mode,
+		model,
 		isOpen,
 		sessionId,
 		messages,
 		currentStreamingMessage,
+		activeToolCalls,
 		selectionContext,
-		contentMetadata,
 		error,
+		editor,
+		streamingSteps,
 	} = useChatContext();
 
-	// Chat completion hook
-	const { sendMessage: sendChatMessage, cancelChat, isLoading } = useChatCompletion({
-		onChunk: (text) => {
-			appendStreamingContent(text);
+	// Agent chat hook with step-based streaming support
+	const { sendMessage: sendAgentMessage, cancelChat, isLoading } = useAgentChat({
+		editor,
+		onStepStart: (stepIndex) => {
+			startNewStep(stepIndex);
+		},
+		onChunk: (text, _stepIndex) => {
+			appendToCurrentStep(text);
+		},
+		onStepComplete: (_stepIndex) => {
+			completeCurrentStep();
 		},
 		onComplete: () => {
-			completeStreaming();
+			finalizeStreaming();
 		},
 		onError: (error) => {
 			setChatError(error);
+		},
+		onToolCallStart: (toolCall, _stepIndex) => {
+			addToolCallToCurrentStep(toolCall);
+			updateToolCallInStep(toolCall.id, "executing" as ToolCallStatus);
+		},
+		onToolCallComplete: (toolCall, result, _stepIndex) => {
+			updateToolCallInStep(
+				toolCall.id,
+				result.success ? ("completed" as ToolCallStatus) : ("error" as ToolCallStatus),
+				result.data,
+				result.success ? undefined : result.message,
+			);
+		},
+		onPlanCreated: (plan) => {
+			// Add plan message to chat - this triggers the ChatPlanMessage UI
+			addPlanMessage(plan.summary, plan.steps);
+			// Finalize streaming since the plan is the final output
+			finalizeStreaming();
 		},
 	});
 
@@ -67,7 +109,7 @@ export function useChatSession(contentId: string) {
 			setLoading();
 			try {
 				const response = await fetch(
-					`${clientEnv.VITE_SERVER_URL}/api/chat/session/${contentId}`,
+					`${clientEnv.VITE_SERVER_URL}/api/agent/chat/session/${contentId}`,
 					{
 						credentials: "include",
 					},
@@ -79,13 +121,21 @@ export function useChatSession(contentId: string) {
 
 				const data: ChatSessionResponse = await response.json();
 
-				// Transform messages to our format
+				// Transform messages to our format (including tool calls from history)
 				const transformedMessages: ChatMessage[] = data.messages.map((m) => ({
 					id: m.id,
 					role: m.role,
 					content: m.content,
 					timestamp: new Date(m.createdAt).getTime(),
 					selectionContext: m.selectionContext,
+					type: m.toolCalls && m.toolCalls.length > 0 ? "tool-use" : "text",
+					toolCalls: m.toolCalls?.map((tc) => ({
+						id: tc.id,
+						name: tc.name,
+						args: tc.args,
+						result: tc.result,
+						status: tc.status as "pending" | "executing" | "completed" | "error",
+					})),
 				}));
 
 				initializeChatSession(data.session.id, contentId, transformedMessages);
@@ -108,7 +158,7 @@ export function useChatSession(contentId: string) {
 			addUserMessage(content);
 
 			// Start streaming
-			startStreaming();
+			startStreamingWithSteps();
 
 			// Get the full message history including the new message
 			const allMessages = [
@@ -116,18 +166,21 @@ export function useChatSession(contentId: string) {
 				{ role: "user" as const, content },
 			];
 
-			// Send to API with full context
-			await sendChatMessage({
+			// Build request with model from context
+			const request: AgentChatRequest = {
 				sessionId,
 				contentId,
 				messages: allMessages,
 				selectionContext: selectionContext || undefined,
 				documentContext,
-				contentMetadata: contentMetadata || undefined,
 				mode,
-			});
+				model: model === "glm-4.7" ? "z-ai/glm-4.7" : "x-ai/grok-4.1-fast",
+			};
+
+			// Send to API with full context
+			await sendAgentMessage(request);
 		},
-		[sessionId, contentId, messages, selectionContext, contentMetadata, mode, sendChatMessage],
+		[sessionId, contentId, messages, selectionContext, mode, model, sendAgentMessage],
 	);
 
 	// Clear the conversation
@@ -136,7 +189,7 @@ export function useChatSession(contentId: string) {
 
 		try {
 			const response = await fetch(
-				`${clientEnv.VITE_SERVER_URL}/api/chat/session/${sessionId}`,
+				`${clientEnv.VITE_SERVER_URL}/api/agent/chat/session/${sessionId}`,
 				{
 					method: "DELETE",
 					credentials: "include",
@@ -162,6 +215,8 @@ export function useChatSession(contentId: string) {
 		sessionId,
 		messages,
 		currentStreamingMessage,
+		activeToolCalls,
+		streamingSteps,
 		selectionContext,
 		error,
 		isLoading,

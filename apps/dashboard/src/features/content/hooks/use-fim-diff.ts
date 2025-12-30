@@ -1,4 +1,4 @@
-import type { FIMDiffSuggestion } from "@packages/fim";
+import type { FIMDiffSuggestion } from "../types/streaming-schemas";
 
 /**
  * Minimum overlap length to consider a replacement

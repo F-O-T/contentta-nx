@@ -1,9 +1,8 @@
 import { useMemo } from "react";
 import type { LucideIcon } from "lucide-react";
 import {
-	MessageSquare,
-	ListTodo,
-	Sparkles,
+	ListChecks,
+	Pencil,
 	Wand2,
 	Expand,
 	FileText,
@@ -64,28 +63,20 @@ export function useChatCommands(
 		() => [
 			// Mode commands
 			{
-				id: "chat",
-				label: "chat",
-				description: "Switch to chat mode",
-				icon: MessageSquare,
-				category: "mode",
-				handler: () => setChatMode("chat"),
-			},
-			{
 				id: "plan",
 				label: "plan",
-				description: "Switch to plan mode",
-				icon: ListTodo,
+				description: "Switch to plan mode (research & planning)",
+				icon: ListChecks,
 				category: "mode",
 				handler: () => setChatMode("plan"),
 			},
 			{
-				id: "agent",
-				label: "agent",
-				description: "Switch to agent mode with edits",
-				icon: Sparkles,
+				id: "writer",
+				label: "writer",
+				description: "Switch to writer mode (direct editing)",
+				icon: Pencil,
 				category: "mode",
-				handler: () => setChatMode("agent"),
+				handler: () => setChatMode("writer"),
 			},
 			// Action commands
 			{

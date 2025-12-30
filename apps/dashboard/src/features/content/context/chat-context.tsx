@@ -1,7 +1,10 @@
 import { Store, useStore } from "@tanstack/react-store";
+import type { LexicalEditor } from "lexical";
 
 export type ChatPhase = "idle" | "loading" | "streaming" | "error";
-export type ChatMode = "chat" | "plan" | "agent";
+export type ChatMode = "plan" | "writer";
+export type ChatModel = "grok-4.1-fast" | "glm-4.7" | "mistral-small-creative";
+export type ToolCallStatus = "pending" | "executing" | "completed" | "error";
 
 export interface SelectionContext {
 	text: string;
@@ -20,13 +23,47 @@ export interface ContentMetadata {
 export interface PlanStep {
 	id: string;
 	step: string;
+	description?: string;
+	toolsToUse?: string[];
+	rationale?: string;
 	status: "pending" | "approved" | "skipped" | "completed";
+}
+
+/**
+ * Input for creating a plan step (from the createPlan tool)
+ */
+export interface PlanStepInput {
+	id: string;
+	title: string;
+	description: string;
+	toolsToUse?: string[];
+	rationale?: string;
 }
 
 export interface EditSuggestion {
 	original: string;
 	suggested: string;
 	location?: { start: number; end: number };
+}
+
+export interface ToolCall {
+	id: string;
+	name: string;
+	args: Record<string, unknown>;
+	status: ToolCallStatus;
+	result?: unknown;
+	error?: string;
+}
+
+/**
+ * A streaming step represents one agent "thinking + tool calls" cycle
+ */
+export interface StreamingStep {
+	id: string;
+	stepIndex: number;
+	content: string;
+	toolCalls: ToolCall[];
+	isComplete: boolean;
 }
 
 export interface ChatMessage {
@@ -36,14 +73,16 @@ export interface ChatMessage {
 	timestamp: number;
 	selectionContext?: SelectionContext;
 	// Mode-specific data
-	type?: "text" | "plan" | "edit-suggestion";
+	type?: "text" | "plan" | "edit-suggestion" | "tool-use";
 	planSteps?: PlanStep[];
 	editSuggestion?: EditSuggestion;
+	toolCalls?: ToolCall[];
 }
 
 interface ChatState {
 	phase: ChatPhase;
 	mode: ChatMode;
+	model: ChatModel;
 	isOpen: boolean;
 	sessionId: string | null;
 	contentId: string | null;
@@ -53,11 +92,20 @@ interface ChatState {
 	documentContent: string;
 	contentMetadata: ContentMetadata | null;
 	error: Error | null;
+	// Active tool calls (for current streaming response)
+	activeToolCalls: ToolCall[];
+	executingStepIndex: number | null;
+	// Streaming steps (for multi-step agent execution)
+	streamingSteps: StreamingStep[];
+	currentStepIndex: number;
+	// Editor reference for tool execution
+	editor: LexicalEditor | null;
 }
 
 const initialState: ChatState = {
 	phase: "idle",
-	mode: "chat",
+	mode: "plan",
+	model: "grok-4.1-fast",
 	isOpen: false,
 	sessionId: null,
 	contentId: null,
@@ -67,6 +115,11 @@ const initialState: ChatState = {
 	documentContent: "",
 	contentMetadata: null,
 	error: null,
+	activeToolCalls: [],
+	executingStepIndex: null,
+	streamingSteps: [],
+	currentStepIndex: 0,
+	editor: null,
 };
 
 const chatStore = new Store<ChatState>(initialState);
@@ -274,6 +327,15 @@ export const setChatMode = (mode: ChatMode) =>
 	}));
 
 /**
+ * Set chat model
+ */
+export const setChatModel = (model: ChatModel) =>
+	chatStore.setState((state) => ({
+		...state,
+		model,
+	}));
+
+/**
  * Update a plan step status
  */
 export const updatePlanStep = (
@@ -318,18 +380,21 @@ export const addEditSuggestionMessage = (editSuggestion: EditSuggestion) =>
 /**
  * Add an assistant message with plan steps
  */
-export const addPlanMessage = (content: string, steps: string[]) =>
+export const addPlanMessage = (summary: string, steps: PlanStepInput[]) =>
 	chatStore.setState((state) => {
-		const planSteps: PlanStep[] = steps.map((step, index) => ({
-			id: `step-${index + 1}`,
-			step,
-			status: "pending",
+		const planSteps: PlanStep[] = steps.map((step) => ({
+			id: step.id,
+			step: step.title,
+			description: step.description,
+			toolsToUse: step.toolsToUse,
+			rationale: step.rationale,
+			status: "pending" as const,
 		}));
 
 		const newMessage: ChatMessage = {
 			id: crypto.randomUUID(),
 			role: "assistant",
-			content,
+			content: summary,
 			timestamp: Date.now(),
 			type: "plan",
 			planSteps,
@@ -340,6 +405,245 @@ export const addPlanMessage = (content: string, steps: string[]) =>
 			messages: [...state.messages, newMessage],
 		};
 	});
+
+/**
+ * Add a tool call to the active list
+ */
+export const addToolCall = (toolCall: Omit<ToolCall, "status">) =>
+	chatStore.setState((state) => ({
+		...state,
+		activeToolCalls: [
+			...state.activeToolCalls,
+			{ ...toolCall, status: "pending" as ToolCallStatus },
+		],
+	}));
+
+/**
+ * Update a tool call status
+ */
+export const updateToolCallStatus = (
+	toolCallId: string,
+	status: ToolCallStatus,
+	result?: unknown,
+	error?: string,
+) =>
+	chatStore.setState((state) => ({
+		...state,
+		activeToolCalls: state.activeToolCalls.map((tc) =>
+			tc.id === toolCallId ? { ...tc, status, result, error } : tc,
+		),
+	}));
+
+/**
+ * Clear all active tool calls
+ */
+export const clearActiveToolCalls = () =>
+	chatStore.setState((state) => ({
+		...state,
+		activeToolCalls: [],
+	}));
+
+/**
+ * Complete streaming with tool calls and add assistant message
+ */
+export const completeStreamingWithToolCalls = () =>
+	chatStore.setState((state) => {
+		const assistantMessage: ChatMessage = {
+			id: crypto.randomUUID(),
+			role: "assistant",
+			content: state.currentStreamingMessage,
+			timestamp: Date.now(),
+			type: state.activeToolCalls.length > 0 ? "tool-use" : "text",
+			toolCalls:
+				state.activeToolCalls.length > 0
+					? [...state.activeToolCalls]
+					: undefined,
+		};
+
+		return {
+			...state,
+			phase: "idle",
+			messages: [...state.messages, assistantMessage],
+			currentStreamingMessage: "",
+			activeToolCalls: [],
+		};
+	});
+
+/**
+ * Set executing step index (for plan mode)
+ */
+export const setExecutingStep = (index: number | null) =>
+	chatStore.setState((state) => ({
+		...state,
+		executingStepIndex: index,
+	}));
+
+/**
+ * Approve all pending steps in a plan message
+ */
+export const approveAllSteps = (messageId: string) =>
+	chatStore.setState((state) => ({
+		...state,
+		messages: state.messages.map((msg) =>
+			msg.id === messageId && msg.planSteps
+				? {
+						...msg,
+						planSteps: msg.planSteps.map((step) =>
+							step.status === "pending" ? { ...step, status: "approved" } : step,
+						),
+					}
+				: msg,
+		),
+	}));
+
+/**
+ * Set the editor reference for tool execution
+ */
+export const setEditor = (editor: LexicalEditor | null) =>
+	chatStore.setState((state) => ({
+		...state,
+		editor,
+	}));
+
+// =====================
+// Streaming Step Actions
+// =====================
+
+/**
+ * Start a new streaming step
+ */
+export const startNewStep = (stepIndex: number) =>
+	chatStore.setState((state) => {
+		const newStep: StreamingStep = {
+			id: `step-${stepIndex}-${Date.now()}`,
+			stepIndex,
+			content: "",
+			toolCalls: [],
+			isComplete: false,
+		};
+		return {
+			...state,
+			streamingSteps: [...state.streamingSteps, newStep],
+			currentStepIndex: stepIndex,
+		};
+	});
+
+/**
+ * Append text to current streaming step
+ */
+export const appendToCurrentStep = (text: string) =>
+	chatStore.setState((state) => ({
+		...state,
+		streamingSteps: state.streamingSteps.map((step, idx) =>
+			idx === state.streamingSteps.length - 1
+				? { ...step, content: step.content + text }
+				: step
+		),
+		// Also update currentStreamingMessage for backward compatibility
+		currentStreamingMessage: state.currentStreamingMessage + text,
+	}));
+
+/**
+ * Add a tool call to current streaming step
+ */
+export const addToolCallToCurrentStep = (toolCall: Omit<ToolCall, "status">) =>
+	chatStore.setState((state) => ({
+		...state,
+		streamingSteps: state.streamingSteps.map((step, idx) =>
+			idx === state.streamingSteps.length - 1
+				? {
+						...step,
+						toolCalls: [
+							...step.toolCalls,
+							{ ...toolCall, status: "pending" as ToolCallStatus },
+						],
+					}
+				: step
+		),
+		// Also add to activeToolCalls for backward compatibility
+		activeToolCalls: [
+			...state.activeToolCalls,
+			{ ...toolCall, status: "pending" as ToolCallStatus },
+		],
+	}));
+
+/**
+ * Update a tool call status in the streaming steps
+ */
+export const updateToolCallInStep = (
+	toolCallId: string,
+	status: ToolCallStatus,
+	result?: unknown,
+	error?: string,
+) =>
+	chatStore.setState((state) => ({
+		...state,
+		streamingSteps: state.streamingSteps.map((step) => ({
+			...step,
+			toolCalls: step.toolCalls.map((tc) =>
+				tc.id === toolCallId ? { ...tc, status, result, error } : tc
+			),
+		})),
+		// Also update activeToolCalls for backward compatibility
+		activeToolCalls: state.activeToolCalls.map((tc) =>
+			tc.id === toolCallId ? { ...tc, status, result, error } : tc
+		),
+	}));
+
+/**
+ * Mark current step as complete
+ */
+export const completeCurrentStep = () =>
+	chatStore.setState((state) => ({
+		...state,
+		streamingSteps: state.streamingSteps.map((step, idx) =>
+			idx === state.streamingSteps.length - 1
+				? { ...step, isComplete: true }
+				: step
+		),
+	}));
+
+/**
+ * Finalize streaming - convert steps to messages
+ */
+export const finalizeStreaming = () =>
+	chatStore.setState((state) => {
+		// Convert completed streaming steps into proper messages
+		const newMessages: ChatMessage[] = state.streamingSteps
+			.filter((step) => step.isComplete && (step.content || step.toolCalls.length > 0))
+			.map((step) => ({
+				id: step.id,
+				role: "assistant" as const,
+				content: step.content,
+				timestamp: Date.now(),
+				type: step.toolCalls.length > 0 ? ("tool-use" as const) : ("text" as const),
+				toolCalls: step.toolCalls.length > 0 ? step.toolCalls : undefined,
+			}));
+
+		return {
+			...state,
+			phase: "idle",
+			messages: [...state.messages, ...newMessages],
+			streamingSteps: [],
+			currentStepIndex: 0,
+			currentStreamingMessage: "",
+			activeToolCalls: [],
+		};
+	});
+
+/**
+ * Start streaming with steps (reset steps)
+ */
+export const startStreamingWithSteps = () =>
+	chatStore.setState((state) => ({
+		...state,
+		phase: "streaming",
+		streamingSteps: [],
+		currentStepIndex: 0,
+		currentStreamingMessage: "",
+		activeToolCalls: [],
+		error: null,
+	}));
 
 /**
  * Hook to access chat state and actions
@@ -367,9 +671,26 @@ export const useChatContext = () => {
 		setDocumentContent,
 		setContentMetadata,
 		setChatMode,
+		setChatModel,
 		updatePlanStep,
 		addEditSuggestionMessage,
 		addPlanMessage,
+		// Tool call actions
+		addToolCall,
+		updateToolCallStatus,
+		clearActiveToolCalls,
+		completeStreamingWithToolCalls,
+		setExecutingStep,
+		approveAllSteps,
+		setEditor,
+		// Streaming step actions
+		startNewStep,
+		appendToCurrentStep,
+		addToolCallToCurrentStep,
+		updateToolCallInStep,
+		completeCurrentStep,
+		finalizeStreaming,
+		startStreamingWithSteps,
 	};
 };
 

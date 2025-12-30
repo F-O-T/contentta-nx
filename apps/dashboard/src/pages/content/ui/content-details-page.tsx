@@ -2,19 +2,23 @@ import { translate } from "@packages/localization";
 import { Badge } from "@packages/ui/components/badge";
 import { Button } from "@packages/ui/components/button";
 import { Skeleton } from "@packages/ui/components/skeleton";
+import { TooltipProvider } from "@packages/ui/components/tooltip";
 import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Archive, ArrowLeft, Edit, Send, Trash2 } from "lucide-react";
-import { Suspense, useCallback, useState } from "react";
+import { Archive, ArrowLeft, Send, Trash2 } from "lucide-react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { toast } from "sonner";
 import { ContentEditor } from "@/features/content/ui/content-editor";
 import { ContentMetadataBar } from "@/features/content/ui/content-metadata-bar";
-import { ManageContentForm } from "@/features/content/ui/manage-content-form";
+import { ContentFrontmatterPanel } from "@/features/content/ui/content-frontmatter-panel";
 import { ChatSidebar } from "@/features/content/ui/chat-sidebar";
+import {
+	registerFrontmatterHandlers,
+	unregisterFrontmatterHandlers,
+} from "@/features/content/utils/frontmatter-tool-executor";
 import { useActiveOrganization } from "@/hooks/use-active-organization";
 import { useAlertDialog } from "@/hooks/use-alert-dialog";
-import { useSheet } from "@/hooks/use-sheet";
 import { useTRPC } from "@/integrations/clients";
 import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
 
@@ -105,8 +109,8 @@ function ContentDetailsPageContent({ contentId }: ContentDetailsPageProps) {
 	const navigate = useNavigate();
 	const { activeOrganization } = useActiveOrganization();
 	const { openAlertDialog } = useAlertDialog();
-	const { openSheet } = useSheet();
 	const [isSaving, setIsSaving] = useState(false);
+	const [isSavingMeta, setIsSavingMeta] = useState(false);
 
 	const { data: content } = useSuspenseQuery(
 		trpc.content.getById.queryOptions({ id: contentId }),
@@ -122,6 +126,21 @@ function ContentDetailsPageContent({ contentId }: ContentDetailsPageProps) {
 			},
 			onError: (error) => {
 				setIsSaving(false);
+				toast.error(error.message || translate("common.errors.default"));
+			},
+		}),
+	);
+
+	const updateMetaMutation = useMutation(
+		trpc.content.update.mutationOptions({
+			onSuccess: () => {
+				setIsSavingMeta(false);
+				queryClient.invalidateQueries({
+					queryKey: trpc.content.getById.queryKey({ id: contentId }),
+				});
+			},
+			onError: (error) => {
+				setIsSavingMeta(false);
 				toast.error(error.message || translate("common.errors.default"));
 			},
 		}),
@@ -194,11 +213,35 @@ function ContentDetailsPageContent({ contentId }: ContentDetailsPageProps) {
 		[debouncedSave],
 	);
 
-	const handleEdit = () => {
-		openSheet({
-			children: <ManageContentForm content={content} />,
+	const handleMetaChange = useCallback(
+		(metaUpdates: Partial<typeof content.meta>) => {
+			setIsSavingMeta(true);
+			updateMetaMutation.mutate({
+				id: contentId,
+				data: {
+					meta: {
+						...content.meta,
+						...metaUpdates,
+					},
+				},
+			});
+		},
+		[contentId, content.meta, updateMetaMutation],
+	);
+
+	// Register frontmatter handlers for agent tool execution
+	useEffect(() => {
+		registerFrontmatterHandlers({
+			updateTitle: (title) => handleMetaChange({ title }),
+			updateDescription: (description) => handleMetaChange({ description }),
+			updateSlug: (slug) => handleMetaChange({ slug }),
+			updateKeywords: (keywords) => handleMetaChange({ keywords }),
 		});
-	};
+
+		return () => {
+			unregisterFrontmatterHandlers();
+		};
+	}, [handleMetaChange]);
 
 	const handleDelete = () => {
 		openAlertDialog({
@@ -226,109 +269,118 @@ function ContentDetailsPageContent({ contentId }: ContentDetailsPageProps) {
 	};
 
 	return (
-		<div className="flex h-[calc(100vh-4rem)] -m-4">
-			{/* Main Content */}
-			<main className="flex flex-1 flex-col overflow-hidden p-4">
-				{/* Header */}
-				<div className="flex items-center justify-between mb-2">
-					<div className="flex items-center gap-3">
-						<Button asChild size="icon" variant="ghost">
-							<Link
-								to="/$slug/content"
-								params={{ slug: activeOrganization.slug }}
-							>
-								<ArrowLeft className="size-4" />
-							</Link>
-						</Button>
-						<div>
-							<h1 className="text-2xl font-bold">
-								{content.meta.title || translate("common.labels.untitled")}
-							</h1>
-							<p className="text-muted-foreground text-sm flex items-center gap-2">
-								{content.meta.description || translate("dashboard.routes.content.details.subtitle")}
-								{isSaving && (
-									<span className="text-xs text-amber-600">
-										{translate("dashboard.routes.content.details.saving")}
-									</span>
-								)}
-							</p>
+		<TooltipProvider>
+			<div className="flex h-[calc(100vh-4rem)] -m-4">
+				{/* Main Content */}
+				<main className="flex flex-1 flex-col overflow-hidden p-4">
+					{/* Header */}
+					<div className="flex items-center justify-between mb-2">
+						<div className="flex items-center gap-3">
+							<Button asChild size="icon" variant="ghost">
+								<Link
+									to="/$slug/content"
+									params={{ slug: activeOrganization.slug }}
+								>
+									<ArrowLeft className="size-4" />
+								</Link>
+							</Button>
+							<div>
+								<h1 className="text-2xl font-bold">
+									{content.meta.title || translate("common.labels.untitled")}
+								</h1>
+								<p className="text-muted-foreground text-sm flex items-center gap-2">
+									{content.meta.description || translate("dashboard.routes.content.details.subtitle")}
+									{isSaving && (
+										<span className="text-xs text-amber-600">
+											{translate("dashboard.routes.content.details.saving")}
+										</span>
+									)}
+								</p>
+							</div>
 						</div>
+						<Badge className={STATUS_COLORS[content.status]} variant="outline">
+							{content.status}
+						</Badge>
 					</div>
-					<Badge className={STATUS_COLORS[content.status]} variant="outline">
-						{content.status}
-					</Badge>
-				</div>
 
-				{/* Actions */}
-				<div className="flex items-center gap-2 mb-4">
-					<Button onClick={handleEdit} variant="outline" size="sm">
-						<Edit className="size-4 mr-2" />
-						{translate("common.actions.edit")}
-					</Button>
-					{content.status === "draft" && (
+					{/* Actions */}
+					<div className="flex items-center gap-2 mb-4">
 						<Button
-							onClick={handlePublish}
+							onClick={handleDelete}
 							variant="outline"
 							size="sm"
-							disabled={publishMutation.isPending}
+							className="text-destructive hover:text-destructive"
 						>
-							<Send className="size-4 mr-2" />
-							{translate("common.actions.publish")}
+							<Trash2 className="size-4 mr-2" />
+							{translate("common.actions.delete")}
 						</Button>
-					)}
-					{content.status !== "archived" && (
-						<Button
-							onClick={handleArchive}
-							variant="outline"
-							size="sm"
-							disabled={archiveMutation.isPending}
-						>
-							<Archive className="size-4 mr-2" />
-							{translate("common.actions.archive")}
-						</Button>
-					)}
-					<Button
-						onClick={handleDelete}
-						variant="outline"
-						size="sm"
-						className="text-destructive hover:text-destructive"
-					>
-						<Trash2 className="size-4 mr-2" />
-						{translate("common.actions.delete")}
-					</Button>
-				</div>
+						{content.status === "draft" && (
+							<Button
+								onClick={handlePublish}
+								variant="outline"
+								size="sm"
+								disabled={publishMutation.isPending}
+							>
+								<Send className="size-4 mr-2" />
+								{translate("common.actions.publish")}
+							</Button>
+						)}
+						{content.status !== "archived" && (
+							<Button
+								onClick={handleArchive}
+								variant="outline"
+								size="sm"
+								disabled={archiveMutation.isPending}
+							>
+								<Archive className="size-4 mr-2" />
+								{translate("common.actions.archive")}
+							</Button>
+						)}
+					</div>
 
-				{/* Metadata Bar */}
-				<ContentMetadataBar
-					content={content}
-					slug={activeOrganization.slug}
-					className="mb-4"
-				/>
-
-				{/* Editor - fills remaining space */}
-				<div className="flex-1 overflow-hidden min-h-0">
-					<ContentEditor
-						initialContent={content.body || ""}
-						onChange={handleContentChange}
-						placeholder={translate("dashboard.routes.content.details.editor-placeholder")}
+					{/* Frontmatter Panel */}
+					<ContentFrontmatterPanel
+						contentId={contentId}
+						meta={content.meta}
+						body={content.body || ""}
+						onMetaChange={handleMetaChange}
+						isSaving={isSavingMeta}
 						disabled={content.status === "archived"}
-						className="h-full"
+						className="mb-4"
 					/>
-				</div>
-			</main>
 
-			{/* Chat Sidebar */}
-			<ChatSidebar
-				contentId={contentId}
-				contentMeta={{
-					title: content.meta.title,
-					description: content.meta.description,
-					slug: content.meta.slug,
-					keywords: content.meta.keywords,
-					status: content.status,
-				}}
-			/>
-		</div>
+					{/* Metadata Bar */}
+					<ContentMetadataBar
+						content={content}
+						slug={activeOrganization.slug}
+						className="mb-4"
+					/>
+
+					{/* Editor - fills remaining space */}
+					<div className="flex-1 overflow-hidden min-h-0">
+						<ContentEditor
+							initialContent={content.body || ""}
+							onChange={handleContentChange}
+							placeholder={translate("dashboard.routes.content.details.editor-placeholder")}
+							disabled={content.status === "archived"}
+							className="h-full"
+						/>
+					</div>
+				</main>
+
+				{/* Chat Sidebar */}
+				<ChatSidebar
+					contentId={contentId}
+					contentMeta={{
+						title: content.meta.title,
+						description: content.meta.description,
+						slug: content.meta.slug,
+						keywords: content.meta.keywords,
+						status: content.status,
+					}}
+				/>
+			</div>
+		</TooltipProvider>
 	);
 }
 

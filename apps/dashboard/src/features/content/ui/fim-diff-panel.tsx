@@ -1,4 +1,4 @@
-import type { FIMDiffSuggestion } from "@packages/fim";
+import type { FIMDiffSuggestion } from "../types/streaming-schemas";
 import { cn } from "@packages/ui/lib/utils";
 import { FIMKeyboardHints } from "./fim-keyboard-hints";
 

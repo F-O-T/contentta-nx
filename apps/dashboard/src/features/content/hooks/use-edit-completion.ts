@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState, useEffect } from "react";
 import { clientEnv } from "@packages/environment/client";
-import type { EditRequest, EditChunk } from "@packages/edit/schemas";
+import type { EditRequest, EditChunk } from "../types/streaming-schemas";
 
 export interface UseEditCompletionOptions {
 	onChunk: (text: string) => void;

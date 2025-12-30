@@ -8,7 +8,7 @@ import {
 	SELECTION_CHANGE_COMMAND,
 	type LexicalEditor,
 } from "lexical";
-import type { FIMTriggerType } from "@packages/fim";
+import type { FIMTriggerType } from "../types/streaming-schemas";
 
 /**
  * Context about where the cursor is when a trigger fires

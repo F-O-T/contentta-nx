@@ -7,11 +7,11 @@ import { sql } from "drizzle-orm";
 import { Elysia } from "elysia";
 import { auth, resendClient, stripeClient } from "./integrations/auth";
 import { db, ragClient } from "./integrations/database";
-import { fimRoutes } from "./routes/fim";
-import { editRoutes } from "./routes/edit";
-import { chatRoutes } from "./routes/chat";
 import { registryRoutes } from "./routes/registry";
 import { sdkRoutes } from "./routes/sdk";
+import { agentChatRoutes } from "./routes/agent-chat";
+import { agentFIMRoutes } from "./routes/agent-fim";
+import { agentEditRoutes } from "./routes/agent-edit";
 import { logger } from "./integrations/logging";
 import { minioClient } from "./integrations/minio";
 import { posthog, posthogPlugin } from "./integrations/posthog";
@@ -68,9 +68,9 @@ const app = new Elysia({
    .use(posthogPlugin)
    .use(sdkRoutes)
    .use(registryRoutes)
-   .use(fimRoutes)
-   .use(editRoutes)
-   .use(chatRoutes)
+   .use(agentChatRoutes)
+   .use(agentFIMRoutes)
+   .use(agentEditRoutes)
    .mount(auth.handler)
    .all(
       "/trpc/*",

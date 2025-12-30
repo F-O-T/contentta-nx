@@ -58,6 +58,21 @@
       "writer-placeholder": "Selecione um escritor",
       "writer-required": "O escritor é obrigatório"
    },
+   "frontmatter": {
+      "title": "Frontmatter",
+      "keywords": "Palavras-chave",
+      "keywords-placeholder": "Adicionar palavra-chave...",
+      "generate": "Gerar",
+      "generate-all": "Gerar Todos os Metadados com IA",
+      "generate-description-tooltip": "Gerar descrição com IA",
+      "generate-keywords-tooltip": "Gerar palavras-chave com IA",
+      "regenerate-slug-tooltip": "Regenerar a partir do título",
+      "seo-description": "Meta descrição SEO",
+      "description-generated": "Descrição gerada",
+      "keywords-generated": "Palavras-chave geradas",
+      "metadata-generated": "Metadados gerados",
+      "error-title-content-required": "Título e conteúdo são necessários para gerar"
+   },
    "no-results": "Nenhum conteúdo encontrado",
    "publish-success": "Conteúdo publicado com sucesso",
    "table": {

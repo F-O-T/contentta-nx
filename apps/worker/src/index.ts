@@ -1,10 +1,3 @@
-import { createMastraWorker } from "@packages/agents/queue/consumer";
-import { initializeMastraQueue } from "@packages/agents/queue/producer";
-import {
-   closeMastraQueue,
-   type MastraWorkflowJobData,
-   type MastraWorkflowJobResult,
-} from "@packages/agents/queue/queues";
 import { createDb } from "@packages/database/client";
 import { workerEnv as env } from "@packages/environment/worker";
 import { getWorkerLogger, sendHeartbeat } from "@packages/logging/worker";
@@ -159,61 +152,6 @@ const { worker: deletionWorker, close: closeDeletionWorker } =
 
 logger.info("Deletion worker started");
 
-// Mastra workflow queue and worker
-initializeMastraQueue(redisConnection);
-
-const { worker: mastraWorker, close: closeMastraWorker } = createMastraWorker({
-   concurrency: env.MASTRA_WORKER_CONCURRENCY || 2,
-   connection: redisConnection,
-   onCompleted: async (
-      job: Job<MastraWorkflowJobData, MastraWorkflowJobResult>,
-      result: MastraWorkflowJobResult,
-   ) => {
-      logger.info(
-         {
-            jobId: job.id,
-            runId: result.runId,
-            success: result.success,
-            workflowType: result.workflowType,
-         },
-         "Mastra workflow job completed",
-      );
-
-      if (global.gc) {
-         global.gc();
-      }
-   },
-   onFailed: async (
-      job: Job<MastraWorkflowJobData, MastraWorkflowJobResult> | undefined,
-      error: Error,
-   ) => {
-      logger.error(
-         { jobId: job?.id, err: error },
-         "Mastra workflow job failed",
-      );
-   },
-});
-
-logger.info(
-   { concurrency: env.MASTRA_WORKER_CONCURRENCY || 2 },
-   "Mastra workflow worker started",
-);
-
-mastraWorker.on("active", (job: Job<MastraWorkflowJobData, MastraWorkflowJobResult>) => {
-   logger.debug(
-      { jobId: job.id, workflowType: job.data.workflowType },
-      "Mastra workflow job active",
-   );
-});
-
-mastraWorker.on("stalled", (jobId: string) => {
-   logger.warn({ jobId }, "Mastra workflow job stalled");
-});
-
-mastraWorker.on("error", (error: Error) => {
-   logger.error({ err: error }, "Mastra worker error");
-});
-
 const { worker, close } = createWorkflowWorker({
    concurrency: env.WORKER_CONCURRENCY || 5,
    connection: redisConnection,
@@ -287,18 +225,15 @@ async function gracefulShutdown(signal: string) {
       await worker.pause();
       await maintenanceWorker.pause();
       await deletionWorker.pause();
-      await mastraWorker.pause();
 
       logger.info("Waiting for active jobs to complete");
       await close();
       await closeMaintenanceWorker();
       await closeDeletionWorker();
-      await closeMastraWorker();
 
       logger.info("Closing queues");
       await closeMaintenanceQueue();
       await closeDeletionQueue();
-      await closeMastraQueue();
 
       logger.info("Closing Redis connection");
       await closeRedisConnection();

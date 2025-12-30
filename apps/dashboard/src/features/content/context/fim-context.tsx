@@ -3,7 +3,7 @@ import type {
 	FIMConfidenceFactors,
 	FIMDiffSuggestion,
 	FIMTriggerType,
-} from "@packages/fim";
+} from "../types/streaming-schemas";
 
 export type FIMMode = "copilot" | "cursor-tab" | "diff" | "idle";
 

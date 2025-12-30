@@ -1,0 +1,25 @@
+{
+   "name": "@packages/markdown",
+   "private": true,
+   "type": "module",
+   "version": "0.1.0",
+   "exports": {
+      ".": {
+         "default": "./src/index.ts",
+         "types": "./dist/src/index.d.ts"
+      }
+   },
+   "files": ["dist"],
+   "dependencies": {
+      "@f-o-t/markdown": "workspace:*"
+   },
+   "devDependencies": {
+      "@tooling/typescript": "workspace:*",
+      "typescript": "catalog:development"
+   },
+   "scripts": {
+      "build": "tsc --build",
+      "check": "biome check --write ./src",
+      "typecheck": "tsc"
+   }
+}

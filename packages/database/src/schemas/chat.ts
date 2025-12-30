@@ -28,6 +28,18 @@ export const SelectionContextSchema = z.object({
 
 export type SelectionContext = z.infer<typeof SelectionContextSchema>;
 
+// Stored tool call schema for JSONB
+export const StoredToolCallSchema = z.object({
+	id: z.string(),
+	name: z.string(),
+	args: z.record(z.string(), z.unknown()),
+	result: z.unknown().optional(),
+	status: z.enum(["completed", "error"]),
+	executedAt: z.number().optional(),
+});
+
+export type StoredToolCall = z.infer<typeof StoredToolCallSchema>;
+
 // Chat session - one per content document
 export const chatSession = pgTable(
 	"chat_session",
@@ -78,6 +90,7 @@ export const chatMessage = pgTable(
 		role: chatMessageRoleEnum("role").notNull(),
 		content: text("content").notNull(),
 		selectionContext: jsonb("selection_context").$type<SelectionContext>(),
+		toolCalls: jsonb("tool_calls").$type<StoredToolCall[]>(),
 		createdAt: timestamp("created_at").defaultNow().notNull(),
 	},
 	(table) => [
