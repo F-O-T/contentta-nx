@@ -39,17 +39,17 @@ interface TriggerConfig {
 }
 
 const DEFAULT_CONFIG: TriggerConfig = {
-	debounceMs: 500,
+	debounceMs: 600, // Increased from 500 - more thinking time for prose
 	enableCursorMove: true,
-	cursorMoveDebounceMs: 300,
+	cursorMoveDebounceMs: 400, // Increased from 300 - more reading time
 	enablePunctuation: true,
-	punctuationDelayMs: 100,
+	punctuationDelayMs: 150, // Increased from 100 - allow for abbreviations
 	enableNewline: true,
-	newlineDelayMs: 50,
+	newlineDelayMs: 100, // Increased from 50
 	enableChain: true,
 	// Edit prediction defaults
 	enableEditPrediction: true,
-	editPredictionDelayMs: 600, // Slightly longer than debounce
+	editPredictionDelayMs: 700, // Increased from 600
 };
 
 interface UseFIMTriggersOptions {

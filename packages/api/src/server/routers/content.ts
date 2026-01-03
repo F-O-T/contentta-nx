@@ -12,7 +12,6 @@ import {
 	updateContent,
 } from "@packages/database/repositories/content-repository";
 import {
-	ContentInsertSchema,
 	ContentMetaSchema,
 	ContentRequestSchema,
 } from "@packages/database/schema";

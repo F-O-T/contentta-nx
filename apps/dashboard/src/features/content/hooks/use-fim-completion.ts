@@ -55,7 +55,7 @@ export function useFIMCompletion({
 			try {
 				// Use native fetch for true streaming
 				const response = await fetch(
-					`${clientEnv.VITE_SERVER_URL}/api/fim/stream`,
+					`${clientEnv.VITE_SERVER_URL}/api/agent/fim/stream`,
 					{
 						method: "POST",
 						headers: { "Content-Type": "application/json" },

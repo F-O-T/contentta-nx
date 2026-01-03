@@ -9,7 +9,7 @@ import {
 } from "@packages/ui/components/card";
 import { Skeleton } from "@packages/ui/components/skeleton";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { BarChart3, Clock, FileCheck, FileText, FilePlus } from "lucide-react";
+import { BarChart3, Clock, FileText, FilePlus } from "lucide-react";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useTRPC } from "@/integrations/clients";

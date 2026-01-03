@@ -489,11 +489,11 @@ export function FIMPlugin({ containerRef }: FIMPluginProps) {
 					prefix,
 					suffix,
 					contextType: "document",
-					maxTokens: options.isManualTrigger ? 128 : 64,
-					temperature: 0.3,
+					maxTokens: options.isManualTrigger ? 200 : 100, // Increased for prose
+					temperature: 0.4, // Slightly higher for creative prose
 					stopSequences: options.isManualTrigger
 						? ["\n\n\n"]
-						: ["\n\n", ".", "!", "?"],
+						: ["\n\n"], // Remove "." - let server handle prose-aware stopping
 					triggerType: options.triggerType,
 					recentText,
 					editContext: options.editContext,

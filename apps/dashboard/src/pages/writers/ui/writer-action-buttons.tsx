@@ -110,8 +110,8 @@ export function WriterActionButtons({
 
 	const handleGenerateContent = () => {
 		navigate({
-			to: "/$slug/content/new",
-			params: { slug: activeOrganization.slug },
+			to: "/$slug/content/$contentId",
+			params: { slug: activeOrganization.slug, contentId: "new" },
 			search: { writerId: writer.id },
 		});
 	};

@@ -3,7 +3,6 @@ import { and, cosineDistance, desc, eq, gt, sql } from "drizzle-orm";
 import type { PgVectorDatabaseInstance } from "../client";
 import { createEmbedding } from "../helpers";
 import {
-   type RelatedSlugs,
    type RelatedSlugsInsert,
    relatedSlugs,
 } from "../schemas/related-slugs-schema";

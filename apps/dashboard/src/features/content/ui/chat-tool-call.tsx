@@ -151,6 +151,13 @@ function getStatusDisplay(status: ToolCallStatus): {
 }
 
 /**
+ * Check if args object has entries
+ */
+function hasArgs(args: Record<string, unknown>): boolean {
+	return Object.keys(args).length > 0;
+}
+
+/**
  * Format args for display
  */
 function formatArgs(args: Record<string, unknown>): string {
@@ -265,10 +272,10 @@ export function ChatToolCall({
 			</div>
 
 			{/* Expanded details */}
-			{isExpanded && hasDetails && (
+			{isExpanded && hasDetails ? (
 				<div className="border-t bg-muted/20 px-3 py-2 text-xs space-y-2">
 					{/* Arguments */}
-					{toolCall.args && Object.keys(toolCall.args).length > 0 && (
+					{hasArgs(toolCall.args) ? (
 						<div>
 							<div className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
 								Arguments
@@ -277,10 +284,10 @@ export function ChatToolCall({
 								{formatArgs(toolCall.args)}
 							</pre>
 						</div>
-					)}
+					) : null}
 
 					{/* Result */}
-					{toolCall.result && (
+					{toolCall.result ? (
 						<div>
 							<div className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mb-1">
 								Result
@@ -289,21 +296,21 @@ export function ChatToolCall({
 								{formatResult(toolCall.result)}
 							</pre>
 						</div>
-					)}
+					) : null}
 
 					{/* Error */}
-					{toolCall.error && (
+					{toolCall.error ? (
 						<div>
 							<div className="text-[10px] font-medium text-destructive uppercase tracking-wider mb-1">
 								Error
 							</div>
-							<pre className="bg-destructive/5 border border-destructive/20 rounded p-2 text-[11px] text-destructive overflow-x-auto whitespace-pre-wrap">
+							<pre className="bg-destructive/5 border border-destructive/20 rounded p-2 text-[11px] overflow-x-auto whitespace-pre-wrap text-destructive">
 								{toolCall.error}
 							</pre>
 						</div>
-					)}
+					) : null}
 				</div>
-			)}
+			) : null}
 		</div>
 	);
 }

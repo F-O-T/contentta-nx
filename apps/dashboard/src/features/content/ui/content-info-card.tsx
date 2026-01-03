@@ -9,7 +9,7 @@ import {
 	CardTitle,
 } from "@packages/ui/components/card";
 import { Link } from "@tanstack/react-router";
-import { Calendar, FileText, Hash, Link as LinkIcon, Tag, User } from "lucide-react";
+import { Calendar, Hash, Link as LinkIcon, Tag, User } from "lucide-react";
 
 const STATUS_COLORS: Record<string, string> = {
 	archived: "bg-slate-500/10 text-slate-600 border-slate-200",
@@ -60,7 +60,7 @@ export function ContentInfoCard({ content, slug }: ContentInfoCardProps) {
 						</CardDescription>
 					</div>
 					<Badge className={STATUS_COLORS[content.status]} variant="outline">
-						{translate(`common.status.${content.status}`)}
+						{translate(`common.status.${content.status}` as "common.status.draft" | "common.status.published" | "common.status.archived")}
 					</Badge>
 				</div>
 			</CardHeader>

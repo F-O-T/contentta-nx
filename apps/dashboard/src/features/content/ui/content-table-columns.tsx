@@ -29,7 +29,7 @@ export type ContentItem = {
 		slug: string;
 	};
 	status: "draft" | "published" | "archived";
-	createdAt: string;
+	createdAt: Date | string;
 	agent?: {
 		id: string;
 		name: string;

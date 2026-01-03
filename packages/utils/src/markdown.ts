@@ -4,8 +4,10 @@
  */
 
 export {
-	extractTitle as extractTitleFromMarkdown,
-	removeTitle as removeTitleFromMarkdown,
-	parseToHtml as parseMarkdownIntoHtml,
-	analyzeContentStructure,
+	parse,
+	parseToAst,
+	extractText,
+	getHeadings,
+	countWords,
+	generate,
 } from "@packages/markdown";

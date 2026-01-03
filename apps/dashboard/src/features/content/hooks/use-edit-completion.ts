@@ -50,7 +50,7 @@ export function useEditCompletion({
 			try {
 				// Use native fetch for true streaming
 				const response = await fetch(
-					`${clientEnv.VITE_SERVER_URL}/api/edit/stream`,
+					`${clientEnv.VITE_SERVER_URL}/api/agent/edit/stream`,
 					{
 						method: "POST",
 						headers: { "Content-Type": "application/json" },

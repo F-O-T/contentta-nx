@@ -1,18 +1,12 @@
 import { translate } from "@packages/localization";
 import {
-	Avatar,
-	AvatarFallback,
-	AvatarImage,
-} from "@packages/ui/components/avatar";
-import {
 	Card,
 	CardContent,
 	CardHeader,
 	CardTitle,
 } from "@packages/ui/components/card";
 import { Skeleton } from "@packages/ui/components/skeleton";
-import { getInitials } from "@packages/utils/text";
-import { Calendar, FileText, User } from "lucide-react";
+import { Calendar, FileText } from "lucide-react";
 import { WriterPhotoUpload } from "@/features/writers/ui/writer-photo-upload";
 
 type Writer = {

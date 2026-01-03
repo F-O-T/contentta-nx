@@ -28,13 +28,24 @@
     ".": {
       "default": "./src/mastra/index.ts",
       "types": "./dist/src/mastra/index.d.ts"
+    },
+    "./mastra/utils/fim-confidence": {
+      "default": "./src/mastra/utils/fim-confidence.ts",
+      "types": "./dist/src/mastra/utils/fim-confidence.d.ts"
+    },
+    "./mastra/scorers/fim-quality-scorer": {
+      "default": "./src/mastra/scorers/fim-quality-scorer.ts",
+      "types": "./dist/src/mastra/scorers/fim-quality-scorer.d.ts"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "license": "Apache-2.0",
   "name": "@packages/agents",
   "private": true,
   "scripts": {
+    "test": "bun test",
     "build": "tsc --build",
     "check": "biome check --write ./src",
     "dev": "dotenv -e .env -- bunx mastra dev",

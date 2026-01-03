@@ -49,7 +49,7 @@ export const brandRouter = router({
 				}
 
 				// TODO: Implement brand analysis with new agent architecture
-				await updateBrand(resolvedCtx.db, brand.id, { status: "active" });
+				await updateBrand(resolvedCtx.db, brand.id, { status: "analyzing" });
 
 				return { success: true };
 			} catch (err) {

@@ -29,8 +29,8 @@ export type Writer = {
 	};
 	profilePhotoUrl?: string | null;
 	contentCount: number;
-	lastGeneratedAt?: string | null;
-	createdAt: string;
+	lastGeneratedAt?: Date | string | null;
+	createdAt: Date | string;
 };
 
 export function createWriterColumns(
@@ -122,11 +122,14 @@ export function createWriterColumns(
 		{
 			accessorKey: "createdAt",
 			header: translate("dashboard.routes.writers.table.created"),
-			cell: ({ row }) => (
-				<span className="text-muted-foreground">
-					{new Date(row.original.createdAt).toLocaleDateString()}
-				</span>
-			),
+			cell: ({ row }) => {
+				const date = row.original.createdAt instanceof Date ? row.original.createdAt : new Date(row.original.createdAt);
+				return (
+					<span className="text-muted-foreground">
+						{date.toLocaleDateString()}
+					</span>
+				);
+			},
 		},
 		{
 			id: "actions",

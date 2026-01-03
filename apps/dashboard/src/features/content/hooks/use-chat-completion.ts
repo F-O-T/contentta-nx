@@ -72,7 +72,7 @@ export function useChatCompletion({
 			try {
 				// Use native fetch for true streaming
 				const response = await fetch(
-					`${clientEnv.VITE_SERVER_URL}/api/chat/stream`,
+					`${clientEnv.VITE_SERVER_URL}/api/agent/chat/stream`,
 					{
 						method: "POST",
 						headers: { "Content-Type": "application/json" },

@@ -6,14 +6,13 @@
 
 export {
 	// Parsing
-	extractTitle,
-	removeTitle,
-	// Slug
-	generateSlug,
-	// HTML
-	parseToHtml,
-	// Analysis
-	analyzeContentStructure,
-	type ContentStructure,
-	type ContentAnalysis,
+	parse,
+	parseToAst,
+	parseOrThrow,
+	extractText,
+	getHeadings,
+	countWords,
+	// Generation
+	generate,
+	generateHeadingString,
 } from "@f-o-t/markdown";

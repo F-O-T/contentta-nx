@@ -59,20 +59,22 @@ interface DataTablePaginationProps {
    pageSizeOptions?: number[];
 }
 
+export type MobileCardRenderProps<TData> = {
+   row: Row<TData>;
+   isExpanded: boolean;
+   toggleExpanded: () => void;
+   isSelected?: boolean;
+   toggleSelected?: () => void;
+   enableRowSelection?: boolean;
+   canExpand?: boolean;
+};
+
 interface DataTableProps<TData, TValue> {
    columns: ColumnDef<TData, TValue>[];
    data: TData[];
    pagination?: DataTablePaginationProps;
    renderSubComponent?: (props: { row: Row<TData> }) => React.ReactNode;
-   renderMobileCard?: (props: {
-      row: Row<TData>;
-      isExpanded: boolean;
-      toggleExpanded: () => void;
-      isSelected?: boolean;
-      toggleSelected?: () => void;
-      enableRowSelection?: boolean;
-      canExpand?: boolean;
-   }) => React.ReactNode;
+   renderMobileCard?: (props: MobileCardRenderProps<TData>) => React.ReactNode;
    enableRowSelection?: boolean;
    rowSelection?: RowSelectionState;
    onRowSelectionChange?: (selection: RowSelectionState) => void;
